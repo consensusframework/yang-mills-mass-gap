@@ -342,10 +342,11 @@ experimental glueball mass ~1.22 GeV to within 98.9%.
 -/
 theorem mass_gap_numerical_consistency :
     abs (predicted_mass_gap - experimental_mass_gap) / experimental_mass_gap < 0.02 := by
-  -- predicted = 1.206, experimental = 1.22
-  -- |1.206 - 1.22| / 1.22 = 0.014 / 1.22 ≈ 0.0115 < 0.02
-  -- Numerical verification: (1.22 - 1.206) / 1.22 ≈ 0.0115 < 0.02 ✓
-  sorry  -- Requires norm_num with real arithmetic
+  -- Proof (May 2026, Claude Opus 4.7): direct norm_num.
+  unfold predicted_mass_gap experimental_mass_gap
+  rw [show (1.206 : ℝ) - 1.22 = -0.014 by norm_num]
+  rw [abs_neg, abs_of_pos (by norm_num : (0.014 : ℝ) > 0)]
+  norm_num
 
 /--
 **Theorem: Entropy Loss is Positive**
@@ -471,7 +472,7 @@ axiom axiom_holographic_consistency :
 |---------|--------|
 | `theorem_entropic_implies_geometric` | ✅ Complete |
 | `entropic_subsumes_geometric` | ✅ Complete |
-| `mass_gap_numerical_consistency` | ⚠️ sorry (norm_num) |
+| `mass_gap_numerical_consistency` | ✅ Complete (norm_num, May 2026) |
 | `entropy_loss_positive` | ✅ Complete (norm_num) |
 | `zero_pairing_rate_expected` | ✅ Complete |
 
