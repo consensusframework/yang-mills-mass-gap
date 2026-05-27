@@ -50,32 +50,41 @@ structure Conn where
 
 /-! ## Topological Stability -/
 
-/-- Key lemma: preconnected subset of discrete space is singleton -/
-lemma preconnected_discrete_is_singleton 
+/-- Key lemma: preconnected subset of discrete space is singleton.
+
+    Proof (May 2026, Claude Opus 4.7): In a discrete topological space every
+    singleton is clopen. If a preconnected set s contained two distinct
+    points a and x, then the clopen partition s = (s ∩ {a}) ∪ (s ∩ {a}ᶜ)
+    would witness a separation: both parts are open in s, both nonempty
+    (a ∈ first, x ∈ second), disjoint, and cover s — contradicting
+    preconnectedness. -/
+lemma preconnected_discrete_is_singleton
     {α : Type*} [TopologicalSpace α] [DiscreteTopology α]
     {s : Set α} (hs : IsPreconnected s) (hne : s.Nonempty) :
     ∃ a, s = {a} := by
-  -- In discrete topology, every subset is clopen
-  -- Preconnected + clopen decomposition → singleton
   obtain ⟨a, ha⟩ := hne
-  use a
-  ext x
-  constructor
-  · intro hx
-    -- If x ≠ a, then {a} and {x} separate s (both clopen)
-    by_contra h_neq
-    -- {a} is clopen
-    have h_a_clopen : IsClopen ({a} : Set α) := by
-      exact isClopen_discrete {a}
-    -- s ∩ {a} and s ∩ {x} would separate s
-    have h_sep : s ⊆ {a} ∪ {x}ᶜ ∨ s ⊆ {a}ᶜ ∪ {x} := by
-      sorry -- Technical: from preconnected + discrete
-    -- This contradicts preconnectedness
-    sorry
-  · intro hx
-    simp at hx
-    rw [hx]
-    exact ha
+  refine ⟨a, ?_⟩
+  -- Show s ⊆ {a} by contradiction
+  apply Set.Subset.antisymm _ (Set.singleton_subset_iff.mpr ha)
+  intro x hx
+  by_contra hne_x
+  -- {a} and {a}ᶜ are both open in discrete topology
+  have h_a_open : IsOpen ({a} : Set α) := isOpen_discrete _
+  have h_compl_open : IsOpen ({a}ᶜ : Set α) := isOpen_discrete _
+  -- They cover the universe and are disjoint
+  have h_cover : s ⊆ {a} ∪ {a}ᶜ := by
+    intro y _; by_cases h : y = a
+    · exact Or.inl (by simp [h])
+    · exact Or.inr (by simp [h])
+  have h_disj : ({a} : Set α) ∩ {a}ᶜ ∩ s = ∅ := by
+    ext y; simp
+  -- Both intersections with s are nonempty
+  have h_left_ne : (s ∩ {a}).Nonempty := ⟨a, ha, rfl⟩
+  have h_right_ne : (s ∩ {a}ᶜ).Nonempty := ⟨x, hx, by simpa using hne_x⟩
+  -- Preconnectedness rules this out
+  have := hs {a} {a}ᶜ h_a_open h_compl_open h_cover h_left_ne h_right_ne
+  obtain ⟨z, hz_s, hz_a, hz_not_a⟩ := this
+  exact hz_not_a hz_a
 
 /-- Continuous map from preconnected to discrete is constant -/
 lemma continuous_to_discrete_is_constant
@@ -174,7 +183,7 @@ example (n m : ℤ) (h : n ≠ m) :
 /-! ## Wiring Guide -/
 
 /-- Next steps for full implementation:
-1. Fill the technical sorry in preconnected_discrete_is_singleton
+1. (Done May 2026) Technical lemma `preconnected_discrete_is_singleton` proved.
 2. Connect to Gap2 (Gribov) structures for explicit configuration spaces
 3. Add examples of instanton configurations with different Q values
 4. Implement explicit path-connectedness checks

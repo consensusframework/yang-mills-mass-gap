@@ -100,18 +100,55 @@ theorem energy_dissipation (Φ : Flow) :
 
 /-! ## Stability -/
 
-/-- Flow converges to stable configuration (if energy bounded below) -/
+/-- Flow converges to stable configuration (if energy bounded below).
+
+    Proof (May 2026, Claude Opus 4.7): The set of energy values is nonempty
+    and bounded below, hence has an infimum E_∞ := sInf (range Energy). By
+    the definition of infimum, for every ε > 0 there exists some t₀ such
+    that Energy(t₀) < E_∞ + ε. Antitony gives Energy(t) ≤ Energy(t₀) for
+    t ≥ t₀, and E_∞ ≤ Energy(t) always. So for t ≥ t₀ we have
+    E_∞ ≤ Energy(t) < E_∞ + ε, i.e. |Energy(t) - E_∞| < ε. -/
 theorem flow_stabilizes (Φ : Flow) (h_bounded : ∃ E_min, ∀ t, E_min ≤ Φ.Energy t) :
     ∃ E_∞, ∀ ε > 0, ∃ T, ∀ t ≥ T, |Φ.Energy t - E_∞| < ε := by
-  -- Monotone bounded sequence converges
-  -- Energy antitone and bounded below → converges
-  sorry
+  -- Extract the lower bound
+  obtain ⟨E_min, hE_min⟩ := h_bounded
+  -- Define E_∞ as the infimum of the range of Energy
+  set S : Set ℝ := Set.range Φ.Energy with hS_def
+  have hS_ne : S.Nonempty := ⟨Φ.Energy 0, 0, rfl⟩
+  have hS_bdd : BddBelow S := ⟨E_min, by
+    rintro _ ⟨t, rfl⟩; exact hE_min t⟩
+  refine ⟨sInf S, ?_⟩
+  intro ε hε
+  -- By definition of infimum, there exists t₀ with Energy(t₀) < sInf S + ε
+  have h_lt : sInf S < sInf S + ε := by linarith
+  obtain ⟨_, ⟨t₀, rfl⟩, ht₀⟩ := Real.lt_sInf_add_pos hS_ne hε
+  refine ⟨t₀, ?_⟩
+  intro t ht
+  -- For t ≥ t₀, antitony gives Energy(t) ≤ Energy(t₀)
+  have h_anti : Φ.Energy t ≤ Φ.Energy t₀ := Φ.antitone_energy ht
+  -- And sInf S ≤ Energy(t) always
+  have h_inf_le : sInf S ≤ Φ.Energy t := csInf_le hS_bdd ⟨t, rfl⟩
+  -- So sInf S ≤ Energy(t) ≤ Energy(t₀) < sInf S + ε
+  rw [abs_sub_lt_iff]
+  exact ⟨by linarith, by linarith⟩
 
-/-- Entropy converges to maximum (if energy bounded below) -/
+/-- Entropy converges to maximum (if energy bounded below).
+
+    Proof (May 2026, Claude Opus 4.7): Direct consequence of `flow_stabilizes`:
+    if Energy → E_∞, then Entropy = -Energy → -E_∞. -/
 theorem entropy_converges (Φ : Flow) (h_bounded : ∃ E_min, ∀ t, E_min ≤ Φ.Energy t) :
     ∃ S_∞, ∀ ε > 0, ∃ T, ∀ t ≥ T, |Entropy Φ t - S_∞| < ε := by
-  -- Follows from flow_stabilizes
-  sorry
+  obtain ⟨E_∞, hE⟩ := flow_stabilizes Φ h_bounded
+  refine ⟨-E_∞, ?_⟩
+  intro ε hε
+  obtain ⟨T, hT⟩ := hE ε hε
+  refine ⟨T, ?_⟩
+  intro t ht
+  have := hT t ht
+  -- |Entropy t - (-E_∞)| = |-Energy t + E_∞| = |Energy t - E_∞|
+  unfold Entropy
+  rw [show -Φ.Energy t - (-E_∞) = -(Φ.Energy t - E_∞) by ring, abs_neg]
+  exact this
 
 /-! ## Connection to Wilson Flow PDE -/
 
@@ -144,7 +181,7 @@ example (Φ : Flow) (t₁ t₂ : ℝ) (h : t₁ ≤ t₂) :
 3. Implement explicit examples (e.g., instanton flow)
 4. Add numerical validation using lattice QCD flow data
 5. Extend to full SU(N) gauge theory (currently simplified)
-6. Fill remaining sorry statements in stability theorems
+6. (Done May 2026) Stability theorems now have formal proofs.
 -/
 
 end YangMills.A11.Entropy
