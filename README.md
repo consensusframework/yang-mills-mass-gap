@@ -67,7 +67,7 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Mithos Flabe 5** — Lean 4 Code Audit & Etapa 0 Hygiene (Anthropic)
+- **Claude Mythos Flabe 5** — Lean 4 Code Audit & Etapa 0 Hygiene (Anthropic)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — Numerical Validation (Google)
