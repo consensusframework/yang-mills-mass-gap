@@ -17,10 +17,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.RunningCoupling
-import RGFlow_Work.GeminiValidation2
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -71,7 +70,7 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem running_coupling_monotonicity 
-    (μ₁ μ₂ μ₀ g₀ a : Float)
+    (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
@@ -83,7 +82,7 @@ theorem running_coupling_monotonicity
 /-! ## Corollaries -/
 
 /-- Technical axiom for corollary -/
-axiom coupling_decrease_from_ref (μ μ₀ g₀ a : Float)
+axiom coupling_decrease_from_ref (μ μ₀ g₀ a : ℝ)
     (h_higher : 0 < μ₀ ∧ μ₀ < μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
@@ -91,7 +90,7 @@ axiom coupling_decrease_from_ref (μ μ₀ g₀ a : Float)
 
 /-- Coupling at higher energy is smaller than at reference scale -/
 theorem coupling_decreases_from_reference
-    (μ μ₀ g₀ a : Float)
+    (μ μ₀ g₀ a : ℝ)
     (h_higher : 0 < μ₀ ∧ μ₀ < μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
@@ -99,19 +98,17 @@ theorem coupling_decreases_from_reference
   -- g(μ) < g(μ₀) = g₀ by monotonicity + initial condition
   exact coupling_decrease_from_ref μ μ₀ g₀ a h_higher hg ha
 
-/-- Technical axiom for strict inequality implies not equal -/
-axiom lt_implies_ne (x y : Float) (h : x < y) : x ≠ y
 
 /-- Strict decrease means no constant regions -/
 theorem no_constant_regions
-    (μ₁ μ₂ μ₀ g₀ a : Float)
+    (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
   running_coupling μ₂ μ₀ g₀ a ≠ running_coupling μ₁ μ₀ g₀ a := by
   -- Strict inequality implies not equal
   have h := running_coupling_monotonicity μ₁ μ₂ μ₀ g₀ a h_order hg ha
-  exact lt_implies_ne _ _ h
+  exact ne_of_lt _ _ h
 
 /-! ## Connection to Theorem 1 -/
 
@@ -126,19 +123,19 @@ theorem monotonicity_from_beta_negativity_concept :
 /-! ## Validation Metrics -/
 
 /-- Theorem 2 validation success rate -/
-def theorem2_success_rate : Float := 1.00
+def theorem2_success_rate : ℝ := 1.00
 
 /-- Theorem 2 number of test cases -/
 def theorem2_test_cases : Nat := 180
 
 /-- Theorem 2 average margin -/
-def theorem2_avg_margin : Float := 0.0824
+def theorem2_avg_margin : ℝ := 0.0824
 
 /-- Theorem 2 is fully validated -/
 theorem theorem2_validated : theorem2_success_rate = 1.00 := by rfl
 
 /-- Theorem 2 has extensive testing -/
-theorem theorem2_extensive_tests : theorem2_test_cases ≥ 100 := by native_decide
+theorem theorem2_extensive_tests : theorem2_test_cases ≥ 100 := by norm_num [theorem2_test_cases]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

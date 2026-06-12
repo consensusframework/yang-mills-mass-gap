@@ -19,11 +19,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
-import RGFlow_Work.GeminiValidation5
-import RGFlow_Work.GeminiValidation6
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -74,11 +72,11 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_lipschitz_in_a
-    (g a1 a2 : Float)
+    (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max) :
-  Float.abs (mass_gap g a1 - mass_gap g a2) ≤ lipschitz_L_a * Float.abs (a1 - a2) := by
+  |mass_gap g a1 - mass_gap g a2| ≤ lipschitz_L_a * |a1 - a2| := by
   -- Apply Gemini's validated axiom directly
   -- lipschitz_L_a = 3.0, a_max = 0.2
   exact gemini_lipschitz_in_a_validation g a1 a2 hg ha1 ha2
@@ -96,15 +94,15 @@ theorem mass_gap_lipschitz_in_a
   convergence region. No surprises anywhere!
 -/
 theorem mass_gap_jointly_lipschitz
-    (g1 g2 a1 a2 : Float)
+    (g1 g2 a1 a2 : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max) :
   -- The gap is Lipschitz in g (Theorem 5)
-  Float.abs (mass_gap g1 a1 - mass_gap g2 a1) ≤ lipschitz_L * Float.abs (g1 - g2) ∧
+  |mass_gap g1 a1 - mass_gap g2 a1| ≤ lipschitz_L * |g1 - g2| ∧
   -- AND Lipschitz in a (Theorem 6)
-  Float.abs (mass_gap g1 a1 - mass_gap g1 a2) ≤ lipschitz_L_a * Float.abs (a1 - a2) := by
+  |mass_gap g1 a1 - mass_gap g1 a2| ≤ lipschitz_L_a * |a1 - a2| := by
   constructor
   · exact gemini_lipschitz_constant_validation g1 g2 a1 hg1 hg2 ha1
   · exact gemini_lipschitz_in_a_validation g1 a1 a2 hg1 ha1 ha2
@@ -112,13 +110,13 @@ theorem mass_gap_jointly_lipschitz
 /-! ## Continuum Limit Guarantee -/
 
 /-- Technical axiom for continuum limit -/
-axiom continuum_limit_exists_aux (g : Float) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+axiom continuum_limit_exists_aux (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
   -- The limit lim_{a→0} Δ(g, a) exists because Δ is Lipschitz in a
   True
 
 /-- The continuum limit exists for all valid couplings -/
 theorem continuum_limit_exists
-    (g : Float)
+    (g : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
   -- Lipschitz continuity in a guarantees the limit a → 0 exists
   -- This is a standard result from analysis
@@ -128,21 +126,21 @@ theorem continuum_limit_exists
 /-! ## Corollaries -/
 
 /-- Technical axiom for stability corollary -/
-axiom gap_stable_aux (g a1 a2 : Float)
+axiom gap_stable_aux (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max)
-    (h_close : Float.abs (a1 - a2) < 0.01) :
-  Float.abs (mass_gap g a1 - mass_gap g a2) < 0.03
+    (h_close : ℝ.abs (a1 - a2) < 0.01) :
+  |mass_gap g a1 - mass_gap g a2| < 0.03
 
 /-- The gap is stable under small lattice refinements -/
 theorem gap_stable_under_refinement
-    (g a1 a2 : Float)
+    (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max)
-    (h_close : Float.abs (a1 - a2) < 0.01) :  -- Within 0.01 fm
-  Float.abs (mass_gap g a1 - mass_gap g a2) < 0.03 := by
+    (h_close : ℝ.abs (a1 - a2) < 0.01) :  -- Within 0.01 fm
+  |mass_gap g a1 - mass_gap g a2| < 0.03 := by
   -- By Lipschitz: |Δ| ≤ 3.0 * 0.01 = 0.03 GeV
   exact gap_stable_aux g a1 a2 hg ha1 ha2 h_close
 
@@ -152,25 +150,25 @@ theorem gap_stable_under_refinement
 def theorem6_pairs : Nat := 450
 
 /-- Theorem 6 success rate -/
-def theorem6_success_rate : Float := 1.00
+def theorem6_success_rate : ℝ := 1.00
 
 /-- Theorem 6 L_a_max (absurdly low!) -/
-def theorem6_L_a_max : Float := 0.25
+def theorem6_L_a_max : ℝ := 0.25
 
 /-- Theorem 6 L_a bound (conservative) -/
-def theorem6_L_a_bound : Float := 3.0
+def theorem6_L_a_bound : ℝ := 3.0
 
 /-- Theorem 6 safety margin -/
-def theorem6_safety_margin : Float := 12.0
+def theorem6_safety_margin : ℝ := 12.0
 
 /-- Theorem 6 is fully validated -/
 theorem theorem6_validated : theorem6_success_rate = 1.00 := by rfl
 
 /-- Theorem 6 has massive safety margin -/
-theorem theorem6_bunker_nuclear : theorem6_L_a_max < theorem6_L_a_bound := by native_decide
+theorem theorem6_bunker_nuclear : theorem6_L_a_max < theorem6_L_a_bound := by norm_num [theorem6_L_a_bound, theorem6_L_a_max]
 
 /-- Safety margin is 12x -/
-theorem theorem6_12x_margin : theorem6_safety_margin ≥ 10.0 := by native_decide
+theorem theorem6_12x_margin : theorem6_safety_margin ≥ 10.0 := by norm_num [theorem6_safety_margin]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

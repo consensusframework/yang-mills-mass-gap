@@ -45,7 +45,7 @@ theorem continuum_limit_exists_thm10
     ∀ (eps : Float), eps > 0 →
     ∃ (delta : Float), delta > 0 ∧
     ∀ (a : Float), 0 < a ∧ a < delta →
-    Float.abs (mass_gap g a - L) < eps := by
+    |mass_gap g a - L| < eps := by
   exact gemini_continuum_limit_exists g hg
 
 /-! ## Corollaries -/
@@ -66,11 +66,11 @@ axiom limit_unique_aux
     (h1 : ∀ (eps : Float), eps > 0 →
           ∃ (delta : Float), delta > 0 ∧
           ∀ (a : Float), 0 < a ∧ a < delta →
-          Float.abs (mass_gap g a - L1) < eps)
+          |mass_gap g a - L1| < eps)
     (h2 : ∀ (eps : Float), eps > 0 →
           ∃ (delta : Float), delta > 0 ∧
           ∀ (a : Float), 0 < a ∧ a < delta →
-          Float.abs (mass_gap g a - L2) < eps) :
+          |mass_gap g a - L2| < eps) :
   L1 = L2
 
 /-- The continuum limit is unique -/
@@ -81,11 +81,11 @@ theorem continuum_limit_unique
     (h1 : ∀ (eps : Float), eps > 0 →
           ∃ (delta : Float), delta > 0 ∧
           ∀ (a : Float), 0 < a ∧ a < delta →
-          Float.abs (mass_gap g a - L1) < eps)
+          |mass_gap g a - L1| < eps)
     (h2 : ∀ (eps : Float), eps > 0 →
           ∃ (delta : Float), delta > 0 ∧
           ∀ (a : Float), 0 < a ∧ a < delta →
-          Float.abs (mass_gap g a - L2) < eps) :
+          |mass_gap g a - L2| < eps) :
   L1 = L2 := by
   exact limit_unique_aux g hg L1 L2 h1 h2
 

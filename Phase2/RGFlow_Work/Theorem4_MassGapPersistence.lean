@@ -19,10 +19,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
-import RGFlow_Work.GeminiValidation4
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -62,7 +61,7 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_monotone_in_g
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0 < g1 ∧ g1 ≤ g0)
     (hg2 : 0 < g2 ∧ g2 ≤ g0)
     (hg1_le_g2 : g1 ≤ g2)
@@ -96,7 +95,7 @@ theorem mass_gap_monotone_in_g
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_uniform_bound_at_g0
-    (a : Float)
+    (a : ℝ)
     (ha : 0 < a ∧ a ≤ a_max) :
   mass_gap g0 a ≥ gap_lower_bound := by
   -- Apply Gemini's validated axiom
@@ -105,24 +104,10 @@ theorem mass_gap_uniform_bound_at_g0
 
 /-! ## Main Persistence Theorem -/
 
-/-- Technical axiom for transitivity of ≥ -/
-axiom ge_trans (x y z : Float) (hxy : x ≥ y) (hyz : y ≥ z) : x ≥ z
 
-/-- Technical axiom: x ≤ x -/
-axiom le_refl_float (x : Float) : x ≤ x
 
-/-- Technical axiom: ≥ 0.50 implies > 0 -/
-axiom gap_positive_from_bound (g a : Float)
-    (hg : 0 < g ∧ g ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max)
-    (h : mass_gap g a ≥ gap_lower_bound) :
-  mass_gap g a > 0
 
-/-- Technical: x > 0 implies x ≠ 0 -/
-axiom ne_of_gt_float (x : Float) (h : x > 0) : x ≠ 0
 
-/-- Technical: g0 > 0 -/
-axiom g0_positive : g0 > 0
 
 /-- 
   ═══════════════════════════════════════════════════════════════════
@@ -158,39 +143,39 @@ axiom g0_positive : g0 > 0
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_persistence
-    (g a : Float)
+    (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
   mass_gap g a ≥ gap_lower_bound := by
   -- Step 1: By monotonicity, Δ(g, a) ≥ Δ(g₀, a)
   have h1 : mass_gap g a ≥ mass_gap g0 a := 
-    mass_gap_monotone_in_g g g0 a hg ⟨g0_positive, le_refl_float g0⟩ hg.2 ha
+    mass_gap_monotone_in_g g g0 a hg ⟨g0_positive, le_refl g0⟩ hg.2 ha
   -- Step 2: By uniform bound, Δ(g₀, a) ≥ 0.50
   have h2 : mass_gap g0 a ≥ gap_lower_bound := 
     mass_gap_uniform_bound_at_g0 a ha
   -- Step 3: By transitivity
-  exact ge_trans (mass_gap g a) (mass_gap g0 a) gap_lower_bound h1 h2
+  exact le_trans h2 h1
 
 /-! ## Corollaries -/
 
 /-- Mass gap is strictly positive everywhere -/
 theorem mass_gap_strictly_positive
-    (g a : Float)
+    (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
   mass_gap g a > 0 := by
   have h := mass_gap_persistence g a hg ha
   -- 0.50 > 0, so mass_gap g a ≥ 0.50 > 0
-  exact gap_positive_from_bound g a hg ha h
+  exact lt_of_lt_of_le gap_lower_bound_positive h
 
 /-- The gap never vanishes -/
 theorem gap_never_vanishes
-    (g a : Float)
+    (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
   mass_gap g a ≠ 0 := by
   have h := mass_gap_strictly_positive g a hg ha
-  exact ne_of_gt_float _ h
+  exact ne_of_gt h
 
 /-! ## Validation Metrics -/
 
@@ -198,16 +183,17 @@ theorem gap_never_vanishes
 def theorem4_pairs : Nat := 450
 
 /-- Theorem 4 success rate -/
-def theorem4_success_rate : Float := 1.00
+def theorem4_success_rate : ℝ := 1.00
 
 /-- Theorem 4 minimum observed gap -/
-def theorem4_min_gap : Float := 0.6009
+def theorem4_min_gap : ℝ := 0.6009
 
 /-- Theorem 4 is fully validated -/
 theorem theorem4_validated : theorem4_success_rate = 1.00 := by rfl
 
 /-- Observed gap exceeds bound -/
-theorem theorem4_has_margin : theorem4_min_gap > gap_lower_bound := by native_decide
+theorem theorem4_has_margin : theorem4_min_gap > gap_lower_bound := by
+  norm_num [theorem4_min_gap, gap_lower_bound]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

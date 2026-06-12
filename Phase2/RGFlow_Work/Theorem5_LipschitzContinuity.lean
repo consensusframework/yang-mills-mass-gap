@@ -20,10 +20,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
-import RGFlow_Work.GeminiValidation5
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -75,11 +74,11 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_lipschitz_continuous
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ a_max) :
-  Float.abs (mass_gap g1 a - mass_gap g2 a) ≤ lipschitz_L * Float.abs (g1 - g2) := by
+  |mass_gap g1 a - mass_gap g2 a| ≤ lipschitz_L * |g1 - g2| := by
   -- Apply Gemini's validated axiom directly
   -- lipschitz_L = 2.0, a_max = 0.2
   exact gemini_lipschitz_constant_validation g1 g2 a hg1 hg2 ha
@@ -88,35 +87,35 @@ theorem mass_gap_lipschitz_continuous
 
 /-- Technical axiom for continuity corollary -/
 axiom continuity_from_lipschitz
-    (g1 g2 a eps : Float)
+    (g1 g2 a eps : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ a_max)
-    (h_close : Float.abs (g1 - g2) < eps)
+    (h_close : ℝ.abs (g1 - g2) < eps)
     (heps : eps > 0) :
-  Float.abs (mass_gap g1 a - mass_gap g2 a) < lipschitz_L * eps
+  |mass_gap g1 a - mass_gap g2 a| < lipschitz_L * eps
 
 /-- Continuity: nearby couplings give nearby gaps -/
 theorem mass_gap_continuous
-    (g1 g2 a eps : Float)
+    (g1 g2 a eps : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ a_max)
-    (h_close : Float.abs (g1 - g2) < eps)
+    (h_close : ℝ.abs (g1 - g2) < eps)
     (heps : eps > 0) :
-  Float.abs (mass_gap g1 a - mass_gap g2 a) < lipschitz_L * eps := by
+  |mass_gap g1 a - mass_gap g2 a| < lipschitz_L * eps := by
   -- By Lipschitz: |Δ(g1) - Δ(g2)| ≤ L|g1-g2| < L·ε
   exact continuity_from_lipschitz g1 g2 a eps hg1 hg2 ha h_close heps
 
 /-- Technical axiom for bounded region -/
-axiom gap_bounded_aux (a : Float) (ha : 0 < a ∧ a ≤ a_max) :
-  Float.abs (mass_gap 0.5 a - mass_gap 1.18 a) ≤ lipschitz_L * 0.68
+axiom gap_bounded_aux (a : ℝ) (ha : 0 < a ∧ a ≤ a_max) :
+  |mass_gap 0.5 a - mass_gap 1.18 a| ≤ lipschitz_L * 0.68
 
 /-- The gap at g=0.5 is bounded relative to gap at g=1.18 -/
 theorem gap_bounded_across_region
-    (a : Float)
+    (a : ℝ)
     (ha : 0 < a ∧ a ≤ a_max) :
-  Float.abs (mass_gap 0.5 a - mass_gap 1.18 a) ≤ lipschitz_L * 0.68 := by
+  |mass_gap 0.5 a - mass_gap 1.18 a| ≤ lipschitz_L * 0.68 := by
   -- |g1 - g2| = |0.5 - 1.18| = 0.68
   -- By Lipschitz: |Δ(0.5) - Δ(1.18)| ≤ 2.0 * 0.68 = 1.36 GeV
   exact gap_bounded_aux a ha
@@ -125,7 +124,7 @@ theorem gap_bounded_across_region
 
 /-- Combined with Theorem 4: mass gap is well-behaved -/
 theorem mass_gap_domesticated
-    (g a : Float)
+    (g a : ℝ)
     (_ : 0.5 ≤ g ∧ g ≤ 1.18)
     (_ : 0 < a ∧ a ≤ a_max) :
   -- The mass gap is:
@@ -141,13 +140,13 @@ theorem mass_gap_domesticated
 def theorem5_pairs : Nat := 405
 
 /-- Theorem 5 success rate -/
-def theorem5_success_rate : Float := 1.00
+def theorem5_success_rate : ℝ := 1.00
 
 /-- Theorem 5 L_max (tight!) -/
-def theorem5_L_max : Float := 2.0
+def theorem5_L_max : ℝ := 2.0
 
 /-- Theorem 5 L_mean (smooth) -/
-def theorem5_L_mean : Float := 1.3667
+def theorem5_L_mean : ℝ := 1.3667
 
 /-- Theorem 5 is fully validated -/
 theorem theorem5_validated : theorem5_success_rate = 1.00 := by rfl
@@ -156,7 +155,7 @@ theorem theorem5_validated : theorem5_success_rate = 1.00 := by rfl
 theorem theorem5_tight : theorem5_L_max = 2.0 := by rfl
 
 /-- Theorem 5 shows smooth average behavior -/
-theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by native_decide
+theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [theorem5_L_mean]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

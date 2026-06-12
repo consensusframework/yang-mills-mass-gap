@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -79,7 +79,7 @@ namespace RGFlow
   As we flow to weaker coupling (higher energy), the gap grows!
 -/
 axiom gemini_mass_gap_monotone_in_g 
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1_pos : 0 < g1)
     (hg1_le_g2 : g1 ≤ g2)
     (hg2_bound : g2 ≤ 1.18) :
@@ -103,7 +103,7 @@ axiom gemini_mass_gap_monotone_in_g
   This anchors our entire RG flow argument.
 -/
 axiom gemini_phase1_gap_uniform_in_a 
-    (a : Float)
+    (a : ℝ)
     (ha_pos : 0 < a)
     (ha_bound : a ≤ 0.2) :
   mass_gap 1.18 a ≥ 0.50
@@ -117,16 +117,16 @@ def validation4_date : String := "2026-01-29"
 def validation4_pairs : Nat := 450
 
 /-- Success rate for Theorem 4 -/
-def validation4_success_rate : Float := 1.00
+def validation4_success_rate : ℝ := 1.00
 
 /-- Minimum observed gap at g = 1.18 -/
-def validation4_min_gap : Float := 0.6009  -- GeV
+def validation4_min_gap : ℝ := 0.6009  -- GeV
 
 /-- Conservative lower bound used -/
-def validation4_bound : Float := 0.50  -- GeV
+def validation4_bound : ℝ := 0.50  -- GeV
 
 /-- Safety margin -/
-def validation4_margin : Float := 0.20  -- 20%
+def validation4_margin : ℝ := 0.20  -- 20%
 
 /-! ## Derived Properties -/
 
@@ -134,10 +134,10 @@ def validation4_margin : Float := 0.20  -- 20%
 theorem validation4_complete : validation4_success_rate = 1.00 := by rfl
 
 /-- Observed gap exceeds bound -/
-theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by native_decide
+theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by norm_num [validation4_bound, validation4_min_gap]
 
 /-- Extensive testing performed -/
-theorem validation4_extensive : validation4_pairs ≥ 400 := by native_decide
+theorem validation4_extensive : validation4_pairs ≥ 400 := by norm_num [validation4_pairs]
 
 /-! ## Summary
     

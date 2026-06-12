@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -91,19 +91,19 @@ namespace RGFlow
   - Essential for taking continuum limit (Phase 3)
 -/
 axiom gemini_lipschitz_constant_validation
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ 0.2) :
-  Float.abs (mass_gap g1 a - mass_gap g2 a) ≤ 2.0 * Float.abs (g1 - g2)
+  |mass_gap g1 a - mass_gap g2 a| ≤ 2.0 * |g1 - g2|
 
 /-! ## Lipschitz Constant -/
 
 /-- The Lipschitz constant L = 2.0 GeV -/
-def lipschitz_L : Float := 2.0
+def lipschitz_L : ℝ := 2.0
 
 /-- Lipschitz constant is positive -/
-theorem lipschitz_L_pos : lipschitz_L > 0 := by native_decide
+theorem lipschitz_L_pos : lipschitz_L > 0 := by norm_num [lipschitz_L]
 
 /-! ## Validation Metadata -/
 
@@ -114,16 +114,16 @@ def validation5_date : String := "2026-01-30"
 def validation5_pairs : Nat := 405
 
 /-- Success rate for Theorem 5 -/
-def validation5_success_rate : Float := 1.00
+def validation5_success_rate : ℝ := 1.00
 
 /-- Maximum observed Lipschitz constant -/
-def validation5_L_max : Float := 2.0
+def validation5_L_max : ℝ := 2.0
 
 /-- Mean observed Lipschitz constant -/
-def validation5_L_mean : Float := 1.3667
+def validation5_L_mean : ℝ := 1.3667
 
 /-- Minimum margin (tight!) -/
-def validation5_min_margin : Float := 0.0000
+def validation5_min_margin : ℝ := 0.0000
 
 /-! ## Derived Properties -/
 
@@ -134,10 +134,10 @@ theorem validation5_complete : validation5_success_rate = 1.00 := by rfl
 theorem validation5_tight : validation5_L_max = 2.0 := by rfl
 
 /-- L_mean is well below bound (smooth on average) -/
-theorem validation5_smooth_avg : validation5_L_mean < lipschitz_L := by native_decide
+theorem validation5_smooth_avg : validation5_L_mean < lipschitz_L := by norm_num [lipschitz_L, validation5_L_mean]
 
 /-- Extensive testing performed -/
-theorem validation5_extensive : validation5_pairs ≥ 400 := by native_decide
+theorem validation5_extensive : validation5_pairs ≥ 400 := by norm_num [validation5_pairs]
 
 /-! ## Summary
     

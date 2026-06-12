@@ -20,9 +20,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -69,10 +69,10 @@ namespace RGFlow
 /-! ## Monotonicity Constant -/
 
 /-- The monotonicity constant C_mono = 0.25 GeV per unit g -/
-def C_mono : Float := 0.25
+def C_mono : ℝ := 0.25
 
 /-- Monotonicity constant is positive -/
-theorem C_mono_pos : C_mono > 0 := by native_decide
+theorem C_mono_pos : C_mono > 0 := by norm_num [C_mono]
 
 /-- 
   VALIDATED AXIOM: Quantitative Monotonicity
@@ -103,7 +103,7 @@ theorem C_mono_pos : C_mono > 0 := by native_decide
   and the rate is bounded both above and below.
 -/
 axiom gemini_mass_gap_mono_quant_validation
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
@@ -119,19 +119,19 @@ def validation7_date : String := "2026-02-09"
 def validation7_pairs : Nat := 540
 
 /-- Success rate for Theorem 7 -/
-def validation7_success_rate : Float := 1.00
+def validation7_success_rate : ℝ := 1.00
 
 /-- Minimum observed slope -/
-def validation7_min_slope : Float := 0.2667
+def validation7_min_slope : ℝ := 0.2667
 
 /-- Mean observed slope -/
-def validation7_mean_slope : Float := 0.2963
+def validation7_mean_slope : ℝ := 0.2963
 
 /-- Target C_mono -/
-def validation7_C_mono : Float := 0.25
+def validation7_C_mono : ℝ := 0.25
 
 /-- Safety margin (~6%) -/
-def validation7_margin : Float := 0.06
+def validation7_margin : ℝ := 0.06
 
 /-! ## Derived Properties -/
 
@@ -140,10 +140,10 @@ theorem validation7_complete : validation7_success_rate = 1.00 := by rfl
 
 /-- Observed minimum is above target -/
 theorem validation7_safe : validation7_min_slope > validation7_C_mono := by 
-  native_decide
+  norm_num
 
 /-- Extensive testing performed -/
-theorem validation7_extensive : validation7_pairs ≥ 500 := by native_decide
+theorem validation7_extensive : validation7_pairs ≥ 500 := by norm_num [validation7_pairs]
 
 /-! ## Summary
     

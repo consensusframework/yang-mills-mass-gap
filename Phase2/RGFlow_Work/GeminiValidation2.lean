@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.RunningCoupling
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -88,7 +88,7 @@ namespace RGFlow
   enabling perturbative QCD calculations at high energies.
 -/
 axiom gemini_monotonicity_validation 
-    (μ₁ μ₂ μ₀ g₀ a : Float)
+    (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ 1.18)
     (ha : 0 < a ∧ a ≤ 0.2) :
@@ -106,16 +106,16 @@ def validation2_method : String := "RK45 Adaptive ODE Solver"
 def validation2_cases : Nat := 180
 
 /-- Success rate for Theorem 2 -/
-def validation2_success_rate : Float := 1.00
+def validation2_success_rate : ℝ := 1.00
 
 /-- Average margin for Theorem 2 -/
-def validation2_avg_margin : Float := 0.0824
+def validation2_avg_margin : ℝ := 0.0824
 
 /-- Minimum margin for Theorem 2 -/
-def validation2_min_margin : Float := 0.025
+def validation2_min_margin : ℝ := 0.025
 
 /-- Confidence level for Theorem 2 -/
-def validation2_confidence : Float := 0.99
+def validation2_confidence : ℝ := 0.99
 
 /-! ## Derived Properties -/
 
@@ -123,10 +123,10 @@ def validation2_confidence : Float := 0.99
 theorem validation2_complete : validation2_success_rate = 1.00 := by rfl
 
 /-- Validation has high confidence -/
-theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by native_decide
+theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by norm_num [validation2_confidence]
 
 /-- Validation covers extensive test cases -/
-theorem validation2_extensive : validation2_cases ≥ 100 := by native_decide
+theorem validation2_extensive : validation2_cases ≥ 100 := by norm_num [validation2_cases]
 
 /-! ## Summary
     

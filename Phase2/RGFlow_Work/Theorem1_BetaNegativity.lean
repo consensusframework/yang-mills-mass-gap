@@ -12,15 +12,14 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
 -- Constants frozen by Phase 2 kickoff
-def g0 : ℝ := 1.18         -- Maximum coupling (from Phase 1)
 def C1_weak : ℝ := 0.020   -- Weak bound (15% safety margin from theoretical 0.0234)
-def a_max : ℝ := 0.2       -- Maximum lattice spacing (fm)
 
 /-! ═══════════════════════════════════════════════════════════════════
     NUMERICAL VALIDATION AXIOM

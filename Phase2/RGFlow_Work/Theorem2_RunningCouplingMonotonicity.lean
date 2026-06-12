@@ -17,10 +17,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.GeminiValidation
-import RGFlow_Work.Theorem1_BetaNegativity
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -57,10 +56,10 @@ namespace RGFlow
   corrections enter at higher orders and are absorbed into the
   `gemini_running_monotonicity` validation axiom below.
 -/
-def running_coupling (μ μ₀ g₀ _a : Float) : Float :=
-  let b0 : Float := 11.0 / (24.0 * Float.pi * Float.pi)
-  let log_ratio : Float := Float.log (μ / μ₀)
-  g₀ / Float.sqrt (1.0 + b0 * g₀ * g₀ * log_ratio)
+def running_coupling (μ μ₀ g₀ _a : ℝ) : ℝ :=
+  let b0 : ℝ := 11.0 / (24.0 * Real.pi * Real.pi)
+  let log_ratio : ℝ := Real.log (μ / μ₀)
+  g₀ / Real.sqrt (1.0 + b0 * g₀ * g₀ * log_ratio)
 
 /-- 
   Lattice spacing as function of energy scale.
@@ -70,7 +69,7 @@ def running_coupling (μ μ₀ g₀ _a : Float) : Float :=
   
   We use a simplified model: a(μ) = a₀ · (μ₀/μ)
 -/
-def lattice_spacing (μ μ₀ a₀ : Float) : Float :=
+def lattice_spacing (μ μ₀ a₀ : ℝ) : ℝ :=
   a₀ * (μ₀ / μ)
 
 /-! ═══════════════════════════════════════════════════════════════════
@@ -81,20 +80,20 @@ def lattice_spacing (μ μ₀ a₀ : Float) : Float :=
   The running coupling satisfies the RG equation:
     dg/dμ = β(g, a) / μ
   
-  Stated existentially because Float lacks a formal derivative.
+  Stated existentially because ℝ lacks a formal derivative.
 -/
-axiom rg_equation (μ μ₀ g₀ a₀ : Float) 
+axiom rg_equation (μ μ₀ g₀ a₀ : ℝ) 
     (hμ : 0 < μ) 
     (hμ₀ : 0 < μ₀) :
-  ∃ (dg_dμ : Float), 
+  ∃ (dg_dμ : ℝ), 
     dg_dμ = beta (running_coupling μ μ₀ g₀ a₀) (lattice_spacing μ μ₀ a₀) / μ
 
 /-- Initial condition: g(μ₀) = g₀ -/
-axiom initial_condition (μ₀ g₀ a₀ : Float) :
+axiom initial_condition (μ₀ g₀ a₀ : ℝ) :
   running_coupling μ₀ μ₀ g₀ a₀ = g₀
 
 /-- Running coupling stays in convergence region -/
-axiom running_coupling_in_region (μ μ₀ g₀ a₀ : Float)
+axiom running_coupling_in_region (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
     (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
@@ -131,7 +130,7 @@ axiom running_coupling_in_region (μ μ₀ g₀ a₀ : Float)
     See VERIFICATION_STATUS.md.
     ═══════════════════════════════════════════════════════════════════ -/
 axiom gemini_running_monotonicity :
-  ∀ (μ₁ μ₂ μ₀ g₀ a₀ : Float),
+  ∀ (μ₁ μ₂ μ₀ g₀ a₀ : ℝ),
     (0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂) →
     (0 < g₀ ∧ g₀ ≤ g0) →
     (0 < a₀ ∧ a₀ ≤ a_max) →
@@ -174,7 +173,7 @@ axiom gemini_running_monotonicity :
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem running_coupling_monotonicity 
-    (μ₁ μ₂ μ₀ g₀ a₀ : Float)
+    (μ₁ μ₂ μ₀ g₀ a₀ : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (h_initial : 0 < g₀ ∧ g₀ ≤ g0)
     (h_lattice : 0 < a₀ ∧ a₀ ≤ a_max) :
@@ -184,7 +183,7 @@ theorem running_coupling_monotonicity
 /-! ## Corollaries -/
 
 /-- Coupling decreases monotonically -/
-theorem coupling_decreases (μ μ₀ g₀ a₀ : Float)
+theorem coupling_decreases (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ < μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
     (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
@@ -197,7 +196,7 @@ theorem coupling_decreases (μ μ₀ g₀ a₀ : Float)
   exact h
 
 /-- Coupling bounded from above -/
-theorem coupling_bounded_above (μ μ₀ g₀ a₀ : Float)
+theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
     (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
@@ -226,7 +225,7 @@ theorem coupling_bounded_above (μ μ₀ g₀ a₀ : Float)
 def validation_grid_size : Nat := 20
 
 /-- Expected success rate -/
-def expected_success_rate : Float := 1.00
+def expected_success_rate : ℝ := 1.00
 
 /-! ═══════════════════════════════════════════════════════════════════
     
@@ -241,7 +240,7 @@ def expected_success_rate : Float := 1.00
     **Honesty disclosure:**
     - `running_coupling` is now CONSTRUCTIVELY DEFINED at 1-loop.
     - Monotonicity is closed by a Gemini-validated axiom (not a
-      formal Lean proof from `rg_equation`, because Float has no
+      formal Lean proof from `rg_equation`, because ℝ has no
       formal derivative theory).
     - See VERIFICATION_STATUS.md for the full disclosure.
     
