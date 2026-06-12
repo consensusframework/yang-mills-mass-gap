@@ -107,33 +107,7 @@ axiom scheme_diff_order_a
 
 /-! ## Gemini Validation Axioms -/
 
-/-- **Gemini Validation: Continuum limits agree.**
-    |Δ₀^(A)(g) - Δ₀^(B)(g)| ≤ 0.001 GeV for all tested g.
-    (In practice, both limits equal Δ₀(g) exactly.) -/
-axiom gemini_validation_scheme_agreement
-    (g : ℝ)
-    (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
-    |Delta0 g - Delta0 g| ≤ (0.001 : ℝ)
 
-/-- **Gemini Validation: O(a) convergence rate.**
-    The ratio δ(0.20)/δ(0.05) ≈ 4.4, consistent with O(a). -/
-axiom gemini_validation_convergence_rate :
-    (3.3 : ℝ) ≤ 4.4 ∧ (4.4 : ℝ) ≤ 5.6
-
-/-! ## Metadata -/
-
-/-- Validation metadata: 4/4 g-values passed -/
-axiom gemini_validation_14_success_rate : (4 : ℕ) = 4
-
-/-- Validation metadata: max difference between schemes -/
-axiom gemini_validation_14_max_diff : (0.001 : ℝ) < 0.01
-
-/-- Validation metadata: average relative error -/
-axiom gemini_validation_14_avg_rel_error : (0.0323 : ℝ) < 1.0
-
-/-! ## Derived Properties -/
-
-/-- Scheme agreement is trivially exact (both converge to Δ₀). -/
 theorem gemini_scheme_agreement_trivial
     (g : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18) :

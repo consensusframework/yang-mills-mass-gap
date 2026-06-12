@@ -97,15 +97,6 @@ axiom mass_gap_tendsto_continuum
 
 /-! ## Gemini Validation Axioms -/
 
-/-- **Gemini Validation: Continuum monotonicity.**
-    Δ₀(g₁) > Δ₀(g₂) whenever g₁ < g₂ in [0.5, 1.18].
-    Verified with 8/8 consecutive comparisons (100%). -/
-axiom gemini_validation_continuum_monotonic
-    (g₁ g₂ : ℝ)
-    (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
-    (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18)
-    (h_order : g₁ < g₂) :
-    Delta0 g₂ < Delta0 g₁
 
 /-- **Gemini Validation: Quantitative total gap.**
     Δ₀(0.50) - Δ₀(1.18) = 0.203 GeV.
@@ -121,22 +112,9 @@ axiom gemini_validation_total_gap :
 axiom gemini_validation_min_gap :
     Delta0 1.15 - Delta0 1.18 = (0.008 : ℝ)
 
-/-- **Gemini Validation: Approximate linear relation.**
-    Δ₀(g) ≈ 1.955 - 0.30·g with slope -0.30 GeV per unit coupling.
-    This constant slope confirms uniform monotonic decrease. -/
-axiom gemini_validation_slope :
-    ∀ g : ℝ, 0.5 ≤ g → g ≤ 1.18 →
-      |Delta0 g - (1.955 - 0.30 * g)| ≤ (0.01 : ℝ)
 
 /-! ## Metadata -/
 
-/-- Validation metadata: 8/8 consecutive comparisons passed -/
-axiom gemini_validation_13_success_rate : (8 : ℕ) = 8
-
-/-- Validation metadata: uncertainties at machine precision -/
-axiom gemini_validation_13_precision : (1e-16 : ℝ) > 0
-
-/-! ## Derived Properties -/
 
 /-- The total gap is strictly positive (immediate from axiom). -/
 theorem gemini_total_gap_positive :

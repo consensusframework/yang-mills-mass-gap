@@ -261,12 +261,6 @@ theorem mass_gap_is_physical_observable
   · exact rg_invariance_strong g hg L_A L_B hA hB h_diff_vanishes
   · exact tendsto_nhds_unique hA (mass_gap_A_tendsto g hg)
 
-/-- **Corollary 14c: Quantitative scheme agreement.**
-    From Gemini's validation: the numerical difference between
-    schemes is at most 0.001 GeV, well below the 0.01 GeV target. -/
-axiom gemini_scheme_max_diff :
-    ∀ g : ℝ, 0.5 ≤ g → g ≤ 1.18 →
-      |Delta0 g - Delta0 g| ≤ (0.001 : ℝ)
 
 theorem scheme_diff_within_tolerance
     (g : ℝ)

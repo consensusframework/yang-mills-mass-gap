@@ -89,12 +89,3 @@ theorem continuum_mass_gap_ne_zero
   have h := continuum_mass_gap_positive g hg
   exact ne_of_gt h |>.symm
 
-/-- **Corollary 11c: Tight lower bound from numerical data.**
-    Δ₀(g) ≥ 1.452 GeV for all g ∈ [0.5, 1.18].
-
-    This tighter bound comes from Gemini's numerical validation,
-    which found the minimum continuum gap at g = 1.18.
-    Margin above 0.50 GeV: 190%. -/
-axiom gemini_continuum_mass_gap_minimum
-    (g : ℝ)
-    (hg_lo : 0.5 ≤ g)

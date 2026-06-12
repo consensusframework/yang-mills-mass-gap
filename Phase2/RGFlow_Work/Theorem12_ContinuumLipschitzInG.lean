@@ -191,17 +191,6 @@ theorem continuum_mass_gap_continuous_in_g :
       _ < 2.0 * (ε / 2.0) := by exact mul_lt_mul_of_pos_left hδ (by norm_num)
       _ = ε := by ring
 
-/-- **Corollary 12b: Tight Lipschitz bound from numerical data.**
-    |Δ₀(g₁) - Δ₀(g₂)| ≤ 0.3000 · |g₁ - g₂|
-
-    The observed Lipschitz constant from Gemini's validation is
-    6.67× tighter than the theoretical bound.
-    This demonstrates the continuum theory is remarkably smooth. -/
-axiom gemini_continuum_lipschitz_tight
-    (g₁ g₂ : ℝ)
-    (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
-    (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18) :
-    |Delta0 g₁ - Delta0 g₂| ≤ 0.3000 * |g₁ - g₂|
 
 /-- **Corollary 12c: Continuum is smoother than lattice.**
     The observed continuum Lipschitz constant (0.30 GeV) is

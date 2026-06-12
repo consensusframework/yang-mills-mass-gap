@@ -86,29 +86,13 @@ axiom continuum_monotonic_in_g
 
 /-! ## Gemini Validation Axioms -/
 
-/-- **Gemini: Maximum value (at g_min = 0.50).**
-    Δ₀(0.50) = 1.655 GeV. -/
-axiom gemini_Delta0_at_gmin : Delta0 0.50 = (1.655 : ℝ)
-
-/-- **Gemini: Minimum value (at g_max = 1.18).**
-    Δ₀(1.18) = 1.452 GeV. -/
-axiom gemini_Delta0_at_gmax : Delta0 1.18 = (1.452 : ℝ)
-
-/-- **Gemini: Universal bound validated.**
-    1.452 ≤ Δ₀(g) ≤ 1.655 for all g ∈ [0.5, 1.18]. -/
 axiom gemini_validation_universal_bound
     (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
     (1.452 : ℝ) ≤ Delta0 g ∧ Delta0 g ≤ (1.655 : ℝ)
 
-/-- **Gemini: Amplitude.**
-    Δ_max - Δ_min = 0.203 GeV. -/
-axiom gemini_validation_amplitude :
-    (1.655 : ℝ) - 1.452 = (0.203 : ℝ)
 
 /-! ## Metadata -/
 
-axiom gemini_validation_15_success_rate : (8 : ℕ) = 8
-axiom gemini_validation_15_monotonicity_pairs : (7 : ℕ) = 7
 
 /-! ## Derived Properties -/
 

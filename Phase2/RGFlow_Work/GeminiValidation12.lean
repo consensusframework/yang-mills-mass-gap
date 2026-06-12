@@ -101,27 +101,9 @@ axiom gemini_validation_continuum_lipschitz_g
     (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18) :
     |Delta0 g₁ - Delta0 g₂| ≤ 2.0 * |g₁ - g₂|
 
-/-- **Gemini Validation: Tight observed Lipschitz constant.**
-    The observed maximum Lipschitz ratio across all 45 pairs
-    was exactly 0.3000 GeV, giving a much tighter bound. -/
-axiom gemini_validation_continuum_lipschitz_g_tight
-    (g₁ g₂ : ℝ)
-    (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
-    (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18) :
-    |Delta0 g₁ - Delta0 g₂| ≤ 0.3000 * |g₁ - g₂|
 
 /-! ## Metadata -/
 
-/-- Validation metadata: success rate = 100% (45/45 pairs) -/
-axiom gemini_validation_12_success_rate : (45 : ℕ) = 45
-
-/-- Validation metadata: observed Lipschitz constant -/
-axiom gemini_validation_12_L0_obs : (0.3000 : ℝ) ≤ 0.3000
-
-/-- Validation metadata: target Lipschitz bound -/
-axiom gemini_validation_12_L0_target : (2.0 : ℝ) = 2.0
-
-/-! ## Derived Properties -/
 
 /-- Continuum is smoother than lattice: L₀_obs / L_g = 0.15.
     The continuum limit removes lattice artifacts,
