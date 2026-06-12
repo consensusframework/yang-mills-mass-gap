@@ -86,8 +86,9 @@ axiom continuum_monotonic_in_g
 
 /-! ## Gemini Validation Axioms -/
 
-axiom gemini_validation_universal_bound
-    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption.
+def UniversalBoundAssumption : Prop :=
+  ∀ (g : ℝ), (0.5 ≤ g ∧ g ≤ 1.18) →
     (1.452 : ℝ) ≤ Delta0 g ∧ Delta0 g ≤ (1.655 : ℝ)
 
 
@@ -98,9 +99,10 @@ axiom gemini_validation_universal_bound
 
 /-- All values are strictly positive (from universal bound). -/
 theorem gemini_all_positive
-    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18)
+    (hU : UniversalBoundAssumption) :
     (0 : ℝ) < Delta0 g := by
-  have h := (gemini_validation_universal_bound g hg).1
+  have h := (hU g hg).1
   linarith
 
 /-- The amplitude is positive. -/

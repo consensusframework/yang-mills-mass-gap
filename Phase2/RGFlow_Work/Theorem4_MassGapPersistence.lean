@@ -65,10 +65,11 @@ theorem mass_gap_monotone_in_g
     (hg1 : 0 < g1 ∧ g1 ≤ g0)
     (hg2 : 0 < g2 ∧ g2 ≤ g0)
     (hg1_le_g2 : g1 ≤ g2)
-    (_ : 0 < a ∧ a ≤ a_max) :
+    (_ : 0 < a ∧ a ≤ a_max)
+    (h_mono : GapMonotoneAssumption) :
   mass_gap g1 a ≥ mass_gap g2 a := by
   -- Apply Gemini's validated axiom
-  exact gemini_mass_gap_monotone_in_g g1 g2 a hg1.1 hg1_le_g2 hg2.2
+  exact h_mono g1 g2 a hg1.1 hg1_le_g2 hg2.2
 
 /-- 
   ═══════════════════════════════════════════════════════════════════
@@ -96,11 +97,12 @@ theorem mass_gap_monotone_in_g
 -/
 theorem mass_gap_uniform_bound_at_g0
     (a : ℝ)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_unif : GapUniformBoundAssumption) :
   mass_gap g0 a ≥ gap_lower_bound := by
   -- Apply Gemini's validated axiom
   -- g0 = 1.18, gap_lower_bound = 0.50, a_max = 0.2
-  exact gemini_phase1_gap_uniform_in_a a ha.1 ha.2
+  exact h_unif a ha.1 ha.2
 
 /-! ## Main Persistence Theorem -/
 
@@ -145,14 +147,16 @@ theorem mass_gap_uniform_bound_at_g0
 theorem mass_gap_persistence
     (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_mono : GapMonotoneAssumption)
+    (h_unif : GapUniformBoundAssumption) :
   mass_gap g a ≥ gap_lower_bound := by
   -- Step 1: By monotonicity, Δ(g, a) ≥ Δ(g₀, a)
   have h1 : mass_gap g a ≥ mass_gap g0 a := 
-    mass_gap_monotone_in_g g g0 a hg ⟨g0_positive, le_refl g0⟩ hg.2 ha
+    mass_gap_monotone_in_g g g0 a hg ⟨g0_positive, le_refl g0⟩ hg.2 ha h_mono
   -- Step 2: By uniform bound, Δ(g₀, a) ≥ 0.50
   have h2 : mass_gap g0 a ≥ gap_lower_bound := 
-    mass_gap_uniform_bound_at_g0 a ha
+    mass_gap_uniform_bound_at_g0 a ha h_unif
   -- Step 3: By transitivity
   exact le_trans h2 h1
 
@@ -162,9 +166,11 @@ theorem mass_gap_persistence
 theorem mass_gap_strictly_positive
     (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_mono : GapMonotoneAssumption)
+    (h_unif : GapUniformBoundAssumption) :
   mass_gap g a > 0 := by
-  have h := mass_gap_persistence g a hg ha
+  have h := mass_gap_persistence g a hg ha h_mono h_unif
   -- 0.50 > 0, so mass_gap g a ≥ 0.50 > 0
   exact lt_of_lt_of_le gap_lower_bound_positive h
 
@@ -172,9 +178,11 @@ theorem mass_gap_strictly_positive
 theorem gap_never_vanishes
     (g a : ℝ)
     (hg : 0 < g ∧ g ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_mono : GapMonotoneAssumption)
+    (h_unif : GapUniformBoundAssumption) :
   mass_gap g a ≠ 0 := by
-  have h := mass_gap_strictly_positive g a hg ha
+  have h := mass_gap_strictly_positive g a hg ha h_mono h_unif
   exact ne_of_gt h
 
 /-! ## Validation Metrics -/

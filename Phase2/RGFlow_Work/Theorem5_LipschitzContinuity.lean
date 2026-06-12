@@ -77,11 +77,12 @@ theorem mass_gap_lipschitz_continuous
     (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_lip : LipschitzInGAssumption) :
   |mass_gap g1 a - mass_gap g2 a| ≤ lipschitz_L * |g1 - g2| := by
   -- Apply Gemini's validated axiom directly
   -- lipschitz_L = 2.0, a_max = 0.2
-  exact gemini_lipschitz_constant_validation g1 g2 a hg1 hg2 ha
+  exact h_lip g1 g2 a hg1 hg2 ha
 
 /-! ## Corollaries -/
 

@@ -96,13 +96,13 @@ namespace RGFlow
   
   "Isso não é só 'seguro'. Isso é um bunker nuclear." - Gemini
 -/
-axiom gemini_lipschitz_in_a_validation
-    (g a1 a2 : ℝ)
+-- FORMER AXIOM `gemini_lipschitz_in_a_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def LipschitzInAAssumption : Prop :=
+  ∀ (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ 0.2)
-    (ha2 : 0 < a2 ∧ a2 ≤ 0.2) :
-  |mass_gap g a1 - mass_gap g a2| ≤ 3.0 * |a1 - a2|
-
+    (ha2 : 0 < a2 ∧ a2 ≤ 0.2), |mass_gap g a1 - mass_gap g a2| ≤ 3.0 * |a1 - a2|
 /-! ## Lipschitz Constant in a -/
 
 /-- The Lipschitz constant in a: L_a = 3.0 GeV/fm -/

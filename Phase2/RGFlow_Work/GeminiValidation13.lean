@@ -102,14 +102,16 @@ axiom mass_gap_tendsto_continuum
     Δ₀(0.50) - Δ₀(1.18) = 0.203 GeV.
     This provides the quantitative separation needed to
     exclude d₀ = 0 in the limit argument. -/
-axiom gemini_validation_total_gap :
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption.
+def TotalGapAssumption : Prop :=
     Delta0 0.50 - Delta0 1.18 = (0.203 : ℝ)
 
 /-- **Gemini Validation: Minimum consecutive gap.**
     The smallest gap between consecutive sampled values
     is 0.008 GeV (between g = 1.15 and g = 1.18).
     Still strictly positive! -/
-axiom gemini_validation_min_gap :
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption.
+def MinGapAssumption : Prop :=
     Delta0 1.15 - Delta0 1.18 = (0.008 : ℝ)
 
 
@@ -117,15 +119,15 @@ axiom gemini_validation_min_gap :
 
 
 /-- The total gap is strictly positive (immediate from axiom). -/
-theorem gemini_total_gap_positive :
+theorem gemini_total_gap_positive (h : TotalGapAssumption) :
     (0 : ℝ) < Delta0 0.50 - Delta0 1.18 := by
-  rw [gemini_validation_total_gap]
+  rw [h]
   norm_num
 
 /-- The minimum consecutive gap is strictly positive. -/
-theorem gemini_min_gap_positive :
+theorem gemini_min_gap_positive (h : MinGapAssumption) :
     (0 : ℝ) < Delta0 1.15 - Delta0 1.18 := by
-  rw [gemini_validation_min_gap]
+  rw [h]
   norm_num
 
 end RGFlow

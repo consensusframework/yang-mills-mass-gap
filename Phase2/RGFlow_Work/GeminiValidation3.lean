@@ -88,12 +88,12 @@ namespace RGFlow
   - Theory is UV safe in convergence region
   - Path to continuum limit is protected
 -/
-axiom gemini_bound_validation 
-    (μ μ₀ g₀ a : ℝ)
+-- FORMER AXIOM `gemini_bound_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def BoundPreservationAssumption : Prop :=
+  ∀ (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
-    (hg : 0 < g₀) :
-  running_coupling μ μ₀ g₀ a ≤ g₀
-
+    (hg : 0 < g₀), running_coupling μ μ₀ g₀ a ≤ g₀
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 3 -/

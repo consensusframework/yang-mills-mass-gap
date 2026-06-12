@@ -102,14 +102,14 @@ theorem C_mono_pos : C_mono > 0 := by norm_num [C_mono]
   The mass gap is trapped! It must decrease as g increases,
   and the rate is bounded both above and below.
 -/
-axiom gemini_mass_gap_mono_quant_validation
-    (g1 g2 a : ℝ)
+-- FORMER AXIOM `gemini_mass_gap_mono_quant_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def QuantMonotoneAssumption : Prop :=
+  ∀ (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
-    (ha : 0 < a ∧ a ≤ 0.2) :
-  (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1)
-
+    (ha : 0 < a ∧ a ≤ 0.2), (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1)
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 7 -/

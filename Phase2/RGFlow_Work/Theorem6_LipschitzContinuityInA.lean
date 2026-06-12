@@ -75,11 +75,12 @@ theorem mass_gap_lipschitz_in_a
     (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
-    (ha2 : 0 < a2 ∧ a2 ≤ a_max) :
+    (ha2 : 0 < a2 ∧ a2 ≤ a_max)
+    (h_lipa : LipschitzInAAssumption) :
   |mass_gap g a1 - mass_gap g a2| ≤ lipschitz_L_a * |a1 - a2| := by
   -- Apply Gemini's validated axiom directly
   -- lipschitz_L_a = 3.0, a_max = 0.2
-  exact gemini_lipschitz_in_a_validation g a1 a2 hg ha1 ha2
+  exact h_lipa g a1 a2 hg ha1 ha2
 
 /-! ## Joint Lipschitz Continuity -/
 
@@ -98,14 +99,16 @@ theorem mass_gap_jointly_lipschitz
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
-    (ha2 : 0 < a2 ∧ a2 ≤ a_max) :
+    (ha2 : 0 < a2 ∧ a2 ≤ a_max)
+    (h_lipg : LipschitzInGAssumption)
+    (h_lipa : LipschitzInAAssumption) :
   -- The gap is Lipschitz in g (Theorem 5)
   |mass_gap g1 a1 - mass_gap g2 a1| ≤ lipschitz_L * |g1 - g2| ∧
   -- AND Lipschitz in a (Theorem 6)
   |mass_gap g1 a1 - mass_gap g1 a2| ≤ lipschitz_L_a * |a1 - a2| := by
   constructor
-  · exact gemini_lipschitz_constant_validation g1 g2 a1 hg1 hg2 ha1
-  · exact gemini_lipschitz_in_a_validation g1 a1 a2 hg1 ha1 ha2
+  · exact h_lipg g1 g2 a1 hg1 hg2 ha1
+  · exact h_lipa g1 a1 a2 hg1 ha1 ha2
 
 /-! ## Continuum Limit Guarantee -/
 

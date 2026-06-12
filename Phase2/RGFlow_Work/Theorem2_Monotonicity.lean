@@ -73,11 +73,12 @@ theorem running_coupling_monotonicity
     (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_assume : RunningMonotonicityAssumption) :
   running_coupling μ₂ μ₀ g₀ a < running_coupling μ₁ μ₀ g₀ a := by
   -- Apply Gemini's validated axiom directly
   -- The bounds match: g0 = 1.18, a_max = 0.2
-  exact gemini_monotonicity_validation μ₁ μ₂ μ₀ g₀ a h_order hg ha
+  exact h_assume μ₁ μ₂ μ₀ g₀ a h_order hg ha
 
 /-! ## Corollaries -/
 
@@ -104,11 +105,12 @@ theorem no_constant_regions
     (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_assume : RunningMonotonicityAssumption) :
   running_coupling μ₂ μ₀ g₀ a ≠ running_coupling μ₁ μ₀ g₀ a := by
   -- Strict inequality implies not equal
-  have h := running_coupling_monotonicity μ₁ μ₂ μ₀ g₀ a h_order hg ha
-  exact ne_of_lt _ _ h
+  have h := running_coupling_monotonicity μ₁ μ₂ μ₀ g₀ a h_order hg ha h_assume
+  exact ne_of_lt h
 
 /-! ## Connection to Theorem 1 -/
 

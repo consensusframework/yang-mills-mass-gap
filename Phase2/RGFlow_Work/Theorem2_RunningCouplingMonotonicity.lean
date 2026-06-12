@@ -129,13 +129,14 @@ axiom running_coupling_in_region (μ μ₀ g₀ a₀ : ℝ)
     **Honest classification:** VALIDATED AXIOM, not FORMAL THEOREM.
     See VERIFICATION_STATUS.md.
     ═══════════════════════════════════════════════════════════════════ -/
-axiom gemini_running_monotonicity :
+-- FORMER AXIOM `gemini_running_monotonicity` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def RunningMonotonicityODEAssumption : Prop :=
   ∀ (μ₁ μ₂ μ₀ g₀ a₀ : ℝ),
     (0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂) →
     (0 < g₀ ∧ g₀ ≤ g0) →
     (0 < a₀ ∧ a₀ ≤ a_max) →
     running_coupling μ₂ μ₀ g₀ a₀ < running_coupling μ₁ μ₀ g₀ a₀
-
 /-! ═══════════════════════════════════════════════════════════════════
     THEOREM 2: MONOTONICITY
     ═══════════════════════════════════════════════════════════════════ -/
@@ -176,9 +177,10 @@ theorem running_coupling_monotonicity
     (μ₁ μ₂ μ₀ g₀ a₀ : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (h_initial : 0 < g₀ ∧ g₀ ≤ g0)
-    (h_lattice : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (h_lattice : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ₂ μ₀ g₀ a₀ < running_coupling μ₁ μ₀ g₀ a₀ :=
-  gemini_running_monotonicity μ₁ μ₂ μ₀ g₀ a₀ h_order h_initial h_lattice
+  h_ode μ₁ μ₂ μ₀ g₀ a₀ h_order h_initial h_lattice
 
 /-! ## Corollaries -/
 
@@ -186,11 +188,12 @@ theorem running_coupling_monotonicity
 theorem coupling_decreases (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ < μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ μ₀ g₀ a₀ < g₀ := by
   -- Use monotonicity with μ₁ = μ₀, μ₂ = μ
   have h := running_coupling_monotonicity μ₀ μ μ₀ g₀ a₀ 
-    ⟨hμ.1, le_refl μ₀, hμ.2⟩ hg₀ ha₀
+    ⟨hμ.1, le_refl μ₀, hμ.2⟩ hg₀ ha₀ h_ode
   -- Apply initial condition: g(μ₀) = g₀
   rw [initial_condition μ₀ g₀ a₀] at h
   exact h
@@ -199,7 +202,8 @@ theorem coupling_decreases (μ μ₀ g₀ a₀ : ℝ)
 theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ μ₀ g₀ a₀ ≤ g₀ := by
   cases' hμ with hμ₀_pos hμ_ge
   cases' hμ_ge with hμ_eq hμ_gt
@@ -207,7 +211,7 @@ theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
     rw [hμ_eq]
     rw [initial_condition μ₀ g₀ a₀]
   · -- Case: μ > μ₀
-    have h := coupling_decreases μ μ₀ g₀ a₀ ⟨hμ₀_pos, hμ_gt⟩ hg₀ ha₀
+    have h := coupling_decreases μ μ₀ g₀ a₀ ⟨hμ₀_pos, hμ_gt⟩ hg₀ ha₀ h_ode
     exact le_of_lt h
 
 /-! ## Validation Metadata (for Gemini) -/

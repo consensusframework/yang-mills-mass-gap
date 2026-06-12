@@ -72,11 +72,12 @@ theorem bound_preservation
     (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
-    (_ : 0 < a ∧ a ≤ a_max) :
+    (_ : 0 < a ∧ a ≤ a_max)
+    (h_assume : BoundPreservationAssumption) :
   running_coupling μ μ₀ g₀ a ≤ g₀ := by
   -- Apply Gemini's validated axiom
   -- This follows from monotonicity (Theorem 2) + initial condition
-  exact gemini_bound_validation μ μ₀ g₀ a h_order hg.1
+  exact h_assume μ μ₀ g₀ a h_order hg.1
 
 /-! ## Corollaries -/
 

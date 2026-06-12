@@ -78,13 +78,13 @@ namespace RGFlow
   This is ASYMPTOTIC FREEDOM from the gap's perspective:
   As we flow to weaker coupling (higher energy), the gap grows!
 -/
-axiom gemini_mass_gap_monotone_in_g 
-    (g1 g2 a : ℝ)
+-- FORMER AXIOM `gemini_mass_gap_monotone_in_g` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def GapMonotoneAssumption : Prop :=
+  ∀ (g1 g2 a : ℝ)
     (hg1_pos : 0 < g1)
     (hg1_le_g2 : g1 ≤ g2)
-    (hg2_bound : g2 ≤ 1.18) :
-  mass_gap g1 a ≥ mass_gap g2 a
-
+    (hg2_bound : g2 ≤ 1.18), mass_gap g1 a ≥ mass_gap g2 a
 /-- 
   VALIDATED AXIOM: Uniform Lower Bound at Strong Coupling
   
@@ -102,12 +102,12 @@ axiom gemini_mass_gap_monotone_in_g
   The gap at strong coupling is ROBUST across all lattice spacings.
   This anchors our entire RG flow argument.
 -/
-axiom gemini_phase1_gap_uniform_in_a 
-    (a : ℝ)
+-- FORMER AXIOM `gemini_phase1_gap_uniform_in_a` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def GapUniformBoundAssumption : Prop :=
+  ∀ (a : ℝ)
     (ha_pos : 0 < a)
-    (ha_bound : a ≤ 0.2) :
-  mass_gap 1.18 a ≥ 0.50
-
+    (ha_bound : a ≤ 0.2), mass_gap 1.18 a ≥ 0.50
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 4 -/

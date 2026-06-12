@@ -87,13 +87,13 @@ namespace RGFlow
   As energy increases, quarks and gluons interact more weakly,
   enabling perturbative QCD calculations at high energies.
 -/
-axiom gemini_monotonicity_validation 
-    (μ₁ μ₂ μ₀ g₀ a : ℝ)
+-- FORMER AXIOM `gemini_monotonicity_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def RunningMonotonicityAssumption : Prop :=
+  ∀ (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ 1.18)
-    (ha : 0 < a ∧ a ≤ 0.2) :
-  running_coupling μ₂ μ₀ g₀ a < running_coupling μ₁ μ₀ g₀ a
-
+    (ha : 0 < a ∧ a ≤ 0.2), running_coupling μ₂ μ₀ g₀ a < running_coupling μ₁ μ₀ g₀ a
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 2 -/

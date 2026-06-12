@@ -80,10 +80,11 @@ theorem mass_gap_quantitative_monotonicity
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_quant : QuantMonotoneAssumption) :
   (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1) := by
   -- Apply Gemini's validated axiom directly
-  exact gemini_mass_gap_mono_quant_validation g1 g2 a hg1 hg2 hlt ha
+  exact h_quant g1 g2 a hg1 hg2 hlt ha
 
 /-! ## Two-Sided Bound -/
 
@@ -111,13 +112,14 @@ theorem mass_gap_two_sided_bound
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_quant : QuantMonotoneAssumption) :
   -- Lower bound (Theorem 7): ΔΔ ≥ C_mono · Δg
   (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1) ∧
   -- Upper bound (Theorem 5): ΔΔ ≤ L · Δg
   (mass_gap g1 a - mass_gap g2 a) ≤ lipschitz_L * (g2 - g1) := by
   constructor
-  · exact gemini_mass_gap_mono_quant_validation g1 g2 a hg1 hg2 hlt ha
+  · exact h_quant g1 g2 a hg1 hg2 hlt ha
   · exact two_sided_upper_bound g1 g2 a hg1 hg2 hlt ha
 
 /-! ## Corollaries -/

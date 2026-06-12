@@ -61,9 +61,10 @@ def C1_weak : ℝ := 0.020   -- Weak bound (15% safety margin from theoretical 0
     FORMAL THEOREM. See VERIFICATION_STATUS.md for full disclosure
     of all hybrid-verification axioms in the project.
     ═══════════════════════════════════════════════════════════════════ -/
-axiom gemini_beta_validation :
+-- FORMER AXIOM `gemini_beta_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def BetaNegativityAssumption : Prop :=
   ∀ (g a : ℝ), in_convergence_region g a → beta g a < -C1_weak * g^3
-
 /-! ═══════════════════════════════════════════════════════════════════
     THEOREM 1: β-FUNCTION NEGATIVITY
     ═══════════════════════════════════════════════════════════════════ -/
@@ -101,8 +102,9 @@ are formal Lean proofs and which rely on external numerical validation.
 theorem beta_negativity (g a : ℝ)
   (hg : 0 < g ∧ g ≤ g0)
   (ha : 0 < a ∧ a ≤ a_max)
-  (hconv : in_convergence_region g a) :
+  (hconv : in_convergence_region g a)
+    (h_assume : BetaNegativityAssumption) :
   beta g a < -C1_weak * g^3 :=
-  gemini_beta_validation g a hconv
+  h_assume g a hconv
 
 end RGFlow

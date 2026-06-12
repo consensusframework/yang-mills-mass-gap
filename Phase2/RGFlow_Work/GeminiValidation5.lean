@@ -90,13 +90,13 @@ namespace RGFlow
   - Predictable variation with coupling
   - Essential for taking continuum limit (Phase 3)
 -/
-axiom gemini_lipschitz_constant_validation
-    (g1 g2 a : ℝ)
+-- FORMER AXIOM `gemini_lipschitz_constant_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def LipschitzInGAssumption : Prop :=
+  ∀ (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
-    (ha : 0 < a ∧ a ≤ 0.2) :
-  |mass_gap g1 a - mass_gap g2 a| ≤ 2.0 * |g1 - g2|
-
+    (ha : 0 < a ∧ a ≤ 0.2), |mass_gap g1 a - mass_gap g2 a| ≤ 2.0 * |g1 - g2|
 /-! ## Lipschitz Constant -/
 
 /-- The Lipschitz constant L = 2.0 GeV -/

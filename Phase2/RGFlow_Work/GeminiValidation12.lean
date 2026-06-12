@@ -95,10 +95,9 @@ axiom mass_gap_tendsto_continuum
     for all g₁, g₂ ∈ [0.5, 1.18].
 
     Numerically verified with L₀_obs = 0.3000 GeV (margin: 85%). -/
-axiom gemini_validation_continuum_lipschitz_g
-    (g₁ g₂ : ℝ)
-    (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
-    (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18) :
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption (unused elsewhere).
+def ContinuumLipschitzAssumption : Prop :=
+  ∀ (g₁ g₂ : ℝ), (0.5 ≤ g₁ ∧ g₁ ≤ 1.18) → (0.5 ≤ g₂ ∧ g₂ ≤ 1.18) →
     |Delta0 g₁ - Delta0 g₂| ≤ 2.0 * |g₁ - g₂|
 
 
