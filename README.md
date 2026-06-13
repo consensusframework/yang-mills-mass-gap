@@ -29,7 +29,7 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 
 ## Authorship and method
 
-Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
+Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Mythos Flabe 5, Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
 
 AI cross-validation is **not** equivalent to peer review or numerical simulation. Earlier claims of "numerical validation by Gemini" referred to LLM-generated assertions, not executed lattice computations, and are retracted. The `gemini_*` axioms in the codebase record these assertions and will be removed in the next cleanup phase.
 
