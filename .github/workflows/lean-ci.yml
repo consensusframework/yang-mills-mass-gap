@@ -2,7 +2,7 @@ name: Lean CI (Phase 2)
 
 on:
   push:
-    branches: [main, etapa0-higiene]
+    branches: [main, etapa0-higiene, fase1-higiene]
   pull_request:
   workflow_dispatch:
 
