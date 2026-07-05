@@ -130,18 +130,19 @@ theorem abs_gibbsExpectation_le [NeZero N] [Fintype (Site N)]
     refine (hwint.const_mul C).mono'
       ((mf.mul (measurable_gibbsWeight mχ β)).aestronglyMeasurable) ?_
     filter_upwards with U
-    rw [Real.norm_of_nonneg]
-    · calc |f U * gibbsWeight β χ U|
-          = |f U| * gibbsWeight β χ U := by
-            rw [abs_mul, abs_of_nonneg (gibbsWeight_pos β χ U).le]
-        _ ≤ C * gibbsWeight β χ U :=
-            mul_le_mul_of_nonneg_right (hf U) (gibbsWeight_pos β χ U).le
-    · positivity
+    calc ‖f U * gibbsWeight β χ U‖
+        = |f U| * gibbsWeight β χ U := by
+          rw [Real.norm_eq_abs, abs_mul,
+            abs_of_nonneg (gibbsWeight_pos β χ U).le]
+      _ ≤ C * gibbsWeight β χ U :=
+          mul_le_mul_of_nonneg_right (hf U) (gibbsWeight_pos β χ U).le
   unfold gibbsExpectation
-  rw [abs_div, abs_of_pos hz, div_le_iff hz]
+  rw [abs_div, abs_of_pos hz, div_le_iff₀ hz]
   calc |∫ U : Config N G, f U * gibbsWeight β χ U ∂(configMeasure μm N)|
       ≤ ∫ U : Config N G, |f U * gibbsWeight β χ U| ∂(configMeasure μm N) := by
-        exact abs_integral_le_integral_abs
+        simpa [Real.norm_eq_abs] using
+          norm_integral_le_integral_norm (μ := configMeasure μm N)
+            (f := fun U : Config N G => f U * gibbsWeight β χ U)
     _ ≤ ∫ U : Config N G, C * gibbsWeight β χ U ∂(configMeasure μm N) := by
         refine integral_mono hfwint.abs (hwint.const_mul C) fun U => ?_
         rw [abs_mul, abs_of_nonneg (gibbsWeight_pos β χ U).le]
