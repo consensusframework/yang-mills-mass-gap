@@ -54,7 +54,7 @@ variable [SigmaFinite μ]
 theorem partitionFunction_le_one [NeZero N] [Fintype (Site N)]
     [IsProbabilityMeasure μ]
     {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (hχ : ∀ g : G, χ g ≤ 1) :
-    partitionFunction μ β χ ≤ 1 := by
+    partitionFunction (N:=N) μ β χ ≤ 1 := by
   unfold partitionFunction
   calc ∫⁻ U : Config N G, ENNReal.ofReal (gibbsWeight β χ U)
         ∂(Measure.pi fun _ : Link N => μ)
@@ -69,7 +69,7 @@ theorem le_partitionFunction [NeZero N] [Fintype (Site N)]
     [IsProbabilityMeasure μ]
     {β B : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ}
     (hB : ∀ U : Config N G, wilsonAction χ U ≤ B) :
-    ENNReal.ofReal (Real.exp (-β * B)) ≤ partitionFunction μ β χ := by
+    ENNReal.ofReal (Real.exp (-β * B)) ≤ partitionFunction (N:=N) μ β χ := by
   unfold partitionFunction
   calc ENNReal.ofReal (Real.exp (-β * B))
       = ∫⁻ _ : Config N G, ENNReal.ofReal (Real.exp (-β * B))
@@ -87,8 +87,8 @@ theorem partitionFunction_ne_zero [NeZero N] [Fintype (Site N)]
     [IsProbabilityMeasure μ]
     {β B : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ}
     (hB : ∀ U : Config N G, wilsonAction χ U ≤ B) :
-    partitionFunction μ β χ ≠ 0 := by
-  have h := le_partitionFunction μ hβ hB
+    partitionFunction (N:=N) μ β χ ≠ 0 := by
+  have h := le_partitionFunction (N:=N) μ hβ hB
   intro hz
   rw [hz] at h
   simp only [le_zero_iff, ENNReal.ofReal_eq_zero] at h
