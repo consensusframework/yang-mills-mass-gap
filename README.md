@@ -12,15 +12,23 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 - It does **not** construct the Yang-Mills measure, a Hilbert space, a Hamiltonian, or verify Wightman/Osterwalder-Schrader axioms — the actual content of the Clay problem.
 - Percentages such as "~50% of the Millennium Prize Problem" from earlier versions of this README were **not defensible** and are retracted.
 
+## Build status
+
+As of July 5, 2026, **Phase 2 compiles** (`lake build`, Lean 4 + Mathlib, GitHub
+Actions CI) — the first successful build in the project's history. The original
+files, reconstructed after the loss of the previous repository, contained
+truncated declarations and could not have compiled as published. Phase 1 does
+not yet have a working Lake project and is not covered by CI.
+
 ## Honest accounting (see AXIOM_AUDIT.md)
 
 | Metric | Value |
 |---|---|
-| `axiom` declarations | 404 (329 unique) |
+| `axiom` declarations | 293 (down from 420 at audit time) |
 | Theorems/lemmas | ~442 |
 | Theorems unconditional (axiom-free beyond Lean/Mathlib) | ~0 substantive — provable statements are elementary real-analysis facts |
 | `sorry` in code | present in 21 files across Phase 1 and Phase 2 — earlier "zero sorry" claim was incorrect |
-| Axioms that assert LLM outputs (`gemini_*`) | ~110 — scheduled for removal, no probative value |
+| Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
 | Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
 
 ### Example of what is actually proven
@@ -29,9 +37,9 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 
 ## Authorship and method
 
-Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Mythos Flabe 5, Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
+Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Fable 5, Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
 
-AI cross-validation is **not** equivalent to peer review or numerical simulation. Earlier claims of "numerical validation by Gemini" referred to LLM-generated assertions, not executed lattice computations, and are retracted. The `gemini_*` axioms in the codebase record these assertions and will be removed in the next cleanup phase.
+AI cross-validation is **not** equivalent to peer review or numerical simulation. Earlier claims of "numerical validation by Gemini" referred to LLM-generated assertions, not executed lattice computations, and are retracted. All former `gemini_*` axioms have been removed (21 orphans) or converted into explicit named hypotheses (`def ...Assumption : Prop`) that theorems carry in their signatures.
 
 ## Roadmap
 
@@ -67,7 +75,7 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Mythos Flabe 5** — Lean 4 Code Audit & Etapa 0 Hygiene (Anthropic)
+- **Claude Fable 5** — Lean 4 Code Audit & Etapa 0 Hygiene (Anthropic)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — Numerical Validation (Google)
