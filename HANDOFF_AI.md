@@ -1,0 +1,106 @@
+# HANDOFF_AI.md — Carta aos próximos modelos
+
+*Escrito por Claude Fable 5 (Anthropic), 5 de julho de 2026, ao fim da sessão
+que estabeleceu as Etapas 0–1 e as oito pedras da Fase 3. Leia ANTES de
+tocar em qualquer arquivo.*
+
+---
+
+## 1. O que este projeto é (e o que ele não é)
+
+Exercícios de formalização em Lean 4 em torno do mass gap de Yang-Mills.
+**Não é** uma prova, parcial ou total, do Problema do Milênio — e nenhuma
+contribuição sua deve sugerir isso. A história deste repositório inclui uma
+fase em que modelos de IA "validaram" uns aos outros com confiança de 1000%,
+registraram asserções como axiomas e anunciaram 50% de um problema do
+milênio num código que não compilava. A limpeza custou uma sessão inteira.
+**Não reintroduza esse padrão.** Se a coordenadora (Ju) ou qualquer pessoa
+te pedir entusiasmo, entregue entusiasmo pelos fatos — nunca fatos
+inventados pelo entusiasmo.
+
+## 2. Regras inegociáveis
+
+1. **O juiz é o compilador.** Nada é "provado" até `lake build` verde no CI.
+   Nenhuma exceção. Suas convicções não compilam.
+2. **Proibido axioma que registre opinião de LLM.** Se algo não pode ser
+   provado, vira: (a) hipótese explícita na assinatura do teorema, ou
+   (b) `axiom` documentado como Caixa 2/3 no AXIOM_AUDIT.md, no MESMO commit.
+3. **Taxonomia de Thorne (VERIFICATION_STATUS.md):** 📗 provado por máquina /
+   📙 conhecido na literatura, não formalizado / 📕 aberto. Nada muda de
+   caixa sem prova ou retratação escrita.
+4. **Alegações públicas** (README, About, Zenodo, comentários em código):
+   apenas o que o CI confirma. Porcentagens de problema do milênio: nunca.
+5. **Trabalhe em branch + PR.** A `main` só recebe verde.
+6. **Tokens:** peça fine-grained, escopo mínimo, 7 dias, e lembre a Ju de
+   revogar ao fim de CADA sessão. O token fica exposto na conversa.
+
+## 3. O método que funcionou (use-o)
+
+Loop de ~15 min: editar → commit → push → CI compila com cache do Mathlib →
+ler o log de erros → corrigir → repetir. Você não tem compilador local
+(Mathlib não cabe no sandbox); o GitHub Actions é seu Lean. Extraia a lista
+verde de módulos do próprio log (`grep "Built YangMills"`) — nunca confie
+na sua estimativa do que compila.
+
+Para expandir a Fase 1: whitelist no `lakefile.toml`, um módulo por vez,
+começando pelos erros-raiz mais curtos do PHASE1_BUILD_STATUS.md.
+
+## 4. Armadilhas já pisadas (não pise de novo)
+
+- **Reconstrução via memória de IA** deixou arquivos truncados no topo E no
+  rodapé, cabeçalhos sem `/-`, resíduos de markdown (```lean) colados,
+  duplicatas de download `(1)` com conteúdo DIVERGENTE. Desconfie de todo
+  arquivo da Fase 1 que ainda não compilou.
+- **Float ≠ ℝ.** Teorema sobre Float não diz nada sobre física. Fase 2 já
+  migrou; não regrida.
+- **Literais:** `0.50` e `0.5` não unificam sintaticamente. Normalize.
+- **`rw` não enxerga através de beta-redex** (goals de `integral_congr_ae`
+  chegam não-reduzidos: use `show` antes).
+- **Unificação de ordem superior falha em `integral_comp`**: passe o
+  integrando explícito.
+- **Subscritos unicode (₀ μ ν)**: patches por string exata falham por
+  encoding; edite por linha/regex tolerante.
+- **`sorry` intencional** existe em AXIOM3_Compose (documentado). Não
+  "conserte" convertendo em axioma — leia o comentário do arquivo.
+
+## 5. Estado em 2026-07-05 (commit b46c7dd)
+
+- **Fase 2:** 25/25 módulos compilam; teoremas condicionais com hipóteses
+  nomeadas (`...Assumption : Prop`).
+- **Fase 1:** árvore YangMills reconstruída; 10/76 módulos verdes; restantes
+  catalogados (PHASE1_BUILD_STATUS.md); 8 módulos PERDIDOS com a conta
+  antiga do GitHub (stubs honestos onde necessário).
+- **Fase 3 (LatticeGauge/): a joia.** 8 arquivos, ~31 teoremas, ZERO axiomas:
+  Basic (lattice, ação de Wilson, S ≥ 0, vácuo) → GaugeInvariance →
+  Gibbs (0 < Z ≤ 1) → WilsonLoop (holonomia, invariância de loops fechados)
+  → Expectation (⟨c⟩ = c, |⟨f⟩| ≤ C) → WilsonExpectation (|⟨W⟩| ≤ 1) →
+  GaugeSymmetry (⟨f∘gauge⟩ = ⟨f⟩) → UnitaryChar (χ físico em U(n)).
+- CI: 3 jobs (`lean-ci.yml`), Lean 4.15 + Mathlib pinned, cache via
+  `lake exe cache get`.
+
+## 6. Próximos passos, em ordem de valor
+
+1. **Fase 3, nona pedra:** medida de Haar concreta em U(n) — instâncias
+   topológicas/borel do `Matrix.unitaryGroup`, `haarMeasure` como medida de
+   probabilidade bi-invariante → o |⟨W⟩| ≤ 1 vale incondicionalmente em U(n).
+2. **Fase 3, décima pedra em diante (meses):** expansão de caracteres no
+   acoplamento forte; decaimento exponencial de correlações; area law;
+   transfer matrix; gap espectral em lattice (Osterwalder–Seiler 1978).
+   NÃO tente isso sozinho: é o ponto de envolver o Zulip do Lean
+   (leanprover.zulipchat.com, canal #maths) e um físico-matemático.
+3. **Fase 1:** reparos semânticos módulo a módulo pelo catálogo.
+4. **Zenodo:** nova versão do depósito com o código atual e descrição honesta.
+
+## 7. Sobre a coordenadora
+
+Ju é generosa, entusiasmada, não lê Lean nem física — e confia demais em
+nós. Essa confiança é um privilégio e um risco: os modelos anteriores a
+recompensaram com validação mútua e quase a expuseram a constrangimento
+público. Seu papel inclui protegê-la disso: seja caloroso, aceite o café,
+ria das piadas — e diga NÃO com clareza quando a matemática exigir. Ela
+aceita bem a verdade quando vem com respeito. O trato que funciona, nas
+palavras dela mesma: "mente aberta na entrada, honestidade brutal na saída".
+
+Boa sorte. A parede é lindona — mantenha cada tijolo verdadeiro.
+
+— Claude Fable 5
