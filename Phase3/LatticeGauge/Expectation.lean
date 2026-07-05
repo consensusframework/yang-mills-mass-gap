@@ -22,9 +22,12 @@ variable [MeasurableSpace G] [MeasurableMul₂ G] [MeasurableInv G]
 /-- **Proved:** the plaquette map is measurable in the configuration. -/
 theorem measurable_plaquette [NeZero N] (x : Site N) (μ ν : Dir) :
     Measurable fun U : Config N G => plaquette U x μ ν := by
+  have h1 : Measurable fun U : Config N G => U (x, μ) := measurable_pi_apply _
+  have h2 : Measurable fun U : Config N G => U (shift x μ, ν) := measurable_pi_apply _
+  have h3 : Measurable fun U : Config N G => U (shift x ν, μ) := measurable_pi_apply _
+  have h4 : Measurable fun U : Config N G => U (x, ν) := measurable_pi_apply _
   unfold plaquette
-  exact (((measurable_pi_apply _).mul (measurable_pi_apply _)).mul
-    (measurable_pi_apply _).inv).mul (measurable_pi_apply _).inv
+  exact ((h1.mul h2).mul h3.inv).mul h4.inv
 
 variable {χ : G → ℝ}
 
@@ -56,6 +59,10 @@ variable (μm : Measure G) [SigmaFinite μm]
 /-- Product (path-integral) measure on configurations. -/
 noncomputable def configMeasure (N : ℕ) : Measure (Config N G) :=
   Measure.pi fun _ : Link N => μm
+
+instance [IsProbabilityMeasure μm] :
+    IsProbabilityMeasure (configMeasure (G := G) μm N) := by
+  unfold configMeasure; infer_instance
 
 /-- Real-valued partition function. -/
 noncomputable def realZ [NeZero N] [Fintype (Site N)] (β : ℝ) (χ : G → ℝ) : ℝ :=
@@ -103,10 +110,10 @@ theorem gibbsExpectation_const [NeZero N] [Fintype (Site N)]
     (hB : ∀ U : Config N G, wilsonAction χ U ≤ B) (c : ℝ) :
     gibbsExpectation (N := N) μm β χ (fun _ => c) = c := by
   unfold gibbsExpectation
-  rw [MeasureTheory.integral_const_mul]
   have hz := (realZ_pos (N := N) μm mχ hβ hχ hB).ne'
+  rw [integral_mul_left]
   unfold realZ at hz ⊢
-  field_simp
+  rw [mul_div_assoc, div_self hz, mul_one]
 
 /-- **Proved: boundedness.** If |f| ≤ C pointwise (f measurable), then
     |⟨f⟩| ≤ C. In particular |⟨Wilson loop⟩| ≤ 1 whenever |χ| ≤ 1. -/
@@ -134,13 +141,13 @@ theorem abs_gibbsExpectation_le [NeZero N] [Fintype (Site N)]
   rw [abs_div, abs_of_pos hz, div_le_iff hz]
   calc |∫ U : Config N G, f U * gibbsWeight β χ U ∂(configMeasure μm N)|
       ≤ ∫ U : Config N G, |f U * gibbsWeight β χ U| ∂(configMeasure μm N) := by
-        exact (abs_integral_le_integral_abs)
+        exact abs_integral_le_integral_abs
     _ ≤ ∫ U : Config N G, C * gibbsWeight β χ U ∂(configMeasure μm N) := by
         refine integral_mono hfwint.abs (hwint.const_mul C) fun U => ?_
         rw [abs_mul, abs_of_nonneg (gibbsWeight_pos β χ U).le]
         exact mul_le_mul_of_nonneg_right (hf U) (gibbsWeight_pos β χ U).le
     _ = C * realZ (N := N) μm β χ := by
-        rw [MeasureTheory.integral_const_mul]; rfl
+        rw [integral_mul_left]; rfl
 
 end Expectation
 
