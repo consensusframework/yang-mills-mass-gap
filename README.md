@@ -24,10 +24,10 @@ not yet have a working Lake project and is not covered by CI.
 
 | Metric | Value |
 |---|---|
-| `axiom` declarations | 293 (down from 420 at audit time) |
+| `axiom` declarations | 293  |
 | Theorems/lemmas | ~442 |
 | Theorems unconditional (axiom-free beyond Lean/Mathlib) | ~0 substantive — provable statements are elementary real-analysis facts |
-| `sorry` in code | present in 21 files across Phase 1 and Phase 2 — earlier "zero sorry" claim was incorrect |
+| `sorry` in code | present in 21 files across |
 | Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
 | Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
 
