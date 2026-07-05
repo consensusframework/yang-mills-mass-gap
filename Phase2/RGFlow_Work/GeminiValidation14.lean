@@ -6,6 +6,7 @@ Formalized by: Claude Opus 4.6 (Anthropic)
 -/
 
 import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 

@@ -24,10 +24,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
-import RGFlow_Work.GeminiValidation6
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -94,15 +93,15 @@ namespace RGFlow
 /-! ## Asymptotic Expansion Components -/
 
 /-- Δ_0(g): The continuum limit of the mass gap (a → 0) -/
-opaque Δ0 : Float → Float
+opaque Δ0 : ℝ → ℝ
 
 /-- c_2(g): The O(a²) coefficient in the asymptotic expansion
     Validated value: c_2 ≈ -1.08 GeV/fm² (negative, as expected!) -/
-opaque c2 : Float → Float
+opaque c2 : ℝ → ℝ
 
 /-- K: The bound on the O(a⁴) remainder term
     Validated value: K ≈ 39000 GeV/fm⁴ (elevated but bounded) -/
-opaque K_remainder : Float
+opaque K_remainder : ℝ
 
 /-- K is positive -/
 axiom K_remainder_pos : K_remainder > 0
@@ -134,11 +133,11 @@ axiom K_remainder_pos : K_remainder > 0
   "Fuck it, it's a parabola because symmetry says so!" - Gemini 😂
 -/
 axiom symanzik_mass_gap_expansion
-    (g a : Float)
+    (g a : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha : 0 < a ∧ a ≤ 0.2) :
   let R := mass_gap g a - (Δ0 g + c2 g * (a * a))
-  Float.abs R ≤ K_remainder * (a * a * a * a)
+  |R| ≤ K_remainder * (a * a * a * a)
 
 /-! ## Validation Metadata -/
 
@@ -146,34 +145,34 @@ axiom symanzik_mass_gap_expansion
 def validation9_date : String := "2026-02-10"
 
 /-- R² value from fit -/
-def validation9_R2 : Float := 0.95
+def validation9_R2 : ℝ := 0.95
 
 /-- Observed c_2 coefficient -/
-def validation9_c2 : Float := -1.08  -- GeV/fm²
+def validation9_c2 : ℝ := -1.08  -- GeV/fm²
 
 /-- Continuum limit extrapolation at g = 0.50 -/
-def validation9_Delta0_at_g050 : Float := 1.644  -- GeV
+def validation9_Delta0_at_g050 : ℝ := 1.644  -- GeV
 
 /-- Jump to continuum (tiny!) -/
-def validation9_jump : Float := 0.006  -- GeV (~0.4%)
+def validation9_jump : ℝ := 0.006  -- GeV (~0.4%)
 
 /-- Effective Lipschitz from expansion -/
-def validation9_effective_lipschitz : Float := 0.43  -- GeV/fm
+def validation9_effective_lipschitz : ℝ := 0.43  -- GeV/fm
 
 /-! ## Derived Properties -/
 
 /-- R² indicates good fit -/
-theorem validation9_good_fit : validation9_R2 ≥ 0.90 := by native_decide
+theorem validation9_good_fit : validation9_R2 ≥ 0.90 := by norm_num
 
 /-- c_2 is negative (gap decreases with a) -/
-theorem validation9_c2_negative : validation9_c2 < 0 := by native_decide
+theorem validation9_c2_negative : validation9_c2 < 0 := by norm_num
 
 /-- Effective Lipschitz is much smaller than Theorem 6 bound -/
 theorem validation9_consistent_thm6 : validation9_effective_lipschitz < 3.0 := by 
-  native_decide
+  norm_num
 
 /-- Jump to continuum is tiny -/
-theorem validation9_small_jump : validation9_jump < 0.01 := by native_decide
+theorem validation9_small_jump : validation9_jump < 0.01 := by norm_num
 
 /-! ## Summary
     

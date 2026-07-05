@@ -19,9 +19,9 @@
    o importante é chegar. E chegamos."
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 import RGFlow_Work.GeminiValidation9
 
 namespace RGFlow
@@ -90,14 +90,14 @@ namespace RGFlow
   - Delta_0(g) is the true physical mass gap
   - Phase 3 can proceed! 
 -/
-axiom gemini_continuum_limit_exists
-    (g : Float)
-    (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
-  ∃ (L : Float), L = Δ0 g ∧
-    ∀ (eps : Float), eps > 0 →
-    ∃ (delta : Float), delta > 0 ∧
-    ∀ (a : Float), 0 < a ∧ a < delta →
-    Float.abs (mass_gap g a - L) < eps
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption.
+def ContinuumLimitAssumption : Prop :=
+  ∀ (g : ℝ), (0.5 ≤ g ∧ g ≤ 1.18) →
+  ∃ (L : ℝ), L = Δ0 g ∧
+    ∀ (eps : ℝ), eps > 0 →
+    ∃ (delta : ℝ), delta > 0 ∧
+    ∀ (a : ℝ), 0 < a ∧ a < delta →
+    |mass_gap g a - L| < eps
 
 /-! ## Validation Metadata -/
 
@@ -105,10 +105,10 @@ axiom gemini_continuum_limit_exists
 def validation10_date : String := "2026-02-14"
 
 /-- R^2 value (perfect!) -/
-def validation10_R2 : Float := 1.0
+def validation10_R2 : ℝ := 1.0
 
 /-- Continuum limit at g = 0.50 -/
-def validation10_Delta0_at_g050 : Float := 1.655
+def validation10_Delta0_at_g050 : ℝ := 1.655
 
 /-- Convergence type (linear for synthetic data) -/
 def validation10_convergence : String := "O(a) linear (synthetic data artifact)"
@@ -119,7 +119,7 @@ def validation10_convergence : String := "O(a) linear (synthetic data artifact)"
 theorem validation10_perfect_fit : validation10_R2 = 1.0 := by rfl
 
 /-- Continuum gap is positive -/
-theorem validation10_positive : validation10_Delta0_at_g050 > 0 := by native_decide
+theorem validation10_positive : validation10_Delta0_at_g050 > 0 := by norm_num
 
 /-! ## Summary
     
