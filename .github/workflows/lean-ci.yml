@@ -30,9 +30,28 @@ jobs:
         working-directory: Phase2
         run: lake build
 
-      - name: Axiom report
+      - name: Axiom report (phase2)
         if: success()
         working-directory: Phase2
         run: |
           echo "Build OK. Axiom inventory:"
           grep -rn "^axiom\|^\s*axiom" RGFlow_Work --include="*.lean" | wc -l
+
+  build-phase1:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install elan
+        run: |
+          curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      - name: Resolve dependencies
+        working-directory: Phase1
+        run: lake update
+      - name: Fetch Mathlib cache
+        working-directory: Phase1
+        run: lake exe cache get
+      - name: Build Phase 1 (whitelist)
+        working-directory: Phase1
+        run: lake build
