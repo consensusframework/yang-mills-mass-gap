@@ -24,6 +24,7 @@
 
 import Mathlib
 import RGFlow_Work.Basic
+import RGFlow_Work.GeminiValidation5
 import RGFlow_Work.GeminiValidation7
 
 namespace RGFlow
@@ -167,7 +168,7 @@ theorem no_plateaus
 def theorem7_pairs : Nat := 540
 
 /-- Theorem 7 success rate -/
-def theorem7_success_rate : ℝ := 1.00
+def theorem7_success_rate : ℝ := 1.0
 
 /-- Theorem 7 min slope -/
 def theorem7_min_slope : ℝ := 0.2667
@@ -176,7 +177,7 @@ def theorem7_min_slope : ℝ := 0.2667
 def theorem7_target : ℝ := 0.25
 
 /-- Theorem 7 is fully validated -/
-theorem theorem7_validated : theorem7_success_rate = 1.00 := by norm_num [theorem7_success_rate]
+theorem theorem7_validated : theorem7_success_rate = 1.0 := by norm_num [theorem7_success_rate]
 
 /-- Min slope exceeds target -/
 theorem theorem7_safe : theorem7_min_slope > theorem7_target := by norm_num [theorem7_min_slope, theorem7_target]
@@ -216,7 +217,7 @@ theorem theorem7_safe : theorem7_min_slope > theorem7_target := by norm_num [the
     - Theorem 1: ✅ β < 0 (Asymptotic Freedom)
     - Theorem 2: ✅ g decreasing (Monotonicity)
     - Theorem 3: ✅ g ≤ g₀ (Bound Preservation)
-    - Theorem 4: ✅ Δ ≥ 0.50 GeV (Mass Gap Persistence)
+    - Theorem 4: ✅ Δ ≥ 0.5 GeV (Mass Gap Persistence)
     - Theorem 5: ✅ Lipschitz in g (L = 2.0 GeV)
     - Theorem 6: ✅ Lipschitz in a (L = 3.0 GeV/fm)
     - Theorem 7: ✅ Quantitative Monotonicity (C = 0.25 GeV) 🆕

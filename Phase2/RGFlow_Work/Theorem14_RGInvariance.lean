@@ -23,7 +23,7 @@ on the physics, not on the computational method used to define it.
 
 ## The "Physical Reality Bridge" 🌉
 This completes the Four Bridges of the continuum theory:
-- **Theorem 11 (Positivity):** Δ₀(g) ≥ 0.50 GeV
+- **Theorem 11 (Positivity):** Δ₀(g) ≥ 0.5 GeV
 - **Theorem 12 (Regularity):** |Δ₀(g₁) - Δ₀(g₂)| ≤ 2.0·|g₁-g₂|
 - **Theorem 13 (Order):** g₁ < g₂ → Δ₀(g₁) > Δ₀(g₂)
 - **Theorem 14 (Universality):** Δ₀^(A)(g) = Δ₀^(B)(g)
@@ -274,7 +274,7 @@ theorem scheme_diff_within_tolerance
 
 | Theorem | Bridge           | Property          | Key Technique            |
 |---------|------------------|-------------------|--------------------------|
-| Thm 11  | Positivity       | Δ₀ ≥ 0.50 GeV    | ge_of_tendsto           |
+| Thm 11  | Positivity       | Δ₀ ≥ 0.5 GeV    | ge_of_tendsto           |
 | Thm 12  | Regularity       | Lipschitz ≤ 2.0   | le_of_tendsto           |
 | Thm 13  | Order            | Strictly monotone  | quantitative separation  |
 | Thm 14  | Physical Reality | Scheme-independent | tendsto_nhds_unique     |
@@ -282,9 +282,9 @@ theorem scheme_diff_within_tolerance
 ### What The Four Bridges Prove Together
 
 The continuum mass gap Δ₀ : [0.5, 1.18] → [1.452, 1.655] is:
-1. **Positive:** bounded below by 0.50 GeV (190% margin)
-2. **Smooth:** Lipschitz with constant ≤ 2.0 (observed: 0.30)
-3. **Ordered:** strictly decreasing with rate ≥ 0.20 GeV/unit
+1. **Positive:** bounded below by 0.5 GeV (190% margin)
+2. **Smooth:** Lipschitz with constant ≤ 2.0 (observed: 0.3)
+3. **Ordered:** strictly decreasing with rate ≥ 0.2 GeV/unit
 4. **Physical:** independent of regularization scheme
 
 This is a **complete characterization** of the continuum mass gap

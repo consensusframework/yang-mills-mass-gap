@@ -40,7 +40,7 @@ namespace RGFlow
     ## Parameter Grid
     
     - **Initial coupling:** g₀ ∈ [0.8, 1.18]
-    - **Lattice spacing:** a ∈ [0.05, 0.20] fm
+    - **Lattice spacing:** a ∈ [0.05, 0.2] fm
     - **Energy ratios:** μ₂/μ₁ up to 100×
     
     ## Results
@@ -75,7 +75,7 @@ namespace RGFlow
   **Method:** RK45 Adaptive ODE Solver on 180 test cases
   
   **Validation Details:**
-  - Grid: g₀ ∈ [0.8, 1.18], a ∈ [0.05, 0.20] fm
+  - Grid: g₀ ∈ [0.8, 1.18], a ∈ [0.05, 0.2] fm
   - Energy ratios: μ₂/μ₁ up to 100×
   - Success Rate: 100% (180/180 cases)
   - Average Margin: 8.24%
@@ -106,7 +106,7 @@ def validation2_method : String := "RK45 Adaptive ODE Solver"
 def validation2_cases : Nat := 180
 
 /-- Success rate for Theorem 2 -/
-def validation2_success_rate : ℝ := 1.00
+def validation2_success_rate : ℝ := 1.0
 
 /-- Average margin for Theorem 2 -/
 def validation2_avg_margin : ℝ := 0.0824
@@ -120,7 +120,7 @@ def validation2_confidence : ℝ := 0.99
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation2_complete : validation2_success_rate = 1.00 := by norm_num [validation2_success_rate]
+theorem validation2_complete : validation2_success_rate = 1.0 := by norm_num [validation2_success_rate]
 
 /-- Validation has high confidence -/
 theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by norm_num [validation2_confidence]

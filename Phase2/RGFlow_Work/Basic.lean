@@ -21,7 +21,7 @@ def g0 : ℝ := 1.18
 def a_max : ℝ := 0.2
 
 /-- Claimed uniform lower bound for the gap (GeV). ASSUMED, not derived. -/
-def gap_lower_bound : ℝ := 0.50
+def gap_lower_bound : ℝ := 0.5
 
 /-- PHYSICAL ASSUMPTION (not a construction): the lattice mass gap
     Δ(g, a) as a function of coupling and lattice spacing.

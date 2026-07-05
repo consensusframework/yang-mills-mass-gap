@@ -3,7 +3,7 @@ Copyright (c) 2026 Smart Tour Tecnologia Brasil LTDA. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Can (AGI Consensus Framework), Ju Carvalho (Root)
 Formalized by: Claude Opus 4.6 (Anthropic)
-Validated by: Gemini 3 Pro (Google) — 45/45 success, L₀_obs = 0.3000, margin 85%
+Validated by: Gemini 3 Pro (Google) — 45/45 success, L₀_obs = 0.3, margin 85%
 Proof strategy: GPT-5.2 (OpenAI)
 -/
 
@@ -40,7 +40,7 @@ The proof exploits a fundamental property of limits:
 > with the same constant.**
 
 Concretely:
-1. By Theorem 5: |Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂| for all a ∈ (0,0.20]
+1. By Theorem 5: |Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂| for all a ∈ (0,0.2]
 2. By Theorem 10: Δ(gᵢ,a) → Δ₀(gᵢ) as a → 0⁺
 3. Taking limits: |Δ₀(g₁) - Δ₀(g₂)| = lim|Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂|
 
@@ -48,7 +48,7 @@ The key insight is that the Lipschitz bound 2.0·|g₁-g₂| is independent
 of a, so it passes through the limit unchanged.
 
 ## Numerical Validation (Gemini 3 Pro)
-- Observed L₀: 0.3000 GeV (EXACT!)
+- Observed L₀: 0.3 GeV (EXACT!)
 - Target L₀: 2.0 GeV
 - Margin: 85% (6.67× ratio)
 - All 45 pairs: 100% success
@@ -72,12 +72,12 @@ axiom Delta0 : ℝ → ℝ
 
 /-- **Theorem 5 (Lattice Lipschitz Continuity in g):**
     |Δ(g₁, a) - Δ(g₂, a)| ≤ 2.0 · |g₁ - g₂|
-    for all g₁, g₂ ∈ [0.5, 1.18] and a ∈ (0, 0.20]. -/
+    for all g₁, g₂ ∈ [0.5, 1.18] and a ∈ (0, 0.2]. -/
 axiom mass_gap_lipschitz_in_g
     (g₁ g₂ a : ℝ)
     (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
     (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18)
-    (ha : 0 < a ∧ a ≤ 0.20) :
+    (ha : 0 < a ∧ a ≤ 0.2) :
     |mass_gap g₁ a - mass_gap g₂ a| ≤ 2.0 * |g₁ - g₂|
 
 /-- **Theorem 10 (Continuum Limit Existence):**
@@ -117,16 +117,16 @@ lemma mass_gap_abs_diff_tendsto
       (nhds |Delta0 g₁ - Delta0 g₂|) := by
   exact Filter.Tendsto.abs (mass_gap_diff_tendsto g₁ g₂ hg₁ hg₂)
 
-/-- The set (0, 0.20] is a member of the right neighborhood filter at 0. -/
+/-- The set (0, 0.2] is a member of the right neighborhood filter at 0. -/
 lemma Ioc_mem_nhdsWithin_Ioi_zero :
-    Set.Ioc (0 : ℝ) 0.20 ∈ nhdsWithin (0 : ℝ) (Set.Ioi 0) := by
+    Set.Ioc (0 : ℝ) 0.2 ∈ nhdsWithin (0 : ℝ) (Set.Ioi 0) := by
   apply mem_nhdsWithin_Ioi_iff_exists_Ioc_subset.mpr
-  exact ⟨0.20, by norm_num, Set.Subset.refl _⟩
+  exact ⟨0.2, by norm_num, Set.Subset.refl _⟩
 
 /-- **Key Lemma: The Lipschitz bound holds eventually as a → 0⁺.**
     For fixed g₁, g₂, the lattice Lipschitz bound
     |Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂|
-    holds for all a ∈ (0, 0.20], hence eventually in 𝓝[>](0). -/
+    holds for all a ∈ (0, 0.2], hence eventually in 𝓝[>](0). -/
 lemma lipschitz_bound_eventually
     (g₁ g₂ : ℝ)
     (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
@@ -134,7 +134,7 @@ lemma lipschitz_bound_eventually
     ∀ᶠ a in nhdsWithin (0 : ℝ) (Set.Ioi 0),
       |mass_gap g₁ a - mass_gap g₂ a| ≤ 2.0 * |g₁ - g₂| := by
   rw [Filter.eventually_iff_exists_mem]
-  exact ⟨Set.Ioc 0 0.20, Ioc_mem_nhdsWithin_Ioi_zero,
+  exact ⟨Set.Ioc 0 0.2, Ioc_mem_nhdsWithin_Ioi_zero,
     fun a ha => mass_gap_lipschitz_in_g g₁ g₂ a hg₁ hg₂ ⟨ha.1, ha.2⟩⟩
 
 /-! ## Main Theorem -/
@@ -145,7 +145,7 @@ lemma lipschitz_bound_eventually
       |Δ₀(g₁) - Δ₀(g₂)| ≤ 2.0 · |g₁ - g₂|
 
     **Proof:**
-    1. By Theorem 5, |Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂| for a ∈ (0,0.20]
+    1. By Theorem 5, |Δ(g₁,a) - Δ(g₂,a)| ≤ 2.0·|g₁-g₂| for a ∈ (0,0.2]
     2. This bound is eventually true in 𝓝[>](0)
     3. By Theorem 10, |Δ(g₁,a) - Δ(g₂,a)| → |Δ₀(g₁) - Δ₀(g₂)| as a → 0⁺
     4. Since the limit of a function bounded by a constant is bounded
@@ -155,7 +155,7 @@ lemma lipschitz_bound_eventually
     passes through the limit unchanged.
 
     **Numerical verification (Gemini 3 Pro):**
-    Observed L₀ = 0.3000 GeV, margin 85% below the 2.0 GeV bound. -/
+    Observed L₀ = 0.3 GeV, margin 85% below the 2.0 GeV bound. -/
 theorem continuum_lipschitz_in_g
     (g₁ g₂ : ℝ)
     (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
@@ -191,12 +191,12 @@ theorem continuum_mass_gap_continuous_in_g :
 
 
 /-- **Corollary 12c: Continuum is smoother than lattice.**
-    The observed continuum Lipschitz constant (0.30 GeV) is
+    The observed continuum Lipschitz constant (0.3 GeV) is
     6.67× smaller than the lattice constant (2.0 GeV).
     This confirms that lattice artifacts are removed in the
     continuum limit, validating the lattice QCD approach. -/
 theorem continuum_smoother_than_lattice :
-    (0.3000 : ℝ) / 2.0 = 0.15 := by norm_num
+    (0.3 : ℝ) / 2.0 = 0.15 := by norm_num
 
 /-- **Corollary 12d: Combined regularity and positivity.**
     The continuum mass gap is both positive (Theorem 11) and
@@ -207,7 +207,7 @@ theorem continuum_smoother_than_lattice :
 axiom mass_gap_lower_bound_continuum
     (g : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
-    (0.50 : ℝ) ≤ Delta0 g
+    (0.5 : ℝ) ≤ Delta0 g
 
 theorem continuum_gap_positive_and_lipschitz
     (g₁ g₂ : ℝ)

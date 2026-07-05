@@ -56,7 +56,7 @@ namespace RGFlow
       - Negative as expected (gap decreases with a) ✅
       - Roughly constant across g (physical!) ✅
       - Matches GPT-5.2 estimate (-1.14 GeV/fm²) ✅
-    - Δ_0(g=0.50) ≈ 1.644 GeV (continuum limit extrapolation)
+    - Δ_0(g=0.5) ≈ 1.644 GeV (continuum limit extrapolation)
     - K ≈ 39000 GeV/fm⁴ (elevated but bounded)
     
     **Jump to Continuum:**
@@ -85,7 +85,7 @@ namespace RGFlow
     Theorem 6: |Δ(g,a₁) - Δ(g,a₂)| ≤ 3.0·|a₁ - a₂|
     
     From Theorem 9:
-    - Effective Lipschitz ≈ 2·a_max·|c_2| ≈ 2·0.20·1.08 ≈ 0.43 GeV/fm
+    - Effective Lipschitz ≈ 2·a_max·|c_2| ≈ 2·0.2·1.08 ≈ 0.43 GeV/fm
     - Comparison: 0.43 ≪ 3.0 ✅ CONSISTENT!
     
     ═══════════════════════════════════════════════════════════════════ -/
@@ -150,7 +150,7 @@ def validation9_R2 : ℝ := 0.95
 /-- Observed c_2 coefficient -/
 def validation9_c2 : ℝ := -1.08  -- GeV/fm²
 
-/-- Continuum limit extrapolation at g = 0.50 -/
+/-- Continuum limit extrapolation at g = 0.5 -/
 def validation9_Delta0_at_g050 : ℝ := 1.644  -- GeV
 
 /-- Jump to continuum (tiny!) -/
@@ -162,7 +162,7 @@ def validation9_effective_lipschitz : ℝ := 0.43  -- GeV/fm
 /-! ## Derived Properties -/
 
 /-- R² indicates good fit -/
-theorem validation9_good_fit : validation9_R2 ≥ 0.90 := by norm_num [validation9_R2]
+theorem validation9_good_fit : validation9_R2 ≥ 0.9 := by norm_num [validation9_R2]
 
 /-- c_2 is negative (gap decreases with a) -/
 theorem validation9_c2_negative : validation9_c2 < 0 := by norm_num [validation9_c2]

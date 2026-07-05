@@ -126,7 +126,7 @@ theorem monotonicity_from_beta_negativity_concept :
 /-! ## Validation Metrics -/
 
 /-- Theorem 2 validation success rate -/
-def theorem2_success_rate : ℝ := 1.00
+def theorem2_success_rate : ℝ := 1.0
 
 /-- Theorem 2 number of test cases -/
 def theorem2_test_cases : Nat := 180
@@ -135,7 +135,7 @@ def theorem2_test_cases : Nat := 180
 def theorem2_avg_margin : ℝ := 0.0824
 
 /-- Theorem 2 is fully validated -/
-theorem theorem2_validated : theorem2_success_rate = 1.00 := by norm_num [theorem2_success_rate]
+theorem theorem2_validated : theorem2_success_rate = 1.0 := by norm_num [theorem2_success_rate]
 
 /-- Theorem 2 has extensive testing -/
 theorem theorem2_extensive_tests : theorem2_test_cases ≥ 100 := by norm_num [theorem2_test_cases]

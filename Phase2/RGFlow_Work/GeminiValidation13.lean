@@ -19,41 +19,41 @@ namespace RGFlow
 
 ## Validation Results
 - **Success Rate:** 8/8 consecutive comparisons (100%)
-- **Total gap:** Δ₀(0.50) - Δ₀(1.18) = 0.203 GeV
+- **Total gap:** Δ₀(0.5) - Δ₀(1.18) = 0.203 GeV
 - **GPT prediction:** 0.21 GeV (3.3% difference — EXCELLENT!)
 - **Uncertainties:** ± 10⁻¹⁶ GeV (machine precision!)
-- **Pattern:** Δ₀(g) ≈ 1.955 - 0.30·g (perfectly linear!)
+- **Pattern:** Δ₀(g) ≈ 1.955 - 0.3·g (perfectly linear!)
 
 ## Numerical Results
 | g     | Δ₀(g) [GeV] | Uncertainty   |
 |-------|-------------|---------------|
-| 0.50  | 1.655       | ± 10⁻¹⁶      |
-| 0.60  | 1.625       | ± 10⁻¹⁶      |
-| 0.70  | 1.595       | ± 10⁻¹⁶      |
-| 0.80  | 1.565       | ± 10⁻¹⁶      |
-| 0.90  | 1.535       | ± 10⁻¹⁶      |
-| 1.00  | 1.505       | ± 10⁻¹⁶      |
-| 1.10  | 1.475       | ± 10⁻¹⁶      |
-| 1.15  | 1.460       | ± 10⁻¹⁶      |
+| 0.5  | 1.655       | ± 10⁻¹⁶      |
+| 0.6  | 1.625       | ± 10⁻¹⁶      |
+| 0.7  | 1.595       | ± 10⁻¹⁶      |
+| 0.8  | 1.565       | ± 10⁻¹⁶      |
+| 0.9  | 1.535       | ± 10⁻¹⁶      |
+| 1.0  | 1.505       | ± 10⁻¹⁶      |
+| 1.1  | 1.475       | ± 10⁻¹⁶      |
+| 1.15  | 1.46       | ± 10⁻¹⁶      |
 | 1.18  | 1.452       | ± 10⁻¹⁶      |
 
 ## Consecutive Gaps (all positive!)
 | i | g_i  | g_{i+1} | δ_i (GeV) |
 |---|------|---------|-----------|
-| 1 | 0.50 | 0.60    | 0.030     |
-| 2 | 0.60 | 0.70    | 0.030     |
-| 3 | 0.70 | 0.80    | 0.030     |
-| 4 | 0.80 | 0.90    | 0.030     |
-| 5 | 0.90 | 1.00    | 0.030     |
-| 6 | 1.00 | 1.10    | 0.030     |
-| 7 | 1.10 | 1.15    | 0.015     |
+| 1 | 0.5 | 0.6    | 0.03     |
+| 2 | 0.6 | 0.7    | 0.03     |
+| 3 | 0.7 | 0.8    | 0.03     |
+| 4 | 0.8 | 0.9    | 0.03     |
+| 5 | 0.9 | 1.0    | 0.03     |
+| 6 | 1.0 | 1.1    | 0.03     |
+| 7 | 1.1 | 1.15    | 0.015     |
 | 8 | 1.15 | 1.18    | 0.008     |
 
 Smallest gap: 0.008 GeV (still significant!)
 
 ## Cross-Validation
-- With Theorem 11: All Δ₀(g) ≥ 0.50 GeV ✅ (190-231% margin)
-- With Theorem 12: Slope = 0.30 GeV ≤ 2.0 GeV ✅ (85% margin)
+- With Theorem 11: All Δ₀(g) ≥ 0.5 GeV ✅ (190-231% margin)
+- With Theorem 12: Slope = 0.3 GeV ≤ 2.0 GeV ✅ (85% margin)
 - Consistency: PERFECT 💎
 
 ## Key Finding (Gemini 3 Pro)
@@ -74,7 +74,7 @@ axiom Delta0 : ℝ → ℝ
 /-! ## Axioms from Previous Theorems -/
 
 /-- **Theorem 7 (Lattice Quantitative Monotonicity in g):**
-    For g₁ < g₂ in [0.5, 1.18] and a ∈ (0, 0.20]:
+    For g₁ < g₂ in [0.5, 1.18] and a ∈ (0, 0.2]:
     Δ(g₁, a) > Δ(g₂, a).
 
     Stronger coupling → smaller mass gap (at lattice level). -/
@@ -83,7 +83,7 @@ axiom mass_gap_monotonic_in_g
     (hg₁ : 0.5 ≤ g₁ ∧ g₁ ≤ 1.18)
     (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18)
     (hg_order : g₁ < g₂)
-    (ha : 0 < a ∧ a ≤ 0.20) :
+    (ha : 0 < a ∧ a ≤ 0.2) :
     mass_gap g₂ a < mass_gap g₁ a
 
 /-- **Theorem 10 (Continuum Limit Existence):**
@@ -99,12 +99,12 @@ axiom mass_gap_tendsto_continuum
 
 
 /-- **Gemini Validation: Quantitative total gap.**
-    Δ₀(0.50) - Δ₀(1.18) = 0.203 GeV.
+    Δ₀(0.5) - Δ₀(1.18) = 0.203 GeV.
     This provides the quantitative separation needed to
     exclude d₀ = 0 in the limit argument. -/
 -- FORMER AXIOM (unverified LLM assertion), now a named assumption.
 def TotalGapAssumption : Prop :=
-    Delta0 0.50 - Delta0 1.18 = (0.203 : ℝ)
+    Delta0 0.5 - Delta0 1.18 = (0.203 : ℝ)
 
 /-- **Gemini Validation: Minimum consecutive gap.**
     The smallest gap between consecutive sampled values
@@ -120,7 +120,7 @@ def MinGapAssumption : Prop :=
 
 /-- The total gap is strictly positive (immediate from axiom). -/
 theorem gemini_total_gap_positive (h : TotalGapAssumption) :
-    (0 : ℝ) < Delta0 0.50 - Delta0 1.18 := by
+    (0 : ℝ) < Delta0 0.5 - Delta0 1.18 := by
   rw [h]
   norm_num
 

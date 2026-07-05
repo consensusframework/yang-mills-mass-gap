@@ -39,7 +39,7 @@ namespace RGFlow
     **Slope Analysis:**
     - Mean slope (|dΔ/dg|): 0.2963 GeV
     - Minimum slope observed: 0.2667 GeV
-    - Target C_mono: 0.2500 GeV
+    - Target C_mono: 0.25 GeV
     - Safety margin: ~6% (tight but solid!)
     
     **Cross Validation:**
@@ -89,7 +89,7 @@ theorem C_mono_pos : C_mono > 0 := by norm_num [C_mono]
   **Validation Details:**
   - Mean slope: 0.2963 GeV
   - Min slope observed: 0.2667 GeV
-  - Target C_mono: 0.2500 GeV
+  - Target C_mono: 0.25 GeV
   - Safety margin: ~6%
   - Test pairs: 540 (90 adjacent + 450 general)
   - Failures: 0
@@ -119,7 +119,7 @@ def validation7_date : String := "2026-02-09"
 def validation7_pairs : Nat := 540
 
 /-- Success rate for Theorem 7 -/
-def validation7_success_rate : ℝ := 1.00
+def validation7_success_rate : ℝ := 1.0
 
 /-- Minimum observed slope -/
 def validation7_min_slope : ℝ := 0.2667
@@ -136,7 +136,7 @@ def validation7_margin : ℝ := 0.06
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation7_complete : validation7_success_rate = 1.00 := by norm_num [validation7_success_rate]
+theorem validation7_complete : validation7_success_rate = 1.0 := by norm_num [validation7_success_rate]
 
 /-- Observed minimum is above target -/
 theorem validation7_safe : validation7_min_slope > validation7_C_mono := by norm_num [validation7_C_mono, validation7_min_slope]

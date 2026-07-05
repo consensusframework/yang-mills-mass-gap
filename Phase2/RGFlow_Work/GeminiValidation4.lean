@@ -34,7 +34,7 @@ namespace RGFlow
     
     **Block A - Uniform Lower Bound:**
     - At g = 1.18, minimum observed gap: 0.6009 GeV
-    - Conservative target: 0.50 GeV
+    - Conservative target: 0.5 GeV
     - Safety margin: 20%+
     - Status: ✅ 100% SUCCESS
     
@@ -88,14 +88,14 @@ def GapMonotoneAssumption : Prop :=
 /-- 
   VALIDATED AXIOM: Uniform Lower Bound at Strong Coupling
   
-  **Statement:** For all a ∈ (0, 0.20], Δ(1.18, a) ≥ 0.50 GeV
+  **Statement:** For all a ∈ (0, 0.2], Δ(1.18, a) ≥ 0.5 GeV
   
   **Validated by:** Gemini 3 Pro (January 29, 2026)
   **Method:** Lattice QCD across lattice spacings
   
   **Validation Details:**
   - Minimum observed gap: 0.6009 GeV (at a = 0.18 fm)
-  - Conservative bound: 0.50 GeV
+  - Conservative bound: 0.5 GeV
   - Safety margin: 20%+
   
   **Physical Significance:**
@@ -107,7 +107,7 @@ def GapMonotoneAssumption : Prop :=
 def GapUniformBoundAssumption : Prop :=
   ∀ (a : ℝ)
     (ha_pos : 0 < a)
-    (ha_bound : a ≤ 0.2), mass_gap 1.18 a ≥ 0.50
+    (ha_bound : a ≤ 0.2), mass_gap 1.18 a ≥ 0.5
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 4 -/
@@ -117,21 +117,21 @@ def validation4_date : String := "2026-01-29"
 def validation4_pairs : Nat := 450
 
 /-- Success rate for Theorem 4 -/
-def validation4_success_rate : ℝ := 1.00
+def validation4_success_rate : ℝ := 1.0
 
 /-- Minimum observed gap at g = 1.18 -/
 def validation4_min_gap : ℝ := 0.6009  -- GeV
 
 /-- Conservative lower bound used -/
-def validation4_bound : ℝ := 0.50  -- GeV
+def validation4_bound : ℝ := 0.5  -- GeV
 
 /-- Safety margin -/
-def validation4_margin : ℝ := 0.20  -- 20%
+def validation4_margin : ℝ := 0.2  -- 20%
 
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation4_complete : validation4_success_rate = 1.00 := by norm_num [validation4_success_rate]
+theorem validation4_complete : validation4_success_rate = 1.0 := by norm_num [validation4_success_rate]
 
 /-- Observed gap exceeds bound -/
 theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by norm_num [validation4_bound, validation4_min_gap]
@@ -144,7 +144,7 @@ theorem validation4_extensive : validation4_pairs ≥ 400 := by norm_num [valida
     THEOREM 4 VALIDATION: ✅ COMPLETE WITH HONORS
     
     Two powerful results:
-    1. Δ(1.18, a) ≥ 0.50 GeV for all a (uniform bound)
+    1. Δ(1.18, a) ≥ 0.5 GeV for all a (uniform bound)
     2. Δ(g₁, a) ≥ Δ(g₂, a) when g₁ ≤ g₂ (monotonicity)
     
     Combined meaning: The mass gap is IMMORTAL!

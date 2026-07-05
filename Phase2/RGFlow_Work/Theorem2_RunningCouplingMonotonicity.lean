@@ -65,7 +65,7 @@ namespace RGFlow
   
   We use a simplified model: a(μ) = a₀ · (μ₀/μ)
 -/
-def lattice_spacing (μ μ₀ a₀ : ℝ) : ℝ :=
+noncomputable def lattice_spacing (μ μ₀ a₀ : ℝ) : ℝ :=
   a₀ * (μ₀ / μ)
 
 /-! ═══════════════════════════════════════════════════════════════════
@@ -197,10 +197,10 @@ theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
     (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max)
     (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ μ₀ g₀ a₀ ≤ g₀ := by
-  cases' hμ with hμ₀_pos hμ_ge
-  cases' hμ_ge with hμ_eq hμ_gt
+  obtain ⟨hμ₀_pos, hμ_ge⟩ := hμ
+  rcases eq_or_lt_of_le hμ_ge with hμ_eq | hμ_gt
   · -- Case: μ = μ₀
-    rw [hμ_eq]
+    rw [← hμ_eq]
     rw [initial_condition μ₀ g₀ a₀]
   · -- Case: μ > μ₀
     have h := coupling_decreases μ μ₀ g₀ a₀ ⟨hμ₀_pos, hμ_gt⟩ hg₀ ha₀ h_ode
@@ -221,7 +221,7 @@ theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
 def validation_grid_size : Nat := 20
 
 /-- Expected success rate -/
-def expected_success_rate : ℝ := 1.00
+def expected_success_rate : ℝ := 1.0
 
 /-! ═══════════════════════════════════════════════════════════════════
     

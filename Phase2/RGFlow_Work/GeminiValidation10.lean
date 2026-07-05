@@ -36,7 +36,7 @@ namespace RGFlow
     
     The continuum limit EXISTS and is well-defined:
     - lim_{a->0} Delta(g,a) = Delta_0(g)
-    - Delta_0(g=0.50) = 1.655 GeV
+    - Delta_0(g=0.5) = 1.655 GeV
     - R^2 = 1.0 (perfect fit!)
     
     ## Important Caveat
@@ -79,7 +79,7 @@ namespace RGFlow
   
   **Validation Details:**
   - R^2 = 1.0 (perfect convergence!)
-  - Delta_0(g=0.50) = 1.655 GeV
+  - Delta_0(g=0.5) = 1.655 GeV
   - Convergence is linear O(a) in synthetic data
   - Real lattice QCD would show quadratic O(a^2)
   - But limit EXISTS regardless of rate!
@@ -107,7 +107,7 @@ def validation10_date : String := "2026-02-14"
 /-- R^2 value (perfect!) -/
 def validation10_R2 : ℝ := 1.0
 
-/-- Continuum limit at g = 0.50 -/
+/-- Continuum limit at g = 0.5 -/
 def validation10_Delta0_at_g050 : ℝ := 1.655
 
 /-- Convergence type (linear for synthetic data) -/

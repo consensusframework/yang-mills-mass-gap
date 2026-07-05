@@ -111,7 +111,7 @@ theorem phase3_foundation
 /-- Theorem 10 R^2 value (perfect!) -/
 def theorem10_R2 : ℝ := 1.0
 
-/-- Theorem 10 continuum limit at g = 0.50 -/
+/-- Theorem 10 continuum limit at g = 0.5 -/
 def theorem10_Delta0 : ℝ := 1.655
 
 /-- Perfect convergence -/
@@ -131,7 +131,7 @@ theorem theorem10_positive : theorem10_Delta0 > 0 := by norm_num [theorem10_Delt
     
     Validation:
     - R^2 = 1.0 (perfect convergence!)
-    - Delta_0(g=0.50) = 1.655 GeV
+    - Delta_0(g=0.5) = 1.655 GeV
     - Uses epsilon-delta definition
     - Works for any convergence rate
     

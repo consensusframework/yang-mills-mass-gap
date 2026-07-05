@@ -19,13 +19,12 @@ import RGFlow_Work.Basic
   with L₁ metric (Manhattan distance).
   
   RESULT: TANK MODE! 🏆
-  - Observed max: 0.30 GeV (10x below target!)
+  - Observed max: 0.3 GeV (10x below target!)
   - Margin: 90% (ABSURD!)
   
   "Isso não é um teorema, é um TANQUE DE GUERRA!" - Gemini
   
   ═══════════════════════════════════════════════════════════════════
--/
 -/
 
 namespace RGFlow
@@ -41,9 +40,9 @@ namespace RGFlow
     ## Results Summary
     
     **All Pairs Analysis (4,950 pairs):**
-    - L_joint_observed (max): 0.30 GeV (10x below target!)
+    - L_joint_observed (max): 0.3 GeV (10x below target!)
     - L_joint_mean: 0.2365 GeV (12.7x below target!)
     - Target L_joint_L1: 3.0 GeV
     - Success rate: 100% (4,950/4,950)
     - Safety margin: 90%!!! 🏆
-    
+-/

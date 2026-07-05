@@ -98,7 +98,7 @@ def theorem9_c2 : ℝ := -1.08
 def theorem9_jump : ℝ := 0.006
 
 /-- Theorem 9 has good fit -/
-theorem theorem9_good_fit : theorem9_R2 ≥ 0.90 := by norm_num [theorem9_R2]
+theorem theorem9_good_fit : theorem9_R2 ≥ 0.9 := by norm_num [theorem9_R2]
 
 /-- Theorem 9 c_2 is negative -/
 theorem theorem9_c2_negative : theorem9_c2 < 0 := by norm_num [theorem9_c2]

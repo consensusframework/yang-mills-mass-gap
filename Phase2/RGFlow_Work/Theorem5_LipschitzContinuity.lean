@@ -47,7 +47,7 @@ namespace RGFlow
   
   **Validation:** Gemini 3 Pro (January 30, 2026)
   - Method: Finite differences on 405 test pairs
-  - L_max observed: 2.0000 GeV (exactly at limit!)
+  - L_max observed: 2.0 GeV (exactly at limit!)
   - L_mean observed: 1.3667 GeV (smooth average)
   - Success rate: 100%
   - Verdict: TIGHT BUT PERFECT!
@@ -130,7 +130,7 @@ theorem mass_gap_domesticated
     (_ : 0.5 ≤ g ∧ g ≤ 1.18)
     (_ : 0 < a ∧ a ≤ a_max) :
   -- The mass gap is:
-  -- 1. Positive (≥ 0.50 GeV) - from Theorem 4
+  -- 1. Positive (≥ 0.5 GeV) - from Theorem 4
   -- 2. Monotone in g - from Theorem 4
   -- 3. Lipschitz continuous - from Theorem 5
   -- "Domesticated" - it doesn't bite anymore!
@@ -142,7 +142,7 @@ theorem mass_gap_domesticated
 def theorem5_pairs : Nat := 405
 
 /-- Theorem 5 success rate -/
-def theorem5_success_rate : ℝ := 1.00
+def theorem5_success_rate : ℝ := 1.0
 
 /-- Theorem 5 L_max (tight!) -/
 def theorem5_L_max : ℝ := 2.0
@@ -151,7 +151,7 @@ def theorem5_L_max : ℝ := 2.0
 def theorem5_L_mean : ℝ := 1.3667
 
 /-- Theorem 5 is fully validated -/
-theorem theorem5_validated : theorem5_success_rate = 1.00 := by norm_num [theorem5_success_rate]
+theorem theorem5_validated : theorem5_success_rate = 1.0 := by norm_num [theorem5_success_rate]
 
 /-- Theorem 5 is tight but perfect -/
 theorem theorem5_tight : theorem5_L_max = 2.0 := by norm_num [theorem5_L_max]
@@ -175,7 +175,7 @@ theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [lipschit
     - Test pairs: 405
     - Failures: 0
     - Success rate: 100%
-    - L_max: 2.0000 GeV (exactly at limit!)
+    - L_max: 2.0 GeV (exactly at limit!)
     - L_mean: 1.3667 GeV (smooth average)
     - Verdict: TIGHT BUT PERFECT!
     
@@ -183,7 +183,7 @@ theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [lipschit
     
     | Property | Theorem | Status |
     |----------|---------|--------|
-    | Positive (Δ ≥ 0.50 GeV) | Thm 4 | ✅ |
+    | Positive (Δ ≥ 0.5 GeV) | Thm 4 | ✅ |
     | Monotone (g↓ → Δ↑) | Thm 4 | ✅ |
     | Lipschitz (L = 2.0 GeV) | Thm 5 | ✅ |
     
@@ -193,7 +193,7 @@ theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [lipschit
     - Theorem 1: ✅ β < 0 (Asymptotic Freedom)
     - Theorem 2: ✅ g decreasing (Monotonicity)
     - Theorem 3: ✅ g ≤ g₀ (Bound Preservation)
-    - Theorem 4: ✅ Δ ≥ 0.50 GeV (Mass Gap Persistence)
+    - Theorem 4: ✅ Δ ≥ 0.5 GeV (Mass Gap Persistence)
     - Theorem 5: ✅ Lipschitz (Continuity)
     - Theorems 6-15: 🔄 PENDING
     

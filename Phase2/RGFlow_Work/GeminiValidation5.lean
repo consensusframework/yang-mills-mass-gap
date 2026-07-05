@@ -33,7 +33,7 @@ namespace RGFlow
     ## Results Summary
     
     **Finite Differences Analysis:**
-    - L_max (local): 2.0000 GeV (at g = 1.15 → 1.18)
+    - L_max (local): 2.0 GeV (at g = 1.15 → 1.18)
     - L_mean (global): 1.3667 GeV (very smooth average)
     - Critical region: Near strong coupling (g ≈ 1.18)
     
@@ -41,7 +41,7 @@ namespace RGFlow
     - Test pairs: 405 (all combinations)
     - Failures: 0
     - Success rate: 100%
-    - Minimum margin: 0.0000 GeV (exactly at limit!)
+    - Minimum margin: 0.0 GeV (exactly at limit!)
     
     ## Physical Interpretation
     
@@ -77,12 +77,12 @@ namespace RGFlow
   **Method:** Finite differences on 405 test pairs
   
   **Validation Details:**
-  - L_max observed: 2.0000 GeV (exactly at limit!)
+  - L_max observed: 2.0 GeV (exactly at limit!)
   - L_mean observed: 1.3667 GeV (smooth average)
   - Test pairs: 405
   - Failures: 0
   - Success rate: 100%
-  - Minimum margin: 0.0000 GeV (tight but perfect!)
+  - Minimum margin: 0.0 GeV (tight but perfect!)
   
   **Physical Significance:**
   Lipschitz continuity ensures the mass gap is "well-behaved":
@@ -114,7 +114,7 @@ def validation5_date : String := "2026-01-30"
 def validation5_pairs : Nat := 405
 
 /-- Success rate for Theorem 5 -/
-def validation5_success_rate : ℝ := 1.00
+def validation5_success_rate : ℝ := 1.0
 
 /-- Maximum observed Lipschitz constant -/
 def validation5_L_max : ℝ := 2.0
@@ -123,12 +123,12 @@ def validation5_L_max : ℝ := 2.0
 def validation5_L_mean : ℝ := 1.3667
 
 /-- Minimum margin (tight!) -/
-def validation5_min_margin : ℝ := 0.0000
+def validation5_min_margin : ℝ := 0.0
 
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation5_complete : validation5_success_rate = 1.00 := by norm_num [validation5_success_rate]
+theorem validation5_complete : validation5_success_rate = 1.0 := by norm_num [validation5_success_rate]
 
 /-- L_max equals our chosen bound (tight fit!) -/
 theorem validation5_tight : validation5_L_max = 2.0 := by norm_num [validation5_L_max]
@@ -152,7 +152,7 @@ theorem validation5_extensive : validation5_pairs ≥ 400 := by norm_num [valida
     "A corda bamba onde a gente dança." - Gemini
     
     Combined with Theorem 4, the mass gap is now:
-    - ✅ Positive (Δ ≥ 0.50 GeV)
+    - ✅ Positive (Δ ≥ 0.5 GeV)
     - ✅ Monotone (smaller g → larger gap)
     - ✅ Continuous and Smooth (Lipschitz with L = 2.0)
     

@@ -155,7 +155,7 @@ theorem gap_stable_under_refinement
 def theorem6_pairs : Nat := 450
 
 /-- Theorem 6 success rate -/
-def theorem6_success_rate : ℝ := 1.00
+def theorem6_success_rate : ℝ := 1.0
 
 /-- Theorem 6 L_a_max (absurdly low!) -/
 def theorem6_L_a_max : ℝ := 0.25
@@ -167,7 +167,7 @@ def theorem6_L_a_bound : ℝ := 3.0
 def theorem6_safety_margin : ℝ := 12.0
 
 /-- Theorem 6 is fully validated -/
-theorem theorem6_validated : theorem6_success_rate = 1.00 := by norm_num [theorem6_success_rate]
+theorem theorem6_validated : theorem6_success_rate = 1.0 := by norm_num [theorem6_success_rate]
 
 /-- Theorem 6 has massive safety margin -/
 theorem theorem6_bunker_nuclear : theorem6_L_a_max < theorem6_L_a_bound := by norm_num [theorem6_L_a_bound, theorem6_L_a_max]
@@ -212,7 +212,7 @@ theorem theorem6_12x_margin : theorem6_safety_margin ≥ 10.0 := by norm_num [th
     - Theorem 1: ✅ β < 0 (Asymptotic Freedom)
     - Theorem 2: ✅ g decreasing (Monotonicity)
     - Theorem 3: ✅ g ≤ g₀ (Bound Preservation)
-    - Theorem 4: ✅ Δ ≥ 0.50 GeV (Mass Gap Persistence)
+    - Theorem 4: ✅ Δ ≥ 0.5 GeV (Mass Gap Persistence)
     - Theorem 5: ✅ Lipschitz in g (L = 2.0 GeV)
     - Theorem 6: ✅ Lipschitz in a (L = 3.0 GeV/fm) 🆕
     - Theorems 7-15: 🔄 PENDING
