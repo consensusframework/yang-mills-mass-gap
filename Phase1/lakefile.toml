@@ -1,0 +1,20 @@
+name = "YangMills"
+defaultTargets = ["YangMills"]
+
+[[require]]
+name = "mathlib"
+scope = "leanprover-community"
+rev = "v4.15.0"
+
+[[lean_lib]]
+name = "YangMills"
+globs = ["YangMills.Axiom8Prime",
+ "YangMills.BFSConvergenceFinal",
+ "YangMills.Basic",
+ "YangMills.ClusterDecomposition",
+ "YangMills.ConvergenceRegion",
+ "YangMills.EntropicPrinciple_Standalone",
+ "YangMills.EntropicTest",
+ "YangMills.Gap1.BRSTMeasure",
+ "YangMills.StabilityCondition",
+ "YangMills.SyntaxTest"]
