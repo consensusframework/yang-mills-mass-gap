@@ -62,9 +62,8 @@ theorem gibbsExpectation_gauge_invariant [NeZero N] [Fintype (Site N)]
     gibbsExpectation (N := N) μm β χ (fun U => f (gaugeAct g U))
       = gibbsExpectation (N := N) μm β χ f := by
   have hmp := measurePreserving_gaugeAct (N := N) μm g
-  have hemb : MeasurableEmbedding (gaugeAct (N := N) g) := by
-    have := (gaugeEquiv (N := N) g).measurableEmbedding
-    simpa [funext_iff] using this
+  have hemb : MeasurableEmbedding (gaugeAct (N := N) g) :=
+    (gaugeEquiv (N := N) g).measurableEmbedding
   unfold gibbsExpectation
   congr 1
   calc ∫ U : Config N G, f (gaugeAct g U) * gibbsWeight β χ U
@@ -72,9 +71,11 @@ theorem gibbsExpectation_gauge_invariant [NeZero N] [Fintype (Site N)]
       = ∫ U : Config N G, f (gaugeAct g U) * gibbsWeight β χ (gaugeAct g U)
         ∂(configMeasure μm N) := by
         refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-        unfold gibbsWeight
-        rw [wilsonAction_gauge_invariant χ hχ g U]
+        have hw : gibbsWeight β χ (gaugeAct g U) = gibbsWeight β χ U := by
+          unfold gibbsWeight
+          rw [wilsonAction_gauge_invariant χ hχ g U]
+        rw [hw]
     _ = ∫ V : Config N G, f V * gibbsWeight β χ V ∂(configMeasure μm N) :=
-        hmp.integral_comp hemb _
+        hmp.integral_comp hemb (fun V => f V * gibbsWeight β χ V)
 
 end LatticeGauge
