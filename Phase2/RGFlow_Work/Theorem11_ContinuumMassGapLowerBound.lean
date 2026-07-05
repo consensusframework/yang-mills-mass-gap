@@ -50,7 +50,6 @@ lemma mass_gap_eventually_ge_bound
     (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
     ∀ᶠ a in nhdsWithin (0 : ℝ) (Set.Ioi 0),
       (0.50 : ℝ) ≤ mass_gap g a := by
-  apply Filter.Eventually.filter_mono (nhdsWithin_mono (0 : ℝ) Set.Ioi_subset_Ioi (le_refl 0))
   rw [Filter.eventually_iff_exists_mem]
   exact ⟨Set.Ioc 0 0.20, Ioc_mem_nhdsWithin_Ioi_zero,
     fun a ha => mass_gap_lower_bound g a hg ⟨ha.1, ha.2⟩⟩

@@ -115,9 +115,10 @@ lemma upper_bound_from_monotonicity
   rcases eq_or_lt_of_le hg.1 with h_eq | h_lt
   · -- Case g = 0.50: equality
     rw [← h_eq]
+    norm_num
   · -- Case g > 0.50: strict monotonicity gives Δ₀(g) < Δ₀(0.50)
     have h := continuum_monotonic_in_g 0.50 g
-      ⟨le_refl _, by linarith [hg.2]⟩ hg h_lt
+      ⟨by norm_num, by linarith [hg.2]⟩ hg h_lt
     linarith
 
 /-- **Monotonicity gives lower bound.**
@@ -131,7 +132,7 @@ lemma lower_bound_from_monotonicity
     rw [h_eq]
   · -- Case g < 1.18: strict monotonicity gives Δ₀(1.18) < Δ₀(g)
     have h := continuum_monotonic_in_g g 1.18
-      hg ⟨by linarith [hg.1], le_refl _⟩ h_lt
+      hg ⟨by linarith [hg.1], by norm_num⟩ h_lt
     linarith
 
 /-! ## Main Theorem -/

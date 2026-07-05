@@ -30,8 +30,7 @@ axiom mass_gap : ℝ → ℝ → ℝ
 
 theorem g0_positive : g0 > 0 := by norm_num [g0]
 
-theorem gap_lower_bound_positive : gap_lower_bound > 0 := by
-  norm_num [gap_lower_bound]
+theorem gap_lower_bound_positive : gap_lower_bound > 0 := by norm_num [gap_lower_bound]
 
 /-- Convergence region of the strong-coupling expansion (Phase 1 claim). -/
 def in_convergence_region (g a : ℝ) : Prop :=

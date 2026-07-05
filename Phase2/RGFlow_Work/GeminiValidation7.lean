@@ -136,11 +136,10 @@ def validation7_margin : ℝ := 0.06
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation7_complete : validation7_success_rate = 1.00 := by rfl
+theorem validation7_complete : validation7_success_rate = 1.00 := by norm_num [validation7_success_rate]
 
 /-- Observed minimum is above target -/
-theorem validation7_safe : validation7_min_slope > validation7_C_mono := by 
-  norm_num
+theorem validation7_safe : validation7_min_slope > validation7_C_mono := by norm_num [validation7_C_mono, validation7_min_slope]
 
 /-- Extensive testing performed -/
 theorem validation7_extensive : validation7_pairs ≥ 500 := by norm_num [validation7_pairs]

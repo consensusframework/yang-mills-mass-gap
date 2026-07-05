@@ -93,7 +93,7 @@ axiom continuity_from_lipschitz
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ a_max)
-    (h_close : ℝ.abs (g1 - g2) < eps)
+    (h_close : |g1 - g2| < eps)
     (heps : eps > 0) :
   |mass_gap g1 a - mass_gap g2 a| < lipschitz_L * eps
 
@@ -103,7 +103,7 @@ theorem mass_gap_continuous
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (ha : 0 < a ∧ a ≤ a_max)
-    (h_close : ℝ.abs (g1 - g2) < eps)
+    (h_close : |g1 - g2| < eps)
     (heps : eps > 0) :
   |mass_gap g1 a - mass_gap g2 a| < lipschitz_L * eps := by
   -- By Lipschitz: |Δ(g1) - Δ(g2)| ≤ L|g1-g2| < L·ε
@@ -151,13 +151,13 @@ def theorem5_L_max : ℝ := 2.0
 def theorem5_L_mean : ℝ := 1.3667
 
 /-- Theorem 5 is fully validated -/
-theorem theorem5_validated : theorem5_success_rate = 1.00 := by rfl
+theorem theorem5_validated : theorem5_success_rate = 1.00 := by norm_num [theorem5_success_rate]
 
 /-- Theorem 5 is tight but perfect -/
-theorem theorem5_tight : theorem5_L_max = 2.0 := by rfl
+theorem theorem5_tight : theorem5_L_max = 2.0 := by norm_num [theorem5_L_max]
 
 /-- Theorem 5 shows smooth average behavior -/
-theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [theorem5_L_mean]
+theorem theorem5_smooth : theorem5_L_mean < lipschitz_L := by norm_num [lipschitz_L, theorem5_L_mean]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

@@ -198,11 +198,10 @@ def theorem4_success_rate : ℝ := 1.00
 def theorem4_min_gap : ℝ := 0.6009
 
 /-- Theorem 4 is fully validated -/
-theorem theorem4_validated : theorem4_success_rate = 1.00 := by rfl
+theorem theorem4_validated : theorem4_success_rate = 1.00 := by norm_num [theorem4_success_rate]
 
 /-- Observed gap exceeds bound -/
-theorem theorem4_has_margin : theorem4_min_gap > gap_lower_bound := by
-  norm_num [theorem4_min_gap, gap_lower_bound]
+theorem theorem4_has_margin : theorem4_min_gap > gap_lower_bound := by norm_num [gap_lower_bound, theorem4_min_gap]
 
 /-! ═══════════════════════════════════════════════════════════════════
     

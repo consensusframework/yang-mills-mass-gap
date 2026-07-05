@@ -135,7 +135,7 @@ def theorem2_test_cases : Nat := 180
 def theorem2_avg_margin : ℝ := 0.0824
 
 /-- Theorem 2 is fully validated -/
-theorem theorem2_validated : theorem2_success_rate = 1.00 := by rfl
+theorem theorem2_validated : theorem2_success_rate = 1.00 := by norm_num [theorem2_success_rate]
 
 /-- Theorem 2 has extensive testing -/
 theorem theorem2_extensive_tests : theorem2_test_cases ≥ 100 := by norm_num [theorem2_test_cases]

@@ -137,8 +137,6 @@ lemma lattice_gap_diff_eventually_pos
     (h_order : g₁ < g₂) :
     ∀ᶠ a in nhdsWithin (0 : ℝ) (Set.Ioi 0),
       (0 : ℝ) < mass_gap g₁ a - mass_gap g₂ a := by
-  apply Filter.Eventually.filter_mono
-    (nhdsWithin_mono (0 : ℝ) Set.Ioi_subset_Ioi (le_refl 0))
   rw [Filter.eventually_iff_exists_mem]
   exact ⟨Set.Ioc 0 0.20, Ioc_mem_nhdsWithin_Ioi_zero,
     fun a ha => sub_pos.mpr (mass_gap_monotonic_in_g g₁ g₂ a hg₁ hg₂ h_order ⟨ha.1, ha.2⟩)⟩

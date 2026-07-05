@@ -162,17 +162,16 @@ def validation9_effective_lipschitz : ℝ := 0.43  -- GeV/fm
 /-! ## Derived Properties -/
 
 /-- R² indicates good fit -/
-theorem validation9_good_fit : validation9_R2 ≥ 0.90 := by norm_num
+theorem validation9_good_fit : validation9_R2 ≥ 0.90 := by norm_num [validation9_R2]
 
 /-- c_2 is negative (gap decreases with a) -/
-theorem validation9_c2_negative : validation9_c2 < 0 := by norm_num
+theorem validation9_c2_negative : validation9_c2 < 0 := by norm_num [validation9_c2]
 
 /-- Effective Lipschitz is much smaller than Theorem 6 bound -/
-theorem validation9_consistent_thm6 : validation9_effective_lipschitz < 3.0 := by 
-  norm_num
+theorem validation9_consistent_thm6 : validation9_effective_lipschitz < 3.0 := by norm_num [validation9_effective_lipschitz]
 
 /-- Jump to continuum is tiny -/
-theorem validation9_small_jump : validation9_jump < 0.01 := by norm_num
+theorem validation9_small_jump : validation9_jump < 0.01 := by norm_num [validation9_jump]
 
 /-! ## Summary
     

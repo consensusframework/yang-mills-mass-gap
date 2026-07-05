@@ -176,7 +176,7 @@ def theorem7_min_slope : ℝ := 0.2667
 def theorem7_target : ℝ := 0.25
 
 /-- Theorem 7 is fully validated -/
-theorem theorem7_validated : theorem7_success_rate = 1.00 := by rfl
+theorem theorem7_validated : theorem7_success_rate = 1.00 := by norm_num [theorem7_success_rate]
 
 /-- Min slope exceeds target -/
 theorem theorem7_safe : theorem7_min_slope > theorem7_target := by norm_num [theorem7_min_slope, theorem7_target]

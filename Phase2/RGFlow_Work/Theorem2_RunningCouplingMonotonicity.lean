@@ -84,8 +84,6 @@ axiom rg_equation (μ μ₀ g₀ a₀ : ℝ)
   ∃ (dg_dμ : ℝ), 
     dg_dμ = beta (running_coupling μ μ₀ g₀ a₀) (lattice_spacing μ μ₀ a₀) / μ
 
-  running_coupling μ₀ μ₀ g₀ a₀ = g₀
-
 /-- Running coupling stays in convergence region -/
 axiom running_coupling_in_region (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)

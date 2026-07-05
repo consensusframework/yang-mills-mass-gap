@@ -115,10 +115,10 @@ def theorem10_R2 : ℝ := 1.0
 def theorem10_Delta0 : ℝ := 1.655
 
 /-- Perfect convergence -/
-theorem theorem10_perfect : theorem10_R2 = 1.0 := by rfl
+theorem theorem10_perfect : theorem10_R2 = 1.0 := by norm_num [theorem10_R2]
 
 /-- Continuum gap is positive -/
-theorem theorem10_positive : theorem10_Delta0 > 0 := by norm_num
+theorem theorem10_positive : theorem10_Delta0 > 0 := by norm_num [theorem10_Delta0]
 
 /-! ## Summary
 

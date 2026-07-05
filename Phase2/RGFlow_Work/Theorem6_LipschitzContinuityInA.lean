@@ -135,7 +135,7 @@ axiom gap_stable_aux (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max)
-    (h_close : ℝ.abs (a1 - a2) < 0.01) :
+    (h_close : |a1 - a2| < 0.01) :
   |mass_gap g a1 - mass_gap g a2| < 0.03
 
 /-- The gap is stable under small lattice refinements -/
@@ -144,7 +144,7 @@ theorem gap_stable_under_refinement
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ a_max)
     (ha2 : 0 < a2 ∧ a2 ≤ a_max)
-    (h_close : ℝ.abs (a1 - a2) < 0.01) :  -- Within 0.01 fm
+    (h_close : |a1 - a2| < 0.01) :  -- Within 0.01 fm
   |mass_gap g a1 - mass_gap g a2| < 0.03 := by
   -- By Lipschitz: |Δ| ≤ 3.0 * 0.01 = 0.03 GeV
   exact gap_stable_aux g a1 a2 hg ha1 ha2 h_close
@@ -167,7 +167,7 @@ def theorem6_L_a_bound : ℝ := 3.0
 def theorem6_safety_margin : ℝ := 12.0
 
 /-- Theorem 6 is fully validated -/
-theorem theorem6_validated : theorem6_success_rate = 1.00 := by rfl
+theorem theorem6_validated : theorem6_success_rate = 1.00 := by norm_num [theorem6_success_rate]
 
 /-- Theorem 6 has massive safety margin -/
 theorem theorem6_bunker_nuclear : theorem6_L_a_max < theorem6_L_a_bound := by norm_num [theorem6_L_a_bound, theorem6_L_a_max]

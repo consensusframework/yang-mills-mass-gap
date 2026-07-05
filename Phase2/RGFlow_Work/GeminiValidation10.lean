@@ -116,10 +116,10 @@ def validation10_convergence : String := "O(a) linear (synthetic data artifact)"
 /-! ## Derived Properties -/
 
 /-- Perfect convergence -/
-theorem validation10_perfect_fit : validation10_R2 = 1.0 := by rfl
+theorem validation10_perfect_fit : validation10_R2 = 1.0 := by norm_num [validation10_R2]
 
 /-- Continuum gap is positive -/
-theorem validation10_positive : validation10_Delta0_at_g050 > 0 := by norm_num
+theorem validation10_positive : validation10_Delta0_at_g050 > 0 := by norm_num [validation10_Delta0_at_g050]
 
 /-! ## Summary
     

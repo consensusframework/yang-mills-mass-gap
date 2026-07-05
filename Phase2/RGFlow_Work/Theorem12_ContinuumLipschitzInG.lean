@@ -133,8 +133,6 @@ lemma lipschitz_bound_eventually
     (hg₂ : 0.5 ≤ g₂ ∧ g₂ ≤ 1.18) :
     ∀ᶠ a in nhdsWithin (0 : ℝ) (Set.Ioi 0),
       |mass_gap g₁ a - mass_gap g₂ a| ≤ 2.0 * |g₁ - g₂| := by
-  apply Filter.Eventually.filter_mono
-    (nhdsWithin_mono (0 : ℝ) Set.Ioi_subset_Ioi (le_refl 0))
   rw [Filter.eventually_iff_exists_mem]
   exact ⟨Set.Ioc 0 0.20, Ioc_mem_nhdsWithin_Ioi_zero,
     fun a ha => mass_gap_lipschitz_in_g g₁ g₂ a hg₁ hg₂ ⟨ha.1, ha.2⟩⟩

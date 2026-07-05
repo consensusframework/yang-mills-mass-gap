@@ -120,7 +120,7 @@ def validation2_confidence : ℝ := 0.99
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation2_complete : validation2_success_rate = 1.00 := by rfl
+theorem validation2_complete : validation2_success_rate = 1.00 := by norm_num [validation2_success_rate]
 
 /-- Validation has high confidence -/
 theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by norm_num [validation2_confidence]

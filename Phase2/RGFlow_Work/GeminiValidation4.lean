@@ -131,7 +131,7 @@ def validation4_margin : ℝ := 0.20  -- 20%
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation4_complete : validation4_success_rate = 1.00 := by rfl
+theorem validation4_complete : validation4_success_rate = 1.00 := by norm_num [validation4_success_rate]
 
 /-- Observed gap exceeds bound -/
 theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by norm_num [validation4_bound, validation4_min_gap]

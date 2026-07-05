@@ -137,15 +137,13 @@ def validation6_safety_margin : ℝ := 12.0  -- 3.0 / 0.25 = 12x!
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation6_complete : validation6_success_rate = 1.00 := by rfl
+theorem validation6_complete : validation6_success_rate = 1.00 := by norm_num [validation6_success_rate]
 
 /-- Observed L_a is way below bound (bunker nuclear!) -/
-theorem validation6_absurd_margin : validation6_L_a_max < validation6_L_a_bound := by 
-  norm_num
+theorem validation6_absurd_margin : validation6_L_a_max < validation6_L_a_bound := by norm_num [validation6_L_a_bound, validation6_L_a_max]
 
 /-- Safety margin is massive -/
-theorem validation6_massive_margin : validation6_safety_margin ≥ 10.0 := by 
-  norm_num
+theorem validation6_massive_margin : validation6_safety_margin ≥ 10.0 := by norm_num [validation6_safety_margin]
 
 /-- Extensive testing performed -/
 theorem validation6_extensive : validation6_pairs ≥ 400 := by norm_num [validation6_pairs]

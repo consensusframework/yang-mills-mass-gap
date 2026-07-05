@@ -128,10 +128,10 @@ def validation5_min_margin : ℝ := 0.0000
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation5_complete : validation5_success_rate = 1.00 := by rfl
+theorem validation5_complete : validation5_success_rate = 1.00 := by norm_num [validation5_success_rate]
 
 /-- L_max equals our chosen bound (tight fit!) -/
-theorem validation5_tight : validation5_L_max = 2.0 := by rfl
+theorem validation5_tight : validation5_L_max = 2.0 := by norm_num [validation5_L_max]
 
 /-- L_mean is well below bound (smooth on average) -/
 theorem validation5_smooth_avg : validation5_L_mean < lipschitz_L := by norm_num [lipschitz_L, validation5_L_mean]
