@@ -16,5 +16,4 @@ globs = ["YangMills.Axiom8Prime",
  "YangMills.EntropicPrinciple_Standalone",
  "YangMills.EntropicTest",
  "YangMills.Gap1.BRSTMeasure",
- "YangMills.StabilityCondition",
- "YangMills.SyntaxTest"]
+ "YangMills.StabilityCondition"]
