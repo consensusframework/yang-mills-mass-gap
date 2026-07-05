@@ -4,6 +4,20 @@ defaultTargets = ["RGFlow_Work"]
 [[require]]
 name = "mathlib"
 scope = "leanprover-community"
+rev = "v4.15.0"
 
 [[lean_lib]]
 name = "RGFlow_Work"
+globs = ["RGFlow_Work.Basic",
+ "RGFlow_Work.GeminiValidation2","RGFlow_Work.GeminiValidation3","RGFlow_Work.GeminiValidation4",
+ "RGFlow_Work.GeminiValidation5","RGFlow_Work.GeminiValidation6","RGFlow_Work.GeminiValidation7",
+ "RGFlow_Work.GeminiValidation8","RGFlow_Work.GeminiValidation12","RGFlow_Work.GeminiValidation13",
+ "RGFlow_Work.GeminiValidation15",
+ "RGFlow_Work.Theorem1_BetaNegativity","RGFlow_Work.Theorem2_Monotonicity",
+ "RGFlow_Work.Theorem2_RunningCouplingMonotonicity","RGFlow_Work.Theorem3_BoundPreservation",
+ "RGFlow_Work.Theorem4_MassGapPersistence","RGFlow_Work.Theorem5_LipschitzContinuity",
+ "RGFlow_Work.Theorem6_LipschitzContinuityInA","RGFlow_Work.Theorem7_QuantitativeMonotonicity",
+ "RGFlow_Work.Theorem8_JointLipschitz",
+ "RGFlow_Work.Theorem11_ContinuumMassGapLowerBound","RGFlow_Work.Theorem12_ContinuumLipschitzInG",
+ "RGFlow_Work.Theorem13_ContinuumMonotonicityInG","RGFlow_Work.Theorem14_RGInvariance",
+ "RGFlow_Work.Theorem15_UniversalPhysicalBound"]

@@ -56,10 +56,6 @@ namespace RGFlow
   corrections enter at higher orders and are absorbed into the
   `gemini_running_monotonicity` validation axiom below.
 -/
-def running_coupling (μ μ₀ g₀ _a : ℝ) : ℝ :=
-  let b0 : ℝ := 11.0 / (24.0 * Real.pi * Real.pi)
-  let log_ratio : ℝ := Real.log (μ / μ₀)
-  g₀ / Real.sqrt (1.0 + b0 * g₀ * g₀ * log_ratio)
 
 /-- 
   Lattice spacing as function of energy scale.
@@ -88,8 +84,6 @@ axiom rg_equation (μ μ₀ g₀ a₀ : ℝ)
   ∃ (dg_dμ : ℝ), 
     dg_dμ = beta (running_coupling μ μ₀ g₀ a₀) (lattice_spacing μ μ₀ a₀) / μ
 
-/-- Initial condition: g(μ₀) = g₀ -/
-axiom initial_condition (μ₀ g₀ a₀ : ℝ) :
   running_coupling μ₀ μ₀ g₀ a₀ = g₀
 
 /-- Running coupling stays in convergence region -/

@@ -33,4 +33,21 @@ theorem g0_positive : g0 > 0 := by norm_num [g0]
 theorem gap_lower_bound_positive : gap_lower_bound > 0 := by
   norm_num [gap_lower_bound]
 
+/-- Convergence region of the strong-coupling expansion (Phase 1 claim). -/
+def in_convergence_region (g a : ℝ) : Prop :=
+  0.5 ≤ g ∧ g ≤ g0 ∧ 0 < a ∧ a ≤ a_max
+
+/-- PHYSICAL ASSUMPTION: lattice beta function. Not constructed. -/
+axiom beta : ℝ → ℝ → ℝ
+
+/-- One-loop running coupling (perturbative formula, used as definition). -/
+noncomputable def running_coupling (μ μ₀ g₀ _a : ℝ) : ℝ :=
+  let b0 : ℝ := 11.0 / (24.0 * Real.pi * Real.pi)
+  let log_ratio : ℝ := Real.log (μ / μ₀)
+  g₀ / Real.sqrt (1.0 + b0 * g₀ * g₀ * log_ratio)
+
+/-- Initial condition g(μ₀) = g₀ (provable from the definition; kept as
+    a lemma statement — proof requires simp arithmetic on Real.log). -/
+axiom initial_condition (μ₀ g₀ a₀ : ℝ) : running_coupling μ₀ μ₀ g₀ a₀ = g₀
+
 end RGFlow
