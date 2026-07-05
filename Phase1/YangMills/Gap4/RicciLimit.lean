@@ -1,3 +1,5 @@
+import Mathlib
+
 noncomputable def laplacian {A : Type*} [ConnectionSpace A]
   (h : TangentVector A) : ℝ := rfl
 

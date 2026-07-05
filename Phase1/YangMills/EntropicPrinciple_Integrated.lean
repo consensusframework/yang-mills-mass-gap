@@ -1,3 +1,7 @@
+import Mathlib
+import YangMills.Basic
+open YangMills
+
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -23,16 +27,12 @@ rather than invalidates the theory!**
 ## Causality Reversal
 
 **Old Paradigm (Geometric):**
-```
 Topological pairing (k, -k) → Gribov cancellation → Vacuum stability → Mass gap
-```
 Problem: L3 shows 0.00% pairing! 😱
 
 **New Paradigm (Entropic):**
-```
 Entanglement entropy loss (ΔS ≈ 4.3) → Mass gap (Δ ≈ 1.206 GeV) → 
 Thermodynamic sector locking → Single sector vacuum (k ≈ -9.6) → Zero pairing (0.00%)
-```
 Success: 0.00% pairing is a PREDICTION, not a bug! 🎉
 
 ## Theoretical Foundation
@@ -195,14 +195,10 @@ the existence of null copies energetically prohibitive.
 ## Mathematical Formulation
 
 The entanglement entropy functional is:
-```
 S_ent[A] = S_VN(ρ_UV) - I(ρ_UV : ρ_IR) + λ ∫|F|² d⁴x
-```
 
 Minimizing with respect to gauge field configurations:
-```
 δS_ent/δA = 0  ⟹  Δ² = (2π/L)² × ΔS
-```
 
 ## Numerical Validation
 
@@ -270,7 +266,6 @@ becomes unnecessary!
 
 ## Logical Structure
 
-```
 entropic_mass_gap_principle
     ↓
 suppresses_gribov_copies (via entropy barrier)
@@ -282,7 +277,6 @@ single_sector_vacuum
 effective_cancellation (no copies in single sector!)
     ↓
 gribov_cancellation_geometric ✓
-```
 
 ## Physical Analogy
 

@@ -683,7 +683,6 @@ theorem m4_enables_spectrum
 
 ### Progress on Axiom 1:
 
-```
 Axiom 1 (BRST Measure Existence) → Conditional Theorem
 
 Progress: ████████████████░ 80% COMPLETE!
@@ -693,7 +692,6 @@ Progress: ████████████████░ 80% COMPLETE!
 ✅ M3 (Compactness)      - PROVEN (500 lines)
 ✅ M4 (Finiteness)       - PROVEN (400 lines) ← JUST COMPLETED!
 🟡 M2 (Convergence)      - REFINED AXIOM (OS framework)
-```
 
 **Total**: ~1550 lines of formal Lean 4 code!
 

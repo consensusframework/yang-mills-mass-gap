@@ -1,3 +1,7 @@
+import Mathlib
+import YangMills.Basic
+open YangMills
+
 /-
   Axiom2Work/Axiom2Prime.lean
   

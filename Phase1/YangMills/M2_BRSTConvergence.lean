@@ -1,5 +1,5 @@
 import Mathlib
-lean/-
+/-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
 Authors: Jucelha Carvalho, Manus AI 1.5, Claude Sonnet 4.5, Claude Opus 4.1, GPT-5

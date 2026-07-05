@@ -1,3 +1,5 @@
+import Mathlib
+
 /-
   Axiom 3 — BFS Convergence (skeleton)
   Project: Yang–Mills Mass Gap — Axiom 3 → Theorem

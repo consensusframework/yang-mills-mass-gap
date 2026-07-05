@@ -1,3 +1,5 @@
+import Mathlib
+
 -- Teste minimalista das correções do Opus 4.5
 
 -- TESTE 1: lambda_coupling (era λ_coupling) ✅
