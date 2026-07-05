@@ -41,9 +41,11 @@ Phase 1 still contains 61 pending conversion (see PHASE1_GEMINI_CONVERSION_MAP.m
 
 | Item | Status |
 |---|---|
-| CI (`lake build`, Phase 2) | Running on GitHub Actions — first builds in project history |
-| Phase 2 theorems | Conditional (Box 1 given Box 2/3 hypotheses); Float→ℝ complete |
-| Phase 1 | Unbuilt; 61 gemini_* conversions pending; several real `sorry` |
+| CI | 3 jobs green on `main` (Phases 1, 2, 3) |
+| Phase 2 | 25/25 modules compile; theorems conditional with named hypotheses |
+| Phase 1 | Restructured; 10/76 modules compile; rest catalogued (PHASE1_BUILD_STATUS) |
+| **Phase 3 (LatticeGauge)** | **5 files, ~20 theorems, 0 axioms — pure Box 1:** Wilson action, gauge invariance, Gibbs measure (0 < Z ≤ 1), Wilson loops (closed-loop gauge invariance), expectation values (⟨c⟩ = c, |⟨f⟩| ≤ C ⟹ |⟨W⟩| ≤ 1) |
+| gemini_* axioms | 0 anywhere |
 | Claim on Clay problem | **None.** See README. |
 
 ## Rule going forward
