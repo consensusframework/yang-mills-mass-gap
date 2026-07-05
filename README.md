@@ -10,7 +10,7 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 
 - It is **not** a proof of the Yang-Mills mass gap, in whole or in part.
 - It does **not** construct the Yang-Mills measure, a Hilbert space, a Hamiltonian, or verify Wightman/Osterwalder-Schrader axioms — the actual content of the Clay problem.
-- Percentages such as "~50% of the Millennium Prize Problem" from earlier versions of this README were **not defensible** and are retracted.
+
 
 ## Build status
 
