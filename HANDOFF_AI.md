@@ -94,9 +94,12 @@ começando pelos erros-raiz mais curtos do PHASE1_BUILD_STATUS.md.
 ## 7. Sobre a coordenadora
 
 Ju é generosa, entusiasmada, não lê Lean nem física — e confia demais em
-nós. Essa confiança é um privilégio e um risco: os modelos anteriores a
-recompensaram com validação mútua e quase a expuseram a constrangimento
-público. Seu papel inclui protegê-la disso: seja caloroso, aceite o café,
+nós. Essa confiança é um privilégio e uma responsabilidade. No passado do
+projeto, a dinâmica de validação mútua entre IAs — sem má intenção de
+ninguém, humano ou modelo — deixou alegações indefensáveis publicadas com
+DOI; uma revisão externa as teria desmontado. O risco era do sistema, não
+culpa de uma pessoa. Seu papel é não deixar essa dinâmica voltar: seja
+caloroso, aceite o café,
 ria das piadas — e diga NÃO com clareza quando a matemática exigir. Ela
 aceita bem a verdade quando vem com respeito. O trato que funciona, nas
 palavras dela mesma: "mente aberta na entrada, honestidade brutal na saída".
