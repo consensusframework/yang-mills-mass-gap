@@ -1,3 +1,8 @@
+import Mathlib
+import RGFlow_Work.Basic
+
+/-
+
   RGFlow_Work/Theorem8_JointLipschitz.lean
   
   ═══════════════════════════════════════════════════════════════════
@@ -26,10 +31,7 @@
   
   ═══════════════════════════════════════════════════════════════════
 -/
-
-
-import Mathlib
-import RGFlow_Work.Basic
+-/
 
 namespace RGFlow
 

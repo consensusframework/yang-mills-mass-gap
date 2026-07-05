@@ -1,3 +1,24 @@
+import Mathlib
+import RGFlow_Work.Basic
+
+/- NOTE (Etapa 1): the original file was committed TRUNCATED at the top —
+   it began mid-declaration, proving it never compiled. The three missing
+   declarations below were reconstructed from GeminiValidation13.lean.
+   All three are PHYSICAL ASSUMPTIONS (see AXIOM_AUDIT.md). -/
+
+/-- ASSUMPTION: continuum mass gap function. -/
+axiom Delta0 : ℝ → ℝ
+
+/-- ASSUMPTION (from Phase-2 Theorem 4, itself conditional): uniform
+    lower bound of the lattice gap on the convergence region. -/
+axiom mass_gap_lower_bound
+    (g a : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) (ha : 0 < a ∧ a ≤ 0.20) :
+    (0.50 : ℝ) ≤ mass_gap g a
+
+/-- ASSUMPTION: the lattice gap converges to Delta0 as a → 0⁺. -/
+axiom mass_gap_tendsto_continuum
+    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+    Filter.Tendsto (fun a : ℝ => mass_gap g a)
       (nhdsWithin (0 : ℝ) (Set.Ioi 0))
       (nhds (Delta0 g))
 
@@ -89,3 +110,10 @@ theorem continuum_mass_gap_ne_zero
   have h := continuum_mass_gap_positive g hg
   exact ne_of_gt h |>.symm
 
+/-- **Corollary 11c: Tight lower bound from numerical data.**
+    Δ₀(g) ≥ 1.452 GeV for all g ∈ [0.5, 1.18].
+
+    This tighter bound comes from Gemini's numerical validation,
+    which found the minimum continuum gap at g = 1.18.
+    Margin above 0.50 GeV: 190%. -/
+    (hg_lo : 0.5 ≤ g)

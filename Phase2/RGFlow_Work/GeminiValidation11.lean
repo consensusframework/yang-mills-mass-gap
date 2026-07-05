@@ -1,11 +1,14 @@
+import Mathlib
+import RGFlow_Work.Basic
+
+/-
+
 Copyright (c) 2026 Smart Tour Tecnologia Brasil LTDA. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Can (AGI Consensus Framework), Ju Carvalho (Root)
 Formalized by: Claude Opus 4.6 (Anthropic)
 -/
-
-import Mathlib
-import RGFlow_Work.Basic
+-/
 
 namespace RGFlow
 

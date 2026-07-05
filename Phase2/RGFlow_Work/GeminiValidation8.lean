@@ -1,3 +1,8 @@
+import Mathlib
+import RGFlow_Work.Basic
+
+/-
+
   RGFlow_Work/GeminiValidation8.lean
   
   ═══════════════════════════════════════════════════════════════════
@@ -21,10 +26,7 @@
   
   ═══════════════════════════════════════════════════════════════════
 -/
-
-
-import Mathlib
-import RGFlow_Work.Basic
+-/
 
 namespace RGFlow
 
