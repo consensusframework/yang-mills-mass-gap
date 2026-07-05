@@ -44,7 +44,7 @@ Phase 1 still contains 61 pending conversion (see PHASE1_GEMINI_CONVERSION_MAP.m
 | CI | 3 jobs green on `main` (Phases 1, 2, 3) |
 | Phase 2 | 25/25 modules compile; theorems conditional with named hypotheses |
 | Phase 1 | Restructured; 10/76 modules compile; rest catalogued (PHASE1_BUILD_STATUS) |
-| **Phase 3 (LatticeGauge)** | **7 files, ~27 theorems, 0 axioms — pure Box 1:** Wilson action, gauge invariance, Gibbs measure (0 < Z ≤ 1), Wilson loops (closed-loop gauge invariance), expectation values (⟨c⟩ = c, |⟨f⟩| ≤ C), the capstone |⟨Wilson loop⟩| ≤ 1 with proved uniform action bound, and GAUGE INVARIANCE OF THE GIBBS EXPECTATION (⟨f∘gauge⟩ = ⟨f⟩ for bi-invariant measures, via measure-preserving gauge action) |
+| **Phase 3 (LatticeGauge)** | **8 files, ~31 theorems, 0 axioms — pure Box 1:** Wilson action, gauge invariance, Gibbs measure (0 < Z ≤ 1), Wilson loops (closed-loop gauge invariance), expectation values (⟨c⟩ = c, |⟨f⟩| ≤ C), the capstone |⟨Wilson loop⟩| ≤ 1 with proved uniform action bound, and GAUGE INVARIANCE OF THE GIBBS EXPECTATION (⟨f∘gauge⟩ = ⟨f⟩ for bi-invariant measures, via measure-preserving gauge action), and the PHYSICAL character on U(n): normalized real trace with χ(1)=1, class function, |χ| ≤ 1 (unitary column bound) — the abstract framework instantiates on genuine matrix gauge groups |
 | gemini_* axioms | 0 anywhere |
 | Claim on Clay problem | **None.** See README. |
 
