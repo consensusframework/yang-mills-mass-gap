@@ -8,4 +8,4 @@ rev = "v4.15.0"
 
 [[lean_lib]]
 name = "LatticeGauge"
-globs = ["LatticeGauge.Basic"]
+globs = ["LatticeGauge.Basic", "LatticeGauge.GaugeInvariance"]
