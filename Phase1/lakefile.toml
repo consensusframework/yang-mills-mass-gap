@@ -8,10 +8,7 @@ rev = "v4.15.0"
 
 [[lean_lib]]
 name = "YangMills"
-globs = ["YangMills",
- "YangMills",
- "YangMills",
- "YangMills.BFSConvergenceFinal",
+globs = ["YangMills.BFSConvergenceFinal",
  "YangMills.ClusterDecomposition",
  "YangMills.EntropicPrinciple_Standalone",
  "YangMills.Gap1.BRSTMeasure",
