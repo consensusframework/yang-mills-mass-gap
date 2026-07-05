@@ -115,7 +115,6 @@ lemma upper_bound_from_monotonicity
   rcases eq_or_lt_of_le hg.1 with h_eq | h_lt
   · -- Case g = 0.5: equality
     rw [← h_eq]
-    norm_num
   · -- Case g > 0.5: strict monotonicity gives Δ₀(g) < Δ₀(0.5)
     have h := continuum_monotonic_in_g 0.5 g
       ⟨by norm_num, by linarith [hg.2]⟩ hg h_lt

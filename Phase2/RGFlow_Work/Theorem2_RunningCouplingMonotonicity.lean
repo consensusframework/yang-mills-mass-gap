@@ -27,7 +27,7 @@ namespace RGFlow
     RUNNING COUPLING DEFINITION (1-LOOP ANALYTICAL FORM)
     ═══════════════════════════════════════════════════════════════════ -/
 
-/-- 
+/- 
   Running coupling g(μ) — 1-loop analytical solution of the
   Renormalization Group equation:
   
