@@ -71,6 +71,8 @@ theorem gibbsExpectation_gauge_invariant [NeZero N] [Fintype (Site N)]
       = ∫ U : Config N G, f (gaugeAct g U) * gibbsWeight β χ (gaugeAct g U)
         ∂(configMeasure μm N) := by
         refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
+        show f (gaugeAct g U) * gibbsWeight β χ U
+            = f (gaugeAct g U) * gibbsWeight β χ (gaugeAct g U)
         have hw : gibbsWeight β χ (gaugeAct g U) = gibbsWeight β χ U := by
           unfold gibbsWeight
           rw [wilsonAction_gauge_invariant χ hχ g U]
