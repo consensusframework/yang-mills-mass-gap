@@ -19,12 +19,18 @@ abbrev GaugeTransform (N : ℕ) (G : Type*) := Site N → G
 def gaugeAct [NeZero N] (g : GaugeTransform N G) (U : Config N G) : Config N G :=
   fun ℓ => g ℓ.1 * U ℓ * (g (shift ℓ.1 ℓ.2))⁻¹
 
+/-- **Proved:** lattice shifts in different directions commute. -/
+theorem shift_comm [NeZero N] (x : Site N) (μ ν : Dir) :
+    shift (shift x μ) ν = shift (shift x ν) μ := by
+  fin_cases μ <;> fin_cases ν <;> rfl
+
 /-- **Proved:** the plaquette transforms by conjugation:
     P'(x;μ,ν) = g(x) · P(x;μ,ν) · g(x)⁻¹. -/
 theorem plaquette_gaugeAct [NeZero N]
     (g : GaugeTransform N G) (U : Config N G) (x : Site N) (μ ν : Dir) :
     plaquette (gaugeAct g U) x μ ν = g x * plaquette U x μ ν * (g x)⁻¹ := by
   simp only [plaquette, gaugeAct]
+  rw [shift_comm x ν μ]
   group
 
 /-- A class function: invariant under conjugation. -/
