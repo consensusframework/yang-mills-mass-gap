@@ -123,9 +123,12 @@ def Bianchi (A : Conn M) : Prop :=
 
 /-- Bianchi identity holds for any connection -/
 /-- Gemini-validated Bianchi identity d_A F_A = 0 (classical; d²=0 + Jacobi). -/
-axiom gemini_bianchi_identity (A : Conn M) : Bianchi A
-theorem bianchi_identity (A : Conn M) : Bianchi A :=
-  gemini_bianchi_identity A
+-- FORMER AXIOM `gemini_bianchi_identity` (unverified LLM assertion) — now a named assumption.
+def Assumption_bianchi_identity : Prop :=
+  ∀ (A : Conn M), Bianchi A
+theorem bianchi_identity (A : Conn M)
+    (h_bianchi_identity : Assumption_bianchi_identity) : Bianchi A :=
+  h_bianchi_identity A
 
 /-! ## Yang-Mills Equations -/
 
@@ -142,11 +145,13 @@ structure YMSystem (A : Conn M) where
 
 /-- Key lemma: d_A d_A† identity on 2-forms -/
 /-- Gemini-validated Weitzenböck identity for connections. -/
-axiom gemini_dA_dA_adjoint_identity (A : Conn M) (F : Curv M) :
-    d_A (d_A† F) = laplacian_A A F - ricci_term A F
-lemma dA_dA_adjoint_identity (A : Conn M) (F : Curv M) :
+-- FORMER AXIOM `gemini_dA_dA_adjoint_identity` (unverified LLM assertion) — now a named assumption.
+def Assumption_dA_dA_adjoint_identity : Prop :=
+  ∀ (A : Conn M) (F : Curv M), d_A (d_A† F) = laplacian_A A F - ricci_term A F
+lemma dA_dA_adjoint_identity (A : Conn M) (F : Curv M)
+    (h_dA_dA_adjoint_identity : Assumption_dA_dA_adjoint_identity) :
     d_A (d_A† F) = laplacian_A A F - ricci_term A F :=
-  gemini_dA_dA_adjoint_identity A F
+  h_dA_dA_adjoint_identity A F
 
 /-- MAIN THEOREM: YM equations are consistent -/
 theorem consistency_of_equations
@@ -188,11 +193,11 @@ def GaugeCompatible (gc : GaugeCondition M) (A : Conn M) : Prop :=
   d_A (gc.G A) = 0
 
 /-- Gemini-validated: compatible gauge conditions are preserved under YM flow. -/
-axiom gemini_gauge_fixing_preserved
-    (A : Conn M) (sys : YMSystem A) (gc : GaugeCondition M)
+-- FORMER AXIOM `gemini_gauge_fixing_preserved` (unverified LLM assertion) — now a named assumption.
+def Assumption_gauge_fixing_preserved : Prop :=
+  ∀ (A : Conn M) (sys : YMSystem A) (gc : GaugeCondition M)
     (h_compat : GaugeCompatible gc A)
-    (h_time : ∀ t, YMSystem (A.evolve t)) :
-    ∀ t, GaugeCompatible gc (A.evolve t)
+    (h_time : ∀ t, YMSystem (A.evolve t)), ∀ t, GaugeCompatible gc (A.evolve t)
 
 /-- THEOREM: Compatible gauge conditions are preserved -/
 theorem gauge_fixing_preserved
@@ -200,35 +205,38 @@ theorem gauge_fixing_preserved
     (gc : GaugeCondition M)
     (h_compat : GaugeCompatible gc A)
     (h_time : ∀ t, YMSystem (A.evolve t)) :  -- A evolves via YM
-    ∀ t, GaugeCompatible gc (A.evolve t) :=
-  gemini_gauge_fixing_preserved A sys gc h_compat h_time
+    ∀ t, GaugeCompatible gc (A.evolve t)
+    (h_gauge_fixing_preserved : Assumption_gauge_fixing_preserved) :=
+  h_gauge_fixing_preserved A sys gc h_compat h_time
 
 /-! ## Corollaries -/
 
 /-- Gemini-validated well-posedness/uniqueness of YM solutions. -/
-axiom gemini_unique_solution
-    (A₁ A₂ : Conn M) (sys₁ : YMSystem A₁) (sys₂ : YMSystem A₂)
-    (h_same_J : sys₁.J = sys₂.J) (h_same_init : A₁.initial = A₂.initial) :
-    A₁ = A₂
+-- FORMER AXIOM `gemini_unique_solution` (unverified LLM assertion) — now a named assumption.
+def Assumption_unique_solution : Prop :=
+  ∀ (A₁ A₂ : Conn M) (sys₁ : YMSystem A₁) (sys₂ : YMSystem A₂)
+    (h_same_J : sys₁.J = sys₂.J) (h_same_init : A₁.initial = A₂.initial), A₁ = A₂
 
 /-- Consistency implies unique solutions -/
 theorem unique_solution
     (A₁ A₂ : Conn M) 
     (sys₁ : YMSystem A₁) (sys₂ : YMSystem A₂)
     (h_same_J : sys₁.J = sys₂.J)
-    (h_same_init : A₁.initial = A₂.initial) :
+    (h_same_init : A₁.initial = A₂.initial)
+    (h_unique_solution : Assumption_unique_solution) :
     A₁ = A₂ :=
-  gemini_unique_solution A₁ A₂ sys₁ sys₂ h_same_J h_same_init
+  h_unique_solution A₁ A₂ sys₁ sys₂ h_same_J h_same_init
 
 /-- Physical currents are automatically conserved -/
 /-- Gemini-validated Noether current conservation (gauge symmetry). -/
-axiom gemini_physical_current_conserved
-    (A : Conn M) (ψ : MatterField M) :
-    d_A (noether_current A ψ) = 0
+-- FORMER AXIOM `gemini_physical_current_conserved` (unverified LLM assertion) — now a named assumption.
+def Assumption_physical_current_conserved : Prop :=
+  ∀ (A : Conn M) (ψ : MatterField M), d_A (noether_current A ψ) = 0
 theorem physical_current_conserved
-    (A : Conn M) (ψ : MatterField M) :
+    (A : Conn M) (ψ : MatterField M)
+    (h_physical_current_conserved : Assumption_physical_current_conserved) :
     d_A (noether_current A ψ) = 0 :=
-  gemini_physical_current_conserved A ψ
+  h_physical_current_conserved A ψ
 
 /-! ## Unit Tests -/
 

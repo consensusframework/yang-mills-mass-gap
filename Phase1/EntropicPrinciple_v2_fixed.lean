@@ -63,15 +63,16 @@ def entropic_mass_gap_principle (M : Manifold) (A : GaugeField M) : Prop :=
     with no internal structure to unfold. We encode the standard physics
     argument (entropic principle implies Gribov cancellation) as a
     Gemini-validated axiom. -/
-axiom gemini_entropic_implies_gribov_cancellation
-    (M : Manifold) (A : GaugeField M) :
-    entropic_mass_gap_principle M A → gribov_cancellation_principle M A
+-- FORMER AXIOM `gemini_entropic_implies_gribov_cancellation` (unverified LLM assertion) — now a named assumption.
+def Assumption_entropic_implies_gribov_cancellation : Prop :=
+  ∀ (M : Manifold) (A : GaugeField M), entropic_mass_gap_principle M A → gribov_cancellation_principle M A
 
 -- The compatibility theorem
 theorem entropic_implies_geometric (M : Manifold) (A : GaugeField M) :
     (entropic_mass_gap_principle M A) →
-    (gribov_cancellation_principle M A) :=
-  gemini_entropic_implies_gribov_cancellation M A
+    (gribov_cancellation_principle M A)
+    (h_entropic_implies_gribov_cancellation : Assumption_entropic_implies_gribov_cancellation) :=
+  h_entropic_implies_gribov_cancellation M A
 
 -- The theorem about the pairing rate
 theorem zero_pairing_rate_is_consequence (M : Manifold) (A : GaugeField M)

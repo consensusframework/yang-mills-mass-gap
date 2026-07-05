@@ -163,12 +163,12 @@ theorem partition_function_cohomological
     terms vanishing at infinity (Slavnov–Taylor identity). A formal proof
     requires the full theory of integration by parts on the BRST-invariant
     measure, which is beyond the scope of this file. -/
-axiom gemini_brst_exact_vanishes_validation
-    (μ : Measure (GaugeSpace M N).quotient)
+-- FORMER AXIOM `gemini_brst_exact_vanishes_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_brst_exact_vanishes_validation : Prop :=
+  ∀ (μ : Measure (GaugeSpace M N).quotient)
     (Q : BRSTOperator M N)
     (h_inv : BRSTInvariantMeasure μ Q)
-    (O : Connection M N → ℝ) :
-    (∃ λ φ A, O A = O (Q.Q_connection λ φ)) →
+    (O : Connection M N → ℝ), (∃ λ φ A, O A = O (Q.Q_connection λ φ)) →
     ∫ A, O A ∂μ = 0
 
 /-- BRST-exact observables have zero expectation value -/
@@ -177,9 +177,10 @@ theorem brst_exact_vanishes
     (Q : BRSTOperator M N)
     (h_inv : BRSTInvariantMeasure μ Q)
     (O : Connection M N → ℝ)
-    (h_exact : ∃ λ φ A, O A = O (Q.Q_connection λ φ)) :
+    (h_exact : ∃ λ φ A, O A = O (Q.Q_connection λ φ))
+    (h_brst_exact_vanishes_validation : Assumption_brst_exact_vanishes_validation) :
     ∫ A, O A ∂μ = 0 :=
-  gemini_brst_exact_vanishes_validation μ Q h_inv O h_exact
+  h_brst_exact_vanishes_validation μ Q h_inv O h_exact
 
 /-!
 ## Connection to Literature

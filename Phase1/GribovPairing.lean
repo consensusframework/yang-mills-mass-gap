@@ -118,8 +118,9 @@ theorem gribov_pairs_brst_orthogonal {G : Type*}
     horizon. Encoded as a structural axiom pending full cohomological derivation.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_gribov_cancellation_from_topology {G : Type*} :
-  (∀ A : Connection G, is_gribov_copy A →
+-- FORMER AXIOM `gemini_gribov_cancellation_from_topology` (unverified LLM assertion) — now a named assumption.
+def Assumption_gribov_cancellation_from_topology : Prop :=
+  ∀ {G : Type*}, (∀ A : Connection G, is_gribov_copy A →
     ∃ A', is_gribov_copy A' ∧ chern_number A + chern_number A' = 0) →
   (∀ (observable : Connection G → ℝ),
     (∀ A A', chern_number A + chern_number A' = 0 →
@@ -133,8 +134,9 @@ theorem gribov_cancellation_from_topology {G : Type*} :
   (∀ (observable : Connection G → ℝ),
     (∀ A A', chern_number A + chern_number A' = 0 →
       observable A + observable A' = 0) →
-    True) :=
-  gemini_gribov_cancellation_from_topology
+    True)
+    (h_gribov_cancellation_from_topology : Assumption_gribov_cancellation_from_topology) :=
+  h_gribov_cancellation_from_topology
 
 /-! ## Connection to Atiyah-Singer Index Theorem -/
 

@@ -248,17 +248,18 @@ S_YM ≤ C  ⟹  ‖F‖²_{L²} ≤ 4C  ⟹  ‖F‖_{L²} ≤ 2√C
 /-- Gemini-validated: the action–curvature relation S_YM = (1/4)‖F‖²_{L²}
     holds by definition, but `fieldStrength`/`curvatureLpNorm` are abstract
     here, so the resulting bound is encoded as a validated axiom. -/
-axiom gemini_curvature_bound_from_action
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
-    (A : Connection M N P) (C : ℝ) (h_action_bound : yangMillsAction A ≤ C) :
-    curvatureLpNorm A 2 ≤ 2 * Real.sqrt C
+-- FORMER AXIOM `gemini_curvature_bound_from_action` (unverified LLM assertion) — now a named assumption.
+def Assumption_curvature_bound_from_action : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+    (A : Connection M N P) (C : ℝ) (h_action_bound : yangMillsAction A ≤ C), curvatureLpNorm A 2 ≤ 2 * Real.sqrt C
 theorem curvature_bound_from_action
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (A : Connection M N P)
     (C : ℝ)
-    (h_action_bound : yangMillsAction A ≤ C) :
+    (h_action_bound : yangMillsAction A ≤ C)
+    (h_curvature_bound_from_action : Assumption_curvature_bound_from_action) :
     curvatureLpNorm A 2 ≤ 2 * Real.sqrt C :=
-  gemini_curvature_bound_from_action A C h_action_bound
+  h_curvature_bound_from_action A C h_action_bound
 
 /--
 Curvature L^p norm is always non-negative.
@@ -430,17 +431,18 @@ action is sequentially compact (every sequence has a convergent subsequence).
 -/
 /-- Gemini-validated: a bounded-action equivalence class has a representative
     with bounded action. -/
-axiom gemini_representative_action_bound
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
-    (C : ℝ) (cls : Connection M N P / GaugeGroup M N P) (n : ℕ) :
-    yangMillsAction (cls.out) ≤ C
+-- FORMER AXIOM `gemini_representative_action_bound` (unverified LLM assertion) — now a named assumption.
+def Assumption_representative_action_bound : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+    (C : ℝ) (cls : Connection M N P / GaugeGroup M N P) (n : ℕ), yangMillsAction (cls.out) ≤ C
 
 theorem lemma_M3_compactness
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (C : ℝ)
     (h_compact : IsCompact M.carrier)
     (h_C_pos : C > 0) :
-    IsCompact (boundedActionSet C : Set (Connection M N P / GaugeGroup M N P)) := by
+    IsCompact (boundedActionSet C : Set (Connection M N P / GaugeGroup M N P))
+    (h_representative_action_bound : Assumption_representative_action_bound) := by
   -- We'll prove sequential compactness, which is equivalent on metric spaces
   apply isCompact_of_sequentiallyCompact
   
@@ -457,7 +459,7 @@ theorem lemma_M3_compactness
     have := h_seq_in_set n
     -- seq n ∈ boundedActionSet, so its representative has bounded action
     -- (Gemini-validated structural fact relating a class to its representative)
-    exact gemini_representative_action_bound C (seq n) n
+    exact h_representative_action_bound C (seq n) n
   
   -- Step 3: Apply curvature bound
   have h_curv_bounded : ∀ n, curvatureLpNorm (representatives n) 2 ≤ 2 * Real.sqrt C := by
@@ -517,15 +519,16 @@ If Aₙ → A, then lim inf S_YM[Aₙ] ≥ S_YM[A].
 This is crucial for minimization problems (finding instantons).
 -/
 /-- Gemini-validated: the YM action is lower semicontinuous (weak convergence). -/
-axiom gemini_yangMillsAction_lsc
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
-    (h_compact : IsCompact M.carrier) :
-    LowerSemicontinuous (yangMillsAction : Connection M N P → ℝ)
+-- FORMER AXIOM `gemini_yangMillsAction_lsc` (unverified LLM assertion) — now a named assumption.
+def Assumption_yangMillsAction_lsc : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+    (h_compact : IsCompact M.carrier), LowerSemicontinuous (yangMillsAction : Connection M N P → ℝ)
 theorem yangMillsAction_lowerSemicontinuous
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (h_compact : IsCompact M.carrier) :
-    LowerSemicontinuous (yangMillsAction : Connection M N P → ℝ) :=
-  gemini_yangMillsAction_lsc h_compact
+    LowerSemicontinuous (yangMillsAction : Connection M N P → ℝ)
+    (h_yangMillsAction_lsc : Assumption_yangMillsAction_lsc) :=
+  h_yangMillsAction_lsc h_compact
 
 /-!
 ## Part 6: Connections to Other Lemmata
@@ -543,14 +546,14 @@ This will be proven in M4.
 -/
 /-- Gemini-validated: M3 (compactness) + M1 (positivity) + exponential
     decay ⇒ finite total measure (full proof in M4). -/
-axiom gemini_m3_enables_m4
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_m3_enables_m4` (unverified LLM assertion) — now a named assumption.
+def Assumption_m3_enables_m4 : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (h_compact_manifold : IsCompact M.carrier)
     (h_m1 : ∀ A, fpDeterminant M_FP A > 0)
     (h_m3 : ∀ C, IsCompact (boundedActionSet C))
     (h_exponential_decay : ∀ R, ∃ C, R > C →
-      measure (boundedActionSet R) ≤ exp (- C * R)) :
-    measure (Set.univ : Set (Connection M N P / GaugeGroup M N P)) < ∞
+      measure (boundedActionSet R) ≤ exp (- C * R)), measure (Set.univ : Set (Connection M N P / GaugeGroup M N P)) < ∞
 
 theorem m3_enables_m4
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
@@ -558,10 +561,11 @@ theorem m3_enables_m4
     (h_m1 : ∀ A, fpDeterminant M_FP A > 0)  -- From M1
     (h_m3 : ∀ C, IsCompact (boundedActionSet C))  -- This lemma
     (h_exponential_decay : ∀ R, ∃ C, R > C → 
-      measure (boundedActionSet R) ≤ exp (- C * R)) :
+      measure (boundedActionSet R) ≤ exp (- C * R))
+    (h_m3_enables_m4 : Assumption_m3_enables_m4) :
     -- Then measure of A/G is finite
     measure (Set.univ : Set (Connection M N P / GaugeGroup M N P)) < ∞ :=
-  gemini_m3_enables_m4 h_compact_manifold h_m1 h_m3 h_exponential_decay
+  h_m3_enables_m4 h_compact_manifold h_m1 h_m3 h_exponential_decay
 
 /--
 **M1 + M3 ⟹ BRST measure is well-defined**
@@ -573,11 +577,11 @@ Combining:
 We get: ∫ Δ_FP e^{-S} < ∞ (measure is normalizable)
 -/
 /-- Gemini-validated: M1 + M3 ⇒ a well-defined finite BRST measure. -/
-axiom gemini_m1_m3_measure_welldefined
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_m1_m3_measure_welldefined` (unverified LLM assertion) — now a named assumption.
+def Assumption_m1_m3_measure_welldefined : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (h_m1 : ∀ A ∈ gribovRegion M_FP P, fpDeterminant M_FP A > 0)
-    (h_m3 : ∀ C, IsCompact (boundedActionSet C)) :
-    ∃ (μ : Measure (Connection M N P / GaugeGroup M N P)),
+    (h_m3 : ∀ C, IsCompact (boundedActionSet C)), ∃ (μ : Measure (Connection M N P / GaugeGroup M N P)),
       μ (Set.univ) < ∞ ∧
       ∀ A, μ {A} = fpDeterminant M_FP A.out * exp (- yangMillsAction A.out)
 
@@ -588,8 +592,9 @@ theorem m1_m3_implies_measure_welldefined
     -- BRST measure is well-defined
     ∃ (μ : Measure (Connection M N P / GaugeGroup M N P)),
       μ (Set.univ) < ∞ ∧
-      ∀ A, μ {A} = fpDeterminant M_FP A.out * exp (- yangMillsAction A.out) :=
-  gemini_m1_m3_measure_welldefined h_m1 h_m3
+      ∀ A, μ {A} = fpDeterminant M_FP A.out * exp (- yangMillsAction A.out)
+    (h_m1_m3_measure_welldefined : Assumption_m1_m3_measure_welldefined) :=
+  h_m1_m3_measure_welldefined h_m1 h_m3
 
 /--
 **M3 + M5 ⟹ Hilbert space is separable**
@@ -600,19 +605,20 @@ implies the physical Hilbert space H_phys = ker(Q)/im(Q) is separable.
 This is essential for quantum Yang-Mills theory.
 -/
 /-- Gemini-validated: M3 + M5 ⇒ physical Hilbert space is separable. -/
-axiom gemini_m3_m5_hilbert_separable
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_m3_m5_hilbert_separable` (unverified LLM assertion) — now a named assumption.
+def Assumption_m3_m5_hilbert_separable : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (h_m3 : ∀ C, IsCompact (boundedActionSet C))
-    (h_m5 : WellDefinedCohomology Q) :
-    TopologicalSpace.IsSeparable (PhysicalHilbertSpace M N P)
+    (h_m5 : WellDefinedCohomology Q), TopologicalSpace.IsSeparable (PhysicalHilbertSpace M N P)
 
 theorem m3_m5_implies_hilbert_separable
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (h_m3 : ∀ C, IsCompact (boundedActionSet C))
     (h_m5 : WellDefinedCohomology Q) :
     -- Physical Hilbert space is separable
-    TopologicalSpace.IsSeparable (PhysicalHilbertSpace M N P) :=
-  gemini_m3_m5_hilbert_separable h_m3 h_m5
+    TopologicalSpace.IsSeparable (PhysicalHilbertSpace M N P)
+    (h_m3_m5_hilbert_separable : Assumption_m3_m5_hilbert_separable) :=
+  h_m3_m5_hilbert_separable h_m3 h_m5
 
 /-!
 ## Summary and Status

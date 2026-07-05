@@ -60,9 +60,9 @@ axiom axiom3_bfs_convergence
     below the critical coupling β_c.
 
     See VERIFICATION_STATUS.md for full disclosure. -/
-axiom gemini_bfs_convergence_validation
-    (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real) :
-    β < β_c →
+-- FORMER AXIOM `gemini_bfs_convergence_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_bfs_convergence_validation : Prop :=
+  ∀ (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real), β < β_c →
     ∃ C c : Real, C > 0 ∧ c > 0 ∧ ∀ n : Nat,
       |Z_BFS_truncated M N P β n - bfs_partition_function M N P β| ≤ C * Real.exp (-c * (n.toReal))
 
@@ -70,17 +70,18 @@ theorem lemma_B1_bfs_convergence
     (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real)
     (hβ : β < β_c) :
     ∃ C c : Real, C > 0 ∧ c > 0 ∧ ∀ n : Nat,
-      |Z_BFS_truncated M N P β n - bfs_partition_function M N P β| ≤ C * Real.exp (-c * (n.toReal)) :=
-  gemini_bfs_convergence_validation M N P β hβ
+      |Z_BFS_truncated M N P β n - bfs_partition_function M N P β| ≤ C * Real.exp (-c * (n.toReal))
+    (h_bfs_convergence_validation : Assumption_bfs_convergence_validation) :=
+  h_bfs_convergence_validation M N P β hβ
 
 /-! # B2 — Cluster Decomposition -/
 
 /-- Gemini-validated cluster decomposition (reuses the bound from
     B2_ClusterDecomposition.lean; declared here for self-containment of
     this composition file). -/
-axiom gemini_cluster_decomposition_validation_compose
-    (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real) :
-    β < β_c →
+-- FORMER AXIOM `gemini_cluster_decomposition_validation_compose` (unverified LLM assertion) — now a named assumption.
+def Assumption_cluster_decomposition_validation_compose : Prop :=
+  ∀ (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real), β < β_c →
     ∃ C m : Real, C > 0 ∧ m > 0 ∧
       ∀ (O₁ O₂ : Observable),
         ∀ (R : Real), dist (supp O₁) (supp O₂) = R →
@@ -92,8 +93,9 @@ theorem lemma_B2_cluster_decomposition
     ∃ C m : Real, C > 0 ∧ m > 0 ∧
       ∀ (O₁ O₂ : Observable),
         ∀ (R : Real), dist (supp O₁) (supp O₂) = R →
-          |conn2 β O₁ O₂| ≤ C * Real.exp (-m * R) :=
-  gemini_cluster_decomposition_validation_compose M N P β hβ
+          |conn2 β O₁ O₂| ≤ C * Real.exp (-m * R)
+    (h_cluster_decomposition_validation_compose : Assumption_cluster_decomposition_validation_compose) :=
+  h_cluster_decomposition_validation_compose M N P β hβ
 
 /-! # B3 — Mass Gap in Strong Coupling -/
 
@@ -133,16 +135,17 @@ theorem lemma_B4_continuum_limit_stability
 
 /-- Gemini-validated BRST/BFS equivalence (analogue of the axiom in
     B5_BRSTBFSConnection.lean). -/
-axiom gemini_brst_bfs_equivalence_validation_compose
-    (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real) :
-    β < β_c →
+-- FORMER AXIOM `gemini_brst_bfs_equivalence_validation_compose` (unverified LLM assertion) — now a named assumption.
+def Assumption_brst_bfs_equivalence_validation_compose : Prop :=
+  ∀ (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real), β < β_c →
     brst_partition_function M N P β = bfs_partition_function M N P β
 
 theorem lemma_B5_brst_bfs_connection
     (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real)
-    (hβ : β < β_c) :
+    (hβ : β < β_c)
+    (h_brst_bfs_equivalence_validation_compose : Assumption_brst_bfs_equivalence_validation_compose) :
     brst_partition_function M N P β = bfs_partition_function M N P β :=
-  gemini_brst_bfs_equivalence_validation_compose M N P β hβ
+  h_brst_bfs_equivalence_validation_compose M N P β hβ
 
 /-! # From B1–B5 to Axiom 3
 

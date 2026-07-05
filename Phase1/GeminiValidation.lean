@@ -101,10 +101,11 @@ namespace RGFlow
   - Enables RG flow from strong (g=1.18) to weak (g→0) coupling
   - Foundation for all Phase 2 theorems
 -/
-axiom gemini_beta_validation (g a : Float) 
+-- FORMER AXIOM `gemini_beta_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_beta_validation : Prop :=
+  ∀ (g a : Float) 
     (hg : 0 < g ∧ g ≤ 1.18) 
-    (ha : 0 < a ∧ a ≤ 0.2) :
-  beta g a < -0.020 * g * g * g
+    (ha : 0 < a ∧ a ≤ 0.2), beta g a < -0.020 * g * g * g
 
 /-! ## Validation Metadata -/
 

@@ -89,22 +89,23 @@ structure HolderSpace (M : Type*) [TopologicalSpace M] [MetricSpace M]
     partition-of-unity gluing of the Euclidean embedding; encoded here as a
     Gemini-validated axiom with literature reference.
     See VERIFICATION_STATUS.md. -/
-axiom gemini_sobolev_embedding_validation
-    {M : Type*} [TopologicalSpace M] [CompactSpace M]
+-- FORMER AXIOM `gemini_sobolev_embedding_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_sobolev_embedding_validation : Prop :=
+  ∀ {M : Type*} [TopologicalSpace M] [CompactSpace M]
     [ChartedSpace ℝ M] [SmoothManifoldWithCorners (𝓡 n) M] [MetricSpace M]
     {k m : ℕ} {p : ℝ} {α : ℝ}
-    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α) :
-    ∃ (ι : SobolevSpace M k p → HolderSpace M m α),
+    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α), ∃ (ι : SobolevSpace M k p → HolderSpace M m α),
       Continuous ι ∧ Injective ι
 
 theorem sobolev_embedding 
     {M : Type*} [TopologicalSpace M] [CompactSpace M]
     [ChartedSpace ℝ M] [SmoothManifoldWithCorners (𝓡 n) M] [MetricSpace M]
     {k m : ℕ} {p : ℝ} {α : ℝ} 
-    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α) :
+    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α)
+    (h_sobolev_embedding_validation : Assumption_sobolev_embedding_validation) :
     ∃ (ι : SobolevSpace M k p → HolderSpace M m α),
       Continuous ι ∧ Injective ι :=
-  gemini_sobolev_embedding_validation hp hα hrel
+  h_sobolev_embedding_validation hp hα hrel
 
 /-! 
 ## Proof Strategy
@@ -130,10 +131,10 @@ Use partition of unity to glue local embeddings into global one.
 /-- Local Sobolev embedding in Euclidean space.
     Classical Gagliardo–Nirenberg–Sobolev result; encoded as a
     Gemini-validated axiom pending mathlib formalization. -/
-axiom gemini_sobolev_embedding_euclidean_validation
-    {n k m : ℕ} {p α : ℝ}
-    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α) :
-    ∃ (C : ℝ) (hC : 0 < C),
+-- FORMER AXIOM `gemini_sobolev_embedding_euclidean_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_sobolev_embedding_euclidean_validation : Prop :=
+  ∀ {n k m : ℕ} {p α : ℝ}
+    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α), ∃ (C : ℝ) (hC : 0 < C),
       ∀ (u : EuclideanSpace ℝ (Fin n) → ℝ),
         (∀ (β : Fin n → ℕ), (∑ i, β i) ≤ k →
           Integrable (fun x => (iteratedFDeriv ℝ k u x) ^ p)) →
@@ -142,27 +143,28 @@ axiom gemini_sobolev_embedding_euclidean_validation
 
 lemma sobolev_embedding_euclidean 
     {n k m : ℕ} {p α : ℝ} 
-    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α) :
+    (hp : 1 ≤ p) (hα : 0 ≤ α ∧ α < 1) (hrel : k - n / p > m + α)
+    (h_sobolev_embedding_euclidean_validation : Assumption_sobolev_embedding_euclidean_validation) :
     ∃ (C : ℝ) (hC : 0 < C),
       ∀ (u : EuclideanSpace ℝ (Fin n) → ℝ),
         (∀ (β : Fin n → ℕ), (∑ i, β i) ≤ k → 
           Integrable (fun x => (iteratedFDeriv ℝ k u x) ^ p)) →
         ∃ (hu : HolderSpace (EuclideanSpace ℝ (Fin n)) m α),
           hu.toFun = u :=
-  gemini_sobolev_embedding_euclidean_validation hp hα hrel
+  h_sobolev_embedding_euclidean_validation hp hα hrel
 
 /-- Partition of unity on compact manifold.
     Standard differential-geometry result (smooth partitions of unity
     subordinate to a finite open cover); mathlib has `SmoothPartitionOfUnity`
     but wiring it to this signature is deferred. Encoded as a
     Gemini-validated axiom. -/
-axiom gemini_exists_partition_of_unity_validation
-    {M : Type*} [TopologicalSpace M] [CompactSpace M]
+-- FORMER AXIOM `gemini_exists_partition_of_unity_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_exists_partition_of_unity_validation : Prop :=
+  ∀ {M : Type*} [TopologicalSpace M] [CompactSpace M]
     [LocallyCompactSpace M] [T2Space M]
     {ι : Type*} [Fintype ι]
     (U : ι → Set M) (hU : ∀ i, IsOpen (U i))
-    (hcover : ⋃ i, U i = univ) :
-    ∃ (φ : ι → M → ℝ),
+    (hcover : ⋃ i, U i = univ), ∃ (φ : ι → M → ℝ),
       (∀ i x, 0 ≤ φ i x ∧ φ i x ≤ 1) ∧
       (∀ i, support (φ i) ⊆ U i) ∧
       (∀ x, ∑ i, φ i x = 1) ∧
@@ -178,8 +180,9 @@ lemma exists_partition_of_unity
       (∀ i x, 0 ≤ φ i x ∧ φ i x ≤ 1) ∧
       (∀ i, support (φ i) ⊆ U i) ∧
       (∀ x, ∑ i, φ i x = 1) ∧
-      (∀ i, ContDiff ℝ ⊤ (φ i)) :=
-  gemini_exists_partition_of_unity_validation U hU hcover
+      (∀ i, ContDiff ℝ ⊤ (φ i))
+    (h_exists_partition_of_unity_validation : Assumption_exists_partition_of_unity_validation) :=
+  h_exists_partition_of_unity_validation U hU hcover
 
 /-- Export the temporary axiom as validated -/
 axiom sobolev_embedding_axiom 

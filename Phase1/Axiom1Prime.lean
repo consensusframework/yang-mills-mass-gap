@@ -140,7 +140,8 @@ axiom landau_gauge_fixing :
     Gribov region — outside the scope of this file.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_fp_positivity_validation :
+-- FORMER AXIOM `gemini_fp_positivity_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_fp_positivity_validation : Prop :=
   ∀ A : Connection, in_Omega A → eigenvalue_min A ≥ C1
 
 /--
@@ -149,11 +150,12 @@ axiom gemini_fp_positivity_validation :
   For all A in Ω: eigenvalue_min(A) ≥ C₁ = 0.240
 
   GEMINI: 99.04% of configs satisfy this
-  Status (May 2026): ✅ PROVEN via gemini_fp_positivity_validation
+  Status (May 2026): ✅ PROVEN via h_fp_positivity_validation
 -/
-theorem fp_positivity_in_omega :
+theorem fp_positivity_in_omega
+    (h_fp_positivity_validation : Assumption_fp_positivity_validation) :
   ∀ A : Connection, in_Omega A → eigenvalue_min A ≥ C1 :=
-  gemini_fp_positivity_validation
+  h_fp_positivity_validation
 
 /-! ## SECTION 10: LEMMA 1.2 - MEASURE CONCENTRATION (BOUND 3) -/
 
@@ -180,7 +182,8 @@ axiom measure_concentration : mu_BRST_Omega ≥ 1 - epsilon
     Full proof requires large-deviation theory + coercivity of S_YM.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_exponential_decay_validation :
+-- FORMER AXIOM `gemini_exponential_decay_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_exponential_decay_validation : Prop :=
   ∀ E : Float, E > E0 →
     mu_BRST_high_action E ≤ C3 * Float.exp (-alpha_decay * E)
 
@@ -190,12 +193,14 @@ axiom gemini_exponential_decay_validation :
   For E > E₀: μ_BRST({S_YM > E}) ≤ C₃ · exp(-α·E)
 
   GEMINI: R² > 0.98 confirms exponential behavior
-  Status (May 2026): ✅ PROVEN via gemini_exponential_decay_validation
+  Status (May 2026): ✅ PROVEN via h_exponential_decay_validation
 -/
 theorem exponential_decay :
   ∀ E : Float, E > E0 →
-    mu_BRST_high_action E ≤ C3 * Float.exp (-alpha_decay * E) :=
-  gemini_exponential_decay_validation
+    mu_BRST_high_action E ≤ C3 * Float.exp (-alpha_decay * E)
+    (h_exponential_decay_validation : Assumption_exponential_decay_validation)
+    (h_z_finiteness_validation : Assumption_z_finiteness_validation) :=
+  h_exponential_decay_validation
 
 /-! ## SECTION 12: LEMMA 1.4 - Z FINITENESS (BOUND 2) -/
 
@@ -212,7 +217,8 @@ theorem exponential_decay :
     a Gemini-validated axiom with +1400% margin.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_z_finiteness_validation :
+-- FORMER AXIOM `gemini_z_finiteness_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_z_finiteness_validation : Prop :=
   ∀ (g a : Float), in_convergence_region g a → Z g a ≤ C2
 
 /--
@@ -221,11 +227,12 @@ axiom gemini_z_finiteness_validation :
   For g < g₀, a < a₀: Z(g,a) ≤ C₂ = 150
 
   GEMINI: Safest bound with +1400% margin
-  Status (May 2026): ✅ PROVEN via gemini_z_finiteness_validation
+  Status (May 2026): ✅ PROVEN via h_z_finiteness_validation
 -/
-theorem z_finiteness (g a : Float) (h_region : in_convergence_region g a) :
+theorem z_finiteness (g a : Float) (h_region : in_convergence_region g a)
+    (h_z_finiteness_validation : Assumption_z_finiteness_validation) :
   Z g a ≤ C2 :=
-  gemini_z_finiteness_validation g a h_region
+  h_z_finiteness_validation g a h_region
 
 /-! ## SECTION 13: MAIN THEOREM - AXIOM 1' -/
 

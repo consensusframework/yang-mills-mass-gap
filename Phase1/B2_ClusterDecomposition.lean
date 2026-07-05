@@ -63,9 +63,9 @@ axiom axiom2_gribov_cancellation : True
     **Honest classification:** VALIDATED AXIOM placeholder, not formal theorem.
     See VERIFICATION_STATUS.md.
 -/
-axiom gemini_cluster_decomposition_validation
-    (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real) :
-    β < β_c →
+-- FORMER AXIOM `gemini_cluster_decomposition_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_cluster_decomposition_validation : Prop :=
+  ∀ (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real), β < β_c →
     ∃ C m : Real, C > 0 ∧ m > 0 ∧
       ∀ (O₁ O₂ : Observable),
         ∀ (R : Real), dist (supp O₁) (supp O₂) = R →
@@ -77,7 +77,8 @@ theorem lemma_B2_cluster_decomposition
     ∃ C m : Real, C > 0 ∧ m > 0 ∧
       ∀ (O₁ O₂ : Observable),
         ∀ (R : Real), dist (supp O₁) (supp O₂) = R →
-          |conn2 β O₁ O₂| ≤ C * Real.exp (-m * R) :=
-  gemini_cluster_decomposition_validation M N P β hβ
+          |conn2 β O₁ O₂| ≤ C * Real.exp (-m * R)
+    (h_cluster_decomposition_validation : Assumption_cluster_decomposition_validation) :=
+  h_cluster_decomposition_validation M N P β hβ
 
 end YM

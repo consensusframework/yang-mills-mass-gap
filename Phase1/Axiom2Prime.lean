@@ -221,7 +221,8 @@ axiom uv_entropy_finite (rho_UV : DensityMatrixUV) : S_VN rho_UV ≤ S0
     to the BRST measure, outside the scope of this file.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_mutual_info_controlled_validation :
+-- FORMER AXIOM `gemini_mutual_info_controlled_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_mutual_info_controlled_validation : Prop :=
   ∀ (rho_UV : DensityMatrixUV) (rho_IR : DensityMatrixIR),
     mutual_info rho_UV rho_IR ≥ alpha * S_VN rho_UV
 
@@ -233,11 +234,12 @@ axiom gemini_mutual_info_controlled_validation :
   Physical meaning: At least 9.8% of UV entropy is correlated with IR
   
   GEMINI VALIDATION: α = 0.098 ∈ [0.05, 0.20]
-  Status (May 2026): ✅ PROVEN via gemini_mutual_info_controlled_validation
+  Status (May 2026): ✅ PROVEN via h_mutual_info_controlled_validation
 -/
-theorem mutual_info_controlled (rho_UV : DensityMatrixUV) (rho_IR : DensityMatrixIR) :
+theorem mutual_info_controlled (rho_UV : DensityMatrixUV) (rho_IR : DensityMatrixIR)
+    (h_mutual_info_controlled_validation : Assumption_mutual_info_controlled_validation) :
   mutual_info rho_UV rho_IR ≥ alpha * S_VN rho_UV :=
-  gemini_mutual_info_controlled_validation rho_UV rho_IR
+  h_mutual_info_controlled_validation rho_UV rho_IR
 
 /-! ═══════════════════════════════════════════════════════════════════
     SECTION 8: BOUND 3 - HOLOGRAPHIC SCALING (RYU-TAKAYANAGI)

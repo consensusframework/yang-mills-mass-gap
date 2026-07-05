@@ -117,23 +117,26 @@ axiom quartet_to_homotopy
 
 /-- THEOREM 1: H⁰ is isomorphic to physical observables -/
 /-- Gemini-validated: H⁰(Q) ≃ physical observables (Kugo–Ojima). -/
-axiom gemini_H0_equiv_physical (C : BRSTComplex) :
-    H^0(Q) ≃ₗ[ℝ] PhysicalObservable C
-theorem H0_equiv_physical (C : BRSTComplex) :
+-- FORMER AXIOM `gemini_H0_equiv_physical` (unverified LLM assertion) — now a named assumption.
+def Assumption_H0_equiv_physical : Prop :=
+  ∀ (C : BRSTComplex), H^0(Q) ≃ₗ[ℝ] PhysicalObservable C
+theorem H0_equiv_physical (C : BRSTComplex)
+    (h_H0_equiv_physical : Assumption_H0_equiv_physical) :
     H^0(Q) ≃ₗ[ℝ] PhysicalObservable C :=
-  gemini_H0_equiv_physical C
+  h_H0_equiv_physical C
 
 /-- THEOREM 2: Hⁿ = 0 for n > 0 (via quartet mechanism) -/
 /-- Gemini-validated: Hⁿ(Q) = 0 for n > 0 via the quartet contracting
     homotopy (Kugo–Ojima). -/
-axiom gemini_vanishing_positive_degrees
-    (C : BRSTComplex) (hq : HasQuartetDecomp C) :
-    ∀ n > 0, H^n(Q) ≃ₗ[ℝ] 0
+-- FORMER AXIOM `gemini_vanishing_positive_degrees` (unverified LLM assertion) — now a named assumption.
+def Assumption_vanishing_positive_degrees : Prop :=
+  ∀ (C : BRSTComplex) (hq : HasQuartetDecomp C), ∀ n > 0, H^n(Q) ≃ₗ[ℝ] 0
 theorem vanishing_positive_degrees
     (C : BRSTComplex)
-    (hq : HasQuartetDecomp C) :
+    (hq : HasQuartetDecomp C)
+    (h_vanishing_positive_degrees : Assumption_vanishing_positive_degrees) :
     ∀ n > 0, H^n(Q) ≃ₗ[ℝ] 0 :=
-  gemini_vanishing_positive_degrees C hq
+  h_vanishing_positive_degrees C hq
 
 /-! ## Equivalence Statement -/
 
@@ -151,27 +154,29 @@ theorem brst_cohomology_equivalence
 
 /-- Physical states are gauge-invariant -/
 /-- Gemini-validated: BRST-closed observables are gauge-invariant. -/
-axiom gemini_physical_are_gauge_invariant
-    (C : BRSTComplex) (O : PhysicalObservable C) :
-    ∀ (g : GaugeTransformation), g • O.O = O.O
+-- FORMER AXIOM `gemini_physical_are_gauge_invariant` (unverified LLM assertion) — now a named assumption.
+def Assumption_physical_are_gauge_invariant : Prop :=
+  ∀ (C : BRSTComplex) (O : PhysicalObservable C), ∀ (g : GaugeTransformation), g • O.O = O.O
 theorem physical_are_gauge_invariant
-    (C : BRSTComplex) (O : PhysicalObservable C) :
+    (C : BRSTComplex) (O : PhysicalObservable C)
+    (h_physical_are_gauge_invariant : Assumption_physical_are_gauge_invariant) :
     ∀ (g : GaugeTransformation), g • O.O = O.O :=
-  gemini_physical_are_gauge_invariant C O
+  h_physical_are_gauge_invariant C O
 
 /-- Gemini-validated: Hⁿ(Q) = 0 for n < 0 (no states at negative ghost number). -/
-axiom gemini_vanishing_negative_degrees
-    (C : BRSTComplex) (hq : HasQuartetDecomp C) :
-    ∀ n, n < 0 → H^n(Q) ≃ₗ[ℝ] 0
+-- FORMER AXIOM `gemini_vanishing_negative_degrees` (unverified LLM assertion) — now a named assumption.
+def Assumption_vanishing_negative_degrees : Prop :=
+  ∀ (C : BRSTComplex) (hq : HasQuartetDecomp C), ∀ n, n < 0 → H^n(Q) ≃ₗ[ℝ] 0
 
 /-- No anomalies: all positive cohomology vanishes -/
 theorem no_anomalies
-    (C : BRSTComplex) (hq : HasQuartetDecomp C) :
+    (C : BRSTComplex) (hq : HasQuartetDecomp C)
+    (h_vanishing_negative_degrees : Assumption_vanishing_negative_degrees) :
     ∀ n ≠ 0, H^n(Q) ≃ₗ[ℝ] 0 := by
   intro n hn
   cases' ne_iff_lt_or_gt.mp hn with hneg hpos
   · -- n < 0: no anti-ghosts at negative ghost number (Gemini-validated)
-    exact gemini_vanishing_negative_degrees C hq n hneg
+    exact h_vanishing_negative_degrees C hq n hneg
   · -- n > 0: vanishing theorem
     exact vanishing_positive_degrees C hq n hpos
 

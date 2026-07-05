@@ -81,35 +81,37 @@ noncomputable def curvatureCommutator
     commutator. Full formal proof requires local-coordinate expansion of
     covariant derivatives; encoded as a validated axiom with reference.
     See VERIFICATION_STATUS.md. -/
-axiom gemini_bochner_weitzenbock_formula_validation
-    (∇ : MetricConnection E M) (g : RiemannianMetric M) :
-    ∀ (ω : Section (Λ^k T*M ⊗ E)),
+-- FORMER AXIOM `gemini_bochner_weitzenbock_formula_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_bochner_weitzenbock_formula_validation : Prop :=
+  ∀ (∇ : MetricConnection E M) (g : RiemannianMetric M), ∀ (ω : Section (Λ^k T*M ⊗ E)),
       laplacian ∇ ω =
         roughLaplacian ∇ ω + ricciOperator g ω + curvatureCommutator ∇ ω
 
 theorem bochner_weitzenbock_formula 
-    (∇ : MetricConnection E M) (g : RiemannianMetric M) :
+    (∇ : MetricConnection E M) (g : RiemannianMetric M)
+    (h_bochner_weitzenbock_formula_validation : Assumption_bochner_weitzenbock_formula_validation) :
     ∀ (ω : Section (Λ^k T*M ⊗ E)),
       laplacian ∇ ω = 
         roughLaplacian ∇ ω + ricciOperator g ω + curvatureCommutator ∇ ω :=
-  gemini_bochner_weitzenbock_formula_validation ∇ g
+  h_bochner_weitzenbock_formula_validation ∇ g
 
 /-- Connection to Lichnerowicz inequality for mass gap.
     Gemini-validated: from a Ricci lower bound κ, the Lichnerowicz
     estimate gives a spectral lower bound κ/4. Classical (Lichnerowicz
     1958); encoded as a validated axiom. -/
-axiom gemini_lichnerowicz_mass_gap_bound_validation
-    (∇ : MetricConnection E M) (g : RiemannianMetric M)
-    (h_ricci : ∀ x, Ricci g x ≥ κ) :
-    ∀ (ω : Section E) (h_ω : ω ≠ 0),
+-- FORMER AXIOM `gemini_lichnerowicz_mass_gap_bound_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_lichnerowicz_mass_gap_bound_validation : Prop :=
+  ∀ (∇ : MetricConnection E M) (g : RiemannianMetric M)
+    (h_ricci : ∀ x, Ricci g x ≥ κ), ∀ (ω : Section E) (h_ω : ω ≠ 0),
       ⟨laplacian ∇ ω, ω⟩ / ⟨ω, ω⟩ ≥ κ / 4
 
 theorem lichnerowicz_mass_gap_bound
     (∇ : MetricConnection E M) (g : RiemannianMetric M)
-    (h_ricci : ∀ x, Ricci g x ≥ κ) :
+    (h_ricci : ∀ x, Ricci g x ≥ κ)
+    (h_lichnerowicz_mass_gap_bound_validation : Assumption_lichnerowicz_mass_gap_bound_validation) :
     ∀ (ω : Section E) (h_ω : ω ≠ 0),
       ⟨laplacian ∇ ω, ω⟩ / ⟨ω, ω⟩ ≥ κ / 4 :=
-  gemini_lichnerowicz_mass_gap_bound_validation ∇ g h_ricci
+  h_lichnerowicz_mass_gap_bound_validation ∇ g h_ricci
 
 /-- Export the temporary axiom as validated -/
 axiom bochner_weitzenbock_axiom 

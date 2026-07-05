@@ -47,36 +47,46 @@ def GribovRegion (A : GaugeConnection) : Prop :=
     We therefore encode each result as a Gemini-validated structural axiom,
     paralleling the methodology of Phase 2 (see VERIFICATION_STATUS.md). -/
 
-axiom gemini_gribov_nonempty_validation : ∃ A : GaugeConnection, GribovRegion A
+-- FORMER AXIOM `gemini_gribov_nonempty_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_gribov_nonempty_validation : Prop :=
+  ∃ A : GaugeConnection, GribovRegion A
 
-axiom gemini_gribov_open_validation :
+-- FORMER AXIOM `gemini_gribov_open_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_gribov_open_validation : Prop :=
   IsOpen {A : GaugeConnection | GribovRegion A}
 
-axiom gemini_gribov_convex_validation :
+-- FORMER AXIOM `gemini_gribov_convex_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_gribov_convex_validation : Prop :=
   Convex ℝ {A : GaugeConnection | GribovRegion A}
 
 /-- Main theorem: Gribov region is well-defined -/
-theorem gribov_region_well_defined :
+theorem gribov_region_well_defined
+    (h_gribov_convex_validation : Assumption_gribov_convex_validation)
+    (h_gribov_nonempty_validation : Assumption_gribov_nonempty_validation)
+    (h_gribov_open_validation : Assumption_gribov_open_validation) :
   ∃ (A : GaugeConnection), GribovRegion A ∧
   IsOpen {A | GribovRegion A} ∧
   Convex ℝ {A | GribovRegion A} := by
-  obtain ⟨A, hA⟩ := gemini_gribov_nonempty_validation
-  exact ⟨A, hA, gemini_gribov_open_validation, gemini_gribov_convex_validation⟩
+  obtain ⟨A, hA⟩ := h_gribov_nonempty_validation
+  exact ⟨A, hA, h_gribov_open_validation, h_gribov_convex_validation⟩
 
 /-- Gribov region is non-empty -/
-theorem gribov_region_nonempty :
+theorem gribov_region_nonempty
+    (h_gribov_nonempty_validation : Assumption_gribov_nonempty_validation) :
   ∃ A : GaugeConnection, GribovRegion A :=
-  gemini_gribov_nonempty_validation
+  h_gribov_nonempty_validation
 
 /-- Gribov region is open -/
-theorem gribov_region_open :
+theorem gribov_region_open
+    (h_gribov_open_validation : Assumption_gribov_open_validation) :
   IsOpen {A : GaugeConnection | GribovRegion A} :=
-  gemini_gribov_open_validation
+  h_gribov_open_validation
 
 /-- Gribov region is convex -/
-theorem gribov_region_convex :
+theorem gribov_region_convex
+    (h_gribov_convex_validation : Assumption_gribov_convex_validation) :
   Convex ℝ {A : GaugeConnection | GribovRegion A} :=
-  gemini_gribov_convex_validation
+  h_gribov_convex_validation
 
 end YangMills.GribovRegion
 

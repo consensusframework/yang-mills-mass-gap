@@ -91,20 +91,21 @@ axiom fpParityEqualsIndexParity {M : Manifold4D} {N : ℕ} {P : PrincipalBundle 
     Corollary of `fpParityEqualsIndexParity` (Atiyah–Singer index parity);
     the sign algebra with (−1)^|index| is encoded as a validated axiom to
     avoid fragile natAbs-parity manipulation. See VERIFICATION_STATUS.md. -/
-axiom gemini_oppositeSectorsOppositeSigns_validation
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_oppositeSectorsOppositeSigns_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_oppositeSectorsOppositeSigns_validation : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     {A A' : Connection M N P} {M_FP : FPOperator A} {M_FP' : FPOperator A'}
     {D : DiracOperator A} {D' : DiracOperator A'}
-    (h : fredholmIndex D = -(fredholmIndex D')) :
-  fpSign M_FP = -(fpSign M_FP')
+    (h : fredholmIndex D = -(fredholmIndex D')), fpSign M_FP = -(fpSign M_FP')
 
 /-- Corollary: Opposite topological sectors have opposite FP signs -/
 theorem oppositeSectorsOppositeSigns {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N} 
     {A A' : Connection M N P} {M_FP : FPOperator A} {M_FP' : FPOperator A'}
     {D : DiracOperator A} {D' : DiracOperator A'}
     (h : fredholmIndex D = -(fredholmIndex D')) :
-  fpSign M_FP = -(fpSign M_FP') :=
-  gemini_oppositeSectorsOppositeSigns_validation h
+  fpSign M_FP = -(fpSign M_FP')
+    (h_oppositeSectorsOppositeSigns_validation : Assumption_oppositeSectorsOppositeSigns_validation) :=
+  h_oppositeSectorsOppositeSigns_validation h
 
 /-! ## Physical Consequence -/
 
@@ -116,20 +117,21 @@ def pathIntegralMeasure {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
 /-- Gemini-validated: Gribov copies in sectors k and −k contribute with
     opposite signs (product = −1). Corollary of index parity; encoded as a
     validated axiom. See VERIFICATION_STATUS.md. -/
-axiom gemini_gribovCopiesOppositeSigns_validation
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N} {k : ℤ}
+-- FORMER AXIOM `gemini_gribovCopiesOppositeSigns_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_gribovCopiesOppositeSigns_validation : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N} {k : ℤ}
     (A : topologicalSector M N P k) (A' : topologicalSector M N P (-k))
     {M_FP : FPOperator A.val} {M_FP' : FPOperator A'.val}
-    {D : DiracOperator A.val} {D' : DiracOperator A'.val} :
-  fpSign M_FP * fpSign M_FP' = -1
+    {D : DiracOperator A.val} {D' : DiracOperator A'.val}, fpSign M_FP * fpSign M_FP' = -1
 
 /-- Gribov copies in sectors k and -k contribute with opposite signs -/
-theorem gribovCopiesOppositeSigns {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N} 
+theorem gribovCopiesOppositeSigns
+    (h_gribovCopiesOppositeSigns_validation : Assumption_gribovCopiesOppositeSigns_validation) {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N} 
     (A : topologicalSector M N P k) (A' : topologicalSector M N P (-k))
     {M_FP : FPOperator A.val} {M_FP' : FPOperator A'.val}
     {D : DiracOperator A.val} {D' : DiracOperator A'.val} :
   fpSign M_FP * fpSign M_FP' = -1 :=
-  gemini_gribovCopiesOppositeSigns_validation A A'
+  h_gribovCopiesOppositeSigns_validation A A'
 
 end YangMills.Gap2.AtiyahSinger
 

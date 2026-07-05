@@ -446,11 +446,11 @@ which implies Δ > 0 (positive mass gap).
     abstract axioms in this development (`measure_decomposition`,
     `level_integral_bound`), so we close the theorem with a Gemini-validated
     axiom rather than a fragile partial `calc`. See VERIFICATION_STATUS.md. -/
-axiom gemini_partition_function_finite
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_partition_function_finite` (unverified LLM assertion) — now a named assumption.
+def Assumption_partition_function_finite : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
-    (μ : Measure (Connection M N P / GaugeGroup M N P)) :
-    partitionFunction M_FP μ < ∞
+    (μ : Measure (Connection M N P / GaugeGroup M N P)), partitionFunction M_FP μ < ∞
 
 theorem lemma_M4_finiteness
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
@@ -459,9 +459,10 @@ theorem lemma_M4_finiteness
     (h_compact : IsCompact M.carrier)
     (h_m1 : ∀ A ∈ gribovRegion M_FP P, fpDeterminant M_FP A > 0)  -- From M1
     (h_m3 : ∀ C > 0, IsCompact (boundedActionSet C))  -- From M3
-    (h_integrable : Integrable (fun A => brstIntegrand M_FP A.out) μ) :
+    (h_integrable : Integrable (fun A => brstIntegrand M_FP A.out) μ)
+    (h_partition_function_finite : Assumption_partition_function_finite) :
     partitionFunction M_FP μ < ∞ :=
-  gemini_partition_function_finite M_FP μ
+  h_partition_function_finite M_FP μ
 
 /--
 **Corollary**: The partition function is strictly positive.
@@ -473,11 +474,11 @@ and the measure is non-zero, we have Z > 0.
     The integrand is positive and the measure is non-zero, but
     `partitionFunction` integrates an abstract integrand, so positivity
     is encoded as a validated axiom. See VERIFICATION_STATUS.md. -/
-axiom gemini_partitionFunction_positive
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_partitionFunction_positive` (unverified LLM assertion) — now a named assumption.
+def Assumption_partitionFunction_positive : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
-    (μ : Measure (Connection M N P / GaugeGroup M N P)) :
-    partitionFunction M_FP μ > 0
+    (μ : Measure (Connection M N P / GaugeGroup M N P)), partitionFunction M_FP μ > 0
 
 theorem partitionFunction_positive
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
@@ -485,9 +486,10 @@ theorem partitionFunction_positive
     (μ : Measure (Connection M N P / GaugeGroup M N P))
     (h_compact : IsCompact M.carrier)
     (h_m1 : ∀ A ∈ gribovRegion M_FP P, fpDeterminant M_FP A > 0)
-    (h_measure_nonzero : μ Set.univ > 0) :
+    (h_measure_nonzero : μ Set.univ > 0)
+    (h_partitionFunction_positive : Assumption_partitionFunction_positive) :
     partitionFunction M_FP μ > 0 :=
-  gemini_partitionFunction_positive M_FP μ
+  h_partitionFunction_positive M_FP μ
 
 /-!
 ## Part 5: Corollaries and Applications
@@ -530,14 +532,14 @@ If O is bounded, then ⟨O⟩ < ∞.
     Bounded observable × finite partition function ⇒ finite expectation.
     Encoded as a validated axiom (the integral is over an abstract
     integrand). See VERIFICATION_STATUS.md. -/
-axiom gemini_expectation_value_finite
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_expectation_value_finite` (unverified LLM assertion) — now a named assumption.
+def Assumption_expectation_value_finite : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
     (μ : Measure (Connection M N P / GaugeGroup M N P))
     (O : Connection M N P → ℝ)
     (h_bounded : ∃ M, ∀ A, |O A| ≤ M)
-    (h_m4 : partitionFunction M_FP μ < ∞) :
-    |expectationValue M_FP μ O| < ∞
+    (h_m4 : partitionFunction M_FP μ < ∞), |expectationValue M_FP μ O| < ∞
 
 theorem expectation_value_finite
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
@@ -545,9 +547,10 @@ theorem expectation_value_finite
     (μ : Measure (Connection M N P / GaugeGroup M N P))
     (O : Connection M N P → ℝ)
     (h_bounded : ∃ M, ∀ A, |O A| ≤ M)
-    (h_m4 : partitionFunction M_FP μ < ∞) :
+    (h_m4 : partitionFunction M_FP μ < ∞)
+    (h_expectation_value_finite : Assumption_expectation_value_finite) :
     |expectationValue M_FP μ O| < ∞ :=
-  gemini_expectation_value_finite M_FP μ O h_bounded h_m4
+  h_expectation_value_finite M_FP μ O h_bounded h_m4
 
 /-!
 ## Part 6: Connections to Other Lemmata
@@ -566,11 +569,11 @@ We conclude: BRST measure satisfies all axioms of Axiom 1.
 /-- Gemini-validated completeness of the BRST measure from M1+M3+M4.
     Encoded as a validated axiom; the existence of the structured
     `BRSTMeasure` packaging requires M5 too. See VERIFICATION_STATUS.md. -/
-axiom gemini_brst_complete
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_brst_complete` (unverified LLM assertion) — now a named assumption.
+def Assumption_brst_complete : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
-    (μ : Measure (Connection M N P / GaugeGroup M N P)) :
-    ∃ (μ_BRST : BRSTMeasure M N P),
+    (μ : Measure (Connection M N P / GaugeGroup M N P)), ∃ (μ_BRST : BRSTMeasure M N P),
       μ_BRST.measure = μ ∧
       μ_BRST.sigma_additive ∧
       μ_BRST.finite ∧
@@ -583,13 +586,14 @@ theorem m1_m3_m4_implies_brst_complete
     (h_compact : IsCompact M.carrier)
     (h_m1 : ∀ A ∈ gribovRegion M_FP P, fpDeterminant M_FP A > 0)
     (h_m3 : ∀ C > 0, IsCompact (boundedActionSet C))
-    (h_m4 : partitionFunction M_FP μ < ∞) :
+    (h_m4 : partitionFunction M_FP μ < ∞)
+    (h_brst_complete : Assumption_brst_complete) :
     ∃ (μ_BRST : BRSTMeasure M N P),
       μ_BRST.measure = μ ∧
       μ_BRST.sigma_additive ∧
       μ_BRST.finite ∧
       μ_BRST.brst_invariant :=
-  gemini_brst_complete M_FP μ
+  h_brst_complete M_FP μ
 
 /--
 **Connection to Mass Gap**:
@@ -630,19 +634,20 @@ With finite partition function, we can define:
     Compactness + finiteness ⇒ discrete spectrum is the standard functional-
     analytic conclusion, encoded as a validated axiom pending the full
     spectral construction. See VERIFICATION_STATUS.md. -/
-axiom gemini_m4_enables_spectrum
-    {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
+-- FORMER AXIOM `gemini_m4_enables_spectrum` (unverified LLM assertion) — now a named assumption.
+def Assumption_m4_enables_spectrum : Prop :=
+  ∀ {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
-    (μ : Measure (Connection M N P / GaugeGroup M N P)) :
-    ∃ (H : HilbertSpace), DiscreteSpectrum H
+    (μ : Measure (Connection M N P / GaugeGroup M N P)), ∃ (H : HilbertSpace), DiscreteSpectrum H
 
 theorem m4_enables_spectrum
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
     (M_FP : FaddeevPopovOperator M N)
     (μ : Measure (Connection M N P / GaugeGroup M N P))
-    (h_m4 : partitionFunction M_FP μ < ∞) :
+    (h_m4 : partitionFunction M_FP μ < ∞)
+    (h_m4_enables_spectrum : Assumption_m4_enables_spectrum) :
     ∃ (H : HilbertSpace), DiscreteSpectrum H :=
-  gemini_m4_enables_spectrum M_FP μ
+  h_m4_enables_spectrum M_FP μ
 
 /-!
 ## Summary and Status

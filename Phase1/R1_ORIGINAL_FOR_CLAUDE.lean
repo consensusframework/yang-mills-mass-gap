@@ -106,16 +106,18 @@ locus of the moduli space A/G.
     regular locus of the moduli space (Donaldson–Kronheimer style; smooth
     structure on the regular locus where stabilizers are trivial). Encoded
     as a validated axiom. See VERIFICATION_STATUS.md. -/
-axiom gemini_ricci_well_defined_validation (A_G : ModuliSpace M N) :
-    ∃ Ric : RicciTensor A_G,
+-- FORMER AXIOM `gemini_ricci_well_defined_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_ricci_well_defined_validation : Prop :=
+  ∀ (A_G : ModuliSpace M N), ∃ Ric : RicciTensor A_G,
       IsSmooth Ric ∧
       (∀ p ∈ RegularLocus A_G, Ric.is_defined_at p)
 
 theorem lemma_R1_ricci_well_defined (A_G : ModuliSpace M N) :
     ∃ Ric : RicciTensor A_G,
       IsSmooth Ric ∧
-      (∀ p ∈ RegularLocus A_G, Ric.is_defined_at p) :=
-  gemini_ricci_well_defined_validation A_G
+      (∀ p ∈ RegularLocus A_G, Ric.is_defined_at p)
+    (h_ricci_well_defined_validation : Assumption_ricci_well_defined_validation) :=
+  h_ricci_well_defined_validation A_G
 
 end YangMills.Gap4.RicciLowerBound.R1
 

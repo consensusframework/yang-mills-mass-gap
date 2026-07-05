@@ -57,15 +57,16 @@ axiom axiom2_gribov_cancellation : True
     **Honest classification:** VALIDATED AXIOM placeholder, not formal theorem.
     See VERIFICATION_STATUS.md.
 -/
-axiom gemini_brst_bfs_equivalence_validation
-    (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real) :
-    β < β_c →
+-- FORMER AXIOM `gemini_brst_bfs_equivalence_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_brst_bfs_equivalence_validation : Prop :=
+  ∀ (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real), β < β_c →
     brst_partition_function M N P β = bfs_partition_function M N P β
 
 theorem lemma_B5_brst_bfs_connection
     (M : Manifold4D) (N : Nat) (P : PrincipalBundle M N) (β : Real)
-    (hβ : β < β_c) :
+    (hβ : β < β_c)
+    (h_brst_bfs_equivalence_validation : Assumption_brst_bfs_equivalence_validation) :
     brst_partition_function M N P β = bfs_partition_function M N P β :=
-  gemini_brst_bfs_equivalence_validation M N P β hβ
+  h_brst_bfs_equivalence_validation M N P β hβ
 
 end YM

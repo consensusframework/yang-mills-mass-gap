@@ -130,12 +130,12 @@ def converges_uniformly
     pending refactor of `LipschitzFunctional` to the standard scaling form.
 
     Classification: VALIDATED AXIOM. See VERIFICATION_STATUS.md. -/
-axiom gemini_lattice_to_continuum_validation
-    (F : LipschitzFunctional)
+-- FORMER AXIOM `gemini_lattice_to_continuum_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_lattice_to_continuum_validation : Prop :=
+  ∀ (F : LipschitzFunctional)
     (fam : LatticeFamily)
     (C : ContinuumField)
-    (h_conv : converges_uniformly fam C) :
-    Tendsto
+    (h_conv : converges_uniformly fam C), Tendsto
       (fun a => F.F (sample (fam.L a)))
       (𝓝[>] 0)
       (𝓝 (F.F C.A_cont))
@@ -149,14 +149,16 @@ theorem lattice_to_continuum
     Tendsto
       (fun a => F.F (sample (fam.L a)))
       (𝓝[>] 0)
-      (𝓝 (F.F C.A_cont)) :=
-  gemini_lattice_to_continuum_validation F fam C h_conv
+      (𝓝 (F.F C.A_cont))
+    (h_lattice_to_continuum_validation : Assumption_lattice_to_continuum_validation) :=
+  h_lattice_to_continuum_validation F fam C h_conv
 
 /-- Corollary: Observables converge -/
 theorem observable_convergence
     (fam : LatticeFamily) (C : ContinuumField)
     (h_conv : converges_uniformly fam C)
-    (O : LipschitzFunctional) :
+    (O : LipschitzFunctional)
+    (h_wilson_loop_lipschitz : Assumption_wilson_loop_lipschitz) :
     ∃ O_cont, Tendsto 
       (fun a => O.F (sample (fam.L a))) 
       (𝓝[>] 0) 
@@ -182,13 +184,14 @@ noncomputable def wilsonLoop (C : List ℝ) : LipschitzFunctional where
   F := fun A => Real.exp (∫ x in C, A x)
   K := 1
   lip := by
-    -- Placeholder Lipschitz proof — provable via gemini_wilson_loop_lipschitz below
+    -- Placeholder Lipschitz proof — provable via h_wilson_loop_lipschitz below
     intro f g _hclose
-    exact gemini_wilson_loop_lipschitz C f g
+    exact h_wilson_loop_lipschitz C f g
 
 /-- Gemini-validated Lipschitz bound for the Wilson loop functional. -/
-axiom gemini_wilson_loop_lipschitz (C : List ℝ) (f g : ℝ → ℝ) :
-    |Real.exp (∫ x in C, f x) - Real.exp (∫ x in C, g x)| ≤ 1
+-- FORMER AXIOM `gemini_wilson_loop_lipschitz` (unverified LLM assertion) — now a named assumption.
+def Assumption_wilson_loop_lipschitz : Prop :=
+  ∀ (C : List ℝ) (f g : ℝ → ℝ), |Real.exp (∫ x in C, f x) - Real.exp (∫ x in C, g x)| ≤ 1
 
 theorem wilson_loop_converges
     (C : List ℝ) (fam : LatticeFamily) (cont : ContinuumField)

@@ -162,9 +162,12 @@ space is relatively compact (in appropriate topology).
 **Result:** A/G is geometrically compact
 -/
 /-- Gemini-validated: finite Yang-Mills energy ⇒ finite diameter of moduli space. -/
-axiom gemini_diameter_finite (A_G : ModuliSpace M N) : diameter A_G < ∞
+-- FORMER AXIOM `gemini_diameter_finite` (unverified LLM assertion) — now a named assumption.
+def Assumption_diameter_finite : Prop :=
+  ∀ (A_G : ModuliSpace M N), diameter A_G < ∞
 
-theorem lemma_R4_bishop_gromov (A_G : ModuliSpace M N) :
+theorem lemma_R4_bishop_gromov (A_G : ModuliSpace M N)
+    (h_diameter_finite : Assumption_diameter_finite) :
     (∃ C > 0, ∀ p v, ricci_in_direction A_G p v ≥ -C * ‖v‖²) →
     IsCompact A_G := by
   intro ⟨C, h_ricci⟩
@@ -173,7 +176,7 @@ theorem lemma_R4_bishop_gromov (A_G : ModuliSpace M N) :
   have h_vol := bishop_gromov_volume_comparison (-C)
   
   -- Step 2: Energy bound implies diameter bound (Gemini-validated structural fact)
-  have h_diam : diameter A_G < ∞ := gemini_diameter_finite A_G
+  have h_diam : diameter A_G < ∞ := h_diameter_finite A_G
   
   -- Step 3: Volume lower bound (non-collapsing)
   have h_vol_lower : volume A_G ≥ v_min := by

@@ -86,47 +86,54 @@ theorem curvature_decomposition
 /-- Weyl tensor is trace-free -/
 /-- Weyl tensor is trace-free (classical Riemannian geometry).
     Gemini-validated axiom; see VERIFICATION_STATUS.md. -/
-axiom gemini_weyl_trace_free (g : RiemannianMetric M) :
-    ∀ (i j : Fin n), ∑ k, (g.inverse k k) * W[g] i k j k = 0
-theorem weyl_trace_free (g : RiemannianMetric M) :
+-- FORMER AXIOM `gemini_weyl_trace_free` (unverified LLM assertion) — now a named assumption.
+def Assumption_weyl_trace_free : Prop :=
+  ∀ (g : RiemannianMetric M), ∀ (i j : Fin n), ∑ k, (g.inverse k k) * W[g] i k j k = 0
+theorem weyl_trace_free (g : RiemannianMetric M)
+    (h_weyl_trace_free : Assumption_weyl_trace_free) :
     ∀ (i j : Fin n), ∑ k, (g.inverse k k) * W[g] i k j k = 0 :=
-  gemini_weyl_trace_free g
+  h_weyl_trace_free g
 
 /-- Weyl tensor vanishes in dimension 3 -/
 /-- Weyl tensor vanishes in dimension 3 (classical). Gemini-validated axiom. -/
-axiom gemini_weyl_vanishes_dim3 (g : RiemannianMetric M) (h : n = 3) :
-    ∀ (i j k l : Fin n), W[g] i j k l = 0
-theorem weyl_vanishes_dim3 (g : RiemannianMetric M) (h : n = 3) :
+-- FORMER AXIOM `gemini_weyl_vanishes_dim3` (unverified LLM assertion) — now a named assumption.
+def Assumption_weyl_vanishes_dim3 : Prop :=
+  ∀ (g : RiemannianMetric M) (h : n = 3), ∀ (i j k l : Fin n), W[g] i j k l = 0
+theorem weyl_vanishes_dim3 (g : RiemannianMetric M) (h : n = 3)
+    (h_weyl_vanishes_dim3 : Assumption_weyl_vanishes_dim3) :
     ∀ (i j k l : Fin n), W[g] i j k l = 0 :=
-  gemini_weyl_vanishes_dim3 g h
+  h_weyl_vanishes_dim3 g h
 
 /-- Decomposition is orthogonal (L² sense) -/
 /-- Orthogonality of the curvature decomposition (L² sense). Classical;
     Gemini-validated axiom. -/
-axiom gemini_decomposition_orthogonal (g : RiemannianMetric M) :
-    ⟨W[g], Ric[g]⟩ = 0 ∧ ⟨W[g], R[g]⟩ = 0 ∧ ⟨Ric[g], R[g]⟩ = 0
-theorem decomposition_orthogonal (g : RiemannianMetric M) :
+-- FORMER AXIOM `gemini_decomposition_orthogonal` (unverified LLM assertion) — now a named assumption.
+def Assumption_decomposition_orthogonal : Prop :=
+  ∀ (g : RiemannianMetric M), ⟨W[g], Ric[g]⟩ = 0 ∧ ⟨W[g], R[g]⟩ = 0 ∧ ⟨Ric[g], R[g]⟩ = 0
+theorem decomposition_orthogonal (g : RiemannianMetric M)
+    (h_decomposition_orthogonal : Assumption_decomposition_orthogonal) :
     ⟨W[g], Ric[g]⟩ = 0 ∧ ⟨W[g], R[g]⟩ = 0 ∧ ⟨Ric[g], R[g]⟩ = 0 :=
-  gemini_decomposition_orthogonal g
+  h_decomposition_orthogonal g
 
 /-- Connection to Yang-Mills: In 4D, Weyl part is conformally invariant -/
 /-- Weyl tensor is conformally invariant in 4D (classical). Gemini-validated axiom. -/
-axiom gemini_weyl_conformal_invariance_4d
-    (g g' : RiemannianMetric M) (h : n = 4)
-    (h_conf : ∃ φ : M → ℝ, ∀ x, g' x = (exp (2*φ x)) * g x) :
-    ∀ (i j k l : Fin 4), W[g] i j k l = W[g'] i j k l
+-- FORMER AXIOM `gemini_weyl_conformal_invariance_4d` (unverified LLM assertion) — now a named assumption.
+def Assumption_weyl_conformal_invariance_4d : Prop :=
+  ∀ (g g' : RiemannianMetric M) (h : n = 4)
+    (h_conf : ∃ φ : M → ℝ, ∀ x, g' x = (exp (2*φ x)) * g x), ∀ (i j k l : Fin 4), W[g] i j k l = W[g'] i j k l
 theorem weyl_conformal_invariance_4d
     (g g' : RiemannianMetric M) (h : n = 4)
-    (h_conf : ∃ φ : M → ℝ, ∀ x, g' x = (exp (2*φ x)) * g x) :
+    (h_conf : ∃ φ : M → ℝ, ∀ x, g' x = (exp (2*φ x)) * g x)
+    (h_weyl_conformal_invariance_4d : Assumption_weyl_conformal_invariance_4d) :
     ∀ (i j k l : Fin 4), W[g] i j k l = W[g'] i j k l :=
-  gemini_weyl_conformal_invariance_4d g g' h h_conf
+  h_weyl_conformal_invariance_4d g g' h h_conf
 
 /-- Simplified decomposition for Yang-Mills on S⁴ -/
 /-- Curvature decomposition on S⁴ (classical). Gemini-validated axiom. -/
-axiom gemini_curvature_decomposition_S4
-    (g : RiemannianMetric M) (h : n = 4)
-    (h_sphere : ∀ x, R[g] x = 12/r²) :
-    ∀ (i j k l : Fin 4),
+-- FORMER AXIOM `gemini_curvature_decomposition_S4` (unverified LLM assertion) — now a named assumption.
+def Assumption_curvature_decomposition_S4 : Prop :=
+  ∀ (g : RiemannianMetric M) (h : n = 4)
+    (h_sphere : ∀ x, R[g] x = 12/r²), ∀ (i j k l : Fin 4),
       riemannTensor g i j k l =
         W[g] i j k l + (1/r²) * (g i k * g j l - g i l * g j k)
 theorem curvature_decomposition_S4
@@ -134,8 +141,9 @@ theorem curvature_decomposition_S4
     (h_sphere : ∀ x, R[g] x = 12/r²) :
     ∀ (i j k l : Fin 4),
       riemannTensor g i j k l =
-        W[g] i j k l + (1/r²) * (g i k * g j l - g i l * g j k) :=
-  gemini_curvature_decomposition_S4 g h h_sphere
+        W[g] i j k l + (1/r²) * (g i k * g j l - g i l * g j k)
+    (h_curvature_decomposition_S4 : Assumption_curvature_decomposition_S4) :=
+  h_curvature_decomposition_S4 g h h_sphere
 
 /-- Export the temporary axiom as validated -/
 axiom curvature_decomposition_axiom 

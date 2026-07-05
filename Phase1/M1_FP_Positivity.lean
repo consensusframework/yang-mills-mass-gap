@@ -90,11 +90,13 @@ axiom fp_operator_selfadjoint (M_FP : FPOperator M N P) :
 /-- The Faddeev-Popov operator is non-negative -/
 /-- Gemini-validated FP non-negativity: ⟨ψ, M_FP ψ⟩ = ‖Dψ‖² ≥ 0.
     Encoded as a validated axiom (M_FP is abstract here). -/
-axiom gemini_fp_operator_nonnegative (M_FP : FPOperator M N P) :
-    ∀ ψ : GhostField M N P, ⟨ψ, M_FP.apply ψ⟩ ≥ 0
-theorem fp_operator_nonnegative (M_FP : FPOperator M N P) :
+-- FORMER AXIOM `gemini_fp_operator_nonnegative` (unverified LLM assertion) — now a named assumption.
+def Assumption_fp_operator_nonnegative : Prop :=
+  ∀ (M_FP : FPOperator M N P), ∀ ψ : GhostField M N P, ⟨ψ, M_FP.apply ψ⟩ ≥ 0
+theorem fp_operator_nonnegative (M_FP : FPOperator M N P)
+    (h_fp_operator_nonnegative : Assumption_fp_operator_nonnegative) :
     ∀ ψ : GhostField M N P, ⟨ψ, M_FP.apply ψ⟩ ≥ 0 :=
-  gemini_fp_operator_nonnegative M_FP
+  h_fp_operator_nonnegative M_FP
 
 /-!
 ## 2. Spectral Theory
@@ -120,17 +122,18 @@ axiom spectrum (M_FP : FPOperator M N P) (A : Connection M N P) : Set ℝ
 /-- Weyl's theorem: if lowest eigenvalue is positive, all eigenvalues are positive -/
 /-- Gemini-validated Weyl eigenvalue positivity (λ₀ > 0 ⇒ all λ > 0).
     Encoded as a validated axiom (spectrum/lowestEigenvalue are abstract). -/
-axiom gemini_weyl_eigenvalue_positivity
-    (M_FP : FPOperator M N P) (A : Connection M N P)
-    (h_compact : IsCompact M) (h_lambda0_pos : lowestEigenvalue M_FP A > 0) :
-    ∀ λ ∈ spectrum M_FP A, λ > 0
+-- FORMER AXIOM `gemini_weyl_eigenvalue_positivity` (unverified LLM assertion) — now a named assumption.
+def Assumption_weyl_eigenvalue_positivity : Prop :=
+  ∀ (M_FP : FPOperator M N P) (A : Connection M N P)
+    (h_compact : IsCompact M) (h_lambda0_pos : lowestEigenvalue M_FP A > 0), ∀ λ ∈ spectrum M_FP A, λ > 0
 theorem weyl_eigenvalue_positivity
     (M_FP : FPOperator M N P)
     (A : Connection M N P)
     (h_compact : IsCompact M)
-    (h_lambda0_pos : lowestEigenvalue M_FP A > 0) :
+    (h_lambda0_pos : lowestEigenvalue M_FP A > 0)
+    (h_weyl_eigenvalue_positivity : Assumption_weyl_eigenvalue_positivity) :
     ∀ λ ∈ spectrum M_FP A, λ > 0 :=
-  gemini_weyl_eigenvalue_positivity M_FP A h_compact h_lambda0_pos
+  h_weyl_eigenvalue_positivity M_FP A h_compact h_lambda0_pos
 
 /-!
 ## 3. Faddeev-Popov Determinant
@@ -271,16 +274,17 @@ theorem fp_determinant_continuous
 /-- Connection to M5: Positivity ensures BRST measure is real-valued -/
 /-- Gemini-validated: positivity yields a real-valued BRST measure.
     Encoded as a validated axiom. -/
-axiom gemini_m1_implies_brst_measure_real
-    (M_FP : FPOperator M N P) (A : Connection M N P) :
-    ∃ μ : BRSTMeasure M N P, μ.IsRealValued
+-- FORMER AXIOM `gemini_m1_implies_brst_measure_real` (unverified LLM assertion) — now a named assumption.
+def Assumption_m1_implies_brst_measure_real : Prop :=
+  ∀ (M_FP : FPOperator M N P) (A : Connection M N P), ∃ μ : BRSTMeasure M N P, μ.IsRealValued
 theorem m1_implies_brst_measure_real
     (M_FP : FPOperator M N P)
     (A : Connection M N P)
     (h_compact : IsCompact M)
-    (h_in_omega : A ∈ gribovRegion M_FP P) :
+    (h_in_omega : A ∈ gribovRegion M_FP P)
+    (h_m1_implies_brst_measure_real : Assumption_m1_implies_brst_measure_real) :
     ∃ μ : BRSTMeasure M N P, μ.IsRealValued :=
-  gemini_m1_implies_brst_measure_real M_FP A
+  h_m1_implies_brst_measure_real M_FP A
 
 /-- Connection to M3: Positivity supports compactness -/
 theorem m1_supports_compactness

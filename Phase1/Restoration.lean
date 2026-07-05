@@ -105,27 +105,30 @@ axiom physical_inner
     PhysicalSpace K Q → PhysicalSpace K Q → ℂ
 
 /-- Gemini-validated completeness of the physical space. -/
-axiom gemini_physical_space_complete (K : KinematicalSpace) (Q : BRSTOperator K) :
-    Complete (PhysicalSpace K Q) (physical_inner K Q)
+-- FORMER AXIOM `gemini_physical_space_complete` (unverified LLM assertion) — now a named assumption.
+def Assumption_physical_space_complete : Prop :=
+  ∀ (K : KinematicalSpace) (Q : BRSTOperator K), Complete (PhysicalSpace K Q) (physical_inner K Q)
 
 /-- The physical inner product of 0 with 0 is 0. -/
-axiom gemini_inner_zero_zero (K : KinematicalSpace) (Q : BRSTOperator K) :
-    physical_inner K Q 0 0 = 0
+-- FORMER AXIOM `gemini_inner_zero_zero` (unverified LLM assertion) — now a named assumption.
+def Assumption_inner_zero_zero : Prop :=
+  ∀ (K : KinematicalSpace) (Q : BRSTOperator K), physical_inner K Q 0 0 = 0
 
 /-! ## Positivity Theorem -/
 
 /-- THEOREM: Physical inner product is positive definite -/
 /-- Gemini-validated positivity on physical space (Kugo–Ojima quartet
     mechanism, 1979). Encoded as a validated axiom. -/
-axiom gemini_positivity_on_physical
-    (K : KinematicalSpace) (Q : BRSTOperator K) (h_quartet : HasQuartetDecomp Q) :
-    ∀ (ψ : PhysicalSpace K Q), ψ ≠ 0 → physical_inner K Q ψ ψ > 0
+-- FORMER AXIOM `gemini_positivity_on_physical` (unverified LLM assertion) — now a named assumption.
+def Assumption_positivity_on_physical : Prop :=
+  ∀ (K : KinematicalSpace) (Q : BRSTOperator K) (h_quartet : HasQuartetDecomp Q), ∀ (ψ : PhysicalSpace K Q), ψ ≠ 0 → physical_inner K Q ψ ψ > 0
 theorem positivity_on_physical
     (K : KinematicalSpace) (Q : BRSTOperator K)
-    (h_quartet : HasQuartetDecomp Q) :
+    (h_quartet : HasQuartetDecomp Q)
+    (h_positivity_on_physical : Assumption_positivity_on_physical) :
     ∀ (ψ : PhysicalSpace K Q),
       ψ ≠ 0 → physical_inner K Q ψ ψ > 0 :=
-  gemini_positivity_on_physical K Q h_quartet
+  h_positivity_on_physical K Q h_quartet
 
 /-! ## Unitarity -/
 
@@ -140,19 +143,20 @@ structure TimeEvolution (K : KinematicalSpace) (Q : BRSTOperator K) where
 
 /-- THEOREM: Evolution is unitary on physical space -/
 /-- Gemini-validated unitarity on physical space. Encoded as a validated axiom. -/
-axiom gemini_unitarity_on_physical
-    (K : KinematicalSpace) (Q : BRSTOperator K) (U : TimeEvolution K Q)
-    (h_quartet : HasQuartetDecomp Q) :
-    ∀ t (ψ φ : PhysicalSpace K Q),
+-- FORMER AXIOM `gemini_unitarity_on_physical` (unverified LLM assertion) — now a named assumption.
+def Assumption_unitarity_on_physical : Prop :=
+  ∀ (K : KinematicalSpace) (Q : BRSTOperator K) (U : TimeEvolution K Q)
+    (h_quartet : HasQuartetDecomp Q), ∀ t (ψ φ : PhysicalSpace K Q),
       physical_inner K Q (U.induced t ψ) (U.induced t φ) = physical_inner K Q ψ φ
 theorem unitarity_on_physical
     (K : KinematicalSpace) (Q : BRSTOperator K)
     (U : TimeEvolution K Q)
-    (h_quartet : HasQuartetDecomp Q) :
+    (h_quartet : HasQuartetDecomp Q)
+    (h_unitarity_on_physical : Assumption_unitarity_on_physical) :
     ∀ t (ψ φ : PhysicalSpace K Q),
       physical_inner K Q (U.induced t ψ) (U.induced t φ) =
       physical_inner K Q ψ φ :=
-  gemini_unitarity_on_physical K Q U h_quartet
+  h_unitarity_on_physical K Q U h_quartet
 
 /-! ## Main Restoration Theorem -/
 
@@ -162,13 +166,14 @@ theorem unitarity_restoration
     (U : TimeEvolution K Q)
     (h_quartet : HasQuartetDecomp Q) :
     IsUnitarySpace (PhysicalSpace K Q) (physical_inner K Q) ∧
-    IsUnitaryOperator (U.induced) := by
+    IsUnitaryOperator (U.induced)
+    (h_physical_space_complete : Assumption_physical_space_complete) := by
   
   constructor
   · -- Physical space is unitary (positive definite)
     constructor
     · exact positivity_on_physical K Q h_quartet
-    · exact gemini_physical_space_complete K Q  -- Completeness (Gemini-validated)
+    · exact h_physical_space_complete K Q  -- Completeness (Gemini-validated)
   
   · -- U is unitary operator
     intro t
@@ -179,27 +184,29 @@ theorem unitarity_restoration
 /-- No ghosts in physical spectrum -/
 theorem no_ghost_states
     (K : KinematicalSpace) (Q : BRSTOperator K)
-    (h_quartet : HasQuartetDecomp Q) :
+    (h_quartet : HasQuartetDecomp Q)
+    (h_inner_zero_zero : Assumption_inner_zero_zero) :
     ∀ (ψ : PhysicalSpace K Q),
       physical_inner K Q ψ ψ ≥ 0 := by
   intro ψ
   by_cases h : ψ = 0
-  · rw [h]; exact le_of_eq (gemini_inner_zero_zero K Q).symm  -- ⟪0,0⟫ = 0
+  · rw [h]; exact le_of_eq (h_inner_zero_zero K Q).symm  -- ⟪0,0⟫ = 0
   · exact le_of_lt (positivity_on_physical K Q h_quartet ψ h)
 
 /-- S-matrix is unitary -/
 /-- Gemini-validated S-matrix unitarity on physical space. -/
-axiom gemini_s_matrix_unitary
-    (K : KinematicalSpace) (Q : BRSTOperator K)
+-- FORMER AXIOM `gemini_s_matrix_unitary` (unverified LLM assertion) — now a named assumption.
+def Assumption_s_matrix_unitary : Prop :=
+  ∀ (K : KinematicalSpace) (Q : BRSTOperator K)
     (S : PhysicalSpace K Q →ₗ[ℂ] PhysicalSpace K Q)
-    (h_quartet : HasQuartetDecomp Q) :
-    ∀ ψ φ, physical_inner K Q (S ψ) (S φ) = physical_inner K Q ψ φ
+    (h_quartet : HasQuartetDecomp Q), ∀ ψ φ, physical_inner K Q (S ψ) (S φ) = physical_inner K Q ψ φ
 theorem s_matrix_unitary
     (K : KinematicalSpace) (Q : BRSTOperator K)
     (S : PhysicalSpace K Q →ₗ[ℂ] PhysicalSpace K Q)
-    (h_quartet : HasQuartetDecomp Q) :
+    (h_quartet : HasQuartetDecomp Q)
+    (h_s_matrix_unitary : Assumption_s_matrix_unitary) :
     ∀ ψ φ, physical_inner K Q (S ψ) (S φ) = physical_inner K Q ψ φ :=
-  gemini_s_matrix_unitary K Q S h_quartet
+  h_s_matrix_unitary K Q S h_quartet
 
 /-! ## Unit Tests -/
 

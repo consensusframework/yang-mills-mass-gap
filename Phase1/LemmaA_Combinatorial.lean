@@ -59,8 +59,9 @@ noncomputable def exp (x : Float) : Float :=
     **Honest classification:** VALIDATED AXIOM, not formal theorem.
     See VERIFICATION_STATUS.md.
 -/
-axiom gemini_combinatorial_validation :
-    ∀ n : Nat, (simpleClustersOfSize n).length ≤
+-- FORMER AXIOM `gemini_combinatorial_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_combinatorial_validation : Prop :=
+  ∀ n : Nat, (simpleClustersOfSize n).length ≤
       Nat.max 1 (Float.toUInt64 (exp (μ_counting * n.toFloat))).toNat
 
 /-- LEMMA A (Combinatorial Counting Bound):
@@ -72,10 +73,11 @@ axiom gemini_combinatorial_validation :
     Status (May 2026): proved by direct application of Gemini-validated
     axiom. See VERIFICATION_STATUS.md for full disclosure.
 -/
-theorem lemmaA_counting :
+theorem lemmaA_counting
+    (h_combinatorial_validation : Assumption_combinatorial_validation) :
     ∀ n : Nat, (simpleClustersOfSize n).length ≤
       Nat.max 1 (Float.toUInt64 (exp (μ_counting * n.toFloat))).toNat :=
-  gemini_combinatorial_validation
+  h_combinatorial_validation
 
 /-! ## Auxiliary Results -/
 

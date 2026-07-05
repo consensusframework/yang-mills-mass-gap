@@ -67,8 +67,9 @@ def in_convergence_region (g a : Float) : Prop :=
     **Honest classification:** VALIDATED AXIOM, not formal theorem.
     See VERIFICATION_STATUS.md.
 -/
-axiom gemini_analytic_validation :
-    ∀ (g a : Float),
+-- FORMER AXIOM `gemini_analytic_validation` (unverified LLM assertion) — now a named assumption.
+def Assumption_analytic_validation : Prop :=
+  ∀ (g a : Float),
     0 < g → g < g0_critical →
     0 < a → a < a0_critical →
     ∀ C : SimpleCluster,
@@ -88,8 +89,9 @@ theorem lemmaB_decay :
     0 < g → g < g0_critical →
     0 < a → a < a0_critical →
     ∀ C : SimpleCluster,
-      Float.abs (clusterCoefficient C g a) ≤ Float.exp (-η_decay * C.size.toFloat) :=
-  gemini_analytic_validation
+      Float.abs (clusterCoefficient C g a) ≤ Float.exp (-η_decay * C.size.toFloat)
+    (h_analytic_validation : Assumption_analytic_validation) :=
+  h_analytic_validation
 
 /-! ## Auxiliary Physics Results -/
 
