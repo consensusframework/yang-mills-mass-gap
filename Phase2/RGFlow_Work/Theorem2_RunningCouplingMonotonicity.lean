@@ -17,10 +17,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.GeminiValidation
-import RGFlow_Work.Theorem1_BetaNegativity
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -28,7 +27,7 @@ namespace RGFlow
     RUNNING COUPLING DEFINITION (1-LOOP ANALYTICAL FORM)
     ═══════════════════════════════════════════════════════════════════ -/
 
-/-- 
+/- 
   Running coupling g(μ) — 1-loop analytical solution of the
   Renormalization Group equation:
   
@@ -57,10 +56,6 @@ namespace RGFlow
   corrections enter at higher orders and are absorbed into the
   `gemini_running_monotonicity` validation axiom below.
 -/
-def running_coupling (μ μ₀ g₀ _a : Float) : Float :=
-  let b0 : Float := 11.0 / (24.0 * Float.pi * Float.pi)
-  let log_ratio : Float := Float.log (μ / μ₀)
-  g₀ / Float.sqrt (1.0 + b0 * g₀ * g₀ * log_ratio)
 
 /-- 
   Lattice spacing as function of energy scale.
@@ -70,7 +65,7 @@ def running_coupling (μ μ₀ g₀ _a : Float) : Float :=
   
   We use a simplified model: a(μ) = a₀ · (μ₀/μ)
 -/
-def lattice_spacing (μ μ₀ a₀ : Float) : Float :=
+noncomputable def lattice_spacing (μ μ₀ a₀ : ℝ) : ℝ :=
   a₀ * (μ₀ / μ)
 
 /-! ═══════════════════════════════════════════════════════════════════
@@ -81,20 +76,16 @@ def lattice_spacing (μ μ₀ a₀ : Float) : Float :=
   The running coupling satisfies the RG equation:
     dg/dμ = β(g, a) / μ
   
-  Stated existentially because Float lacks a formal derivative.
+  Stated existentially because ℝ lacks a formal derivative.
 -/
-axiom rg_equation (μ μ₀ g₀ a₀ : Float) 
+axiom rg_equation (μ μ₀ g₀ a₀ : ℝ) 
     (hμ : 0 < μ) 
     (hμ₀ : 0 < μ₀) :
-  ∃ (dg_dμ : Float), 
+  ∃ (dg_dμ : ℝ), 
     dg_dμ = beta (running_coupling μ μ₀ g₀ a₀) (lattice_spacing μ μ₀ a₀) / μ
 
-/-- Initial condition: g(μ₀) = g₀ -/
-axiom initial_condition (μ₀ g₀ a₀ : Float) :
-  running_coupling μ₀ μ₀ g₀ a₀ = g₀
-
 /-- Running coupling stays in convergence region -/
-axiom running_coupling_in_region (μ μ₀ g₀ a₀ : Float)
+axiom running_coupling_in_region (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
     (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
@@ -130,13 +121,14 @@ axiom running_coupling_in_region (μ μ₀ g₀ a₀ : Float)
     **Honest classification:** VALIDATED AXIOM, not FORMAL THEOREM.
     See VERIFICATION_STATUS.md.
     ═══════════════════════════════════════════════════════════════════ -/
-axiom gemini_running_monotonicity :
-  ∀ (μ₁ μ₂ μ₀ g₀ a₀ : Float),
+-- FORMER AXIOM `gemini_running_monotonicity` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def RunningMonotonicityODEAssumption : Prop :=
+  ∀ (μ₁ μ₂ μ₀ g₀ a₀ : ℝ),
     (0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂) →
     (0 < g₀ ∧ g₀ ≤ g0) →
     (0 < a₀ ∧ a₀ ≤ a_max) →
     running_coupling μ₂ μ₀ g₀ a₀ < running_coupling μ₁ μ₀ g₀ a₀
-
 /-! ═══════════════════════════════════════════════════════════════════
     THEOREM 2: MONOTONICITY
     ═══════════════════════════════════════════════════════════════════ -/
@@ -174,41 +166,44 @@ axiom gemini_running_monotonicity :
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem running_coupling_monotonicity 
-    (μ₁ μ₂ μ₀ g₀ a₀ : Float)
+    (μ₁ μ₂ μ₀ g₀ a₀ : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (h_initial : 0 < g₀ ∧ g₀ ≤ g0)
-    (h_lattice : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (h_lattice : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ₂ μ₀ g₀ a₀ < running_coupling μ₁ μ₀ g₀ a₀ :=
-  gemini_running_monotonicity μ₁ μ₂ μ₀ g₀ a₀ h_order h_initial h_lattice
+  h_ode μ₁ μ₂ μ₀ g₀ a₀ h_order h_initial h_lattice
 
 /-! ## Corollaries -/
 
 /-- Coupling decreases monotonically -/
-theorem coupling_decreases (μ μ₀ g₀ a₀ : Float)
+theorem coupling_decreases (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ < μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ μ₀ g₀ a₀ < g₀ := by
   -- Use monotonicity with μ₁ = μ₀, μ₂ = μ
   have h := running_coupling_monotonicity μ₀ μ μ₀ g₀ a₀ 
-    ⟨hμ.1, le_refl μ₀, hμ.2⟩ hg₀ ha₀
+    ⟨hμ.1, le_refl μ₀, hμ.2⟩ hg₀ ha₀ h_ode
   -- Apply initial condition: g(μ₀) = g₀
   rw [initial_condition μ₀ g₀ a₀] at h
   exact h
 
 /-- Coupling bounded from above -/
-theorem coupling_bounded_above (μ μ₀ g₀ a₀ : Float)
+theorem coupling_bounded_above (μ μ₀ g₀ a₀ : ℝ)
     (hμ : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg₀ : 0 < g₀ ∧ g₀ ≤ g0)
-    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max) :
+    (ha₀ : 0 < a₀ ∧ a₀ ≤ a_max)
+    (h_ode : RunningMonotonicityODEAssumption) :
   running_coupling μ μ₀ g₀ a₀ ≤ g₀ := by
-  cases' hμ with hμ₀_pos hμ_ge
-  cases' hμ_ge with hμ_eq hμ_gt
+  obtain ⟨hμ₀_pos, hμ_ge⟩ := hμ
+  rcases eq_or_lt_of_le hμ_ge with hμ_eq | hμ_gt
   · -- Case: μ = μ₀
-    rw [hμ_eq]
+    rw [← hμ_eq]
     rw [initial_condition μ₀ g₀ a₀]
   · -- Case: μ > μ₀
-    have h := coupling_decreases μ μ₀ g₀ a₀ ⟨hμ₀_pos, hμ_gt⟩ hg₀ ha₀
+    have h := coupling_decreases μ μ₀ g₀ a₀ ⟨hμ₀_pos, hμ_gt⟩ hg₀ ha₀ h_ode
     exact le_of_lt h
 
 /-! ## Validation Metadata (for Gemini) -/
@@ -226,7 +221,7 @@ theorem coupling_bounded_above (μ μ₀ g₀ a₀ : Float)
 def validation_grid_size : Nat := 20
 
 /-- Expected success rate -/
-def expected_success_rate : Float := 1.00
+def expected_success_rate : ℝ := 1.0
 
 /-! ═══════════════════════════════════════════════════════════════════
     
@@ -241,7 +236,7 @@ def expected_success_rate : Float := 1.00
     **Honesty disclosure:**
     - `running_coupling` is now CONSTRUCTIVELY DEFINED at 1-loop.
     - Monotonicity is closed by a Gemini-validated axiom (not a
-      formal Lean proof from `rg_equation`, because Float has no
+      formal Lean proof from `rg_equation`, because ℝ has no
       formal derivative theory).
     - See VERIFICATION_STATUS.md for the full disclosure.
     

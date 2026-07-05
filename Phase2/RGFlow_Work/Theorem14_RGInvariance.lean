@@ -23,7 +23,7 @@ on the physics, not on the computational method used to define it.
 
 ## The "Physical Reality Bridge" 🌉
 This completes the Four Bridges of the continuum theory:
-- **Theorem 11 (Positivity):** Δ₀(g) ≥ 0.50 GeV
+- **Theorem 11 (Positivity):** Δ₀(g) ≥ 0.5 GeV
 - **Theorem 12 (Regularity):** |Δ₀(g₁) - Δ₀(g₂)| ≤ 2.0·|g₁-g₂|
 - **Theorem 13 (Order):** g₁ < g₂ → Δ₀(g₁) > Δ₀(g₂)
 - **Theorem 14 (Universality):** Δ₀^(A)(g) = Δ₀^(B)(g)
@@ -261,12 +261,6 @@ theorem mass_gap_is_physical_observable
   · exact rg_invariance_strong g hg L_A L_B hA hB h_diff_vanishes
   · exact tendsto_nhds_unique hA (mass_gap_A_tendsto g hg)
 
-/-- **Corollary 14c: Quantitative scheme agreement.**
-    From Gemini's validation: the numerical difference between
-    schemes is at most 0.001 GeV, well below the 0.01 GeV target. -/
-axiom gemini_scheme_max_diff :
-    ∀ g : ℝ, 0.5 ≤ g → g ≤ 1.18 →
-      |Delta0 g - Delta0 g| ≤ (0.001 : ℝ)
 
 theorem scheme_diff_within_tolerance
     (g : ℝ)
@@ -280,7 +274,7 @@ theorem scheme_diff_within_tolerance
 
 | Theorem | Bridge           | Property          | Key Technique            |
 |---------|------------------|-------------------|--------------------------|
-| Thm 11  | Positivity       | Δ₀ ≥ 0.50 GeV    | ge_of_tendsto           |
+| Thm 11  | Positivity       | Δ₀ ≥ 0.5 GeV    | ge_of_tendsto           |
 | Thm 12  | Regularity       | Lipschitz ≤ 2.0   | le_of_tendsto           |
 | Thm 13  | Order            | Strictly monotone  | quantitative separation  |
 | Thm 14  | Physical Reality | Scheme-independent | tendsto_nhds_unique     |
@@ -288,9 +282,9 @@ theorem scheme_diff_within_tolerance
 ### What The Four Bridges Prove Together
 
 The continuum mass gap Δ₀ : [0.5, 1.18] → [1.452, 1.655] is:
-1. **Positive:** bounded below by 0.50 GeV (190% margin)
-2. **Smooth:** Lipschitz with constant ≤ 2.0 (observed: 0.30)
-3. **Ordered:** strictly decreasing with rate ≥ 0.20 GeV/unit
+1. **Positive:** bounded below by 0.5 GeV (190% margin)
+2. **Smooth:** Lipschitz with constant ≤ 2.0 (observed: 0.3)
+3. **Ordered:** strictly decreasing with rate ≥ 0.2 GeV/unit
 4. **Physical:** independent of regularization scheme
 
 This is a **complete characterization** of the continuum mass gap

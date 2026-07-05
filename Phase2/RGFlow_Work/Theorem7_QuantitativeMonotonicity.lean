@@ -21,9 +21,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 import RGFlow_Work.GeminiValidation5
 import RGFlow_Work.GeminiValidation7
 
@@ -78,20 +78,21 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem mass_gap_quantitative_monotonicity
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_quant : QuantMonotoneAssumption) :
   (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1) := by
   -- Apply Gemini's validated axiom directly
-  exact gemini_mass_gap_mono_quant_validation g1 g2 a hg1 hg2 hlt ha
+  exact h_quant g1 g2 a hg1 hg2 hlt ha
 
 /-! ## Two-Sided Bound -/
 
 /-- Technical axiom for upper bound from Lipschitz -/
 axiom two_sided_upper_bound
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
@@ -109,29 +110,30 @@ axiom two_sided_upper_bound
   The mass gap is TRAPPED in a perfect mathematical box!
 -/
 theorem mass_gap_two_sided_bound
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
-    (ha : 0 < a ∧ a ≤ a_max) :
+    (ha : 0 < a ∧ a ≤ a_max)
+    (h_quant : QuantMonotoneAssumption) :
   -- Lower bound (Theorem 7): ΔΔ ≥ C_mono · Δg
   (mass_gap g1 a - mass_gap g2 a) ≥ C_mono * (g2 - g1) ∧
   -- Upper bound (Theorem 5): ΔΔ ≤ L · Δg
   (mass_gap g1 a - mass_gap g2 a) ≤ lipschitz_L * (g2 - g1) := by
   constructor
-  · exact gemini_mass_gap_mono_quant_validation g1 g2 a hg1 hg2 hlt ha
+  · exact h_quant g1 g2 a hg1 hg2 hlt ha
   · exact two_sided_upper_bound g1 g2 a hg1 hg2 hlt ha
 
 /-! ## Corollaries -/
 
 /-- Technical axiom -/
-axiom gap_change_full_range_aux (a : Float) (ha : 0 < a ∧ a ≤ a_max) :
+axiom gap_change_full_range_aux (a : ℝ) (ha : 0 < a ∧ a ≤ a_max) :
   (mass_gap 0.5 a - mass_gap 1.18 a) ≥ C_mono * 0.68 ∧
   (mass_gap 0.5 a - mass_gap 1.18 a) ≤ lipschitz_L * 0.68
 
 /-- The gap change across the full coupling range is bounded -/
 theorem gap_change_full_range
-    (a : Float)
+    (a : ℝ)
     (ha : 0 < a ∧ a ≤ a_max) :
   -- From g = 0.5 to g = 1.18, Δg = 0.68
   -- Lower: ΔΔ ≥ 0.25 * 0.68 = 0.17 GeV
@@ -142,7 +144,7 @@ theorem gap_change_full_range
 
 /-- Technical axiom -/
 axiom no_plateaus_aux
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
@@ -151,7 +153,7 @@ axiom no_plateaus_aux
 
 /-- No plateaus: gap always changes significantly -/
 theorem no_plateaus
-    (g1 g2 a : Float)
+    (g1 g2 a : ℝ)
     (hg1 : 0.5 ≤ g1 ∧ g1 ≤ 1.18)
     (hg2 : 0.5 ≤ g2 ∧ g2 ≤ 1.18)
     (hlt : g1 < g2)
@@ -166,19 +168,19 @@ theorem no_plateaus
 def theorem7_pairs : Nat := 540
 
 /-- Theorem 7 success rate -/
-def theorem7_success_rate : Float := 1.00
+def theorem7_success_rate : ℝ := 1.0
 
 /-- Theorem 7 min slope -/
-def theorem7_min_slope : Float := 0.2667
+def theorem7_min_slope : ℝ := 0.2667
 
 /-- Theorem 7 target -/
-def theorem7_target : Float := 0.25
+def theorem7_target : ℝ := 0.25
 
 /-- Theorem 7 is fully validated -/
-theorem theorem7_validated : theorem7_success_rate = 1.00 := by rfl
+theorem theorem7_validated : theorem7_success_rate = 1.0 := by norm_num [theorem7_success_rate]
 
 /-- Min slope exceeds target -/
-theorem theorem7_safe : theorem7_min_slope > theorem7_target := by native_decide
+theorem theorem7_safe : theorem7_min_slope > theorem7_target := by norm_num [theorem7_min_slope, theorem7_target]
 
 /-! ═══════════════════════════════════════════════════════════════════
     
@@ -215,7 +217,7 @@ theorem theorem7_safe : theorem7_min_slope > theorem7_target := by native_decide
     - Theorem 1: ✅ β < 0 (Asymptotic Freedom)
     - Theorem 2: ✅ g decreasing (Monotonicity)
     - Theorem 3: ✅ g ≤ g₀ (Bound Preservation)
-    - Theorem 4: ✅ Δ ≥ 0.50 GeV (Mass Gap Persistence)
+    - Theorem 4: ✅ Δ ≥ 0.5 GeV (Mass Gap Persistence)
     - Theorem 5: ✅ Lipschitz in g (L = 2.0 GeV)
     - Theorem 6: ✅ Lipschitz in a (L = 3.0 GeV/fm)
     - Theorem 7: ✅ Quantitative Monotonicity (C = 0.25 GeV) 🆕

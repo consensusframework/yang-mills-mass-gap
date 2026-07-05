@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.RunningCoupling
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -40,7 +40,7 @@ namespace RGFlow
     ## Parameter Grid
     
     - **Initial coupling:** g₀ ∈ [0.8, 1.18]
-    - **Lattice spacing:** a ∈ [0.05, 0.20] fm
+    - **Lattice spacing:** a ∈ [0.05, 0.2] fm
     - **Energy ratios:** μ₂/μ₁ up to 100×
     
     ## Results
@@ -75,7 +75,7 @@ namespace RGFlow
   **Method:** RK45 Adaptive ODE Solver on 180 test cases
   
   **Validation Details:**
-  - Grid: g₀ ∈ [0.8, 1.18], a ∈ [0.05, 0.20] fm
+  - Grid: g₀ ∈ [0.8, 1.18], a ∈ [0.05, 0.2] fm
   - Energy ratios: μ₂/μ₁ up to 100×
   - Success Rate: 100% (180/180 cases)
   - Average Margin: 8.24%
@@ -87,13 +87,13 @@ namespace RGFlow
   As energy increases, quarks and gluons interact more weakly,
   enabling perturbative QCD calculations at high energies.
 -/
-axiom gemini_monotonicity_validation 
-    (μ₁ μ₂ μ₀ g₀ a : Float)
+-- FORMER AXIOM `gemini_monotonicity_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def RunningMonotonicityAssumption : Prop :=
+  ∀ (μ₁ μ₂ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ₁ ∧ μ₁ < μ₂)
     (hg : 0 < g₀ ∧ g₀ ≤ 1.18)
-    (ha : 0 < a ∧ a ≤ 0.2) :
-  running_coupling μ₂ μ₀ g₀ a < running_coupling μ₁ μ₀ g₀ a
-
+    (ha : 0 < a ∧ a ≤ 0.2), running_coupling μ₂ μ₀ g₀ a < running_coupling μ₁ μ₀ g₀ a
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 2 -/
@@ -106,27 +106,27 @@ def validation2_method : String := "RK45 Adaptive ODE Solver"
 def validation2_cases : Nat := 180
 
 /-- Success rate for Theorem 2 -/
-def validation2_success_rate : Float := 1.00
+def validation2_success_rate : ℝ := 1.0
 
 /-- Average margin for Theorem 2 -/
-def validation2_avg_margin : Float := 0.0824
+def validation2_avg_margin : ℝ := 0.0824
 
 /-- Minimum margin for Theorem 2 -/
-def validation2_min_margin : Float := 0.025
+def validation2_min_margin : ℝ := 0.025
 
 /-- Confidence level for Theorem 2 -/
-def validation2_confidence : Float := 0.99
+def validation2_confidence : ℝ := 0.99
 
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation2_complete : validation2_success_rate = 1.00 := by rfl
+theorem validation2_complete : validation2_success_rate = 1.0 := by norm_num [validation2_success_rate]
 
 /-- Validation has high confidence -/
-theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by native_decide
+theorem validation2_high_confidence : validation2_confidence ≥ 0.99 := by norm_num [validation2_confidence]
 
 /-- Validation covers extensive test cases -/
-theorem validation2_extensive : validation2_cases ≥ 100 := by native_decide
+theorem validation2_extensive : validation2_cases ≥ 100 := by norm_num [validation2_cases]
 
 /-! ## Summary
     

@@ -42,8 +42,8 @@ namespace YangMills.A6.Unitarity
 
 /-! ## Kinematical Hilbert Space -/
 
-/-- Complex conjugate (placeholder for compatibility) -/
-axiom conj : ℂ → ℂ
+/-- Complex conjugate via Mathlib (replaces former axiom). -/
+noncomputable def conj (z : ℂ) : ℂ := starRingEnd ℂ z
 
 /-- Quartet decomposition (placeholder, defined in A5) -/
 axiom HasQuartetDecomp : BRSTOperator K → Prop

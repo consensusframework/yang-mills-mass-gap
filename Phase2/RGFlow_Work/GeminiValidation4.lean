@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -34,7 +34,7 @@ namespace RGFlow
     
     **Block A - Uniform Lower Bound:**
     - At g = 1.18, minimum observed gap: 0.6009 GeV
-    - Conservative target: 0.50 GeV
+    - Conservative target: 0.5 GeV
     - Safety margin: 20%+
     - Status: ✅ 100% SUCCESS
     
@@ -78,36 +78,36 @@ namespace RGFlow
   This is ASYMPTOTIC FREEDOM from the gap's perspective:
   As we flow to weaker coupling (higher energy), the gap grows!
 -/
-axiom gemini_mass_gap_monotone_in_g 
-    (g1 g2 a : Float)
+-- FORMER AXIOM `gemini_mass_gap_monotone_in_g` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def GapMonotoneAssumption : Prop :=
+  ∀ (g1 g2 a : ℝ)
     (hg1_pos : 0 < g1)
     (hg1_le_g2 : g1 ≤ g2)
-    (hg2_bound : g2 ≤ 1.18) :
-  mass_gap g1 a ≥ mass_gap g2 a
-
+    (hg2_bound : g2 ≤ 1.18), mass_gap g1 a ≥ mass_gap g2 a
 /-- 
   VALIDATED AXIOM: Uniform Lower Bound at Strong Coupling
   
-  **Statement:** For all a ∈ (0, 0.20], Δ(1.18, a) ≥ 0.50 GeV
+  **Statement:** For all a ∈ (0, 0.2], Δ(1.18, a) ≥ 0.5 GeV
   
   **Validated by:** Gemini 3 Pro (January 29, 2026)
   **Method:** Lattice QCD across lattice spacings
   
   **Validation Details:**
   - Minimum observed gap: 0.6009 GeV (at a = 0.18 fm)
-  - Conservative bound: 0.50 GeV
+  - Conservative bound: 0.5 GeV
   - Safety margin: 20%+
   
   **Physical Significance:**
   The gap at strong coupling is ROBUST across all lattice spacings.
   This anchors our entire RG flow argument.
 -/
-axiom gemini_phase1_gap_uniform_in_a 
-    (a : Float)
+-- FORMER AXIOM `gemini_phase1_gap_uniform_in_a` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def GapUniformBoundAssumption : Prop :=
+  ∀ (a : ℝ)
     (ha_pos : 0 < a)
-    (ha_bound : a ≤ 0.2) :
-  mass_gap 1.18 a ≥ 0.50
-
+    (ha_bound : a ≤ 0.2), mass_gap 1.18 a ≥ 0.5
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 4 -/
@@ -117,34 +117,34 @@ def validation4_date : String := "2026-01-29"
 def validation4_pairs : Nat := 450
 
 /-- Success rate for Theorem 4 -/
-def validation4_success_rate : Float := 1.00
+def validation4_success_rate : ℝ := 1.0
 
 /-- Minimum observed gap at g = 1.18 -/
-def validation4_min_gap : Float := 0.6009  -- GeV
+def validation4_min_gap : ℝ := 0.6009  -- GeV
 
 /-- Conservative lower bound used -/
-def validation4_bound : Float := 0.50  -- GeV
+def validation4_bound : ℝ := 0.5  -- GeV
 
 /-- Safety margin -/
-def validation4_margin : Float := 0.20  -- 20%
+def validation4_margin : ℝ := 0.2  -- 20%
 
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation4_complete : validation4_success_rate = 1.00 := by rfl
+theorem validation4_complete : validation4_success_rate = 1.0 := by norm_num [validation4_success_rate]
 
 /-- Observed gap exceeds bound -/
-theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by native_decide
+theorem validation4_margin_positive : validation4_min_gap > validation4_bound := by norm_num [validation4_bound, validation4_min_gap]
 
 /-- Extensive testing performed -/
-theorem validation4_extensive : validation4_pairs ≥ 400 := by native_decide
+theorem validation4_extensive : validation4_pairs ≥ 400 := by norm_num [validation4_pairs]
 
 /-! ## Summary
     
     THEOREM 4 VALIDATION: ✅ COMPLETE WITH HONORS
     
     Two powerful results:
-    1. Δ(1.18, a) ≥ 0.50 GeV for all a (uniform bound)
+    1. Δ(1.18, a) ≥ 0.5 GeV for all a (uniform bound)
     2. Δ(g₁, a) ≥ Δ(g₂, a) when g₁ ≤ g₂ (monotonicity)
     
     Combined meaning: The mass gap is IMMORTAL!

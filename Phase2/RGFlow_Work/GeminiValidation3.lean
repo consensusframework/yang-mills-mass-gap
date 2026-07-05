@@ -16,9 +16,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.RunningCoupling
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -88,12 +88,12 @@ namespace RGFlow
   - Theory is UV safe in convergence region
   - Path to continuum limit is protected
 -/
-axiom gemini_bound_validation 
-    (μ μ₀ g₀ a : Float)
+-- FORMER AXIOM `gemini_bound_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def BoundPreservationAssumption : Prop :=
+  ∀ (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
-    (hg : 0 < g₀) :
-  running_coupling μ μ₀ g₀ a ≤ g₀
-
+    (hg : 0 < g₀), running_coupling μ μ₀ g₀ a ≤ g₀
 /-! ## Validation Metadata -/
 
 /-- Validation date for Theorem 3 -/
@@ -103,7 +103,7 @@ def validation3_date : String := "2026-01-29"
 def validation3_method : String := "Logical Induction + Data Reuse"
 
 /-- Execution time for Theorem 3 (seconds) -/
-def validation3_time : Float := 0.1
+def validation3_time : ℝ := 0.1
 
 /-- Theorem 3 follows from Theorem 2 -/
 def validation3_dependency : String := "Theorem 2 (Monotonicity)"

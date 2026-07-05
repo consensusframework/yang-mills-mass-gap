@@ -23,7 +23,7 @@ namespace RGFlow
 - **Success Rate:** 8/8 g-values within bounds (100%)
 - **Monotonicity:** 7/7 consecutive pairs (100%)
 - **Δ_min:** 1.452 ± 0.001 GeV (at g = 1.18)
-- **Δ_max:** 1.655 ± 0.001 GeV (at g = 0.50)
+- **Δ_max:** 1.655 ± 0.001 GeV (at g = 0.5)
 - **Amplitude:** 0.203 GeV
 - **GPT prediction:** 0.21 GeV (3.3% difference — EXCELLENT!)
 - **Scheme independence:** |Δ^(A) - Δ^(B)| = 0.001 GeV (10× better!)
@@ -31,20 +31,20 @@ namespace RGFlow
 ## Numerical Results
 | g    | Δ₀(g) [GeV] | Uncertainty | Status |
 |------|-------------|-------------|--------|
-| 0.50 | 1.655       | ± 10⁻¹⁶    | Δ_max  |
-| 0.60 | 1.625       | ± 10⁻¹⁶    | OK     |
-| 0.70 | 1.595       | ± 10⁻¹⁶    | OK     |
-| 0.80 | 1.565       | ± 10⁻¹⁶    | OK     |
-| 0.90 | 1.535       | ± 10⁻¹⁶    | OK     |
-| 1.00 | 1.505       | ± 10⁻¹⁶    | OK     |
-| 1.10 | 1.475       | ± 10⁻¹⁶    | OK     |
+| 0.5 | 1.655       | ± 10⁻¹⁶    | Δ_max  |
+| 0.6 | 1.625       | ± 10⁻¹⁶    | OK     |
+| 0.7 | 1.595       | ± 10⁻¹⁶    | OK     |
+| 0.8 | 1.565       | ± 10⁻¹⁶    | OK     |
+| 0.9 | 1.535       | ± 10⁻¹⁶    | OK     |
+| 1.0 | 1.505       | ± 10⁻¹⁶    | OK     |
+| 1.1 | 1.475       | ± 10⁻¹⁶    | OK     |
 | 1.18 | 1.452       | ± 10⁻¹⁶    | Δ_min  |
 
 All 8 values satisfy: 1.452 ≤ Δ₀(g) ≤ 1.655 ✅
 
 ## Cross-Validation with All Previous Theorems
-- Thm 11 (Positivity): All Δ₀(g) ≥ 0.50 ✅ (190-231% margin)
-- Thm 12 (Lipschitz): Slope = 0.30 ≤ 2.0 ✅ (85% margin)
+- Thm 11 (Positivity): All Δ₀(g) ≥ 0.5 ✅ (190-231% margin)
+- Thm 12 (Lipschitz): Slope = 0.3 ≤ 2.0 ✅ (85% margin)
 - Thm 13 (Monotonicity): All 7/7 pairs strictly decreasing ✅
 - Thm 14 (RG Invariance): Scheme diff ≤ 0.001 GeV ✅
 
@@ -64,10 +64,10 @@ axiom Delta0 : ℝ → ℝ
 
 /-! ## Axioms from Theorems 11-14 -/
 
-/-- **Theorem 11:** Δ₀(g) ≥ 0.50 GeV (positivity). -/
+/-- **Theorem 11:** Δ₀(g) ≥ 0.5 GeV (positivity). -/
 axiom continuum_mass_gap_lower_bound
     (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
-    (0.50 : ℝ) ≤ Delta0 g
+    (0.5 : ℝ) ≤ Delta0 g
 
 /-- **Theorem 12:** |Δ₀(g₁) - Δ₀(g₂)| ≤ 2.0·|g₁ - g₂| (Lipschitz). -/
 axiom continuum_lipschitz_in_g
@@ -86,37 +86,23 @@ axiom continuum_monotonic_in_g
 
 /-! ## Gemini Validation Axioms -/
 
-/-- **Gemini: Maximum value (at g_min = 0.50).**
-    Δ₀(0.50) = 1.655 GeV. -/
-axiom gemini_Delta0_at_gmin : Delta0 0.50 = (1.655 : ℝ)
-
-/-- **Gemini: Minimum value (at g_max = 1.18).**
-    Δ₀(1.18) = 1.452 GeV. -/
-axiom gemini_Delta0_at_gmax : Delta0 1.18 = (1.452 : ℝ)
-
-/-- **Gemini: Universal bound validated.**
-    1.452 ≤ Δ₀(g) ≤ 1.655 for all g ∈ [0.5, 1.18]. -/
-axiom gemini_validation_universal_bound
-    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+-- FORMER AXIOM (unverified LLM assertion), now a named assumption.
+def UniversalBoundAssumption : Prop :=
+  ∀ (g : ℝ), (0.5 ≤ g ∧ g ≤ 1.18) →
     (1.452 : ℝ) ≤ Delta0 g ∧ Delta0 g ≤ (1.655 : ℝ)
 
-/-- **Gemini: Amplitude.**
-    Δ_max - Δ_min = 0.203 GeV. -/
-axiom gemini_validation_amplitude :
-    (1.655 : ℝ) - 1.452 = (0.203 : ℝ)
 
 /-! ## Metadata -/
 
-axiom gemini_validation_15_success_rate : (8 : ℕ) = 8
-axiom gemini_validation_15_monotonicity_pairs : (7 : ℕ) = 7
 
 /-! ## Derived Properties -/
 
 /-- All values are strictly positive (from universal bound). -/
 theorem gemini_all_positive
-    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
+    (g : ℝ) (hg : 0.5 ≤ g ∧ g ≤ 1.18)
+    (hU : UniversalBoundAssumption) :
     (0 : ℝ) < Delta0 g := by
-  have h := (gemini_validation_universal_bound g hg).1
+  have h := (hU g hg).1
   linarith
 
 /-- The amplitude is positive. -/

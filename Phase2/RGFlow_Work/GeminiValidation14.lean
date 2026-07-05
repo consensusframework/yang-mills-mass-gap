@@ -6,6 +6,7 @@ Formalized by: Claude Opus 4.6 (Anthropic)
 -/
 
 import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -33,15 +34,15 @@ Both converge to the SAME Δ₀(g)! ✅
 ## Continuum Extrapolation Results
 | g   | Δ₀^(A) (GeV) | Δ₀^(B) (GeV) | Diff (GeV) | Rel Error (%) |
 |-----|--------------|--------------|------------|---------------|
-| 0.5 | 1.655        | 1.6555       | 0.0005     | 0.030         |
-| 0.7 | 1.595        | 1.5950       | 0.0000     | 0.000         |
-| 0.9 | 1.535        | 1.5340       | 0.0010     | 0.065         |
+| 0.5 | 1.655        | 1.6555       | 0.0005     | 0.03         |
+| 0.7 | 1.595        | 1.595       | 0.0     | 0.0         |
+| 0.9 | 1.535        | 1.534       | 0.001     | 0.065         |
 | 1.1 | 1.475        | 1.4745       | 0.0005     | 0.034         |
 
 Max difference: 0.001 GeV (at g = 0.9)
 
 ## Convergence Analysis (δ(g,a) = |Δ^(A)(g,a) - Δ^(B)(g,a)|)
-| g   | δ(0.20) GeV | δ(0.05) GeV | Ratio |
+| g   | δ(0.2) GeV | δ(0.05) GeV | Ratio |
 |-----|-------------|-------------|-------|
 | 0.5 | 0.025       | 0.0075      | 3.3   |
 | 0.7 | 0.025       | 0.0055      | 4.5   |
@@ -107,33 +108,7 @@ axiom scheme_diff_order_a
 
 /-! ## Gemini Validation Axioms -/
 
-/-- **Gemini Validation: Continuum limits agree.**
-    |Δ₀^(A)(g) - Δ₀^(B)(g)| ≤ 0.001 GeV for all tested g.
-    (In practice, both limits equal Δ₀(g) exactly.) -/
-axiom gemini_validation_scheme_agreement
-    (g : ℝ)
-    (hg : 0.5 ≤ g ∧ g ≤ 1.18) :
-    |Delta0 g - Delta0 g| ≤ (0.001 : ℝ)
 
-/-- **Gemini Validation: O(a) convergence rate.**
-    The ratio δ(0.20)/δ(0.05) ≈ 4.4, consistent with O(a). -/
-axiom gemini_validation_convergence_rate :
-    (3.3 : ℝ) ≤ 4.4 ∧ (4.4 : ℝ) ≤ 5.6
-
-/-! ## Metadata -/
-
-/-- Validation metadata: 4/4 g-values passed -/
-axiom gemini_validation_14_success_rate : (4 : ℕ) = 4
-
-/-- Validation metadata: max difference between schemes -/
-axiom gemini_validation_14_max_diff : (0.001 : ℝ) < 0.01
-
-/-- Validation metadata: average relative error -/
-axiom gemini_validation_14_avg_rel_error : (0.0323 : ℝ) < 1.0
-
-/-! ## Derived Properties -/
-
-/-- Scheme agreement is trivially exact (both converge to Δ₀). -/
 theorem gemini_scheme_agreement_trivial
     (g : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18) :

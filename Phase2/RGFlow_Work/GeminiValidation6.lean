@@ -19,9 +19,9 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.MassGap
+
+import Mathlib
+import RGFlow_Work.Basic
 
 namespace RGFlow
 
@@ -96,20 +96,20 @@ namespace RGFlow
   
   "Isso não é só 'seguro'. Isso é um bunker nuclear." - Gemini
 -/
-axiom gemini_lipschitz_in_a_validation
-    (g a1 a2 : Float)
+-- FORMER AXIOM `gemini_lipschitz_in_a_validation` (unverified LLM assertion).
+--  Now an explicit named assumption; theorems take it as hypothesis.
+def LipschitzInAAssumption : Prop :=
+  ∀ (g a1 a2 : ℝ)
     (hg : 0.5 ≤ g ∧ g ≤ 1.18)
     (ha1 : 0 < a1 ∧ a1 ≤ 0.2)
-    (ha2 : 0 < a2 ∧ a2 ≤ 0.2) :
-  Float.abs (mass_gap g a1 - mass_gap g a2) ≤ 3.0 * Float.abs (a1 - a2)
-
+    (ha2 : 0 < a2 ∧ a2 ≤ 0.2), |mass_gap g a1 - mass_gap g a2| ≤ 3.0 * |a1 - a2|
 /-! ## Lipschitz Constant in a -/
 
 /-- The Lipschitz constant in a: L_a = 3.0 GeV/fm -/
-def lipschitz_L_a : Float := 3.0
+def lipschitz_L_a : ℝ := 3.0
 
 /-- Lipschitz constant in a is positive -/
-theorem lipschitz_L_a_pos : lipschitz_L_a > 0 := by native_decide
+theorem lipschitz_L_a_pos : lipschitz_L_a > 0 := by norm_num [lipschitz_L_a]
 
 /-! ## Validation Metadata -/
 
@@ -120,35 +120,33 @@ def validation6_date : String := "2026-02-09"
 def validation6_pairs : Nat := 450
 
 /-- Success rate for Theorem 6 -/
-def validation6_success_rate : Float := 1.00
+def validation6_success_rate : ℝ := 1.0
 
 /-- Maximum observed Lipschitz constant in a -/
-def validation6_L_a_max : Float := 0.25
+def validation6_L_a_max : ℝ := 0.25
 
 /-- Mean observed Lipschitz constant in a -/
-def validation6_L_a_mean : Float := 0.15
+def validation6_L_a_mean : ℝ := 0.15
 
 /-- Conservative Lipschitz bound used -/
-def validation6_L_a_bound : Float := 3.0
+def validation6_L_a_bound : ℝ := 3.0
 
 /-- Safety margin (as multiplier) -/
-def validation6_safety_margin : Float := 12.0  -- 3.0 / 0.25 = 12x!
+def validation6_safety_margin : ℝ := 12.0  -- 3.0 / 0.25 = 12x!
 
 /-! ## Derived Properties -/
 
 /-- Validation has 100% success rate -/
-theorem validation6_complete : validation6_success_rate = 1.00 := by rfl
+theorem validation6_complete : validation6_success_rate = 1.0 := by norm_num [validation6_success_rate]
 
 /-- Observed L_a is way below bound (bunker nuclear!) -/
-theorem validation6_absurd_margin : validation6_L_a_max < validation6_L_a_bound := by 
-  native_decide
+theorem validation6_absurd_margin : validation6_L_a_max < validation6_L_a_bound := by norm_num [validation6_L_a_bound, validation6_L_a_max]
 
 /-- Safety margin is massive -/
-theorem validation6_massive_margin : validation6_safety_margin ≥ 10.0 := by 
-  native_decide
+theorem validation6_massive_margin : validation6_safety_margin ≥ 10.0 := by norm_num [validation6_safety_margin]
 
 /-- Extensive testing performed -/
-theorem validation6_extensive : validation6_pairs ≥ 400 := by native_decide
+theorem validation6_extensive : validation6_pairs ≥ 400 := by norm_num [validation6_pairs]
 
 /-! ## Summary
     

@@ -1,0 +1,38 @@
+name: Lean CI (Phase 2)
+
+on:
+  push:
+    branches: [main, etapa0-higiene]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build-phase2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install elan
+        run: |
+          curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+
+      - name: Resolve dependencies (pinned Mathlib)
+        working-directory: Phase2
+        run: lake update
+
+      - name: Fetch Mathlib build cache
+        working-directory: Phase2
+        run: lake exe cache get
+
+      - name: Build Phase 2
+        working-directory: Phase2
+        run: lake build
+
+      - name: Axiom report
+        if: success()
+        working-directory: Phase2
+        run: |
+          echo "Build OK. Axiom inventory:"
+          grep -rn "^axiom\|^\s*axiom" RGFlow_Work --include="*.lean" | wc -l

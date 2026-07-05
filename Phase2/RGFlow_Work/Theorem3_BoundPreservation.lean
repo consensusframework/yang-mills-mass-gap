@@ -17,11 +17,10 @@
   ═══════════════════════════════════════════════════════════════════
 -/
 
-import RGFlow_Work.BetaFunction
-import RGFlow_Work.ConvergenceRegion
-import RGFlow_Work.RunningCoupling
+
+import Mathlib
+import RGFlow_Work.Basic
 import RGFlow_Work.GeminiValidation3
-import RGFlow_Work.Theorem2_Monotonicity
 
 namespace RGFlow
 
@@ -71,20 +70,21 @@ namespace RGFlow
   ═══════════════════════════════════════════════════════════════════
 -/
 theorem bound_preservation
-    (μ μ₀ g₀ a : Float)
+    (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
-    (_ : 0 < a ∧ a ≤ a_max) :
+    (_ : 0 < a ∧ a ≤ a_max)
+    (h_assume : BoundPreservationAssumption) :
   running_coupling μ μ₀ g₀ a ≤ g₀ := by
   -- Apply Gemini's validated axiom
   -- This follows from monotonicity (Theorem 2) + initial condition
-  exact gemini_bound_validation μ μ₀ g₀ a h_order hg.1
+  exact h_assume μ μ₀ g₀ a h_order hg.1
 
 /-! ## Corollaries -/
 
 /-- Technical axiom for transitivity -/
 axiom coupling_stays_bounded_aux
-    (μ μ₀ g₀ a : Float)
+    (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
@@ -92,7 +92,7 @@ axiom coupling_stays_bounded_aux
 
 /-- The coupling stays in the convergence region -/
 theorem coupling_stays_bounded
-    (μ μ₀ g₀ a : Float)
+    (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (_ : 0 < a ∧ a ≤ a_max) :
@@ -102,7 +102,7 @@ theorem coupling_stays_bounded
 
 /-- No Landau pole: coupling is always finite (bounded by g0) -/
 theorem no_landau_pole
-    (μ μ₀ g₀ a : Float)
+    (μ μ₀ g₀ a : ℝ)
     (h_order : 0 < μ₀ ∧ μ₀ ≤ μ)
     (hg : 0 < g₀ ∧ g₀ ≤ g0)
     (ha : 0 < a ∧ a ≤ a_max) :
@@ -125,13 +125,13 @@ theorem bound_from_monotonicity_concept :
 /-! ## Validation Metrics -/
 
 /-- Theorem 3 execution time (seconds) -/
-def theorem3_time : Float := 0.1
+def theorem3_time : ℝ := 0.1
 
 /-- Theorem 3 follows from Theorem 2 -/
 def theorem3_depends_on : String := "Theorem 2 (Monotonicity)"
 
 /-- Theorem 3 is the fastest validation -/
-theorem theorem3_fast : theorem3_time ≤ 0.1 := by native_decide
+theorem theorem3_fast : theorem3_time ≤ 0.1 := by norm_num [theorem3_time]
 
 /-! ═══════════════════════════════════════════════════════════════════
     
