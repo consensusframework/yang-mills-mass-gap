@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -59,8 +60,6 @@ The data shows monotonic convergence from below, with:
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap4.ContinuumLimit
 

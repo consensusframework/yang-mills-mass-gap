@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A10_Hamiltonian/Positivity.lean
 Date: 2025-10-23
@@ -34,9 +35,6 @@ Strategy:
 6. Prove H = 0 ⟺ E = B = 0 a.e. using integral_eq_zero_iff_of_nonneg_ae
 -/
 
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Tactic
 
 namespace YangMills.A10.Hamiltonian
 

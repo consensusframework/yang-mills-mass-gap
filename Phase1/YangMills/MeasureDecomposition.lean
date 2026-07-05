@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Temporary Axiom #1: Measure Decomposition (σ-additivity)
 Status: ✅ VALIDATED (Lote 1, Rodada 2)
@@ -7,10 +8,6 @@ Quality: 100% (Ph.D. level - "impecável")
 File: YangMills/Gap1/Measure/MeasureDecomposition.lean
 -/
 
-import Mathlib.MeasureTheory.Decomposition.RadonNikodym
-import Mathlib.MeasureTheory.Decomposition.Lebesgue
-import Mathlib.MeasureTheory.Decomposition.SignedMeasure
-import Mathlib.MeasureTheory.Measure.MeasureSpace
 
 /-!
 # Measure Decomposition for Yang-Mills

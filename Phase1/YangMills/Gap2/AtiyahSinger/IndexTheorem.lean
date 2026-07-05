@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Jucelha Carvalho, Manus AI, Claude Sonnet 4.5, Claude Opus 4.1, GPT-5
 Released under Apache 2.0 license as described in the file LICENSE.
@@ -29,9 +30,6 @@ where k ∈ ℤ is the instanton number (second Chern class).
 - Claude Sonnet 4.5 framework (October 2025)
 -/
 
-import Mathlib.Geometry.Manifold.Instances.Sphere
-import Mathlib.Analysis.Calculus.Deriv.Basic
-import Mathlib.Topology.Algebra.Module.Basic
 
 namespace YangMills.Gap2.AtiyahSinger
 

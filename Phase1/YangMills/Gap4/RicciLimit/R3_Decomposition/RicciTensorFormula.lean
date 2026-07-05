@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Temporary Axiom #5: Ricci Tensor Formula
 Status: ✅ VALIDATED (Lote 3, Rodada 3)
@@ -7,9 +8,6 @@ Quality: 85% → 95% (post-validation)
 File: YangMills/Gap4/RicciLimit/R3_Decomposition/RicciTensorFormula.lean
 -/
 
-import Mathlib.Geometry.Manifold.Instances.Real
-import Mathlib.Geometry.Manifold.ContMDiff
-import Mathlib.LinearAlgebra.Trace
 
 /-!
 # Ricci Tensor Formula

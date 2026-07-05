@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Temporary Axiom #4: Bochner-Weitzenböck Formula
 Status: ✅ VALIDATED (Lote 3, Rodada 3)
@@ -7,9 +8,6 @@ Quality: 80% → 95% (post-validation)
 File: YangMills/Gap4/RicciLimit/R1_Bochner/BochnerWeitzenbock.lean
 -/
 
-import Mathlib.Geometry.Manifold.Instances.Real
-import Mathlib.Analysis.InnerProductSpace.PiL2
-import Mathlib.Geometry.Manifold.ContMDiff
 import YangMills.Gap4.RicciLimit.R1_Bochner.LaplacianConnection
 
 /-!

@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -85,8 +86,6 @@ We must stay safely inside (λ₀ > 0).
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap2.GribovGaugeOrbits
 

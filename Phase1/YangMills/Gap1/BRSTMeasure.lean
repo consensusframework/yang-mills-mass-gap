@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -76,8 +77,6 @@ because they cannot propagate at low energies!
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap1.BRSTMeasure
 

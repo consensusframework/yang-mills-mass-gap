@@ -1,3 +1,4 @@
+import Mathlib
 lean/-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -8,9 +9,6 @@ import YangMills.Gap1.BRSTMeasure.M1_FP_Positivity
 import YangMills.Gap1.BRSTMeasure.M3_Compactness
 import YangMills.Gap1.BRSTMeasure.M4_Finiteness
 import YangMills.Gap1.BRSTMeasure.M5_BRSTCohomology
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.MeasureTheory.Measure.MeasureSpace
-import Mathlib.Topology.MetricSpace.Basic
 
 /-!
 # M2: BRST Measure Convergence

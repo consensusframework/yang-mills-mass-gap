@@ -1,4 +1,5 @@
-import Mathlib.Tactic
+import Mathlib
+import YangMills.Basic
 
 -- Dummy definitions to allow the file to be checked independently
 -- These would be replaced by the actual project imports

@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Temporary Axiom #6: Curvature Decomposition
 Status: ✅ VALIDATED (Lote 3, Rodada 3)
@@ -7,8 +8,6 @@ Quality: 90% → 95% (post-validation)
 File: YangMills/Gap4/RicciLimit/R3_Decomposition/CurvatureDecomposition.lean
 -/
 
-import Mathlib.Geometry.Manifold.Instances.Real
-import Mathlib.LinearAlgebra.Trace
 import YangMills.Gap4.RicciLimit.R3_Decomposition.RicciTensorFormula
 
 /-!

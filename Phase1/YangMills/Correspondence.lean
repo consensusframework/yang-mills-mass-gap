@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A9_Lattice/Correspondence.lean
 Date: 2025-10-23
@@ -34,10 +35,6 @@ Strategy:
 6. Apply to Wilson loops and other observables
 -/
 
-import Mathlib.Topology.Basic
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Topology.UniformSpace.UniformConvergence
-import Mathlib.Analysis.NormedSpace.Basic
 
 namespace YangMills.A9.Lattice
 

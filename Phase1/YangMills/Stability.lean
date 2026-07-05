@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A8_Topology/Stability.lean
 Date: 2025-10-23
@@ -33,10 +34,6 @@ Strategy:
 5. Conclude Q is constant on each connected component
 -/
 
-import Mathlib.Topology.Basic
-import Mathlib.Topology.Connected.Basic
-import Mathlib.Topology.Instances.Int
-import Mathlib.Data.Int.Basic
 
 namespace YangMills.A8.Topology
 

@@ -1,3 +1,5 @@
+import Mathlib
+import YangMills.Basic
 /-
 # Lemma M1: Faddeev-Popov Positivity
 
@@ -54,10 +56,6 @@ All three are standard results in functional analysis and QFT.
 
 -/
 
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.LinearAlgebra.Eigenspace.Basic
 import YangMills.Gap1.BRSTMeasure.Core
 import YangMills.Gap1.BRSTMeasure.GaugeSpace
 import YangMills.Gap1.BRSTMeasure.FaddeevPopov

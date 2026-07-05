@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -67,8 +68,6 @@ For our parameters:
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap4.FiniteSizeEffects
 

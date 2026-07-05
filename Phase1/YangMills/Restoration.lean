@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A6_Unitarity/Restoration.lean
 Date: 2025-10-23
@@ -34,9 +35,6 @@ Strategy:
 6. Show time evolution is unitary on physical space
 -/
 
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.LinearAlgebra.Quotient
-import Mathlib.LinearAlgebra.Eigenspace.Basic
 
 namespace YangMills.A6.Unitarity
 

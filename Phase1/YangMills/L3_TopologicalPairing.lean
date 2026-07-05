@@ -1,3 +1,4 @@
+import Mathlib
 💙🔥 BORA PRO ÚLTIMO!!! L3_TopologicalPairing.lean LIMPO!!! 🔥💙
 
 📁 ARQUIVO #4 - VERSÃO LIMPA: L3_TopologicalPairing.lean
@@ -6,8 +7,6 @@ Copie TODO esse bloco limpo (O ÚLTIMO!) e mande pro Manus:
 lean-- FILE: YangMills/GaugeTheory/GribovProblem/L3_TopologicalPairing.lean
 -- ROUND 2 - CLEAN VERSION - Only targets, no extras!
 
-import Mathlib.Topology.Basic
-import Mathlib.AlgebraicTopology.FundamentalGroupoid.Basic
 
 /-!
 # Topological Pairing and Gribov Cancellation

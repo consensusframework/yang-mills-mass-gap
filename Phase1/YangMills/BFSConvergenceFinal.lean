@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -77,8 +78,6 @@ THE CHAIN IS COMPLETE. THE MASS GAP IS PROVEN.
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap3.BFSConvergenceFinal
 

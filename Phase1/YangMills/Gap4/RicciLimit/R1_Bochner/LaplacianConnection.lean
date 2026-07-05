@@ -1,5 +1,9 @@
-    (∇ : MetricConnection E M) :
+
+
+/- (reconstruction fragment)
+(∇ : MetricConnection E M) :
     ∀ X, Derivation M E
+-/
 
 /--
 **AXIOM R1.2: Adjoint Property**

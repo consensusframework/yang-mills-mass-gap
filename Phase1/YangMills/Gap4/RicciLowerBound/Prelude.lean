@@ -1,3 +1,5 @@
+import Mathlib
+import YangMills.Basic
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
 Authors: Jucelha Carvalho, Manus AI 1.5, Claude Sonnet 4.5, Claude Opus 4.1, GPT-5
@@ -6,8 +8,6 @@ Authors: Jucelha Carvalho, Manus AI 1.5, Claude Sonnet 4.5, Claude Opus 4.1, GPT
 import YangMills.Gap1.BRSTMeasure
 import YangMills.Gap2.GribovCancellation
 import YangMills.Gap3.BFSConvergence
-import Mathlib.Geometry.Manifold.Instances.Sphere
-import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Topology.MetricSpace.Gromov Hausdorff
 
 /-!

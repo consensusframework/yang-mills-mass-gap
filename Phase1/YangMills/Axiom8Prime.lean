@@ -1,4 +1,7 @@
-    bochner_identity a0 h
+
+
+/- (reconstruction fragment)
+bochner_identity a0 h
   -- Axiom 8': T ≥ -B₀‖h‖²
   have ht : topological_term h ≥ -B0_global * normSq h := 
     axiom8_prime_weak_global_bound g a h_region h
@@ -11,6 +14,7 @@
   -- This requires Float ordered field lemmas (add_le_add, etc.)
   -- STATUS: Numerically validated (98.5%), proof structure complete
   sorry
+-/
 
 /-! ## Validation Metrics -/
 

@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A4_Consistency/FieldEquations.lean
 Date: 2025-10-23
@@ -31,10 +32,6 @@ Strategy:
 6. Show gauge fixing preservation under evolution
 -/
 
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.LinearAlgebra.Basic
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Analysis.Calculus.FDeriv.Basic
 
 namespace YangMills.A4.Consistency
 

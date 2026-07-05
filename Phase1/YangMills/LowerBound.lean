@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A7_SpectralGap/LowerBound.lean
 Date: 2025-10-23
@@ -33,9 +34,6 @@ Strategy:
 7. Connect to mass gap via eigenvalue characterization
 -/
 
-import Mathlib.Analysis.InnerProductSpace.Spectrum
-import Mathlib.Analysis.InnerProductSpace.Adjoint
-import Mathlib.Topology.Instances.Real
 
 namespace YangMills.A7.SpectralGap
 

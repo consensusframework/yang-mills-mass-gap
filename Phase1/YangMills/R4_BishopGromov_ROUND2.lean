@@ -1,8 +1,9 @@
+import Mathlib
+import YangMills.Basic
+open YangMills
 -- FILE: YangMills/Gap4/RicciLowerBound/R4_BishopGromov.lean
 -- Eliminating 2 sorrys: Bishop-Gromov volume comparison
 
-import Mathlib.Geometry.Manifold.Instances.Sphere
-import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 /-!
 # Bishop-Gromov Volume Comparison Theorem

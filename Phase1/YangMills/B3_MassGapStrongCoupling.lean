@@ -3,7 +3,6 @@
   Project: Yang–Mills Mass Gap — Axiom 3 → Theorem
   This file set compiles modulo `sorry` and placeholder axioms.
 -/
-import Std
 
 set_option autoImplicit true
 set_option maxHeartbeats 800000

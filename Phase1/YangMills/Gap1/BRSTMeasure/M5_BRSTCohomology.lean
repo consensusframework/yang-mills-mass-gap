@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Consensus Framework. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
@@ -23,9 +24,6 @@ the BRST measure is invariant under BRST transformations.
 
 -/
 
-import Mathlib.Analysis.InnerProductSpace.Basic
-import Mathlib.MeasureTheory.Measure.MeasureSpace
-import Mathlib.Topology.Algebra.Module.Basic
 import YangMills.Gap1.BRSTMeasure.GaugeSpace
 
 noncomputable section

@@ -6,7 +6,6 @@
     B3, B4, axiom3_from_B1_to_B5 → intentionally left as TODO sorrys
                                      (would be assuming the main result).
 -/
-import Std
 
 set_option autoImplicit true
 set_option maxHeartbeats 800000

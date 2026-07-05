@@ -1,3 +1,6 @@
+
+
+/- (reconstruction fragment)
 ## Main Result
 
 `lemma_R5_compactness_to_stability`:
@@ -19,6 +22,7 @@
 
 - Confidence: 80% (measure theory on infinite-dimensional spaces subtle)
 - Risk: Medium (compactness helps but infinite dimensions tricky)
+-/
 -/
 
 namespace YangMills.Gap4.RicciLowerBound.R5

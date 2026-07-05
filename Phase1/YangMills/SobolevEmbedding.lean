@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Temporary Axiom #2: Sobolev Embedding Theorem
 Status: ✅ VALIDATED (Lote 1, Rodada 2)
@@ -7,11 +8,6 @@ Quality: 95% (Ph.D. level)
 File: YangMills/Gap1/BRSTMeasure/M3_Compactness/SobolevEmbedding.lean
 -/
 
-import Mathlib.Analysis.Calculus.ContDiff
-import Mathlib.Analysis.SpecialFunctions.Pow.Real
-import Mathlib.Topology.MetricSpace.Holder
-import Mathlib.Geometry.Manifold.SmoothManifoldWithCorners
-import Mathlib.MeasureTheory.Integral.Bochner
 
 /-!
 # Sobolev Embedding Theorem

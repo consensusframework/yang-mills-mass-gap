@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -32,9 +33,6 @@ leading to BRST-exact cancellation.
 - Atiyah-Singer index theorem connects geometry and topology
 -/
 
-import Mathlib.Topology.Basic
-import Mathlib.Geometry.Manifold.ChartedSpace
-import Mathlib.Analysis.InnerProductSpace.Basic
 
 /-! ## Basic Structures -/
 

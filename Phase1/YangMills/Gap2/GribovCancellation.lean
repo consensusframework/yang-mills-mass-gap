@@ -1,5 +1,4 @@
-import Mathlib.Algebra.Group.Defs
-import Mathlib.Analysis.SpecialFunctions.Exp
+import Mathlib
 
 /-!
 # Gap 2: Gribov Cancellation via BRST Formalism

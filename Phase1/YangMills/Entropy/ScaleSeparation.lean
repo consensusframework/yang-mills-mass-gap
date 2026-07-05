@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -43,9 +44,6 @@ All definitions now backed by axioms from quantum information theory,
 entanglement entropy, and holography literature.
 -/
 
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.LinearAlgebra.Matrix.Trace
 import YangMills.Topology.GribovPairing
 
 /-! ## Density Matrices and Entanglement -/

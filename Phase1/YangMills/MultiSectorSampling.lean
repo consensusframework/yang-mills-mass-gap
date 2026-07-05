@@ -1,11 +1,10 @@
+import Mathlib
 /-
 Copyright (c) 2025 Jucelha Carvalho, Manus AI 1.5, GPT-5. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: GPT-5 (implementation), Manus AI 1.5 (validation)
 -/
 
-import Mathlib.MeasureTheory.Measure.ProbabilityMeasure
-import Mathlib.Topology.Instances.Real
 
 /-!
 # Multi-Sector Sampling for Topological Charge

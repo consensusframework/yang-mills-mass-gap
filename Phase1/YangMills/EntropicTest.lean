@@ -1,3 +1,4 @@
+import Mathlib
 -- Teste simplificado de sintaxe do EntropicPrinciple_v2.lean
 -- Verifica se as correções do Opus 4.5 estão corretas
 --
@@ -6,9 +7,6 @@
 -- As constantes são valores concretos (12.4, 8.1, 1.206, 1.22), portanto os
 -- enunciados aritméticos são decidíveis numericamente em ℝ.
 
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic.NormNum
 
 -- Tipos básicos simulados
 axiom Manifold : Type

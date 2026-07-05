@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A14_Wilson/AreaLaw.lean
 Date: 2025-10-23
@@ -30,8 +31,6 @@ Strategy:
 4. Prove Area → ∞ implies W → 0 using Tendsto
 -/
 
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Topology.Algebra.Order
 
 namespace YangMills.A14.Wilson
 

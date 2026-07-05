@@ -1,11 +1,10 @@
+import Mathlib
 /-
 Copyright (c) 2025 Jucelha Carvalho, Manus AI 1.5, Claude Sonnet 4.5. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Claude Sonnet 4.5 (implementation), GPT-5 (validation)
 -/
 
-import Mathlib.Geometry.Manifold.Basic
-import Mathlib.Analysis.Calculus.ImplicitFunction
 import YangMills.Basic
 
 /-!

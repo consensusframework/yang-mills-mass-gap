@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -75,8 +76,6 @@ The fact that Δ/√σ ≈ 2.25 is CONSTANT proves the mass gap is real physics!
 
 -/
 
-import Mathlib.Data.Real.Basic
-import Mathlib.Tactic
 
 namespace YangMills.Gap3.UniversalityScaling
 

@@ -1,6 +1,4 @@
-import Mathlib.Data.Finset.Basic
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Data.Real.Basic
+import Mathlib
 
 /-!
 # Gap 3: Brydges-Fröhlich-Sokal Cluster Expansion Convergence

@@ -3,7 +3,6 @@
   Project: Yang–Mills Mass Gap — Axiom 3 → Theorem
   Status (May 2026): compiles with placeholder axioms and Gemini-validated axiom.
 -/
-import Std
 
 set_option autoImplicit true
 set_option maxHeartbeats 800000

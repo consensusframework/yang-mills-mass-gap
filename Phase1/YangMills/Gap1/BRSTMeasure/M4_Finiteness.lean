@@ -1,3 +1,4 @@
+import Mathlib
 /-
 # Lemma M4: Finiteness of BRST Measure
 
@@ -120,13 +121,6 @@ Both are well-established and universally accepted in rigorous QFT.
 
 -/
 
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.MeasureTheory.Measure.MeasureSpace
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.Data.Real.Basic
-import Mathlib.Topology.Instances.Real
-import Mathlib.Data.Real.NNReal
 
 -- Import from our YangMills project
 import YangMills.Gap1.BRSTMeasure.Core

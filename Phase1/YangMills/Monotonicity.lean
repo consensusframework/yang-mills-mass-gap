@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A11_Entropy/Monotonicity.lean
 Date: 2025-10-23
@@ -34,8 +35,6 @@ Strategy:
 4. Prove entropy is monotone (formal consequence)
 -/
 
-import Mathlib.Topology.Algebra.Order
-import Mathlib.Analysis.Calculus.Deriv.Basic
 
 namespace YangMills.A11.Entropy
 

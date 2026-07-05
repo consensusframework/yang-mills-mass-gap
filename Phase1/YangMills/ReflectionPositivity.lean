@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A17_OS/ReflectionPositivity.lean
 Date: 2025-10-23
@@ -34,8 +35,6 @@ Strategy:
 5. Prove reflection positivity: ⟨f,f⟩_OS ≥ 0
 -/
 
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.Topology.Basic
 
 namespace YangMills.A17.OS
 

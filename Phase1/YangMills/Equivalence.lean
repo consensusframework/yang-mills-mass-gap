@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A5_BRSTCohomology/Equivalence.lean
 Date: 2025-10-23
@@ -31,10 +32,6 @@ Strategy:
 6. Prove H^n = 0 for n > 0 via homotopy
 -/
 
-import Mathlib.Algebra.Homology.Basic
-import Mathlib.Algebra.Homology.Homology
-import Mathlib.LinearAlgebra.Basic
-import Mathlib.LinearAlgebra.Quotient
 
 namespace YangMills.A5.BRSTCohomology
 

@@ -1,3 +1,5 @@
+import Mathlib
+import YangMills.Basic
 /-
 # Lemma M3: Compactness of Moduli Space
 
@@ -92,13 +94,6 @@ All three are **well-established** results with rigorous proofs in the literatur
 
 -/
 
-import Mathlib.Analysis.NormedSpace.Basic
-import Mathlib.Analysis.NormedSpace.OperatorNorm
-import Mathlib.Topology.MetricSpace.Basic
-import Mathlib.Topology.Compactness.Compact
-import Mathlib.Analysis.Calculus.FDeriv.Basic
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.MeasureTheory.Function.LpSpace
 
 -- Import from our YangMills project
 import YangMills.Gap1.BRSTMeasure.Core

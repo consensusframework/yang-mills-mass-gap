@@ -1,3 +1,4 @@
+import Mathlib
 /-
 Copyright (c) 2025 Smart Tour Brasil. All rights reserved.
 Released under Apache 2.0 license.
@@ -71,10 +72,6 @@ Success: 0.00% pairing is a PREDICTION, not a bug! 🎉
 
 -/
 
-import Mathlib.Analysis.SpecialFunctions.Log.Basic
-import Mathlib.MeasureTheory.Integral.Bochner
-import Mathlib.LinearAlgebra.Matrix.Trace
-import Mathlib.Topology.Basic
 
 -- Note: In full integration, uncomment these imports:
 -- import YangMills.Entropy.ScaleSeparation

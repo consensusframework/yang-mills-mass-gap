@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A16_Cluster/Decomposition.lean
 Date: 2025-10-23
@@ -30,9 +31,6 @@ Strategy:
 4. Apply Tendsto machinery
 -/
 
-import Mathlib.Analysis.SpecialFunctions.Exp
-import Mathlib.Topology.Algebra.InfiniteSum
-import Mathlib.Topology.Algebra.Order
 
 namespace YangMills.A16.Cluster
 

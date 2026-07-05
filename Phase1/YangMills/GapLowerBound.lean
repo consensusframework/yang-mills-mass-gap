@@ -1,3 +1,4 @@
+import Mathlib
 /-
 File: YangMills/Refinement/A13_Spectrum/GapLowerBound.lean
 Date: 2025-10-23
@@ -34,9 +35,6 @@ Strategy:
 6. Prove λ₁ ≥ c using le_csInf
 -/
 
-import Mathlib.Topology.Algebra.Order
-import Mathlib.Data.Real.Basic
-import Mathlib.Order.ConditionallyCompleteLattice
 
 namespace YangMills.A13.Spectrum
 

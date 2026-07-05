@@ -1,9 +1,13 @@
-    ∃ (L ΔS : ℝ), L > 0 ∧ ΔS > 0 ∧ 
+
+
+/- (reconstruction fragment)
+∃ (L ΔS : ℝ), L > 0 ∧ ΔS > 0 ∧ 
       Δ^2 = (2 * Real.pi / L)^2 * ΔS ∧
     -- 3. This suppresses Gribov copies
     suppresses_gribov_copies M A Δ ∧
     -- 4. Vacuum locks in single sector
     ∃ (k : ℝ), thermodynamic_sector_locking M A k
+-/
 
 /-! ## Geometric Gribov Cancellation (Old Axiom - for compatibility) -/
 
