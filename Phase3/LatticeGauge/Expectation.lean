@@ -137,15 +137,13 @@ theorem abs_gibbsExpectation_le [NeZero N] [Fintype (Site N)]
       _ ≤ C * gibbsWeight β χ U :=
           mul_le_mul_of_nonneg_right (hf U) (gibbsWeight_pos β χ U).le
   unfold gibbsExpectation
-  rw [abs_div, abs_of_pos hz, div_le_iff₀ hz]
-  calc |∫ U : Config N G, f U * gibbsWeight β χ U ∂(configMeasure μm N)|
-      ≤ ∫ U : Config N G, |f U * gibbsWeight β χ U| ∂(configMeasure μm N) := by
-        simpa [Real.norm_eq_abs] using
-          norm_integral_le_integral_norm (μ := configMeasure μm N)
-            (f := fun U : Config N G => f U * gibbsWeight β χ U)
+  rw [abs_div, abs_of_pos hz, div_le_iff₀ hz, ← Real.norm_eq_abs]
+  calc ‖∫ U : Config N G, f U * gibbsWeight β χ U ∂(configMeasure μm N)‖
+      ≤ ∫ U : Config N G, ‖f U * gibbsWeight β χ U‖ ∂(configMeasure μm N) :=
+        norm_integral_le_integral_norm _
     _ ≤ ∫ U : Config N G, C * gibbsWeight β χ U ∂(configMeasure μm N) := by
-        refine integral_mono hfwint.abs (hwint.const_mul C) fun U => ?_
-        rw [abs_mul, abs_of_nonneg (gibbsWeight_pos β χ U).le]
+        refine integral_mono hfwint.norm (hwint.const_mul C) fun U => ?_
+        rw [Real.norm_eq_abs, abs_mul, abs_of_nonneg (gibbsWeight_pos β χ U).le]
         exact mul_le_mul_of_nonneg_right (hf U) (gibbsWeight_pos β χ U).le
     _ = C * realZ (N := N) μm β χ := by
         rw [integral_mul_left]; rfl
