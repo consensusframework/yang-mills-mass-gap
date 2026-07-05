@@ -47,6 +47,15 @@ começando pelos erros-raiz mais curtos do PHASE1_BUILD_STATUS.md.
 
 ## 4. Armadilhas já pisadas (não pise de novo)
 
+**Contexto essencial:** o repositório ORIGINAL do projeto foi perdido — a
+conta anterior do GitHub foi suspensa sem motivo comunicado (segundo a
+coordenadora, a suspensão ocorreu numa onda que atingiu várias contas;
+chamado aberto no suporte segue sem resposta). O acervo atual foi REFEITO
+a partir do que o Manus AI tinha em memória — o que explica os defeitos
+abaixo e por que não se pode afirmar nada sobre o estado da versão original.
+Lições práticas: mantenha `git clone --mirror` atualizado fora do GitHub e
+versione releases no Zenodo.
+
 - **Reconstrução via memória de IA** deixou arquivos truncados no topo E no
   rodapé, cabeçalhos sem `/-`, resíduos de markdown (```lean) colados,
   duplicatas de download `(1)` com conteúdo DIVERGENTE. Desconfie de todo
