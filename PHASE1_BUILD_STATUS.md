@@ -1,173 +1,63 @@
 # PHASE1_BUILD_STATUS.md
 
-Incremental build of Phase 1 (Lean 4.15 + Mathlib, CI job build-phase1).
+Iteration 2 (July 5, 2026). Lean 4.15 + Mathlib, CI job build-phase1.
 
-- Modules compiling: 8 (whitelisted in lakefile.toml)
-- Modules failing: 46 (catalogued below, excluded from build)
-- Modules blocked by LOST files (account suspension): see commit 6873923
+- **Modules compiling: 34 / 87**  (iteration 1: 5)
+- Modules failing: 53 — individual semantic errors (instance synthesis, mistyped applications), each needs case-by-case repair.
+- NOTE: many failing files are redundant version variants (EntropicPrinciple v2/v3/v4/v5/ORIGINAL/Integrated...). Recommend picking one canonical version per family and archiving the rest.
 
-## Failing modules and first error classes
+## Failing modules
 
-### `YangMills.AXIOM3_Compose`
-- failed to synthesize
-- function expected at
-- unexpected identifier; expected command
-
-### `YangMills.AreaLaw`
-
-### `YangMills.Axiom1Prime`
-- function expected at
-- type mismatch
-- unknown identifier 'h_exponential_decay_validation'
-
-### `YangMills.Axiom2Prime`
-- type mismatch
-
-### `YangMills.Axiom8Prime`
-- unexpected identifier; expected command
-
-### `YangMills.B1_BFSConvergence`
-- unexpected identifier; expected command
-- unexpected token ':'; expected command
-- unexpected token '|'; expected term
-
-### `YangMills.B2_ClusterDecomposition`
-- unexpected identifier; expected command
-- unexpected token ':'; expected command
-- unexpected token '|'; expected term
-
-### `YangMills.B3_MassGapStrongCoupling`
-- unexpected identifier; expected command
-- unexpected token ':'; expected command
-- unexpected token '|'; expected term
-
-### `YangMills.B4_ContinuumLimitStability`
-- failed to synthesize
-- function expected at
-- unexpected identifier; expected command
-
-### `YangMills.B5_BRSTBFSConnection`
-- failed to synthesize
-- function expected at
-- unexpected identifier; expected command
-
-### `YangMills.BetaFunction`
-- declaration uses 'sorry'
-- unknown identifier 'ℝ'
-
-### `YangMills.ContinuumLimit`
-- unsolved goals
-
-### `YangMills.ConvergenceRegion`
-- failed to synthesize
-- unknown identifier 'ℝ'
-
-### `YangMills.Correspondence`
-
-### `YangMills.Decomposition`
-
-### `YangMills.EntropicPrinciple`
-- failed to synthesize
-- function expected at
-- invalid 'end', insufficient scopes
-
-### `YangMills.EntropicPrinciple_OPUS45_ORIGINAL`
-- tactic 'introN' failed, insufficient number of binders
-- type expected, got
-- unexpected token 'λ'; expected '_' or identifier
-
-### `YangMills.EntropicPrinciple_v2`
-- failed to synthesize
-- function expected at
-- unknown identifier 'Real.pi'
-
-### `YangMills.EntropicPrinciple_v2_fixed`
-- declaration uses 'sorry'
-- failed to compile definition, consider marking it as 'noncom
-- function expected at
-
-### `YangMills.EntropicTest`
-- unknown constant 'Real.pi'
-
-### `YangMills.Equivalence`
-
-### `YangMills.FieldEquations`
-
-### `YangMills.FiniteSizeEffects`
-- unsolved goals
-
-### `YangMills.Gap1.GribovGaugeOrbits`
-- failed to compile definition, consider marking it as 'noncom
-- invalid field 'inGribovRegion', the environment does not con
-
-### `YangMills.Gap2.AtiyahSinger.IndexTheorem`
-- failed to solve universe constraint
-- failed to synthesize
-- type mismatch
-
-### `YangMills.Gap2.GribovCancellation`
-- type mismatch
-
-### `YangMills.Gap3.BFS_Convergence`
-- type mismatch
-
-### `YangMills.Gap4.RicciLimit`
-- unexpected token '}'; expected term
-
-### `YangMills.Gap4.RicciLimit.R1_Bochner.LaplacianConnection`
-- expected token
-- unexpected token '('; expected command
-
-### `YangMills.Gap4.RicciLimit.R3_Decomposition.RicciTensorFormula`
-
-### `YangMills.GapLowerBound`
-
-### `YangMills.GradientFlowConvergence`
-
-### `YangMills.L3_TopologicalPairing`
-- expected token
-- invalid 'import' command, it must be used in the beginning o
-
-### `YangMills.LowerBound`
-- 'apply sInf_le_iff.mpr' tactic does nothing
-- 'constructor' tactic does nothing
-- 'exact sub_eq_zero.mp (norm_eq_zero.mp this)' tactic does no
-
-### `YangMills.MassGapStrongCoupling`
-- unsolved goals
-
-### `YangMills.MeasureDecomposition`
-
-### `YangMills.Monotonicity`
-
-### `YangMills.MultiSectorSampling`
-- function expected at
-- unused variable `K`
-- unused variable `S`
-
-### `YangMills.Positivity`
-- The namespace 'Hamiltonian' is duplicated in the declaration
-- application type mismatch
-- type mismatch
-
-### `YangMills.R4_BishopGromov_ROUND2`
-- invalid binder annotation, type is not a class instance
-
-### `YangMills.ReflectionPositivity`
-- structure ... :=' has been deprecated in favor of 'structure
-- type mismatch
-- unexpected token '['; expected ','
-
-### `YangMills.Restoration`
-
-### `YangMills.SobolevEmbedding`
-
-### `YangMills.Stability`
-
-### `YangMills.Topology.GribovPairing`
-- @gribov_topological_pairing : ∀ {G : Type u_1} (A : Connecti
-- don't know how to synthesize implicit argument 'G'
-- don't know how to synthesize implicit argument 'α'
-
-### `YangMills.UniversalityScaling`
-- unsolved goals
+- `YangMills.AXIOM3_Compose`: failed to synthesize; function expected at
+- `YangMills.AreaLaw`: application type mismatch; declaration uses 'sorry'
+- `YangMills.Axiom1Prime`: function expected at; type mismatch
+- `YangMills.Axiom2Prime`: type mismatch
+- `YangMills.B1_BFSConvergence`: unexpected identifier; expected command; unexpected token ':'; expected command
+- `YangMills.B2_ClusterDecomposition`: unexpected identifier; expected command; unexpected token ':'; expected command
+- `YangMills.B3_MassGapStrongCoupling`: unexpected identifier; expected command; unexpected token ':'; expected command
+- `YangMills.B4_ContinuumLimitStability`: failed to synthesize; function expected at
+- `YangMills.B5_BRSTBFSConnection`: failed to synthesize; function expected at
+- `YangMills.BetaFunction`: declaration uses 'sorry'; unknown identifier 'ℝ'
+- `YangMills.ContinuumLimit`: unsolved goals
+- `YangMills.ConvergenceRegion`: failed to synthesize; unknown identifier 'ℝ'
+- `YangMills.Correspondence`: application type mismatch; failed to synthesize
+- `YangMills.Decomposition`: failed to synthesize; function expected at
+- `YangMills.EntropicPrinciple`: failed to synthesize; function expected at
+- `YangMills.EntropicPrinciple_OPUS45_ORIGINAL`: tactic 'introN' failed, insufficient number of binders; type expected, got
+- `YangMills.EntropicPrinciple_v2`: failed to synthesize; function expected at
+- `YangMills.EntropicPrinciple_v2_fixed`: declaration uses 'sorry'; failed to compile definition, consider marking it as 'n
+- `YangMills.Equivalence`: application type mismatch; elaboration function for 'YangMills.A5.BRSTCohomology.«
+- `YangMills.FieldEquations`: application type mismatch; don't know how to synthesize implicit argument 'M'
+- `YangMills.FiniteSizeEffects`: unsolved goals
+- `YangMills.Gap1.BRSTMeasure.M5_BRSTCohomology`: object file '././.lake/build/lib/YangMills/Gap1/BRSTMea
+- `YangMills.Gap1.GribovGaugeOrbits`: failed to compile definition, consider marking it as 'n; invalid field 'inGribovRegion', the environment does no
+- `YangMills.Gap2.AtiyahSinger.IndexTheorem`: failed to solve universe constraint; failed to synthesize
+- `YangMills.Gap2.GribovCancellation`: type mismatch
+- `YangMills.Gap3.BFS_Convergence`: type mismatch
+- `YangMills.Gap3.LemmaA_Combinatorial`: object file '././.lake/build/lib/YangMills/Gap3/SimpleC
+- `YangMills.Gap3.LemmaB_Analytic`: object file '././.lake/build/lib/YangMills/Gap3/SimpleC
+- `YangMills.Gap4.RicciLimit`: unexpected token '}'; expected term
+- `YangMills.Gap4.RicciLimit.R1_Bochner.LaplacianConnection`: expected token
+- `YangMills.Gap4.RicciLimit.R3_Decomposition.RicciTensorFormula`: expected token; failed to prove index is valid, possible solutions:
+- `YangMills.Gap4.RicciLowerBound.Prelude`: invalid 'import' command, it must be used in the beginn; unexpected identifier; expected command
+- `YangMills.GapLowerBound`: application type mismatch; automatically included section variable(s) unused in th
+- `YangMills.GeminiValidation`: unknown module prefix 'RGFlow_Work'
+- `YangMills.GradientFlowConvergence`: The namespace 'Flow' is duplicated in the declaration '; declaration uses 'sorry'
+- `YangMills.GribovRegion`: The namespace 'GribovRegion' is duplicated in the decla; failed to synthesize
+- `YangMills.L3_TopologicalPairing`: 'Orientation' has already been declared; application type mismatch
+- `YangMills.LowerBound`: 'apply sInf_le_iff.mpr' tactic does nothing; 'constructor' tactic does nothing
+- `YangMills.M2_BRSTConvergence`: invalid 'import' command, it must be used in the beginn; unexpected identifier; expected command
+- `YangMills.MassGap`: unknown module prefix 'RGFlow_Work'
+- `YangMills.MassGapStrongCoupling`: unsolved goals
+- `YangMills.MeasureDecomposition`: failed to compile definition, consider marking it as 'n; tactic 'rfl' failed, expected goal to be a binary relat
+- `YangMills.Monotonicity`: The namespace 'Entropy' is duplicated in the declaratio; expected token
+- `YangMills.MultiSectorSampling`: function expected at; unused variable `K`
+- `YangMills.Positivity`: The namespace 'Hamiltonian' is duplicated in the declar; application type mismatch
+- `YangMills.R4_BishopGromov_ROUND2`: function expected at
+- `YangMills.R5_CompactnessToStability`: expected token; failed to synthesize
+- `YangMills.ReflectionPositivity`: failed to compile definition, consider marking it as 'n; structure ... :=' has been deprecated in favor of 'stru
+- `YangMills.Restoration`: application type mismatch; failed to synthesize
+- `YangMills.SobolevEmbedding`: failed to synthesize; function expected at
+- `YangMills.Stability`: application type mismatch; failed to synthesize
+- `YangMills.Topology.GribovPairing`: @gribov_topological_pairing : ∀ {G : Type u_1} (A : Con; don't know how to synthesize implicit argument 'G'
+- `YangMills.UniversalityScaling`: unsolved goals
