@@ -2,7 +2,12 @@
 
 Iteration 2 (July 5, 2026). Lean 4.15 + Mathlib, CI job build-phase1.
 
-- **Modules compiling: 34 / 87**  (iteration 1: 5)
+- **Iteration 3 (green baseline): 9 / 87 modules compile with full transitive closure.**
+- Iteration 2 counted 34 "passing", but many only passed while their broken
+  dependencies were also being built; the honest number requires the whole
+  dependency cone to compile. The catalogue below therefore mixes two kinds:
+  ROOT failures (real semantic errors) and DEP-BLOCKED modules (import a
+  failing/lost module). Next iteration should classify each.
 - Modules failing: 53 — individual semantic errors (instance synthesis, mistyped applications), each needs case-by-case repair.
 - NOTE: many failing files are redundant version variants (EntropicPrinciple v2/v3/v4/v5/ORIGINAL/Integrated...). Recommend picking one canonical version per family and archiving the rest.
 
