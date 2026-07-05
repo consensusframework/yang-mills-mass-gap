@@ -39,7 +39,7 @@ theorem uChar_isClassFunction : IsClassFunction (uChar n) := by
       = (h : Matrix (Fin n) (Fin n) ℂ) * u * star (h : Matrix (Fin n) (Fin n) ℂ) := rfl
   rw [hcoe, Matrix.trace_mul_cycle]
   have hunit : star (h : Matrix (Fin n) (Fin n) ℂ) * h = 1 := h.prop.1
-  rw [← Matrix.mul_assoc, hunit, Matrix.one_mul]
+  rw [hunit, Matrix.one_mul]
 
 /-- **Proved:** every entry of a unitary matrix has |entry|² ≤ 1
     (columns are unit vectors). -/
@@ -50,16 +50,22 @@ theorem normSq_entry_le_one (g : Matrix.unitaryGroup (Fin n) ℂ) (i j : Fin n) 
   rw [Matrix.mul_apply] at hjj
   have hsum : ∑ k : Fin n,
       Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) k j) = 1 := by
-    have : ∑ k : Fin n,
-        (starRingEnd ℂ) ((g : Matrix (Fin n) (Fin n) ℂ) k j) *
-          (g : Matrix (Fin n) (Fin n) ℂ) k j = 1 := by
-      simpa [Matrix.star_apply] using hjj
-    have hre := congrArg Complex.re this
-    simpa [Complex.re_sum, Complex.normSq_eq_conj_mul_self] using hre.symm ▸ rfl
+    have h1 : ∑ k : Fin n,
+        ((Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) k j) : ℂ)) = 1 := by
+      calc ∑ k : Fin n,
+            ((Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) k j) : ℂ))
+          = ∑ k : Fin n,
+            (starRingEnd ℂ) ((g : Matrix (Fin n) (Fin n) ℂ) k j) *
+              (g : Matrix (Fin n) (Fin n) ℂ) k j := by
+            refine Finset.sum_congr rfl fun k _ => ?_
+            rw [Complex.normSq_eq_conj_mul_self]
+        _ = 1 := by simpa [Matrix.star_apply] using hjj
+    exact_mod_cast h1
   calc Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) i j)
       ≤ ∑ k : Fin n, Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) k j) :=
-        Finset.single_le_sum (fun k _ => Complex.normSq_nonneg _)
-          (Finset.mem_univ i)
+        Finset.single_le_sum
+          (f := fun k => Complex.normSq ((g : Matrix (Fin n) (Fin n) ℂ) k j))
+          (fun k _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
     _ = 1 := hsum
 
 /-- **Proved:** |χ(g)| ≤ 1 on U(n). -/
