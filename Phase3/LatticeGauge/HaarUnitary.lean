@@ -30,6 +30,9 @@ abbrev UG (n : ℕ) := Matrix.unitaryGroup (Fin n) ℂ
 
 instance : Nonempty (UG n) := ⟨1⟩
 
+instance : SecondCountableTopology (Matrix (Fin n) (Fin n) ℂ) :=
+  inferInstanceAs (SecondCountableTopology (Fin n → Fin n → ℂ))
+
 /-! ## Topological group structure (ported from post-4.15 Mathlib) -/
 
 instance : ContinuousStar (UG n) where
@@ -51,7 +54,7 @@ theorem abs_entry_le_one (g : UG n) (i j : Fin n) :
 /-- **Proved:** U(n) is compact — a closed subset of the compact
     polydisc (Tychonoff). -/
 instance : CompactSpace (UG n) := by
-  have hclosed : IsClosed (Matrix.unitaryGroup (Fin n) ℂ :
+  have hclosed : _root_.IsClosed (Matrix.unitaryGroup (Fin n) ℂ :
       Set (Matrix (Fin n) (Fin n) ℂ)) := by
     have hf : Continuous fun A : Matrix (Fin n) (Fin n) ℂ =>
         (star A * A, A * star A) :=
@@ -90,10 +93,10 @@ noncomputable instance : MeasurableSpace (UG n) := borel _
 instance : BorelSpace (UG n) := ⟨rfl⟩
 
 /-- The whole group as a positive compact set. -/
-def UGfull : TopologicalSpace.PositiveCompacts (UG n) :=
-  ⟨⟨Set.univ, isCompact_univ⟩, by
-    rw [TopologicalSpace.Compacts.coe_mk, interior_univ]
-    exact Set.univ_nonempty⟩
+def UGfull : TopologicalSpace.PositiveCompacts (UG n) where
+  carrier := Set.univ
+  isCompact' := isCompact_univ
+  interior_nonempty' := by rw [interior_univ]; exact Set.univ_nonempty
 
 /-- The Haar measure on U(n), normalized so that the whole group has
     measure 1. -/
@@ -122,7 +125,7 @@ instance : (haarU n).IsMulRightInvariant := by
       funext x
       simp [mul_assoc]
     rw [hcomp, ← Measure.map_map (measurable_mul_const b)
-      (measurable_const_mul a), Measure.map_mul_left_eq_self (haarU n) a]
+      (measurable_const_mul a), map_mul_left_eq_self (haarU n) a]
   have huniq := (Measure.haarMeasure_eq_iff (UGfull n)
     ((haarU n).map (· * b))).mpr (by
       have : (↑(UGfull n) : Set (UG n)) = Set.univ := rfl
