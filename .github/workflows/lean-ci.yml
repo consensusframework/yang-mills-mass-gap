@@ -1,4 +1,4 @@
-name: Lean CI (Phase 2)
+name: Lean CI (all phases)
 
 on:
   push:
