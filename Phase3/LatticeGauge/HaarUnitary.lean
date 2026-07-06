@@ -33,6 +33,10 @@ instance : Nonempty (UG n) := ⟨1⟩
 instance : SecondCountableTopology (Matrix (Fin n) (Fin n) ℂ) :=
   inferInstanceAs (SecondCountableTopology (Fin n → Fin n → ℂ))
 
+instance : SecondCountableTopology (UG n) :=
+  inferInstanceAs (SecondCountableTopology
+    ((Matrix.unitaryGroup (Fin n) ℂ : Set (Matrix (Fin n) (Fin n) ℂ))))
+
 /-! ## Topological group structure (ported from post-4.15 Mathlib) -/
 
 instance : ContinuousStar (UG n) where
