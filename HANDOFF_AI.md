@@ -79,7 +79,7 @@ versione releases no Zenodo.
 - **Fase 1:** árvore YangMills reconstruída; 10/76 módulos verdes; restantes
   catalogados (PHASE1_BUILD_STATUS.md); 8 módulos PERDIDOS com a conta
   antiga do GitHub (stubs honestos onde necessário).
-- **Fase 3 (LatticeGauge/): a joia.** 8 arquivos, ~31 teoremas, ZERO axiomas:
+- **Fase 3 (LatticeGauge/): a joia.** 9 arquivos, ~38 teoremas, ZERO axiomas:
   Basic (lattice, ação de Wilson, S ≥ 0, vácuo) → GaugeInvariance →
   Gibbs (0 < Z ≤ 1) → WilsonLoop (holonomia, invariância de loops fechados)
   → Expectation (⟨c⟩ = c, |⟨f⟩| ≤ C) → WilsonExpectation (|⟨W⟩| ≤ 1) →
@@ -89,9 +89,8 @@ versione releases no Zenodo.
 
 ## 6. Próximos passos, em ordem de valor
 
-1. **Fase 3, nona pedra:** medida de Haar concreta em U(n) — instâncias
-   topológicas/borel do `Matrix.unitaryGroup`, `haarMeasure` como medida de
-   probabilidade bi-invariante → o |⟨W⟩| ≤ 1 vale incondicionalmente em U(n).
+1. ~~Nona pedra~~ FEITA (2026-07-06). Próximo: postar no Zulip
+   (ver ZULIP_DRAFT.md) e propor os candidatos de HaarUnitary ao Mathlib.
 2. **Fase 3, décima pedra em diante (meses):** expansão de caracteres no
    acoplamento forte; decaimento exponencial de correlações; area law;
    transfer matrix; gap espectral em lattice (Osterwalder–Seiler 1978).
