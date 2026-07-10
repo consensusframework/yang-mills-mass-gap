@@ -117,6 +117,135 @@ theorem measurePreserving_haarInv_mul_right
         congr 1
     _ = μm := hcomp.map_eq
 
+/-! ## Bloco 3: separação da configuração e o teorema do link fresco -/
+
+variable [NeZero N]
+
+/-- Fill the distinguished link with 1, keep the rest. -/
+def extendOne (ℓ₀ : Link N)
+    (z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G) : Config N G :=
+  fun a => if h : a = ℓ₀ then 1 else z ⟨a, h⟩
+
+/-- **Proved (evaluation marginal, singleton predicate):** evaluating
+    the distinguished coordinate is measure preserving. -/
+theorem measurePreserving_evalSingleton (ℓ₀ : Link N) :
+    MeasurePreserving
+      (fun y : ∀ _ : {a : Link N // a = ℓ₀}, G => y ⟨ℓ₀, rfl⟩)
+      (Measure.pi fun _ : {a : Link N // a = ℓ₀} => μm) μm := by
+  classical
+  refine ⟨measurable_pi_apply _, ?_⟩
+  ext t ht
+  rw [Measure.map_apply (measurable_pi_apply _) ht]
+  change Measure.pi (fun _ : {a : Link N // a = ℓ₀} => μm)
+    ((Function.eval ⟨ℓ₀, rfl⟩) ⁻¹' t) = μm t
+  rw [Set.eval_preimage, Measure.pi_pi]
+  rw [Fintype.prod_eq_single (⟨ℓ₀, rfl⟩ : {a : Link N // a = ℓ₀})
+    (fun j hj => absurd (Subtype.ext j.2) hj)]
+  simp
+
+/-- **Proved: THE FRESH-LINK THEOREM.** If the first link of the path
+    does not reappear in the tail, the holonomy is Haar — regardless of
+    what the tail does. -/
+theorem measurePreserving_holonomy_of_fresh_head
+    [μm.IsMulRightInvariant] [μm.IsInvInvariant]
+    (x : Site N) (st : Step) (p : List Step)
+    (hfresh : stepLink x st ∉ pathLinks (stepNext x st) p) :
+    MeasurePreserving
+      (fun U : Config N G => holonomy U x (st :: p))
+      (configMeasure μm N) μm := by
+  classical
+  set ℓ₀ : Link N := stepLink x st with hℓ₀
+  have hsplit := measurePreserving_piEquivPiSubtypeProd
+    (μ := fun _ : Link N => μm) (fun a : Link N => a = ℓ₀)
+  have h_eval := measurePreserving_evalSingleton (N := N) μm ℓ₀
+  have htailmeas : Measurable
+      (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
+        holonomy (extendOne ℓ₀ z) (stepNext x st) p) := by
+    apply (measurable_holonomy p (stepNext x st)).comp
+    apply measurable_pi_lambda
+    intro a
+    by_cases h : a = ℓ₀
+    · simp only [extendOne, dif_pos h]
+      exact measurable_const
+    · simp only [extendOne, dif_neg h]
+      exact measurable_pi_apply _
+  set ν : Measure G := Measure.map
+    (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
+      holonomy (extendOne ℓ₀ z) (stepNext x st) p)
+    (Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm) with hν
+  haveI : IsProbabilityMeasure ν := by
+    rw [hν]
+    exact isProbabilityMeasure_map htailmeas.aemeasurable
+  haveI : SigmaFinite ν := inferInstance
+  have h_tail : MeasurePreserving
+      (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
+        holonomy (extendOne ℓ₀ z) (stepNext x st) p)
+      (Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm) ν :=
+    ⟨htailmeas, hν.symm⟩
+  have hpair := (h_eval.prod h_tail).comp hsplit
+  -- a cauda da configuração original coincide com a cauda preenchida
+  have htail_eq : ∀ U : Config N G,
+      holonomy U (stepNext x st) p
+        = holonomy (extendOne ℓ₀ (fun a => U a.1)) (stepNext x st) p := by
+    intro U
+    apply holonomy_congr_on_pathLinks
+    intro ℓ hℓ
+    have hne : ¬ ℓ = ℓ₀ := fun he => hfresh (he ▸ hℓ)
+    simp [extendOne, dif_neg hne]
+  -- montar o mapa final conforme a orientação do passo
+  obtain ⟨μdir, b⟩ := st
+  cases b
+  · -- passo para trás: (U ℓ₀)⁻¹ * cauda
+    have habs := measurePreserving_haarInv_mul_right μm ν
+    have hfn : (fun U : Config N G => holonomy U x ((μdir, false) :: p))
+        = (fun q : G × G => q.1⁻¹ * q.2) ∘
+          ((fun w => (w.1 ⟨ℓ₀, rfl⟩,
+            holonomy (extendOne ℓ₀ w.2) (stepNext x (μdir, false)) p)) ∘
+            (MeasurableEquiv.piEquivPiSubtypeProd
+              (fun _ : Link N => G) (fun a : Link N => a = ℓ₀))) := by
+      funext U
+      show holonomy U x ((μdir, false) :: p)
+          = (U ℓ₀)⁻¹ * holonomy (extendOne ℓ₀ (fun a => U a.1))
+              (stepNext x (μdir, false)) p
+      rw [← htail_eq U]
+      simp [holonomy, hℓ₀, stepLink, stepNext]
+    rw [hfn] at *
+    exact habs.comp hpair
+  · -- passo para frente: (U ℓ₀) * cauda
+    have habs := measurePreserving_haar_mul_right μm ν
+    have hfn : (fun U : Config N G => holonomy U x ((μdir, true) :: p))
+        = (fun q : G × G => q.1 * q.2) ∘
+          ((fun w => (w.1 ⟨ℓ₀, rfl⟩,
+            holonomy (extendOne ℓ₀ w.2) (stepNext x (μdir, true)) p)) ∘
+            (MeasurableEquiv.piEquivPiSubtypeProd
+              (fun _ : Link N => G) (fun a : Link N => a = ℓ₀))) := by
+      funext U
+      show holonomy U x ((μdir, true) :: p)
+          = (U ℓ₀) * holonomy (extendOne ℓ₀ (fun a => U a.1))
+              (stepNext x (μdir, true)) p
+      rw [← htail_eq U]
+      simp [holonomy, hℓ₀, stepLink, stepNext]
+    rw [hfn] at *
+    exact habs.comp hpair
+
+/-- **CAPSTONE (pedra 15): holonomies of Nodup nonempty paths are
+    Haar-distributed.** -/
+theorem measurePreserving_holonomy_of_nodup
+    [μm.IsMulRightInvariant] [μm.IsInvInvariant]
+    (x : Site N) (p : List Step)
+    (hp : p ≠ []) (hnd : (pathLinks x p).Nodup) :
+    MeasurePreserving
+      (fun U : Config N G => holonomy U x p)
+      (configMeasure μm N) μm := by
+  cases p with
+  | nil => exact absurd rfl hp
+  | cons s p =>
+    have hfresh : stepLink x s ∉ pathLinks (stepNext x s) p := by
+      have := hnd
+      simp only [pathLinks, List.nodup_cons] at this
+      exact this.1
+    exact measurePreserving_holonomy_of_fresh_head μm x s p hfresh
+
 end Measure
 
 end LatticeGauge
