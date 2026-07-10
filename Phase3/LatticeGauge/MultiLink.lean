@@ -56,14 +56,16 @@ theorem measurePreserving_multiLink [NeZero N]
       by_cases h : a ∈ Set.range ℓ
       · have h2 := hU ((Equiv.ofInjective ℓ hℓ).symm ⟨a, h⟩)
         rw [Equiv.apply_ofInjective_symm hℓ ⟨a, h⟩] at h2
-        simpa [hF, dif_pos h] using h2
+        simp only [hF]
+        rw [dif_pos h]
+        exact h2
       · simp only [hF, dif_neg h]
         trivial
     · intro hFU i
       have h := hFU (ℓ i)
-      rw [hF] at h
       have hmem : ℓ i ∈ Set.range ℓ := ⟨i, rfl⟩
-      simp only [dif_pos hmem] at h
+      simp only [hF] at h
+      rw [dif_pos hmem] at h
       rwa [Equiv.ofInjective_symm_apply] at h
   rw [hpre]
   unfold configMeasure
