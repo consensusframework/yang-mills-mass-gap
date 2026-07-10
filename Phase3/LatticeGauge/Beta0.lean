@@ -112,31 +112,34 @@ theorem integral_mul_of_disjoint_support [NeZero N]
   have h1 := key F Gg
   have h2 := key F (fun _ => 1)
   have h3 := key (fun _ => 1) Gg
-  simp only [mul_one, one_mul] at h2 h3
-  have hint1 : ∫ y, (1 : ℝ) ∂(Measure.pi fun _ : {ℓ : Link N // ℓ ∈ s} => μm) = 1 := by
-    simp
-  have hint2 : ∫ z, (1 : ℝ) ∂(Measure.pi fun _ : {ℓ : Link N // ¬ ℓ ∈ s} => μm) = 1 := by
-    simp
+  have hint1 : ∫ _y : (∀ _ : {ℓ : Link N // ℓ ∈ s}, G), (1 : ℝ)
+      ∂(Measure.pi fun _ => μm) = 1 := by simp
+  have hint2 : ∫ _z : (∀ _ : {ℓ : Link N // ¬ ℓ ∈ s}, G), (1 : ℝ)
+      ∂(Measure.pi fun _ => μm) = 1 := by simp
+  rw [hint2, mul_one] at h2
+  rw [hint1, one_mul] at h3
+  have hFf : (∫ y, F y ∂(Measure.pi fun _ => μm))
+      = ∫ U : Config N G, f U ∂(configMeasure μm N) := by
+    rw [← h2]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
+    show F ((e U).1) = f U
+    exact (hfF U).symm
+  have hGg : (∫ z, Gg z ∂(Measure.pi fun _ => μm))
+      = ∫ U : Config N G, g U ∂(configMeasure μm N) := by
+    rw [← h3]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
+    show Gg ((e U).2) = g U
+    exact (hgG U).symm
   calc ∫ U : Config N G, f U * g U ∂(configMeasure μm N)
       = ∫ U : Config N G, F ((e U).1) * Gg ((e U).2) ∂(configMeasure μm N) := by
         refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
+        show f U * g U = F ((e U).1) * Gg ((e U).2)
         rw [← hfF U, ← hgG U]
     _ = (∫ y, F y ∂(Measure.pi fun _ => μm))
         * ∫ z, Gg z ∂(Measure.pi fun _ => μm) := h1
     _ = (∫ U : Config N G, f U ∂(configMeasure μm N))
         * ∫ U : Config N G, g U ∂(configMeasure μm N) := by
-        rw [show (∫ y, F y ∂(Measure.pi fun _ => μm))
-            = ∫ U : Config N G, f U ∂(configMeasure μm N) by
-          rw [← h2]
-          · refine (integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)).symm
-            rw [hfF U]
-          ]
-        rw [show (∫ z, Gg z ∂(Measure.pi fun _ => μm))
-            = ∫ U : Config N G, g U ∂(configMeasure μm N) by
-          rw [← h3]
-          · refine (integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)).symm
-            rw [hgG U]
-          ]
+        rw [hFf, hGg]
 
 /-- **Proved: CLUSTERING AT β = 0.** Truncated correlations of
     observables with disjoint supports vanish identically at infinite
