@@ -75,25 +75,29 @@ theorem measurePreserving_haar_mul_right
     [μm.IsMulRightInvariant] :
     MeasurePreserving (fun q : G × G => q.1 * q.2) (μm.prod ν) μm := by
   have hswap : MeasurePreserving Prod.swap (μm.prod ν) (ν.prod μm) :=
-    measurePreserving_swap
+    ⟨measurable_swap, Measure.prod_swap⟩
   have hskew : MeasurePreserving
       (fun q : G × G => (q.1, q.2 * q.1)) (ν.prod μm) (ν.prod μm) := by
-    refine MeasurePreserving.skew_product (MeasurePreserving.id ν)
-      (by exact (measurable_snd.mul measurable_fst)) ?_
-    filter_upwards with y
-    exact measurePreserving_mul_right μm y
+    have h := MeasurePreserving.skew_product (g := fun y x => x * y)
+      (MeasurePreserving.id ν)
+      (measurable_snd.mul measurable_fst)
+      (Filter.Eventually.of_forall fun y =>
+        (measurePreserving_mul_right μm y).map_eq)
+    simpa using h
   have hsnd : MeasurePreserving
       (Prod.snd : G × G → G) (ν.prod μm) μm := by
     refine ⟨measurable_snd, ?_⟩
     rw [Measure.map_snd_prod]
     simp
   have hcomp := (hsnd.comp hskew).comp hswap
-  have hfun : ((Prod.snd : G × G → G) ∘
-      (fun q : G × G => (q.1, q.2 * q.1)) ∘ Prod.swap)
-      = fun q : G × G => q.1 * q.2 := by
-    funext q
-    simp [Prod.swap]
-  rwa [hfun] at hcomp
+  refine ⟨measurable_fst.mul measurable_snd, ?_⟩
+  calc Measure.map (fun q : G × G => q.1 * q.2) (μm.prod ν)
+      = Measure.map ((Prod.snd ∘ fun q : G × G => (q.1, q.2 * q.1))
+          ∘ Prod.swap) (μm.prod ν) := by
+        congr 1
+        funext q
+        simp
+    _ = μm := hcomp.map_eq
 
 /-- **Proved (oriented absorption):** X⁻¹·Y ~ μ as well
     (inv-invariance). -/
@@ -101,17 +105,21 @@ theorem measurePreserving_haarInv_mul_right
     (ν : Measure G) [SigmaFinite ν] [IsProbabilityMeasure ν]
     [μm.IsMulRightInvariant] [μm.IsInvInvariant] :
     MeasurePreserving (fun q : G × G => q.1⁻¹ * q.2) (μm.prod ν) μm := by
+  have hinvmp : MeasurePreserving (Inv.inv : G → G) μm μm :=
+    ⟨measurable_inv, Measure.map_inv_eq_self μm⟩
   have hinv : MeasurePreserving
       (Prod.map (Inv.inv : G → G) (id : G → G)) (μm.prod ν) (μm.prod ν) :=
-    (measurePreserving_inv μm).prod (MeasurePreserving.id ν)
-  have habs := measurePreserving_haar_mul_right (N := N) μm ν
+    hinvmp.prod (MeasurePreserving.id ν)
+  have habs := measurePreserving_haar_mul_right μm ν
   have hcomp := habs.comp hinv
-  have hfun : ((fun q : G × G => q.1 * q.2) ∘
-      Prod.map (Inv.inv : G → G) (id : G → G))
-      = fun q : G × G => q.1⁻¹ * q.2 := by
-    funext q
-    simp
-  rwa [hfun] at hcomp
+  refine ⟨measurable_fst.inv.mul measurable_snd, ?_⟩
+  calc Measure.map (fun q : G × G => q.1⁻¹ * q.2) (μm.prod ν)
+      = Measure.map ((fun q : G × G => q.1 * q.2)
+          ∘ Prod.map (Inv.inv : G → G) (id : G → G)) (μm.prod ν) := by
+        congr 1
+        funext q
+        simp
+    _ = μm := hcomp.map_eq
 
 end Measure
 
