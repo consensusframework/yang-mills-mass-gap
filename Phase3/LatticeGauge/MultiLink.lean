@@ -54,14 +54,11 @@ theorem measurePreserving_multiLink [NeZero N]
     constructor
     · intro hU a
       by_cases h : a ∈ Set.range ℓ
-      · rw [hF]
-        simp only [dif_pos h]
-        have ha : ℓ ((Equiv.ofInjective ℓ hℓ).symm ⟨a, h⟩) = a :=
-          Equiv.apply_ofInjective_symm hℓ ⟨a, h⟩
-        rw [← ha]
-        exact hU _
-      · rw [hF]
-        simp [dif_neg h]
+      · have h2 := hU ((Equiv.ofInjective ℓ hℓ).symm ⟨a, h⟩)
+        rw [Equiv.apply_ofInjective_symm hℓ ⟨a, h⟩] at h2
+        simpa [hF, dif_pos h] using h2
+      · simp only [hF, dif_neg h]
+        trivial
     · intro hFU i
       have h := hFU (ℓ i)
       rw [hF] at h
@@ -71,19 +68,18 @@ theorem measurePreserving_multiLink [NeZero N]
   rw [hpre]
   unfold configMeasure
   rw [Measure.pi_pi]
-  rw [← Finset.prod_subset
-    (Finset.subset_univ (Finset.image ℓ Finset.univ)) ?_,
-    Finset.prod_image (fun i _ j _ h => hℓ h)]
-  · refine Finset.prod_congr rfl fun i _ => ?_
-    have hmem : ℓ i ∈ Set.range ℓ := ⟨i, rfl⟩
-    rw [hF]
-    simp only [dif_pos hmem]
-    rw [Equiv.ofInjective_symm_apply]
-  · intro a _ ha
+  have hout : ∀ a ∈ (Finset.univ : Finset (Link N)),
+      a ∉ Finset.image ℓ Finset.univ → μm (F a) = 1 := by
+    intro a _ ha
     have hnot : ¬ a ∈ Set.range ℓ := by
       simpa [Set.mem_range, Finset.mem_image] using ha
-    rw [hF]
-    simp [dif_neg hnot]
+    simp [hF, dif_neg hnot]
+  rw [← Finset.prod_subset
+    (Finset.subset_univ (Finset.image ℓ Finset.univ)) hout,
+    Finset.prod_image (fun i _ j _ h => hℓ h)]
+  refine Finset.prod_congr rfl fun i _ => ?_
+  have hmem : ℓ i ∈ Set.range ℓ := ⟨i, rfl⟩
+  simp [hF, dif_pos hmem, Equiv.ofInjective_symm_apply]
 
 /-- **Proved: n-point factorization.** For a finite injective family of
     links, ∫ ∏ᵢ fᵢ(U ℓᵢ) = ∏ᵢ ∫ fᵢ dμ. -/
