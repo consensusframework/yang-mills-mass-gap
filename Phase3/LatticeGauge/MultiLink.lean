@@ -38,37 +38,52 @@ theorem measurePreserving_multiLink [NeZero N]
       (configMeasure μm N)
       (Measure.pi fun _ : ι => μm) := by
   classical
-  set e : ι ≃ Set.range ℓ := Equiv.ofInjective ℓ hℓ with he
-  -- split / reindex, com a projeção fst tratada por reescrita concreta
-  have hsplit := measurePreserving_piEquivPiSubtypeProd
-    (μ := fun _ : Link N => μm) (· ∈ Set.range ℓ)
-  have hre := measurePreserving_piCongrLeft
-    (α := fun _ : ι => G) (μ := fun _ : ι => μm) e.symm
   have hmeas_full : Measurable fun U : Config N G => fun i => U (ℓ i) :=
     measurable_pi_lambda _ fun i => measurable_pi_apply (ℓ i)
-  have hco : (⇑(MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm)) ∘
-      (Prod.fst ∘ ⇑(MeasurableEquiv.piEquivPiSubtypeProd
-        (fun _ : Link N => G) (· ∈ Set.range ℓ)))
-      = fun U : Config N G => fun i => U (ℓ i) := by
-    funext U
-    funext i
-    have h := MeasurableEquiv.piCongrLeft_apply_apply e.symm
-      ((MeasurableEquiv.piEquivPiSubtypeProd
-        (fun _ : Link N => G) (· ∈ Set.range ℓ)) U).1 (e i)
-    simpa [Equiv.symm_apply_apply, he] using h
   refine ⟨hmeas_full, ?_⟩
+  refine (Measure.pi_eq fun s hs => ?_).symm
+  rw [Measure.map_apply hmeas_full (MeasurableSet.univ_pi hs)]
+  set F : Link N → Set G := fun a =>
+    if h : a ∈ Set.range ℓ
+    then s ((Equiv.ofInjective ℓ hℓ).symm ⟨a, h⟩)
+    else Set.univ with hF
+  have hpre : (fun U : Config N G => fun i => U (ℓ i)) ⁻¹'
+      (Set.pi Set.univ s) = Set.pi Set.univ F := by
+    ext U
+    simp only [Set.mem_preimage, Set.mem_pi, Set.mem_univ, true_implies]
+    constructor
+    · intro hU a
+      by_cases h : a ∈ Set.range ℓ
+      · rw [hF]
+        simp only [dif_pos h]
+        have ha : ℓ ((Equiv.ofInjective ℓ hℓ).symm ⟨a, h⟩) = a :=
+          Equiv.apply_ofInjective_symm hℓ ⟨a, h⟩
+        rw [← ha]
+        exact hU _
+      · rw [hF]
+        simp [dif_neg h]
+    · intro hFU i
+      have h := hFU (ℓ i)
+      rw [hF] at h
+      have hmem : ℓ i ∈ Set.range ℓ := ⟨i, rfl⟩
+      simp only [dif_pos hmem] at h
+      rwa [Equiv.ofInjective_symm_apply] at h
+  rw [hpre]
   unfold configMeasure
-  rw [← hco,
-    ← Measure.map_map (MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm).measurable
-      (measurable_fst.comp (MeasurableEquiv.piEquivPiSubtypeProd
-        (fun _ : Link N => G) (· ∈ Set.range ℓ)).measurable),
-    ← Measure.map_map measurable_fst
-      (MeasurableEquiv.piEquivPiSubtypeProd
-        (fun _ : Link N => G) (· ∈ Set.range ℓ)).measurable,
-    hsplit.map_eq, Measure.map_fst_prod]
-  simp only [measure_univ, one_smul]
-  convert hre.map_eq using 2
-  exact Subsingleton.elim _ _
+  rw [Measure.pi_pi]
+  rw [← Finset.prod_subset
+    (Finset.subset_univ (Finset.image ℓ Finset.univ)) ?_,
+    Finset.prod_image (fun i _ j _ h => hℓ h)]
+  · refine Finset.prod_congr rfl fun i _ => ?_
+    have hmem : ℓ i ∈ Set.range ℓ := ⟨i, rfl⟩
+    rw [hF]
+    simp only [dif_pos hmem]
+    rw [Equiv.ofInjective_symm_apply]
+  · intro a _ ha
+    have hnot : ¬ a ∈ Set.range ℓ := by
+      simpa [Set.mem_range, Finset.mem_image] using ha
+    rw [hF]
+    simp [dif_neg hnot]
 
 /-- **Proved: n-point factorization.** For a finite injective family of
     links, ∫ ∏ᵢ fᵢ(U ℓᵢ) = ∏ᵢ ∫ fᵢ dμ. -/
