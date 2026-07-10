@@ -89,13 +89,20 @@ versione releases no Zenodo.
 
 ## 6. Próximos passos, em ordem de valor
 
-1. ~~Nona pedra~~ FEITA (2026-07-06). Pedras 10 (invariância translacional +
-   HasLatticeMassGap enunciado) e 11 (independência e clustering a β=0)
-   FEITAS (2026-07-10). Pedra 12 (lei do link único) PARADA em
-   instance-hell — ver SingleLink.lean (fora da whitelist) com mapa do
-   campo minado e três estratégias sugeridas. Próximo: postar no Zulip
-   (ZULIP_DRAFT.md), propor candidatos de HaarUnitary ao Mathlib,
-   e retomar a 12ª com o lema-ponte de instâncias.
+1. Pedras 1-16 FEITAS (a 16ª em 2026-07-10): o regime β=0 está
+   EXATAMENTE RESOLVIDO — ⟨Wilson loop⟩₀ = ∫χ dμ. Pedras 12, 14 e 15
+   foram colaborações inter-lab com Sol (GPT-5.6/OpenAI): arquitetura
+   dele, execução Fable, juiz CI — incluindo um VETO epistêmico que
+   impediu fórmula falsa (χ não distribui sobre produto). Ferramenta de
+   prateleira descoberta: a hidra de instâncias tem nome
+   (Subtype.fintype vs Fintype.subtypeEq vs Set.fintypeRange) e solda
+   (convert using 2-3 + Subsingleton.elim). piCongrLeft/funUnique/fst
+   genéricos: INELABORÁVEIS neste contexto na v4.15 — usar rota
+   concreta (Measure.pi_eq/pi_pi + dite-cilindros).
+   PENDÊNCIAS: bloco 4 da 15ª (IsInvInvariant de haarU via unicidade);
+   PENEIRA ZERO rodada 2 (ver branch audit-zero: AUDIT_ZERO.csv, 1425
+   declarações classificadas, 97 CORE) — limpeza em PRs pequenos com CI
+   antes/depois, ANTES de subir para β>0. Depois: Zulip + Mathlib PRs.
 2. **Fase 3, décima pedra em diante (meses):** expansão de caracteres no
    acoplamento forte; decaimento exponencial de correlações; area law;
    transfer matrix; gap espectral em lattice (Osterwalder–Seiler 1978).
