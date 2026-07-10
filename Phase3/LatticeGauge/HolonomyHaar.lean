@@ -183,7 +183,15 @@ theorem measurePreserving_holonomy_of_fresh_head
         holonomy (extendOne ℓ₀ z) (stepNext x st) p)
       (Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm) ν :=
     ⟨htailmeas, hν.symm⟩
-  have hpair := (h_eval.prod h_tail).comp hsplit
+  have hpair : MeasurePreserving
+      ((Prod.map
+        (fun y : ∀ _ : {a : Link N // a = ℓ₀}, G => y ⟨ℓ₀, rfl⟩)
+        (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
+          holonomy (extendOne ℓ₀ z) (stepNext x st) p)) ∘
+        ⇑(MeasurableEquiv.piEquivPiSubtypeProd
+          (fun _ : Link N => G) (fun a : Link N => a = ℓ₀)))
+      (configMeasure μm N) (μm.prod ν) :=
+    (h_eval.prod h_tail).comp hsplit
   -- a cauda da configuração original coincide com a cauda preenchida
   have htail_eq : ∀ U : Config N G,
       holonomy U (stepNext x st) p
