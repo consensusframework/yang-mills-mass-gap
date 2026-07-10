@@ -1,6 +1,20 @@
 /-
 LatticeGauge/SingleLink.lean — Phase 3, twelfth stone.
 
+STATUS: PARKED (não compilada — fora da whitelist do lakefile).
+Este arquivo NÃO faz parte do build. A prova de integral_singleLink
+esbarra repetidamente em incompatibilidades de instâncias (Fintype de
+subtipo-singleton: Subtype.fintype vs caminhos inferidos por
+piEquivPiSubtypeProd/funUnique; opacidade de haveI vs letI para o
+default de Unique; metavariáveis em integral_comp). Cinco tentativas
+registradas no histórico do git (útil como mapa do campo minado).
+Sugestões para o próximo: (i) provar um lema-ponte
+`Measure.pi_congr_instances` uma vez e soldar com ele; (ii) ou provar a
+lei do link único via kernel/marginal em vez de equivalências; (iii) ou
+esperar versão do Mathlib com `Measure.map_eval_pi`.
+A afirmação matemática é trivialmente verdadeira; a formalização é que
+está cara. HONESTIDADE: enquanto não compilar, NÃO conta no placar.
+
 The ATOMIC BRICK of the character expansion: under the product measure,
 a single link variable is exactly Haar-distributed, so single-link
 observables integrate to their group integral:
