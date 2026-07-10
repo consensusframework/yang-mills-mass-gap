@@ -49,7 +49,7 @@ theorem measurePreserving_singleLink [NeZero N] (ℓ₀ : Link N) :
   change Measure.pi (fun _ : Link N => μm)
       ((Function.eval ℓ₀) ⁻¹' s) = μm s
   rw [Set.eval_preimage, Measure.pi_pi]
-  simp
+  simp [Function.update_apply, apply_ite μm, Finset.prod_ite_eq']
 
 /-- **Proved: the law of a single link is the group measure.**
     ∫ f(U_ℓ) dμ^⊗links = ∫ f dμ. -/
