@@ -55,7 +55,9 @@ theorem measurePreserving_pairLink [NeZero N] {ℓ₁ ℓ₂ : Link N}
         simpa [Function.update_apply, hne] using this
       · have := h ℓ₂
         simpa [Function.update_apply] using this
-  rw [hpre, Measure.pi_pi]
+  rw [hpre]
+  unfold configMeasure
+  rw [Measure.pi_pi]
   have hval : ∀ ℓ : Link N,
       μm (Function.update
         (Function.update (fun _ : Link N => (Set.univ : Set G)) ℓ₁ s)
