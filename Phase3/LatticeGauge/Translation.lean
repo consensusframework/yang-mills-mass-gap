@@ -85,9 +85,12 @@ noncomputable def translateEquiv [NeZero N] (d : Dir) :
 theorem translateEquiv_coe [NeZero N] (d : Dir) :
     ⇑(translateEquiv (N := N) (G := G) d) = translate d := by
   funext U ℓ
-  have h := MeasurableEquiv.piCongrLeft_apply_apply
-    (linkShift (N := N) d).symm U ((linkShift (N := N) d) ℓ)
-  simpa [translateEquiv, Equiv.symm_apply_apply, translate, linkShift] using h
+  have hℓ : ℓ = (linkShift (N := N) d).symm ((linkShift (N := N) d) ℓ) := by
+    simp
+  conv_lhs => rw [hℓ]
+  unfold translateEquiv
+  rw [MeasurableEquiv.piCongrLeft_apply_apply]
+  rfl
 
 /-- **Proved: translations preserve the product measure.** -/
 theorem measurePreserving_translate [NeZero N] (d : Dir) :
