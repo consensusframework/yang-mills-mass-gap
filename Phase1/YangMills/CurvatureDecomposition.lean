@@ -1,7 +1,7 @@
 import Mathlib
 /-
 Temporary Axiom #6: Curvature Decomposition
-Status: ✅ VALIDATED (Lote 3, Rodada 3)
+Status:  VALIDATED (Lote 3, Rodada 3)
 Author: GPT-5
 Validator: Claude Sonnet 4.5
 Quality: 90% → 95% (post-validation)
@@ -47,7 +47,7 @@ where:
 
 - **Validated by**: Claude Sonnet 4.5 (October 21, 2025)
 - **Quality**: 90% → 95% (post-validation)
-- **Status**: ✅ Ready for implementation
+- **Status**:  Ready for implementation
 - **Connection**: Weyl tensor vanishes in dimension 3, simplifying R3
 -/
 

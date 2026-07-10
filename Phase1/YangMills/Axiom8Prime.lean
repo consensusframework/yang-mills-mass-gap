@@ -1,7 +1,6 @@
 import Mathlib
 
 
-
 /- (reconstruction fragment)
 bochner_identity a0 h
   -- Axiom 8': T ≥ -B₀‖h‖²

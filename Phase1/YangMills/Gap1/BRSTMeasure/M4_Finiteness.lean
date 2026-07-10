@@ -82,13 +82,13 @@ well-defined quantum Yang-Mills theory.
 
 1. **gaussian_bound**: Exponential decay of Yang-Mills measure
    - Statement: μ(S_YM ∈ [n, n+1]) ≤ C e^{-αn}
-   - Status: ✅ Standard in rigorous QFT (Glimm-Jaffe 1987)
+   - Status:  Standard in rigorous QFT (Glimm-Jaffe 1987)
    - Difficulty: Very High (requires constructive QFT)
    - Decision: Accept as axiom (OS framework assumption)
 
 2. **measure_decomposition**: σ-additivity of energy level decomposition
    - Statement: ∫ f dμ = ∑ₙ ∫_{level n} f dμ
-   - Status: ✅ Standard measure theory
+   - Status:  Standard measure theory
    - Difficulty: Medium (provable from mathlib4)
    - Decision: Temporary axiom (can be formalized)
 
@@ -111,13 +111,13 @@ Both are well-established and universally accepted in rigorous QFT.
 - Physical states form separable Hilbert space
 - Observables have finite expectation values
 
-**Chain**: M1 + M3 + M4 → Axiom 1 (BRST Measure Existence) ✓
+**Chain**: M1 + M3 + M4 → Axiom 1 (BRST Measure Existence) 
 
 ## Status
 
-✅ **PROVEN** in Lean 4 (conditional on 2 standard axioms)
-✅ Both axioms are standard in rigorous QFT
-✅ Completes 80% of Axiom 1 transformation
+ **PROVEN** in Lean 4 (conditional on 2 standard axioms)
+ Both axioms are standard in rigorous QFT
+ Completes 80% of Axiom 1 transformation
 
 -/
 
@@ -288,7 +288,7 @@ The integral over A/G equals the sum of integrals over energy levels.
 
 **Reference**: Folland (1999), "Real Analysis", Theorem 1.27
 
-**Status**: ✅ Standard measure theory
+**Status**:  Standard measure theory
 **Difficulty**: Medium (provable from mathlib4)
 **Decision**: Accept as axiom temporarily (can be formalized)
 -/
@@ -329,7 +329,7 @@ In rigorous QFT, this is proven using:
 - Involves cluster expansions, correlation inequalities
 - Full proof = research monograph level
 
-**Status**: ✅ Standard assumption in rigorous QFT
+**Status**:  Standard assumption in rigorous QFT
 **Decision**: Accept as axiom (Osterwalder-Schrader framework)
 
 **Constants**:
@@ -429,7 +429,7 @@ which implies Δ > 0 (positive mass gap).
 - Osterwalder & Schrader (1973): OS axioms ensure finiteness
 - This work: M1 + M3 + Gaussian bounds ⟹ finiteness
 
-**Status**: ✅ PROVEN (conditional on M1, M3, Gaussian bounds)
+**Status**:  PROVEN (conditional on M1, M3, Gaussian bounds)
 -/
 /-- Gemini-validated finiteness of the partition function.
 
@@ -647,39 +647,39 @@ theorem m4_enables_spectrum
 ## Summary and Status
 
 ### What We Proved:
-✅ **Lemma M4**: Partition function Z < ∞
-✅ **Integrand positivity**: From M1
-✅ **Energy decomposition**: From M3
-✅ **Geometric series**: Standard convergence
+ **Lemma M4**: Partition function Z < ∞
+ **Integrand positivity**: From M1
+ **Energy decomposition**: From M3
+ **Geometric series**: Standard convergence
 
 ### Axioms Used (Temporary):
-🟡 **gaussian_bound**: Glimm-Jaffe (1987), OS framework
+ **gaussian_bound**: Glimm-Jaffe (1987), OS framework
    - Status: Standard in rigorous QFT
    - Difficulty: Very High (constructive QFT)
    - Decision: Accept as axiom (universally accepted)
 
-🟡 **measure_decomposition**: Folland (1999), σ-additivity
+ **measure_decomposition**: Folland (1999), σ-additivity
    - Status: Standard measure theory
    - Difficulty: Medium (provable from mathlib4)
    - Decision: Temporary axiom (can be formalized)
 
 ### Literature Support:
-✅ Glimm & Jaffe (1987): Gaussian bounds, partition function finiteness
-✅ Osterwalder & Schrader (1973): OS axioms framework
-✅ Folland (1999): Measure theory, decomposition theorems
-✅ Simon (1974): Constructive QFT examples (P(φ)₂)
+ Glimm & Jaffe (1987): Gaussian bounds, partition function finiteness
+ Osterwalder & Schrader (1973): OS axioms framework
+ Folland (1999): Measure theory, decomposition theorems
+ Simon (1974): Constructive QFT examples (P(φ)₂)
 
 ### Connections to Other Lemmata:
-- **M1 (FP Positivity)**: ✅ Used (integrand > 0)
-- **M3 (Compactness)**: ✅ Used (energy levels compact)
-- **M4 (This)**: ✅ PROVEN
+- **M1 (FP Positivity)**:  Used (integrand > 0)
+- **M3 (Compactness)**:  Used (energy levels compact)
+- **M4 (This)**:  PROVEN
 - **M5 (BRST)**: → Connected (Hilbert space structure)
 
 ### Impact:
-🎯 **Completes 80% of Axiom 1**: 4 of 5 lemmata proven
-🎯 **Quantum Consistency**: Yang-Mills path integral converges
-🎯 **Observable Theory**: Expectation values well-defined
-🎯 **Mass Gap Connection**: Finiteness ⟺ Δ > 0
+ **Completes 80% of Axiom 1**: 4 of 5 lemmata proven
+ **Quantum Consistency**: Yang-Mills path integral converges
+ **Observable Theory**: Expectation values well-defined
+ **Mass Gap Connection**: Finiteness ⟺ Δ > 0
 
 ### Progress on Axiom 1:
 
@@ -687,11 +687,11 @@ Axiom 1 (BRST Measure Existence) → Conditional Theorem
 
 Progress: ████████████████░ 80% COMPLETE!
 
-✅ M5 (BRST Cohomology)  - PROVEN (200 lines)
-✅ M1 (FP Positivity)    - PROVEN (450 lines)
-✅ M3 (Compactness)      - PROVEN (500 lines)
-✅ M4 (Finiteness)       - PROVEN (400 lines) ← JUST COMPLETED!
-🟡 M2 (Convergence)      - REFINED AXIOM (OS framework)
+ M5 (BRST Cohomology)  - PROVEN (200 lines)
+ M1 (FP Positivity)    - PROVEN (450 lines)
+ M3 (Compactness)      - PROVEN (500 lines)
+ M4 (Finiteness)       - PROVEN (400 lines) ← JUST COMPLETED!
+ M2 (Convergence)      - REFINED AXIOM (OS framework)
 
 **Total**: ~1550 lines of formal Lean 4 code!
 
@@ -707,7 +707,7 @@ is a foundational QFT assumption that we accept via the Osterwalder-Schrader
 framework. With 4/5 lemmata rigorously proven, we have successfully
 transformed Axiom 1 into a conditional theorem.
 
-**Celebration**: 🎉 AXIOM 1 → THEOREM (CONDITIONAL) ✓
+**Celebration**:  AXIOM 1 → THEOREM (CONDITIONAL) 
 
 -/
 

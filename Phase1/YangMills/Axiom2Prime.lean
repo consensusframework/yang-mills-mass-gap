@@ -6,7 +6,7 @@ open YangMills
   Axiom2Work/Axiom2Prime.lean
   
   ═══════════════════════════════════════════════════════════════════
-  AXIOM 2' (WEAK ENTROPIC PRINCIPLE) - BOSS FINAL! 👹🏆
+  AXIOM 2' (WEAK ENTROPIC PRINCIPLE) - BOSS FINAL! 
   ═══════════════════════════════════════════════════════════════════
   
   Version: 1.0 (January 20, 2026)
@@ -220,7 +220,6 @@ axiom uv_entropy_finite (rho_UV : DensityMatrixUV) : S_VN rho_UV ≤ S0
     the mutual information satisfies I(ρ_UV : ρ_IR) ≥ α · S_VN(ρ_UV) with
     α = 0.098.
 
-    Validation: α = 0.098 measured ∈ [0.05, 0.20] across Gemini's grid.
     Full formal proof requires quantum information inequalities specific
     to the BRST measure, outside the scope of this file.
 
@@ -238,7 +237,7 @@ def Assumption_mutual_info_controlled_validation : Prop :=
   Physical meaning: At least 9.8% of UV entropy is correlated with IR
   
   GEMINI VALIDATION: α = 0.098 ∈ [0.05, 0.20]
-  Status (May 2026): ✅ PROVEN via h_mutual_info_controlled_validation
+  Status (May 2026):  PROVEN via h_mutual_info_controlled_validation
 -/
 theorem mutual_info_controlled (rho_UV : DensityMatrixUV) (rho_IR : DensityMatrixIR)
     (h_mutual_info_controlled_validation : Assumption_mutual_info_controlled_validation) :
@@ -435,27 +434,27 @@ theorem convergence_region_universal :
     ═══════════════════════════════════════════════════════════════════
     
     CONSTANTS (8, all Gemini validated):
-    ✅ β = 0.274 (holographic scaling)
-    ✅ α = 0.098 (mutual information)
-    ✅ S₀ = 7872.4 (UV entropy bound)
-    ✅ C_RT = 2.51 (Ryu-Takayanagi constant)
-    ✅ inf S_ent = 508.3 (ENTROPIC GAP!)
-    ✅ Δ = 1.22 GeV (mass gap)
-    ✅ g₀ = 1.18 (consistent!)
-    ✅ a₀ = 0.14 fm (identical!)
+     β = 0.274 (holographic scaling)
+     α = 0.098 (mutual information)
+     S₀ = 7872.4 (UV entropy bound)
+     C_RT = 2.51 (Ryu-Takayanagi constant)
+     inf S_ent = 508.3 (ENTROPIC GAP!)
+     Δ = 1.22 GeV (mass gap)
+     g₀ = 1.18 (consistent!)
+     a₀ = 0.14 fm (identical!)
     
     PROVEN THEOREMS (20+):
-    ✅ beta_pos, beta_in_range_lower, beta_in_range_upper, beta_sublinear
-    ✅ alpha_pos, alpha_in_range_lower, alpha_in_range_upper
-    ✅ S0_pos, S0_finite
-    ✅ C_RT_pos, C_RT_in_range
-    ✅ inf_S_ent_pos, entropic_gap_exists
-    ✅ Delta_pos, Delta_physical, Delta_numerical, Delta_in_physical_range
-    ✅ g0_pos, g0_consistent, a0_pos, a0_consistent
-    ✅ entropic_functional_definition
-    ✅ entropic_gap_implies_mass_gap
-    ✅ axiom2_prime (MAIN THEOREM!)
-    ✅ convergence_region_universal
+     beta_pos, beta_in_range_lower, beta_in_range_upper, beta_sublinear
+     alpha_pos, alpha_in_range_lower, alpha_in_range_upper
+     S0_pos, S0_finite
+     C_RT_pos, C_RT_in_range
+     inf_S_ent_pos, entropic_gap_exists
+     Delta_pos, Delta_physical, Delta_numerical, Delta_in_physical_range
+     g0_pos, g0_consistent, a0_pos, a0_consistent
+     entropic_functional_definition
+     entropic_gap_implies_mass_gap
+     axiom2_prime (MAIN THEOREM!)
+     convergence_region_universal
     
     AXIOMS (8):
     - S_VN, S_VN_nonneg, mutual_info, mutual_info_nonneg
@@ -467,12 +466,12 @@ theorem convergence_region_universal :
     - mutual_info_controlled (quantum information inequality)
     
     VALIDATION:
-    - β ∈ [0.25, 0.30] ✓ (margin +9.6%)
-    - α ∈ [0.05, 0.20] ✓ (margin +96%)
-    - inf S_ent > 0 ✓ (ENTROPIC GAP EXISTS!)
+    - β ∈ [0.25, 0.30]  (margin +9.6%)
+    - α ∈ [0.05, 0.20]  (margin +96%)
+    - inf S_ent > 0  (ENTROPIC GAP EXISTS!)
     
     IMPACT:
-    🏆 4 AXIOMS → 4 THEOREMS = 100% REDUCTION! 🏆
+     4 AXIOMS → 4 THEOREMS = 100% REDUCTION! 
     
     The Yang-Mills Mass Gap is now a CONDITIONAL THEOREM
     dependent only on validated numerical constants!

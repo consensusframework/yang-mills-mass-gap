@@ -1,7 +1,6 @@
 import Mathlib
 
 
-
 /- (reconstruction fragment)
 (∇ : MetricConnection E M) :
     ∀ X, Derivation M E

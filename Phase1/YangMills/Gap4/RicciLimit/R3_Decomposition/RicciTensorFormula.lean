@@ -1,7 +1,7 @@
 import Mathlib
 /-
 Temporary Axiom #5: Ricci Tensor Formula
-Status: ✅ VALIDATED (Lote 3, Rodada 3)
+Status:  VALIDATED (Lote 3, Rodada 3)
 Author: Claude Sonnet 4.5
 Validator: GPT-5
 Quality: 85% → 95% (post-validation)
@@ -46,7 +46,7 @@ The scalar curvature is obtained by contracting the Ricci tensor:
 
 - **Validated by**: GPT-5 (October 21, 2025)
 - **Quality**: 85% → 95% (post-validation)
-- **Status**: ✅ Ready for implementation
+- **Status**:  Ready for implementation
 - **Connection**: Links Ricci to scalar curvature R = g^{ij}R_{ij}
 -/
 

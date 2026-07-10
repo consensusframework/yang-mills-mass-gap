@@ -60,7 +60,7 @@ where B_r^κ is the ball in the model space of constant curvature κ.
 - Gromov (1981): Metric geometry perspective
 - Cheeger-Colding-Gromov-Colding (1997-2000): Modern extensions
 
-**Status:** ✅ Proven
+**Status:**  Proven
 
 **Confidence:** 100%
 
@@ -98,7 +98,7 @@ Yang-Mills energy, the diameter is finite.
 - Uhlenbeck (1982): Compactness with energy bounds
 - Donaldson (1985): Geometry of finite-energy moduli
 
-**Status:** 🟡 Plausible
+**Status:**  Plausible
 
 **Confidence:** 80%
 
@@ -128,7 +128,7 @@ is precompact in the Gromov-Hausdorff topology.
 - Cheeger-Gromov (1990): "Collapsing Riemannian manifolds"
 - Petersen (2006): Textbook treatment
 
-**Status:** ✅ Proven
+**Status:**  Proven
 
 **Confidence:** 100%
 

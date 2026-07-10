@@ -152,7 +152,7 @@ def Assumption_fp_positivity_validation : Prop :=
   For all A in Ω: eigenvalue_min(A) ≥ C₁ = 0.240
 
   GEMINI: 99.04% of configs satisfy this
-  Status (May 2026): ✅ PROVEN via h_fp_positivity_validation
+  Status (May 2026):  PROVEN via h_fp_positivity_validation
 -/
 theorem fp_positivity_in_omega
     (h_fp_positivity_validation : Assumption_fp_positivity_validation) :
@@ -195,7 +195,7 @@ def Assumption_exponential_decay_validation : Prop :=
   For E > E₀: μ_BRST({S_YM > E}) ≤ C₃ · exp(-α·E)
 
   GEMINI: R² > 0.98 confirms exponential behavior
-  Status (May 2026): ✅ PROVEN via h_exponential_decay_validation
+  Status (May 2026):  PROVEN via h_exponential_decay_validation
 -/
 theorem exponential_decay :
   ∀ E : Float, E > E0 →
@@ -229,7 +229,7 @@ def Assumption_z_finiteness_validation : Prop :=
   For g < g₀, a < a₀: Z(g,a) ≤ C₂ = 150
 
   GEMINI: Safest bound with +1400% margin
-  Status (May 2026): ✅ PROVEN via h_z_finiteness_validation
+  Status (May 2026):  PROVEN via h_z_finiteness_validation
 -/
 theorem z_finiteness (g a : Float) (h_region : in_convergence_region g a)
     (h_z_finiteness_validation : Assumption_z_finiteness_validation) :
@@ -305,17 +305,17 @@ theorem a0_consistent_axiom8 : a0 = 0.14 := by rfl
     ═══════════════════════════════════════════════════════════════════
     
     CONSTANTS (8, all Gemini validated):
-    ✅ C₁ = 0.240, C₂ = 150.0, C₃ = 1.0
-    ✅ α = 0.026, E₀ = 542.1, ε = 0.01
-    ✅ g₀ = 1.18, a₀ = 0.14 fm
+     C₁ = 0.240, C₂ = 150.0, C₃ = 1.0
+     α = 0.026, E₀ = 542.1, ε = 0.01
+     g₀ = 1.18, a₀ = 0.14 fm
     
     PROVEN THEOREMS (15):
-    ✅ C1_pos, C2_pos, C3_pos, alpha_decay_pos, E0_pos
-    ✅ epsilon_pos, epsilon_small, g0_pos, a0_pos
-    ✅ validation_exceeds_95, validation_exceeds_99
-    ✅ all_margins_positive
-    ✅ g0_consistent_axiom8, a0_consistent_axiom8
-    ✅ axiom1_prime (main theorem!)
+     C1_pos, C2_pos, C3_pos, alpha_decay_pos, E0_pos
+     epsilon_pos, epsilon_small, g0_pos, a0_pos
+     validation_exceeds_95, validation_exceeds_99
+     all_margins_positive
+     g0_consistent_axiom8, a0_consistent_axiom8
+     axiom1_prime (main theorem!)
     
     AXIOMS (10):
     - gauge_equivalent, eigenvalue_min, S_YM, S_YM_nonneg

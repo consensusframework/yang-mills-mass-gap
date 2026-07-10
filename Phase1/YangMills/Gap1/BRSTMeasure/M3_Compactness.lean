@@ -61,17 +61,17 @@ Compactness ensures:
 ## Dependencies (Temporary Axioms)
 
 1. **uhlenbeck_compactness_theorem**: Uhlenbeck (1982) main result
-   - Status: ✅ Proven theorem (very technical)
+   - Status:  Proven theorem (very technical)
    - Difficulty: Very High (requires advanced geometric analysis)
    - Accept as axiom: Yes (full proof = Ph.D. thesis)
 
 2. **sobolev_embedding_theorems**: Sobolev embeddings W^{k,p} ↪ L^q
-   - Status: ✅ Standard functional analysis (mathlib4)
+   - Status:  Standard functional analysis (mathlib4)
    - Difficulty: Medium (requires Sobolev space theory)
    - Accept as axiom: Temporary (can be proven from mathlib4)
 
 3. **gauge_slice_existence**: Local slice theorem for gauge action
-   - Status: ✅ Standard differential geometry
+   - Status:  Standard differential geometry
    - Difficulty: High (requires slice theorem + principal bundles)
    - Accept as axiom: Temporary (provable from geometric analysis)
 
@@ -84,13 +84,13 @@ All three are **well-established** results with rigorous proofs in the literatur
 - **M4 (Finiteness)**: Uses M3 to prove ∫ e^{-S} < ∞
 - **M5 (BRST)**: Compactness ensures Hilbert space is well-defined
 
-**Chain**: M1 + M3 → M4 → Axiom 1 ✓
+**Chain**: M1 + M3 → M4 → Axiom 1 
 
 ## Status
 
-✅ **PROVEN** in Lean 4 (conditional on 3 standard axioms)
-✅ All axioms are well-established theorems
-✅ Framework ready for formalization of proofs
+ **PROVEN** in Lean 4 (conditional on 3 standard axioms)
+ All axioms are well-established theorems
+ Framework ready for formalization of proofs
 
 -/
 
@@ -238,7 +238,7 @@ S_YM = (1/4) ∫ |F|² = (1/4) ‖F‖²_{L²}
 Therefore:
 S_YM ≤ C  ⟹  ‖F‖²_{L²} ≤ 4C  ⟹  ‖F‖_{L²} ≤ 2√C
 
-**Status**: ✅ Direct from definition (trivial proof)
+**Status**:  Direct from definition (trivial proof)
 -/
 /-- Gemini-validated: the action–curvature relation S_YM = (1/4)‖F‖²_{L²}
     holds by definition, but `fieldStrength`/`curvatureLpNorm` are abstract
@@ -300,9 +300,9 @@ Comm. Math. Phys. 83:31-42, DOI: 10.1007/BF01947069
 
 **Decision**: Accept as axiom (standard, proven theorem)
 
-**Status**: ✅ One of the most important theorems in geometric analysis
-           ✅ Cited 2000+ times
-           ✅ Used throughout gauge theory and general relativity
+**Status**:  One of the most important theorems in geometric analysis
+            Cited 2000+ times
+            Used throughout gauge theory and general relativity
 -/
 axiom uhlenbeck_compactness_theorem
     {M : Manifold4D} {N : ℕ} {P : PrincipalBundle M N}
@@ -406,7 +406,7 @@ action is sequentially compact (every sequence has a convergent subsequence).
    On a metric space (Sobolev connections), sequential compactness
    is equivalent to compactness, so boundedActionSet is compact. ∎
 
-**Status**: ✅ PROVEN (conditional on Uhlenbeck + Sobolev axioms)
+**Status**:  PROVEN (conditional on Uhlenbeck + Sobolev axioms)
 
 **Literature Support**:
 - Uhlenbeck (1982): Main compactness theorem
@@ -619,43 +619,43 @@ theorem m3_m5_implies_hilbert_separable
 ## Summary and Status
 
 ### What We Proved:
-✅ **Lemma M3**: Bounded action set is compact
-✅ **Curvature bound**: S_YM ≤ C ⟹ ‖F‖_{L²} ≤ 2√C
-✅ **Corollaries**: Closed, lower semicontinuous action
+ **Lemma M3**: Bounded action set is compact
+ **Curvature bound**: S_YM ≤ C ⟹ ‖F‖_{L²} ≤ 2√C
+ **Corollaries**: Closed, lower semicontinuous action
 
 ### Axioms Used (Temporary):
-🟡 **uhlenbeck_compactness_theorem**: Uhlenbeck (1982)
+ **uhlenbeck_compactness_theorem**: Uhlenbeck (1982)
    - Status: Proven theorem (very technical, 2000+ citations)
    - Difficulty: Very High (Ph.D. level geometric analysis)
    - Decision: Accept as axiom (full proof beyond scope)
 
-🟡 **sobolev_embedding**: Adams & Fournier (2003)
+ **sobolev_embedding**: Adams & Fournier (2003)
    - Status: Standard functional analysis
    - Difficulty: Medium (provable from mathlib4)
    - Decision: Temporary axiom (can formalize later)
 
-🟡 **gauge_slice_existence**: Slice theorem for Lie groups
+ **gauge_slice_existence**: Slice theorem for Lie groups
    - Status: Standard differential geometry
    - Difficulty: High (principal bundle + transversality theory)
    - Decision: Temporary axiom (provable from geometric analysis)
 
 ### Literature Support:
-✅ Uhlenbeck (1982): Main compactness theorem - seminal paper
-✅ Donaldson & Kronheimer (1990): Applications to Yang-Mills
-✅ Freed & Uhlenbeck (1984): Instanton moduli spaces
-✅ Adams & Fournier (2003): Sobolev spaces (standard reference)
+ Uhlenbeck (1982): Main compactness theorem - seminal paper
+ Donaldson & Kronheimer (1990): Applications to Yang-Mills
+ Freed & Uhlenbeck (1984): Instanton moduli spaces
+ Adams & Fournier (2003): Sobolev spaces (standard reference)
 
 ### Connections to Other Lemmata:
-- **M1 (FP Positivity)**: ✅ Connected via gauge-fixing in Ω
-- **M3 (This)**: ✅ PROVEN
+- **M1 (FP Positivity)**:  Connected via gauge-fixing in Ω
+- **M3 (This)**:  PROVEN
 - **M4 (Finiteness)**: → Uses M3 for compactness
-- **M5 (BRST)**: ✅ Connected via Hilbert space structure
+- **M5 (BRST)**:  Connected via Hilbert space structure
 
 ### Impact:
-🎯 **Enables M4**: Compactness is essential for proving finiteness
-🎯 **Physical Hilbert Space**: Ensures H_phys is well-defined
-🎯 **Quantum Yang-Mills**: No escape to infinity in path integral
-🎯 **Mass Gap**: Discrete spectrum requires compact moduli space
+ **Enables M4**: Compactness is essential for proving finiteness
+ **Physical Hilbert Space**: Ensures H_phys is well-defined
+ **Quantum Yang-Mills**: No escape to infinity in path integral
+ **Mass Gap**: Discrete spectrum requires compact moduli space
 
 ### Next Steps:
 1. **M4 (Finiteness)**: Use M1 + M3 to prove ∫ e^{-S} < ∞

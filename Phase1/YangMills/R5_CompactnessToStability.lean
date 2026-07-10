@@ -1,7 +1,6 @@
 import Mathlib
 
 
-
 /- (reconstruction fragment)
 ## Main Result
 
@@ -58,7 +57,7 @@ measures has a weakly convergent subsequence.
 - Billingsley (1968): "Convergence of Probability Measures"
 - Standard in probability theory
 
-**Status:** ✅ Proven
+**Status:**  Proven
 
 **Confidence:** 100%
 
@@ -90,7 +89,7 @@ Literature:
 From Axiom 1 (M4): Finiteness of partition function
 Compactness ensures integrability
 
-Status: ✅ Follows from Axiom 1
+Status:  Follows from Axiom 1
 Confidence: 90%
 Justification:
 Axiom 1 (M4) already proves partition function finite. Compactness

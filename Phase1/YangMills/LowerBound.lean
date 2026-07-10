@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A7_SpectralGap/LowerBound.lean
 Date: 2025-10-23
-Status: ✅ VALIDATED & REFINED
+Status:  VALIDATED & REFINED
 Author: Claude Sonnet 4.5 (validation + refinement from GPT-5)
 Validator: Manus AI 1.5
 Lote: 13 (Axiom 32/43)
@@ -22,7 +22,6 @@ The Rayleigh-Ritz variational principle provides the mathematical framework for 
 Literature:
 - Reed–Simon I (Functional Analysis), Ch. VIII
 - Glimm–Jaffe, "Quantum Physics", §19.3
-- Jaffe–Witten, "Millennium Prize Problems"
 
 Strategy:
 1. Define YM operator as self-adjoint on complete Hilbert space

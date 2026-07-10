@@ -22,7 +22,7 @@ There exists an involutive map P : A → A such that:
 Three candidate constructions for P:
 1. **Orientation reversal**: P(A) = A|_{M^opp}
 2. **Conjugation + reflection**: P(A_μ(x)) = -A_μ*(-x)
-3. **Hodge dual involution**: P(A) = ★A
+3. **Hodge dual involution**: P(A) = A
 
 ## References
 
@@ -87,12 +87,12 @@ def conjugationReflectionPairing (M : Manifold4D) (N : ℕ) (P : PrincipalBundle
 /-- **Construction 3: Hodge Dual Involution**
 
 Use the Hodge star operator to swap instantons ↔ anti-instantons.
-P(A) = ★A (with appropriate gauge transformation).
+P(A) = A (with appropriate gauge transformation).
 -/
 def hodgeDualPairing (M : Manifold4D) (N : ℕ) (P : PrincipalBundle M N) :
     PairingMap M N P where
   map A := A  -- Placeholder: Hodge dual transformation
-  involution A := sorry  -- ★★ = ±id in 4D
+  involution A := sorry  --  = ±id in 4D
   chernReversal A := sorry  -- Hodge dual swaps self-dual ↔ anti-self-dual
   indexReversal A D D' := sorry  -- Index reverses
 

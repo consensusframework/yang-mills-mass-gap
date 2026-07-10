@@ -1,7 +1,7 @@
 import Mathlib
 /-
 Temporary Axiom #2: Sobolev Embedding Theorem
-Status: ✅ VALIDATED (Lote 1, Rodada 2)
+Status:  VALIDATED (Lote 1, Rodada 2)
 Author: Claude Sonnet 4.5
 Validator: GPT-5
 Quality: 95% (Ph.D. level)
@@ -45,7 +45,7 @@ We prove this using:
 
 - **Validated by**: GPT-5 (October 21, 2025)
 - **Adjustments**: Use C^{m,α} (Hölder) instead of C^{k-⌈n/p⌉}
-- **Status**: ✅ Ready for implementation
+- **Status**:  Ready for implementation
 - **Confidence**: 95% → 98% (post-validation)
 -/
 

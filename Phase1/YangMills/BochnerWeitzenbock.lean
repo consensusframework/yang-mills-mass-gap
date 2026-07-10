@@ -1,7 +1,7 @@
 import Mathlib
 /-
 Temporary Axiom #4: Bochner-Weitzenböck Formula
-Status: ✅ VALIDATED (Lote 3, Rodada 3)
+Status:  VALIDATED (Lote 3, Rodada 3)
 Author: Claude Sonnet 4.5
 Validator: GPT-5
 Quality: 80% → 95% (post-validation)
@@ -46,7 +46,7 @@ The proof proceeds in local coordinates:
 
 - **Validated by**: GPT-5 (October 21, 2025)
 - **Quality**: 80% → 95% (post-validation)
-- **Status**: ✅ Ready for implementation
+- **Status**:  Ready for implementation
 - **Connection**: Links to Lichnerowicz inequality for mass gap spectrum
 -/
 

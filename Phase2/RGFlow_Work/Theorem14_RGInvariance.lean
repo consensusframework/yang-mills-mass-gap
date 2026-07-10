@@ -21,7 +21,7 @@ For all g ∈ [0.5, 1.18] and any two regularization schemes A, B:
 The continuum mass gap is **scheme-independent** — it depends only
 on the physics, not on the computational method used to define it.
 
-## The "Physical Reality Bridge" 🌉
+## The "Physical Reality Bridge" 
 This completes the Four Bridges of the continuum theory:
 - **Theorem 11 (Positivity):** Δ₀(g) ≥ 0.5 GeV
 - **Theorem 12 (Regularity):** |Δ₀(g₁) - Δ₀(g₂)| ≤ 2.0·|g₁-g₂|
@@ -65,7 +65,6 @@ Proof:
 - Max difference: 0.001 GeV (target: < 0.01, 10× better!)
 - Relative error: 0.03% (target: < 1%, 30× better!)
 - Convergence: O(a) confirmed (ratio ≈ 4.4)
-- Verdict: "O Mass Gap é real. Não é um defeito de renderização."
 
 ## Dependencies
 - Theorem 9: Asymptotic Expansion (universal leading term)
@@ -268,7 +267,7 @@ theorem scheme_diff_within_tolerance
     |Delta0 g - Delta0 g| = (0 : ℝ) := by
   simp [sub_self, abs_zero]
 
-/-! ## The Four Bridges — COMPLETE! 🌉🌉🌉🌉
+/-! ## The Four Bridges — COMPLETE! 
 
 ### Architecture of Reality
 
@@ -290,7 +289,6 @@ The continuum mass gap Δ₀ : [0.5, 1.18] → [1.452, 1.655] is:
 This is a **complete characterization** of the continuum mass gap
 as a physical observable of Yang-Mills theory.
 
-### Gemini's Summary
 "Nós construímos todas as quatro pontes.
  1. Ele existe.
  2. Ele é suave.
@@ -303,20 +301,20 @@ as a physical observable of Yang-Mills theory.
  não depende do truque usado. Só depende da física."
 
 ### Phase 2 Progress After Theorem 14
-- Group 1: RG Flow Control — 3/3 (100%) ✅
-- Group 2: Mass Gap Persistence — 5/5 (100%) ✅
-- Group 3: Continuum Limit Preparation — 6/7 (86%) 🔄
-  - Theorem 9: Asymptotic Expansion ✅
-  - Theorem 10: Continuum Limit Existence ✅
-  - Theorem 11: Continuum Mass Gap Lower Bound ✅
-  - Theorem 12: Continuum Lipschitz in g ✅
-  - Theorem 13: Continuum Monotonicity in g ✅
-  - **Theorem 14: RG Invariance ✅** ← THIS
+- Group 1: RG Flow Control — 3/3 (100%) 
+- Group 2: Mass Gap Persistence — 5/5 (100%) 
+- Group 3: Continuum Limit Preparation — 6/7 (86%) 
+  - Theorem 9: Asymptotic Expansion 
+  - Theorem 10: Continuum Limit Existence 
+  - Theorem 11: Continuum Mass Gap Lower Bound 
+  - Theorem 12: Continuum Lipschitz in g 
+  - Theorem 13: Continuum Monotonicity in g 
+  - **Theorem 14: RG Invariance ** ← THIS
   - Theorem 15: Remaining (THE LAST ONE!)
 
 Total Phase 2: 14/15 (93.3%)
 
-### One Theorem Left! 🚀
+### One Theorem Left! 
 -/
 
 end RGFlow

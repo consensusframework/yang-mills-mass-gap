@@ -57,7 +57,7 @@ the regular locus of A/G.
 - Freed-Uhlenbeck (1984): Theorem 4.4.1
 - Atiyah-Bott (1983): Section 6
 
-**Status:** ✅ Proven in literature
+**Status:**  Proven in literature
 
 **Confidence:** 90%
 

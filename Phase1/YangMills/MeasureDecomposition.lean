@@ -1,7 +1,7 @@
 import Mathlib
 /-
 Temporary Axiom #1: Measure Decomposition (σ-additivity)
-Status: ✅ VALIDATED (Lote 1, Rodada 2)
+Status:  VALIDATED (Lote 1, Rodada 2)
 Author: GPT-5
 Validator: Claude Sonnet 4.5
 Quality: 100% (Ph.D. level - "impecável")
@@ -39,8 +39,8 @@ with gauge-invariant measure μ and quotient map π : C → C/G:
 ## Validation
 
 - **Validated by**: Claude Sonnet 4.5 (October 21, 2025)
-- **Quality**: 10/10 🌟 "Trabalho de Ph.D. level!"
-- **Status**: ✅ Zero axiomas novos, usa mathlib4 diretamente
+- **Quality**: 10/10  "Trabalho de Ph.D. level!"
+- **Status**:  Zero axiomas novos, usa mathlib4 diretamente
 - **Confidence**: 100%
 -/
 

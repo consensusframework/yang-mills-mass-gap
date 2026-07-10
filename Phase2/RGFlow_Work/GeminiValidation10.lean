@@ -14,9 +14,6 @@
   
   RESULT: VALIDATED!
   
-  Gemini's wisdom:
-  "Nao importa se voce vai de fusca (O(a)) ou de Ferrari (O(a^2)), 
-   o importante é chegar. E chegamos."
 -/
 
 
@@ -49,9 +46,6 @@ namespace RGFlow
     
     But the EXISTENCE of the limit is independent of rate!
     
-    Gemini's wisdom:
-    "Nao importa se voce vai de fusca (O(a)) ou de Ferrari (O(a^2)), 
-     o importante é chegar. E chegamos."
     
     ## Axiom Strategy
     
@@ -130,7 +124,6 @@ theorem validation10_positive : validation10_Delta0_at_g050 > 0 := by norm_num [
     - Uses standard epsilon-delta definition
     - Works for any convergence rate
     
-    Gemini's Valentine's Day wisdom:
     "Provamos que o universo tem um limite continuo."
     
     Phase 2 Progress: 10/15 theorems (66.7%)

@@ -60,7 +60,7 @@ where T is the O'Neill tensor.
 - Vilms (1970): Extensions and applications
 - Standard reference in Riemannian geometry
 
-**Status:** ✅ Proven
+**Status:**  Proven
 
 **Confidence:** 100%
 
@@ -96,7 +96,7 @@ Ric_A(v,v) ≥ λ_min ‖v‖²  if  H(v,v) ≥ λ_min ‖v‖²
 - Bourguignon-Lawson-Simons (1979): Relationship for Yang-Mills
 - Implicit in stability analysis
 
-**Status:** 🟡 Plausible
+**Status:**  Plausible
 
 **Confidence:** 70%
 
@@ -126,7 +126,7 @@ axiom hessian_controls_ambient_ricci
 - O'Neill (1966): Properties of T
 - For gauge theory: bounded by energy
 
-**Status:** 🟡 Plausible
+**Status:**  Plausible
 
 **Confidence:** 75%
 
@@ -251,7 +251,7 @@ theorem lemma_R3_hessian_to_ricci (A_G : ModuliSpace M N) :
     intro p v
     exact vertical_contributions_bounded p v
   
-  -- Step 5: Apply O'Neill formula and combine ✅ COMPLETED!
+  -- Step 5: Apply O'Neill formula and combine  COMPLETED!
   obtain ⟨C_T, C_vert, h_CT_pos, h_uniform⟩ := uniform_geometric_bounds
   
   use C_T + C_vert + 1  -- Our choice of C

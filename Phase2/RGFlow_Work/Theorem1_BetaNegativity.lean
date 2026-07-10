@@ -7,7 +7,7 @@
   ═══════════════════════════════════════════════════════════════════
   
   Date: January 27, 2026 (revised May 2026 — proof completed via Gemini axiom)
-  Status: ✅ PROVEN (modulo Gemini numerical validation axiom)
+  Status:  PROVEN (modulo Gemini numerical validation axiom)
   
   ═══════════════════════════════════════════════════════════════════
 -/
@@ -94,7 +94,7 @@ in Yang-Mills theory.
 3. Confirm β(g, a) < -0.02·g³ with > 99.9% confidence
 4. Result encoded as `gemini_beta_validation` axiom
 
-**Status:** ✅ PROVEN (via Gemini numerical validation axiom)
+**Status:**  PROVEN (via Gemini numerical validation axiom)
 
 **See:** VERIFICATION_STATUS.md for the full disclosure of which steps
 are formal Lean proofs and which rely on external numerical validation.

@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A5_BRSTCohomology/Equivalence.lean
 Date: 2025-10-23
-Status: ✅ REFINED & COMPLETE (simplified Q², explicit constructions)
+Status:  REFINED & COMPLETE (simplified Q², explicit constructions)
 Author: Claude Sonnet 4.5 (refinement + implementation)
 Validator: GPT-5 (9.8/10)
 Lote: 12 (Axiom 30/43)

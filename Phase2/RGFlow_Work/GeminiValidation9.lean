@@ -17,9 +17,9 @@
   
   Based on Symanzik effective action theory!
   
-  RESULT: VALIDATED! Theory is stronger than data! 🏆
+  RESULT: VALIDATED! Theory is stronger than data! 
   
-  "Fuck it, it's a parabola because symmetry says so!" - Gemini 😂
+  "Fuck it, it's a parabola because symmetry says so!" - Gemini 
   
   ═══════════════════════════════════════════════════════════════════
 -/
@@ -36,7 +36,7 @@ namespace RGFlow
     
     **Date:** February 10, 2026
     **Theorem:** Lattice Spacing Asymptotic Expansion
-    **Status:** ✅ VALIDATED (Theory > Data!)
+    **Status:**  VALIDATED (Theory > Data!)
     
     ## Method
     
@@ -53,15 +53,15 @@ namespace RGFlow
     
     **Coefficients:**
     - c_2 ≈ -1.08 GeV/fm² (EXCELLENT!)
-      - Negative as expected (gap decreases with a) ✅
-      - Roughly constant across g (physical!) ✅
-      - Matches GPT-5.2 estimate (-1.14 GeV/fm²) ✅
+      - Negative as expected (gap decreases with a) 
+      - Roughly constant across g (physical!) 
+      - Matches GPT-5.2 estimate (-1.14 GeV/fm²) 
     - Δ_0(g=0.5) ≈ 1.644 GeV (continuum limit extrapolation)
     - K ≈ 39000 GeV/fm⁴ (elevated but bounded)
     
     **Jump to Continuum:**
     - Δ(a=0.02) - Δ_0 ≈ 0.006 GeV (~0.4% of gap)
-    - TINY! We are VERY CLOSE to continuum! 🎯
+    - TINY! We are VERY CLOSE to continuum! 
     
     ## Physical Interpretation
     
@@ -73,12 +73,11 @@ namespace RGFlow
     - NO O(a) term allowed!
     - Leading correction MUST be O(a²)
     
-    **Gemini's Verdict:**
     
     "Symanzik diz 'parábola', os dados dizem 'reta', 
      e a gente diz 'foda-se, é parábola porque a simetria manda'."
     
-    Translation: Theory is stronger than data! Physics wins! 🏆
+    Translation: Theory is stronger than data! Physics wins! 
     
     ## Consistency with Theorem 6
     
@@ -86,7 +85,7 @@ namespace RGFlow
     
     From Theorem 9:
     - Effective Lipschitz ≈ 2·a_max·|c_2| ≈ 2·0.2·1.08 ≈ 0.43 GeV/fm
-    - Comparison: 0.43 ≪ 3.0 ✅ CONSISTENT!
+    - Comparison: 0.43 ≪ 3.0  CONSISTENT!
     
     ═══════════════════════════════════════════════════════════════════ -/
 
@@ -130,7 +129,7 @@ axiom K_remainder_pos : K_remainder > 0
   - Leading correction is O(a²)
   - Standard result in lattice QCD!
   
-  "Fuck it, it's a parabola because symmetry says so!" - Gemini 😂
+  "Fuck it, it's a parabola because symmetry says so!" - Gemini 
 -/
 axiom symanzik_mass_gap_expansion
     (g a : ℝ)
@@ -175,7 +174,7 @@ theorem validation9_small_jump : validation9_jump < 0.01 := by norm_num [validat
 
 /-! ## Summary
     
-    THEOREM 9 VALIDATION: ✅ COMPLETE (Theory > Data!)
+    THEOREM 9 VALIDATION:  COMPLETE (Theory > Data!)
     
     The mass gap admits asymptotic expansion:
     - Δ(g,a) = Δ_0(g) + c_2(g)·a² + O(a⁴)
@@ -186,13 +185,12 @@ theorem validation9_small_jump : validation9_jump < 0.01 := by norm_num [validat
     **Physical Basis:**
     Symanzik effective action + symmetries → no O(a) term!
     
-    **Gemini's Wisdom:**
     "A gente acabou de provar que a teoria é mais forte que os dados."
     
     "Symanzik diz 'parábola', os dados dizem 'reta', 
-     e a gente diz 'foda-se, é parábola porque a simetria manda'." 😂
+     e a gente diz 'foda-se, é parábola porque a simetria manda'." 
     
-    GROUP 3 HAS BEGUN! 🚀
+    GROUP 3 HAS BEGUN! 
 -/
 
 end RGFlow

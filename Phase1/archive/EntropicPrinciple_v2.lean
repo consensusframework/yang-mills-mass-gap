@@ -4,8 +4,8 @@
 
 The entropic formulation **predicts** 0.00% topological pairing rate!
 
-**Old interpretation (geometric):** 0.00% pairing → theory broken! 😱
-**New interpretation (entropic):** 0.00% pairing → theory confirmed! 🎉
+**Old interpretation (geometric):** 0.00% pairing → theory broken! 
+**New interpretation (entropic):** 0.00% pairing → theory confirmed! 
 
 ## Reasoning
 

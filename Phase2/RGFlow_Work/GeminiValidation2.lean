@@ -28,7 +28,7 @@ namespace RGFlow
     
     **Date:** January 29, 2026
     **Theorem:** Running Coupling Monotonicity
-    **Status:** ✅ 100% SUCCESS
+    **Status:**  100% SUCCESS
     
     ## Methodology
     
@@ -130,7 +130,7 @@ theorem validation2_extensive : validation2_cases ≥ 100 := by norm_num [valida
 
 /-! ## Summary
     
-    THEOREM 2 VALIDATION: ✅ COMPLETE
+    THEOREM 2 VALIDATION:  COMPLETE
     
     Gemini 3 Pro validated running coupling monotonicity with:
     - 180 test cases (3× the requested amount!)

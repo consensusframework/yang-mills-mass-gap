@@ -61,4 +61,4 @@ theorem entropy_loss_positive : entropy_loss > 0 := by
   unfold entropy_loss S_VN_UV I_UV_IR
   norm_num
 
--- Se este arquivo compilar, as correções do Opus 4.5 estão corretas! ✅
+-- Se este arquivo compilar, as correções do Opus 4.5 estão corretas! 

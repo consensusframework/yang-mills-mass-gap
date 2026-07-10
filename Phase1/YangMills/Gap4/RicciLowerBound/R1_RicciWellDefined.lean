@@ -14,10 +14,10 @@ the moduli space A/G.
 
 ## Main Results
 
-- `christoffel_symbols`: Christoffel symbols of L² metric (✅ DEFINED)
-- `riemann_tensor`: Riemann curvature tensor (✅ DEFINED)
+- `christoffel_symbols`: Christoffel symbols of L² metric ( DEFINED)
+- `riemann_tensor`: Riemann curvature tensor ( DEFINED)
 - `ricci_tensor`: Ricci curvature as trace of Riemann
-- `lemma_R1_ricci_well_defined`: Main theorem (📚 DOCUMENTED)
+- `lemma_R1_ricci_well_defined`: Main theorem ( DOCUMENTED)
 
 ## Approach
 
@@ -60,7 +60,7 @@ the regular locus of A/G.
 - Freed-Uhlenbeck (1984): Theorem 4.4.1
 - Atiyah-Bott (1983): Section 6
 
-**Status:** ✅ Proven in literature
+**Status:**  Proven in literature
 
 **Confidence:** 90%
 
@@ -86,7 +86,7 @@ Formula (standard Riemannian geometry):
 where g is the L² metric tensor.
 
 **Literature:** Petersen (2016), Equation (3.1.1)
-**Status:** ✅ DEFINED (standard formula)
+**Status:**  DEFINED (standard formula)
 **Confidence:** 100%
 
 **Note:** This definition uses the abstract type `ChristoffelSymbols A_G`
@@ -113,7 +113,7 @@ Formula (standard Riemannian geometry):
   Rⁱⱼₖₗ = ∂ₖΓⁱⱼₗ - ∂ₗΓⁱⱼₖ + ΓⁱₘₖΓᵐⱼₗ - ΓⁱₘₗΓᵐⱼₖ
 
 **Literature:** Petersen (2016), Equation (3.1.3)
-**Status:** ✅ DEFINED (standard formula)
+**Status:**  DEFINED (standard formula)
 **Confidence:** 100%
 
 **Note:** This definition uses the abstract type `RiemannTensor A_G`
@@ -177,7 +177,7 @@ locus of the moduli space A/G.
 
 **Result:** Ricci curvature is a smooth (0,2)-tensor on RegularLocus(A/G)
 
-**Status:** 📚 DOCUMENTED (follows from literature)
+**Status:**  DOCUMENTED (follows from literature)
 **Confidence:** 90%
 -/
 theorem lemma_R1_ricci_well_defined (A_G : ModuliSpace M N) :

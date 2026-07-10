@@ -17,7 +17,7 @@ namespace RGFlow
 ## Validation Platform
 - **Validator:** Gemini 3 Pro (Google)
 - **Date:** February 15, 2026
-- **Status:** ✅ VALIDATED
+- **Status:**  VALIDATED
 
 ## Validation Results
 - **Success Rate:** 10/10 (100%)
@@ -29,10 +29,10 @@ namespace RGFlow
 
 | g     | Δ₀ (GeV) | Bound | Margin | Status |
 |-------|-----------|-------|--------|--------|
-| 0.5  | 1.655     | 0.5  | 231%   | ✅     |
-| 0.575 | ~1.63     | 0.5  | ~226%  | ✅     |
+| 0.5  | 1.655     | 0.5  | 231%   |      |
+| 0.575 | ~1.63     | 0.5  | ~226%  |      |
 | ...   | ...       | ...   | ...    | ...    |
-| 1.18  | 1.452     | 0.5  | 190%   | ✅     |
+| 1.18  | 1.452     | 0.5  | 190%   |      |
 
 ## Key Finding (Gemini 3 Pro)
 "O universo tem massa. O Gap é estritamente positivo.

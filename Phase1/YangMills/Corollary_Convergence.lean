@@ -76,7 +76,7 @@ axiom convergenceBound_pos : convergenceBound > 0
 /-! ## Summary
     
     Corollary: Convergence from Lemma A + Lemma B
-    Status: ✅ PROVEN (May 2026 — uses placeholder `clusterCoefficient = 0`)
+    Status:  PROVEN (May 2026 — uses placeholder `clusterCoefficient = 0`)
 -/
 
 end YangMills.Gap3

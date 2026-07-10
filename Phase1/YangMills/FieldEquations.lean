@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A4_Consistency/FieldEquations.lean
 Date: 2025-10-23
-Status: ✅ REFINED & COMPLETE (improved from GPT-5 skeleton)
+Status:  REFINED & COMPLETE (improved from GPT-5 skeleton)
 Author: Claude Sonnet 4.5 (refinement + implementation)
 Validator: GPT-5 (9.9/10)
 Lote: 12 (Axiom 29/43)

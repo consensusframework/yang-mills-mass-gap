@@ -8,7 +8,7 @@
   
   Date: January 27, 2026 (revised May 2026 — proof completed via
         1-loop analytical definition + Gemini monotonicity axiom)
-  Status: ✅ PROVEN (modulo Gemini numerical validation axiom)
+  Status:  PROVEN (modulo Gemini numerical validation axiom)
   
   This theorem establishes that the running coupling g(μ) is strictly
   decreasing with energy scale μ, as a direct consequence of asymptotic
@@ -161,7 +161,7 @@ def RunningMonotonicityODEAssumption : Prop :=
   - Theorem 2: g decreases from 1.18 to 0 as μ increases
   - Together: Mass gap persists along the entire RG flow.
   
-  **Status:** ✅ PROVEN (via Gemini numerical validation axiom)
+  **Status:**  PROVEN (via Gemini numerical validation axiom)
   
   ═══════════════════════════════════════════════════════════════════
 -/
@@ -231,7 +231,7 @@ def expected_success_rate : ℝ := 1.0
     
     **Theorem:** g(μ₂) < g(μ₁) for μ₁ < μ₂
     
-    **Status:** ✅ PROVEN via `gemini_running_monotonicity` axiom.
+    **Status:**  PROVEN via `gemini_running_monotonicity` axiom.
     
     **Honesty disclosure:**
     - `running_coupling` is now CONSTRUCTIVELY DEFINED at 1-loop.

@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A6_Unitarity/Restoration.lean
 Date: 2025-10-23
-Status: ✅ REFINED & COMPLETE (explicit adjointness, quotient construction)
+Status:  REFINED & COMPLETE (explicit adjointness, quotient construction)
 Author: Claude Sonnet 4.5 (refinement + implementation)
 Validator: GPT-5 (9.9/10)
 Lote: 12 (Axiom 31/43)

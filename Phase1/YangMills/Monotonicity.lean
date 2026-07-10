@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A11_Entropy/Monotonicity.lean
 Date: 2025-10-23
-Status: ✅ VALIDATED & REFINED
+Status:  VALIDATED & REFINED
 Author: Claude Opus 4 (refinement from GPT-5 + Claude Sonnet 4.5)
 Validator: Manus AI 1.5
 Lote: 14 (Axiom 36/43)

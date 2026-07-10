@@ -15,9 +15,6 @@
   
   This is the FOUNDATION for Phase 3!
   
-  Gemini's wisdom:
-  "Nao importa se voce vai de fusca (O(a)) ou de Ferrari (O(a^2)), 
-   o importante é chegar. E chegamos."
 -/
 
 
@@ -140,9 +137,6 @@ theorem theorem10_positive : theorem10_Delta0 > 0 := by norm_num [theorem10_Delt
     - Real lattice QCD: O(a^2) quadratic (Symanzik)
     - But limit EXISTS regardless of rate!
     
-    Gemini's wisdom:
-    "Nao importa se voce vai de fusca (O(a)) ou de Ferrari (O(a^2)), 
-     o importante é chegar. E chegamos."
     
     Phase 2 Progress:
     - Group 1: RG Flow Control (3/3)

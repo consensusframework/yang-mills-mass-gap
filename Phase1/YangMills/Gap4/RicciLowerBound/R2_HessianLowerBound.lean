@@ -81,7 +81,7 @@ where Ric is spacetime Ricci curvature.
 - Bourguignon-Lawson-Simons (1979): Original formula
 - Applies to Yang-Mills on Riemannian 4-manifolds
 
-**Status:** ✅ Proven
+**Status:**  Proven
 
 **Confidence:** 100%
 
@@ -109,7 +109,7 @@ the spacetime Ricci contribution is non-negative.
 - Euclidean space: Ric = 0 (flat)
 - Compact manifolds: Choose Ric ≥ 0 by hypothesis
 
-**Status:** ✅ Assumption on background geometry
+**Status:**  Assumption on background geometry
 
 **Confidence:** 100% (for chosen geometries)
 
@@ -137,7 +137,7 @@ topological_terms(ω) ≥ -C ‖ω‖²
 - Uhlenbeck (1982): Removable singularities and bounds
 - Taubes (1982): Stability estimates
 
-**Status:** 🟡 Plausible
+**Status:**  Plausible
 
 **Confidence:** 75%
 

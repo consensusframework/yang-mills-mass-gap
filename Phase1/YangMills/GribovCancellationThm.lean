@@ -29,7 +29,7 @@ The proof chains together five lemmas:
 
 ## Status
 
-**AXIOM 2 → THEOREM** ✅
+**AXIOM 2 → THEOREM** 
 
 This transforms one of the four axioms into a proven theorem, reducing
 the axiomatic foundation from 4 to 3 axioms.
@@ -169,7 +169,7 @@ theorem gribovAmbiguityResolved
 The original Axiom 2 (Gribov Cancellation) from Gap2/GribovCancellation.lean
 is now proven as a consequence of the topological pairing theorem.
 
-**Status:** AXIOM 2 → THEOREM ✅
+**Status:** AXIOM 2 → THEOREM 
 
 **Reduction:** 4 axioms → 3 axioms
 -/

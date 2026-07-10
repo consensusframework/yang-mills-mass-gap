@@ -28,7 +28,7 @@ namespace RGFlow
     
     **Date:** January 30, 2026
     **Theorem:** Lipschitz Continuity of Mass Gap
-    **Status:** ✅ VALIDATED (100% Success - TIGHT BUT PERFECT!)
+    **Status:**  VALIDATED (100% Success - TIGHT BUT PERFECT!)
     
     ## Results Summary
     
@@ -59,9 +59,9 @@ namespace RGFlow
     
     **MAINTAIN L = 2.0 GeV**
     
-    - ✅ Safe (100% success rate)
-    - ✅ Precise (no loss of predictive power)
-    - ✅ Perfect balance between "safe" and "tight"
+    -  Safe (100% success rate)
+    -  Precise (no loss of predictive power)
+    -  Perfect balance between "safe" and "tight"
     
     ═══════════════════════════════════════════════════════════════════ -/
 
@@ -141,7 +141,7 @@ theorem validation5_extensive : validation5_pairs ≥ 400 := by norm_num [valida
 
 /-! ## Summary
     
-    THEOREM 5 VALIDATION: ✅ COMPLETE (TIGHT BUT PERFECT!)
+    THEOREM 5 VALIDATION:  COMPLETE (TIGHT BUT PERFECT!)
     
     The mass gap is Lipschitz continuous with L = 2.0 GeV:
     - |Δ(g₁) - Δ(g₂)| ≤ 2.0 · |g₁ - g₂|
@@ -152,9 +152,9 @@ theorem validation5_extensive : validation5_pairs ≥ 400 := by norm_num [valida
     "A corda bamba onde a gente dança." - Gemini
     
     Combined with Theorem 4, the mass gap is now:
-    - ✅ Positive (Δ ≥ 0.5 GeV)
-    - ✅ Monotone (smaller g → larger gap)
-    - ✅ Continuous and Smooth (Lipschitz with L = 2.0)
+    -  Positive (Δ ≥ 0.5 GeV)
+    -  Monotone (smaller g → larger gap)
+    -  Continuous and Smooth (Lipschitz with L = 2.0)
     
     "A gente 'domesticou' o problema. Ele não morde mais."
 -/

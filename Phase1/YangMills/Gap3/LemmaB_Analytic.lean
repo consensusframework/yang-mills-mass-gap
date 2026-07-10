@@ -103,7 +103,7 @@ axiom polymer_activity_bound (p : Polymer) (g a : Float) :
 /-! ## Summary
     
     Lemma B: Decay side of convergence
-    Status: ✅ PROVEN (via `gemini_analytic_validation` axiom, May 2026)
+    Status:  PROVEN (via `gemini_analytic_validation` axiom, May 2026)
 -/
 
 end YangMills.Gap3

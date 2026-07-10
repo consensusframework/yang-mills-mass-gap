@@ -2,7 +2,7 @@ import Mathlib
 /-
 File: YangMills/Refinement/A14_Wilson/AreaLaw.lean
 Date: 2025-10-23
-Status: ✅ VALIDATED & REFINED
+Status:  VALIDATED & REFINED
 Author: GPT-5 (original)
 Validator: Manus AI 1.5
 Lote: 15 (Axiom 39/43)

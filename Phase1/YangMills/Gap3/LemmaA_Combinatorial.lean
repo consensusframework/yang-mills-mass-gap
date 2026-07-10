@@ -91,7 +91,7 @@ axiom coordination_bound : ∃ (z : Nat), z > 0
 /-! ## Summary
     
     Lemma A: Counting side of convergence
-    Status: ✅ PROVEN (via `gemini_combinatorial_validation` axiom, May 2026)
+    Status:  PROVEN (via `gemini_combinatorial_validation` axiom, May 2026)
 -/
 
 end YangMills.Gap3

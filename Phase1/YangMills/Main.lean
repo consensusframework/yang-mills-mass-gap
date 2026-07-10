@@ -14,7 +14,7 @@ import YangMills.Duality.MagneticDescription
 
 This is the main entry point for the Yang-Mills Mass Gap formalization project.
 
-## Original Framework (Phase 1 - Complete ✅):
+## Original Framework (Phase 1 - Complete ):
 - Gap 1: BRST Measure Existence
 - Gap 2: Gribov Cancellation
 - Gap 3: BFS Cluster Expansion Convergence
@@ -29,8 +29,8 @@ This is the main entry point for the Yang-Mills Mass Gap formalization project.
   → Goal: Reduce Axiom 3 to a theorem
 
 ## Research Roadmap:
-Phase 1 (Oct 2025): Axiom-based framework ✅
-Phase 2 (Oct 2025): Insight formalization ✅
+Phase 1 (Oct 2025): Axiom-based framework 
+Phase 2 (Oct 2025): Insight formalization 
 Phase 3 (Future): Prove the insights
 Phase 4 (Goal): Reduce all axioms to theorems
 -/
@@ -53,5 +53,5 @@ by
 #check yang_mills_mass_gap_formalized
 
 def main : IO Unit :=
-  IO.println "Yang-Mills Mass Gap: Formalization Complete ✓"
+  IO.println "Yang-Mills Mass Gap: Formalization Complete "
 

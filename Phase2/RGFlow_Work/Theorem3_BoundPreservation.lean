@@ -7,7 +7,7 @@
   ═══════════════════════════════════════════════════════════════════
   
   Date: January 29, 2026
-  Status: ✅ PROVEN (0 sorry statements)
+  Status:  PROVEN (0 sorry statements)
   Validation: Gemini 3 Pro (Logical induction from Theorem 2)
   
   This theorem establishes that the running coupling g(μ) never
@@ -40,7 +40,7 @@ namespace RGFlow
   
   The coupling NEVER exceeds the initial value.
   
-  **Status:** ✅ PROVEN
+  **Status:**  PROVEN
   
   **Proof Logic:**
   This follows directly from Theorem 2 (monotonicity):
@@ -49,7 +49,7 @@ namespace RGFlow
   2. By initial condition: g(μ₀) = g₀
   3. For μ > μ₀: g(μ) < g(μ₀) = g₀ (strict decrease)
   4. For μ = μ₀: g(μ₀) = g₀ (equality)
-  5. Combined: g(μ) ≤ g₀ for all μ ≥ μ₀ ✓
+  5. Combined: g(μ) ≤ g₀ for all μ ≥ μ₀ 
   
   **Physical Significance:**
   
@@ -62,7 +62,6 @@ namespace RGFlow
   3. **Phase 3 Ready:** The path to the continuum limit is protected.
      We can safely take a → 0 without encountering singularities.
   
-  **Gemini's Insight:**
   "É a prova matemática de que não existe 'surto'. 
    A física não acorda um dia de mau humor e decide explodir pro infinito.
    Ela é comportada. Ela é fiel."
@@ -76,7 +75,6 @@ theorem bound_preservation
     (_ : 0 < a ∧ a ≤ a_max)
     (h_assume : BoundPreservationAssumption) :
   running_coupling μ μ₀ g₀ a ≤ g₀ := by
-  -- Apply Gemini's validated axiom
   -- This follows from monotonicity (Theorem 2) + initial condition
   exact h_assume μ μ₀ g₀ a h_order hg.1
 
@@ -141,7 +139,7 @@ theorem theorem3_fast : theorem3_time ≤ 0.1 := by norm_num [theorem3_time]
     
     **Theorem:** g(μ) ≤ g₀ for all μ ≥ μ₀ (bound preservation)
     
-    **Status:** ✅ PROVEN (0 sorry statements in main theorem)
+    **Status:**  PROVEN (0 sorry statements in main theorem)
     
     **Proof:** Direct consequence of Theorem 2 (monotonicity)
     
@@ -156,15 +154,15 @@ theorem theorem3_fast : theorem3_time ≤ 0.1 := by norm_num [theorem3_time]
     - Path to continuum limit protected
     
     **Phase 2 Progress:**
-    - Theorem 1: ✅ β < 0
-    - Theorem 2: ✅ g decreasing
-    - Theorem 3: ✅ g ≤ g₀ (bound preserved)
-    - Theorems 4-15: 🔄 PENDING
+    - Theorem 1:  β < 0
+    - Theorem 2:  g decreasing
+    - Theorem 3:  g ≤ g₀ (bound preserved)
+    - Theorems 4-15:  PENDING
     
     **The Chain of Logic:**
     Theorem 1 (β < 0) ⟹ Theorem 2 (monotonicity) ⟹ Theorem 3 (bound)
     
-    Beautiful mathematics! 🎉
+    Beautiful mathematics! 
     
     ═══════════════════════════════════════════════════════════════════
 -/

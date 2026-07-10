@@ -15,7 +15,7 @@ namespace RGFlow
 ## Validation Platform
 - **Validator:** Gemini 3 Pro (Google)
 - **Date:** February 17, 2026
-- **Status:** ✅ VALIDATED
+- **Status:**  VALIDATED
 
 ## Validation Results
 - **Observed Lipschitz constant:** L₀_obs = 0.3 GeV (EXACT!)
@@ -47,7 +47,7 @@ All 45 pairwise Lipschitz ratios satisfy r_ij ≤ 0.3 < 2.0 GeV.
 - Lattice Lipschitz: L_g = 2.0 GeV (Theorem 5)
 - Continuum observed: L₀_obs = 0.3 GeV (Theorem 12)
 - Ratio: 6.67× smoother in continuum!
-- Conclusion: Lattice artifacts removed ✅
+- Conclusion: Lattice artifacts removed 
 
 ## Cross-Platform Validation Chain
 - **GPT-5.2** (OpenAI): Proof strategy
