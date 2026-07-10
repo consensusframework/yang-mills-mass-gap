@@ -122,13 +122,15 @@ theorem integral_mul_of_disjoint_support [NeZero N]
       = ∫ U : Config N G, f U ∂(configMeasure μm N) := by
     rw [← h2]
     refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-    show F ((e U).1) = f U
+    show F ((e U).1) * 1 = f U
+    rw [mul_one]
     exact (hfF U).symm
   have hGg : (∫ z, Gg z ∂(Measure.pi fun _ => μm))
       = ∫ U : Config N G, g U ∂(configMeasure μm N) := by
     rw [← h3]
     refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-    show Gg ((e U).2) = g U
+    show 1 * Gg ((e U).2) = g U
+    rw [one_mul]
     exact (hgG U).symm
   calc ∫ U : Config N G, f U * g U ∂(configMeasure μm N)
       = ∫ U : Config N G, F ((e U).1) * Gg ((e U).2) ∂(configMeasure μm N) := by
