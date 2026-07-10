@@ -35,8 +35,6 @@ variable {N : ℕ} {G : Type*} [Group G]
 variable [MeasurableSpace G] (μm : Measure G) [SigmaFinite μm]
   [IsProbabilityMeasure μm]
 
-/-- **Proved: the law of a single link is the group measure.**
-    ∫ f(U_ℓ) dμ^⊗links = ∫ f dμ. -/
 /-- Evaluation at a fixed link pushes the product configuration measure
 forward to the one-link measure. (Route: Sol/GPT-5.6, cylinder → marginal.) -/
 theorem measurePreserving_singleLink [NeZero N] (ℓ₀ : Link N) :
