@@ -73,9 +73,11 @@ theorem measurePreserving_multiLink [NeZero N]
   have hout : ∀ a ∈ (Finset.univ : Finset (Link N)),
       a ∉ Finset.image ℓ Finset.univ → μm (F a) = 1 := by
     intro a _ ha
-    have hnot : ¬ a ∈ Set.range ℓ := by
-      simpa [Set.mem_range, Finset.mem_image] using ha
-    simp [hF, dif_neg hnot]
+    have hnot' : ¬ ∃ y, ℓ y = a := by
+      simpa [Finset.mem_image] using ha
+    simp only [hF]
+    rw [dif_neg hnot']
+    exact measure_univ
   rw [← Finset.prod_subset
     (Finset.subset_univ (Finset.image ℓ Finset.univ)) hout,
     Finset.prod_image (fun i _ j _ h => hℓ h)]
