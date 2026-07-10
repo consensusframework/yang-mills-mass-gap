@@ -67,7 +67,7 @@ theorem measurePreserving_pairLink [NeZero N] {ℓ₁ ℓ₂ : Link N}
     by_cases e2 : ℓ = ℓ₂
     · simp [Function.update_apply, e2]
     · by_cases e1 : ℓ = ℓ₁
-      · simp [Function.update_apply, e1, e2]
+      · simp [Function.update_apply, e1, e2, hne]
       · simp [Function.update_apply, e1, e2]
   simp_rw [hval]
   rw [← Finset.prod_subset
