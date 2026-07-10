@@ -174,10 +174,9 @@ theorem measurePreserving_holonomy_of_fresh_head
       holonomy (extendOne ℓ₀ z) (stepNext x st) p)
     (Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm) with hν
   haveI : IsProbabilityMeasure ν := by
-    rw [hν]
-    exact isProbabilityMeasure_map
-      (μ := Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm)
-      htailmeas.aemeasurable
+    constructor
+    rw [hν, Measure.map_apply htailmeas MeasurableSet.univ]
+    simp
   haveI : SigmaFinite ν := inferInstance
   have h_tail : MeasurePreserving
       (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
