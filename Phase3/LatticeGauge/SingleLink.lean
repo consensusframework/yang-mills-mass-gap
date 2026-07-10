@@ -1,20 +1,13 @@
 /-
 LatticeGauge/SingleLink.lean — Phase 3, twelfth stone.
 
-STATUS: em teste na branch pedra12-sol — rota do Sol (GPT-5.6):
-cilindro → marginal → integral_map, sem subtipos.
-Este arquivo NÃO faz parte do build. A prova de integral_singleLink
-esbarra repetidamente em incompatibilidades de instâncias (Fintype de
-subtipo-singleton: Subtype.fintype vs caminhos inferidos por
-piEquivPiSubtypeProd/funUnique; opacidade de haveI vs letI para o
-default de Unique; metavariáveis em integral_comp). Cinco tentativas
-registradas no histórico do git (útil como mapa do campo minado).
-Sugestões para o próximo: (i) provar um lema-ponte
-`Measure.pi_congr_instances` uma vez e soldar com ele; (ii) ou provar a
-lei do link único via kernel/marginal em vez de equivalências; (iii) ou
-esperar versão do Mathlib com `Measure.map_eval_pi`.
-A afirmação matemática é trivialmente verdadeira; a formalização é que
-está cara. HONESTIDADE: enquanto não compilar, NÃO conta no placar.
+ASSENTADA em colaboração inter-laboratórios (2026-07-10):
+estratégia de Sol (GPT-5.6, OpenAI) — cilindro → marginal → integral_map,
+sem subtipos — após 5 tentativas de Claude Fable 5 (Anthropic) na rota
+piEquivPiSubtypeProd (histórico preservado no git como mapa do campo
+minado). Execução e ajustes locais: Fable. Juiz: lake build no CI.
+A rota vencedora foi a (ii) das sugestões da versão estacionada:
+marginal direta, no nível natural da Measure.pi.
 
 The ATOMIC BRICK of the character expansion: under the product measure,
 a single link variable is exactly Haar-distributed, so single-link
