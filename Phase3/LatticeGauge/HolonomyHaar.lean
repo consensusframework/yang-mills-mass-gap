@@ -175,7 +175,9 @@ theorem measurePreserving_holonomy_of_fresh_head
     (Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm) with hν
   haveI : IsProbabilityMeasure ν := by
     rw [hν]
-    exact isProbabilityMeasure_map htailmeas.aemeasurable
+    exact isProbabilityMeasure_map
+      (μ := Measure.pi fun _ : {a : Link N // ¬ a = ℓ₀} => μm)
+      htailmeas.aemeasurable
   haveI : SigmaFinite ν := inferInstance
   have h_tail : MeasurePreserving
       (fun z : ∀ _ : {a : Link N // ¬ a = ℓ₀}, G =>
