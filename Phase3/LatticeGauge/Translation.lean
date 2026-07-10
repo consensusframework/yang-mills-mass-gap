@@ -68,7 +68,9 @@ theorem wilsonAction_translate [NeZero N] [Fintype (Site N)]
         rfl
     _ = ∑ x : Site N, ∑ μ : Dir, ∑ ν : Dir,
         (if μ.val < ν.val then 1 - χ (plaquette U x μ ν) else 0) :=
-        Equiv.sum_comp (siteShift (N := N) d) _
+        Equiv.sum_comp (siteShift (N := N) d)
+          (fun y => ∑ μ : Dir, ∑ ν : Dir,
+            if μ.val < ν.val then 1 - χ (plaquette U y μ ν) else 0)
 
 section Measure
 
@@ -84,9 +86,8 @@ theorem translateEquiv_coe [NeZero N] (d : Dir) :
     ⇑(translateEquiv (N := N) (G := G) d) = translate d := by
   funext U ℓ
   have h := MeasurableEquiv.piCongrLeft_apply_apply
-    (fun _ : Link N => G) (linkShift (N := N) d).symm U
-    ((linkShift (N := N) d) ℓ)
-  simpa [Equiv.symm_apply_apply, translate, linkShift] using h
+    (linkShift (N := N) d).symm U ((linkShift (N := N) d) ℓ)
+  simpa [translateEquiv, Equiv.symm_apply_apply, translate, linkShift] using h
 
 /-- **Proved: translations preserve the product measure.** -/
 theorem measurePreserving_translate [NeZero N] (d : Dir) :
