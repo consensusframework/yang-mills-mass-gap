@@ -33,38 +33,40 @@ theorem integral_singleLink [NeZero N] (ℓ₀ : Link N)
     simp only [Set.mem_singleton_iff] at hx
     subst hx
     rfl
-  set e := MeasurableEquiv.piEquivPiSubtypeProd
-    (fun _ : Link N => G) (· ∈ ({ℓ₀} : Set (Link N))) with he
-  have hmp := measurePreserving_piEquivPiSubtypeProd
-    (μ := fun _ : Link N => μm) (· ∈ ({ℓ₀} : Set (Link N)))
-  have hemb := e.measurableEmbedding
-  set φ : (∀ _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}, G) → ℝ :=
-    fun y => f₀ (y default) with hφ
-  have step1 : ∫ U : Config N G, f₀ (U ℓ₀) ∂(configMeasure μm N)
-      = ∫ w, φ w.1 * 1
-          ∂((Measure.pi fun _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} => μm).prod
-            (Measure.pi fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) := by
-    rw [← hmp.integral_comp hemb (fun w => φ w.1 * 1)]
-    refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-    show f₀ (U ℓ₀) = φ ((e U).1) * 1
-    rw [mul_one]
-    rfl
-  have step2 : ∫ w, φ w.1 * 1
-      ∂((Measure.pi fun _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} => μm).prod
-        (Measure.pi fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm))
-      = ∫ y, φ y ∂(Measure.pi fun _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} => μm) := by
-    rw [integral_prod_mul φ (fun _ => (1 : ℝ))]
-    simp
-  have hfu := measurePreserving_funUnique μm
-    {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}
-  have hfuemb :=
-    (MeasurableEquiv.funUnique {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} G).measurableEmbedding
-  have step3 : ∫ y, φ y
-      ∂(Measure.pi fun _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)
-      = ∫ g, f₀ g ∂μm := by
-    rw [← hfu.integral_comp hfuemb f₀]
-    rfl
-  rw [step1, step2, step3]
+  set E : Config N G ≃ᵐ
+      G × (∀ _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))}, G) :=
+    (MeasurableEquiv.piEquivPiSubtypeProd
+      (fun _ : Link N => G) (· ∈ ({ℓ₀} : Set (Link N)))).trans
+      ((MeasurableEquiv.funUnique
+        {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} G).prodCongr
+        (MeasurableEquiv.refl _)) with hE
+  have hmpE : MeasurePreserving E (configMeasure μm N)
+      (μm.prod (Measure.pi
+        fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) := by
+    have h1 := measurePreserving_piEquivPiSubtypeProd
+      (μ := fun _ : Link N => μm) (· ∈ ({ℓ₀} : Set (Link N)))
+    have h2 := (measurePreserving_funUnique μm
+      {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}).prod
+      (MeasurePreserving.id (Measure.pi
+        fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm))
+    exact h2.comp h1
+  have hemb := E.measurableEmbedding
+  calc ∫ U : Config N G, f₀ (U ℓ₀) ∂(configMeasure μm N)
+      = ∫ U : Config N G, (fun w => f₀ w.1 * 1) (E U)
+        ∂(configMeasure μm N) := by
+        refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
+        show f₀ (U ℓ₀) = f₀ ((E U).1) * 1
+        rw [mul_one]
+        rfl
+    _ = ∫ w, f₀ w.1 * 1
+        ∂(μm.prod (Measure.pi
+          fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) :=
+        hmpE.integral_comp hemb _
+    _ = (∫ g, f₀ g ∂μm) * ∫ _z, (1 : ℝ)
+        ∂(Measure.pi
+          fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm) :=
+        integral_prod_mul f₀ (fun _ => (1 : ℝ))
+    _ = ∫ g, f₀ g ∂μm := by simp
 
 /-- The single-link character integral — the atomic coefficient of the
     strong-coupling character expansion. -/
