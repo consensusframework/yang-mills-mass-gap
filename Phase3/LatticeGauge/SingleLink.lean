@@ -27,6 +27,11 @@ theorem integral_singleLink [NeZero N] (ℓ₀ : Link N)
     ∫ U : Config N G, f₀ (U ℓ₀) ∂(configMeasure μm N)
       = ∫ g, f₀ g ∂μm := by
   classical
+  letI : DecidablePred (· ∈ ({ℓ₀} : Set (Link N))) := fun _ => Classical.dec _
+  letI : Fintype {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} :=
+    Subtype.fintype _
+  letI : Fintype {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} :=
+    Subtype.fintype _
   haveI huniq : Unique {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} := by
     refine ⟨⟨⟨ℓ₀, rfl⟩⟩, ?_⟩
     rintro ⟨x, hx⟩
@@ -56,12 +61,12 @@ theorem integral_singleLink [NeZero N] (ℓ₀ : Link N)
         ∂(configMeasure μm N) := by
         refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
         show f₀ (U ℓ₀) = f₀ ((E U).1) * 1
-        rw [mul_one]
+        rw [mul_one, hE]
         rfl
     _ = ∫ w, f₀ w.1 * 1
         ∂(μm.prod (Measure.pi
           fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) :=
-        hmpE.integral_comp hemb _
+        hmpE.integral_comp hemb (fun w => f₀ w.1 * 1)
     _ = (∫ g, f₀ g ∂μm) * ∫ _z, (1 : ℝ)
         ∂(Measure.pi
           fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm) :=
