@@ -257,6 +257,32 @@ theorem measurePreserving_holonomy_of_nodup
       exact this.1
     exact measurePreserving_holonomy_of_fresh_head μm x s p hfresh
 
+/-! ## Pedra 16: a expectativa do Wilson loop em β = 0 -/
+
+/-- **CAPSTONE (pedra 16): ⟨Wilson loop⟩₀ = ∫ χ dμ.** At infinite
+    temperature, the expectation of any Wilson loop along a nonempty
+    non-self-repeating path equals the single character integral —
+    the first closed formula for a physical observable in this
+    repository. Direct corollary of the fresh-link theorem (15) and
+    the β = 0 Gibbs state (11). -/
+theorem gibbsExpectation_wilsonLoop_zero
+    [Fintype (Site N)]
+    [μm.IsMulRightInvariant] [μm.IsInvInvariant]
+    {χ : G → ℝ} (mχ : Measurable χ)
+    (x : Site N) (p : List Step)
+    (hp : p ≠ []) (hnd : (pathLinks x p).Nodup) :
+    gibbsExpectation (N := N) μm 0 χ (fun U => wilsonLoop χ U x p)
+      = linkCharacterIntegral μm χ := by
+  rw [gibbsExpectation_zero (N := N) μm χ]
+  have hmp := measurePreserving_holonomy_of_nodup (N := N) μm x p hp hnd
+  unfold wilsonLoop linkCharacterIntegral
+  calc ∫ U : Config N G, χ (holonomy U x p) ∂(configMeasure μm N)
+      = ∫ g, χ g ∂(Measure.map (fun U : Config N G => holonomy U x p)
+          (configMeasure μm N)) :=
+        (integral_map (measurable_holonomy p x).aemeasurable
+          mχ.aestronglyMeasurable).symm
+    _ = ∫ g, χ g ∂μm := by rw [hmp.map_eq]
+
 end Measure
 
 end LatticeGauge
