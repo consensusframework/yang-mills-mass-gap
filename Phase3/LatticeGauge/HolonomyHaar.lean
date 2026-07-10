@@ -190,8 +190,10 @@ theorem measurePreserving_holonomy_of_fresh_head
           holonomy (extendOne ℓ₀ z) (stepNext x st) p)) ∘
         ⇑(MeasurableEquiv.piEquivPiSubtypeProd
           (fun _ : Link N => G) (fun a : Link N => a = ℓ₀)))
-      (configMeasure μm N) (μm.prod ν) :=
-    (h_eval.prod h_tail).comp hsplit
+      (configMeasure μm N) (μm.prod ν) := by
+    refine (h_eval.prod h_tail).comp ?_
+    convert hsplit using 3
+    all_goals exact Subsingleton.elim _ _
   -- a cauda da configuração original coincide com a cauda preenchida
   have htail_eq : ∀ U : Config N G,
       holonomy U (stepNext x st) p
