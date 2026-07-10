@@ -39,29 +39,13 @@ theorem measurePreserving_multiLink [NeZero N]
       (Measure.pi fun _ : ι => μm) := by
   classical
   set e : ι ≃ Set.range ℓ := Equiv.ofInjective ℓ hℓ with he
-  -- 1. split: links selecionados × complemento
+  -- split / reindex, com a projeção fst tratada por reescrita concreta
   have hsplit := measurePreserving_piEquivPiSubtypeProd
     (μ := fun _ : Link N => μm) (· ∈ Set.range ℓ)
-  -- 2. fst: projetar fora o complemento (probabilidade ⇒ fator 1)
-  have hfst : MeasurePreserving
-      (Prod.fst : ((∀ _ : {x : Link N // x ∈ Set.range ℓ}, G) ×
-        (∀ _ : {x : Link N // ¬ x ∈ Set.range ℓ}, G)) → _)
-      ((Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm).prod
-        (Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm))
-      (Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm) := by
-    refine ⟨measurable_fst, ?_⟩
-    show ((Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm).prod
-      (Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm)).fst
-      = Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm
-    exact Measure.fst_prod
-      (μ := Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm)
-      (ν := Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm)
-  -- 3. reindex: Set.range ℓ → ι
   have hre := measurePreserving_piCongrLeft
     (μ := fun _ : ι => μm) e.symm
-  -- 4. composição
-  have hcomp := (hre.comp hfst).comp hsplit
-  -- 5. a composta é exatamente U ↦ (fun i => U (ℓ i))
+  have hmeas_full : Measurable fun U : Config N G => fun i => U (ℓ i) :=
+    measurable_pi_lambda _ fun i => measurable_pi_apply (ℓ i)
   have hco : (⇑(MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm)) ∘
       (Prod.fst ∘ ⇑(MeasurableEquiv.piEquivPiSubtypeProd
         (fun _ : Link N => G) (· ∈ Set.range ℓ)))
@@ -72,8 +56,17 @@ theorem measurePreserving_multiLink [NeZero N]
       ((MeasurableEquiv.piEquivPiSubtypeProd
         (fun _ : Link N => G) (· ∈ Set.range ℓ)) U).1 (e i)
     simpa [Equiv.symm_apply_apply, he] using h
-  rw [← hco]
-  exact hcomp
+  refine ⟨hmeas_full, ?_⟩
+  rw [← hco,
+    ← Measure.map_map (MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm).measurable
+      (measurable_fst.comp (MeasurableEquiv.piEquivPiSubtypeProd
+        (fun _ : Link N => G) (· ∈ Set.range ℓ)).measurable),
+    ← Measure.map_map measurable_fst
+      (MeasurableEquiv.piEquivPiSubtypeProd
+        (fun _ : Link N => G) (· ∈ Set.range ℓ)).measurable,
+    hsplit.map_eq, Measure.map_fst_prod]
+  simp only [measure_univ, one_smul]
+  exact hre.map_eq
 
 /-- **Proved: n-point factorization.** For a finite injective family of
     links, ∫ ∏ᵢ fᵢ(U ℓᵢ) = ∏ᵢ ∫ fᵢ dμ. -/
