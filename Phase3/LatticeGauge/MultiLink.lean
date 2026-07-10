@@ -54,6 +54,8 @@ theorem measurePreserving_multiLink [NeZero N]
       (Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm)).fst
       = Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm
     exact Measure.fst_prod
+      (μ := Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm)
+      (ν := Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm)
   -- 3. reindex: Set.range ℓ → ι
   have hre := measurePreserving_piCongrLeft
     (μ := fun _ : ι => μm) e.symm
