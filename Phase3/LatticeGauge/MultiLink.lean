@@ -43,7 +43,7 @@ theorem measurePreserving_multiLink [NeZero N]
   have hsplit := measurePreserving_piEquivPiSubtypeProd
     (μ := fun _ : Link N => μm) (· ∈ Set.range ℓ)
   have hre := measurePreserving_piCongrLeft
-    (fun _ : ι => μm) e.symm
+    (α := fun _ : ι => G) (μ := fun _ : ι => μm) e.symm
   have hmeas_full : Measurable fun U : Config N G => fun i => U (ℓ i) :=
     measurable_pi_lambda _ fun i => measurable_pi_apply (ℓ i)
   have hco : (⇑(MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm)) ∘
@@ -67,7 +67,8 @@ theorem measurePreserving_multiLink [NeZero N]
         (fun _ : Link N => G) (· ∈ Set.range ℓ)).measurable,
     hsplit.map_eq, Measure.map_fst_prod]
   simp only [measure_univ, one_smul]
-  exact hre.map_eq
+  convert hre.map_eq using 2
+  exact Subsingleton.elim _ _
 
 /-- **Proved: n-point factorization.** For a finite injective family of
     links, ∫ ∏ᵢ fᵢ(U ℓᵢ) = ∏ᵢ ∫ fᵢ dμ. -/
