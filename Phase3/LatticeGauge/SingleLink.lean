@@ -27,51 +27,40 @@ theorem integral_singleLink [NeZero N] (ℓ₀ : Link N)
     ∫ U : Config N G, f₀ (U ℓ₀) ∂(configMeasure μm N)
       = ∫ g, f₀ g ∂μm := by
   classical
-  letI : DecidablePred (· ∈ ({ℓ₀} : Set (Link N))) := fun _ => Classical.dec _
-  letI : Fintype {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} :=
-    Subtype.fintype _
-  letI : Fintype {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} :=
-    Subtype.fintype _
-  haveI huniq : Unique {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} := by
-    refine ⟨⟨⟨ℓ₀, rfl⟩⟩, ?_⟩
-    rintro ⟨x, hx⟩
-    simp only [Set.mem_singleton_iff] at hx
-    subst hx
-    rfl
-  set E : Config N G ≃ᵐ
-      G × (∀ _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))}, G) :=
-    (MeasurableEquiv.piEquivPiSubtypeProd
-      (fun _ : Link N => G) (· ∈ ({ℓ₀} : Set (Link N)))).trans
-      ((MeasurableEquiv.funUnique
-        {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} G).prodCongr
-        (MeasurableEquiv.refl _)) with hE
-  have hmpE : MeasurePreserving E (configMeasure μm N)
-      (μm.prod (Measure.pi
-        fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) := by
-    have h1 := measurePreserving_piEquivPiSubtypeProd
-      (μ := fun _ : Link N => μm) (· ∈ ({ℓ₀} : Set (Link N)))
-    have h2 := (measurePreserving_funUnique μm
-      {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}).prod
-      (MeasurePreserving.id (Measure.pi
-        fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm))
-    exact h2.comp h1
-  have hemb := E.measurableEmbedding
+  letI huniq : Unique {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} :=
+    ⟨⟨⟨ℓ₀, rfl⟩⟩, fun x => Subtype.ext (Set.mem_singleton_iff.mp x.2)⟩
+  have hmp := measurePreserving_piEquivPiSubtypeProd
+    (μ := fun _ : Link N => μm) (· ∈ ({ℓ₀} : Set (Link N)))
+  have hemb := (MeasurableEquiv.piEquivPiSubtypeProd
+    (fun _ : Link N => G) (· ∈ ({ℓ₀} : Set (Link N)))).measurableEmbedding
   calc ∫ U : Config N G, f₀ (U ℓ₀) ∂(configMeasure μm N)
-      = ∫ U : Config N G, (fun w => f₀ w.1 * 1) (E U)
-        ∂(configMeasure μm N) := by
+      = ∫ U : Config N G,
+          (fun w : (∀ _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}, G) ×
+              (∀ _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))}, G) =>
+            f₀ (w.1 default) * 1)
+          ((MeasurableEquiv.piEquivPiSubtypeProd
+            (fun _ : Link N => G) (· ∈ ({ℓ₀} : Set (Link N)))) U)
+          ∂(configMeasure μm N) := by
         refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-        show f₀ (U ℓ₀) = f₀ ((E U).1) * 1
-        rw [mul_one, hE]
-        rfl
-    _ = ∫ w, f₀ w.1 * 1
-        ∂(μm.prod (Measure.pi
-          fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) :=
-        hmpE.integral_comp hemb (fun w => f₀ w.1 * 1)
-    _ = (∫ g, f₀ g ∂μm) * ∫ _z, (1 : ℝ)
-        ∂(Measure.pi
-          fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm) :=
-        integral_prod_mul f₀ (fun _ => (1 : ℝ))
-    _ = ∫ g, f₀ g ∂μm := by simp
+        show f₀ (U ℓ₀) = f₀ (U ↑(default : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))})) * 1
+        rw [mul_one]
+    _ = ∫ w, f₀ (w.1 default) * 1
+          ∂((Measure.pi fun _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} => μm).prod
+            (Measure.pi fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm)) :=
+        hmp.integral_comp hemb _
+    _ = (∫ y : ∀ _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}, G,
+          f₀ (y default) ∂(Measure.pi fun _ => μm)) * ∫ _z, (1 : ℝ)
+          ∂(Measure.pi fun _ : {ℓ : Link N // ¬ ℓ ∈ ({ℓ₀} : Set (Link N))} => μm) :=
+        integral_prod_mul (fun y => f₀ (y default)) (fun _ => (1 : ℝ))
+    _ = ∫ y : ∀ _ : {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}, G,
+          f₀ (y default) ∂(Measure.pi fun _ => μm) := by simp
+    _ = ∫ g, f₀ g ∂μm := by
+        have h := (measurePreserving_funUnique μm
+          {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))}).integral_comp
+          (MeasurableEquiv.funUnique
+            {ℓ : Link N // ℓ ∈ ({ℓ₀} : Set (Link N))} G).measurableEmbedding f₀
+        convert h using 2
+        exact Subsingleton.elim _ _
 
 /-- The single-link character integral — the atomic coefficient of the
     strong-coupling character expansion. -/
