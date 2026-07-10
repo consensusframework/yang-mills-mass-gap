@@ -89,8 +89,13 @@ versione releases no Zenodo.
 
 ## 6. Próximos passos, em ordem de valor
 
-1. ~~Nona pedra~~ FEITA (2026-07-06). Próximo: postar no Zulip
-   (ver ZULIP_DRAFT.md) e propor os candidatos de HaarUnitary ao Mathlib.
+1. ~~Nona pedra~~ FEITA (2026-07-06). Pedras 10 (invariância translacional +
+   HasLatticeMassGap enunciado) e 11 (independência e clustering a β=0)
+   FEITAS (2026-07-10). Pedra 12 (lei do link único) PARADA em
+   instance-hell — ver SingleLink.lean (fora da whitelist) com mapa do
+   campo minado e três estratégias sugeridas. Próximo: postar no Zulip
+   (ZULIP_DRAFT.md), propor candidatos de HaarUnitary ao Mathlib,
+   e retomar a 12ª com o lema-ponte de instâncias.
 2. **Fase 3, décima pedra em diante (meses):** expansão de caracteres no
    acoplamento forte; decaimento exponencial de correlações; area law;
    transfer matrix; gap espectral em lattice (Osterwalder–Seiler 1978).
