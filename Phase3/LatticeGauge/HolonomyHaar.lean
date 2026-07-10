@@ -95,8 +95,6 @@ theorem measurePreserving_haar_mul_right
       = Measure.map ((Prod.snd ∘ fun q : G × G => (q.1, q.2 * q.1))
           ∘ Prod.swap) (μm.prod ν) := by
         congr 1
-        funext q
-        simp
     _ = μm := hcomp.map_eq
 
 /-- **Proved (oriented absorption):** X⁻¹·Y ~ μ as well
@@ -117,8 +115,6 @@ theorem measurePreserving_haarInv_mul_right
       = Measure.map ((fun q : G × G => q.1 * q.2)
           ∘ Prod.map (Inv.inv : G → G) (id : G → G)) (μm.prod ν) := by
         congr 1
-        funext q
-        simp
     _ = μm := hcomp.map_eq
 
 end Measure
