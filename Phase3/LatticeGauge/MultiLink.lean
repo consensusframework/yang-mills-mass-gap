@@ -50,8 +50,7 @@ theorem measurePreserving_multiLink [NeZero N]
         (Measure.pi fun _ : {x : Link N // ¬ x ∈ Set.range ℓ} => μm))
       (Measure.pi fun _ : {x : Link N // x ∈ Set.range ℓ} => μm) := by
     refine ⟨measurable_fst, ?_⟩
-    rw [Measure.map_fst_prod]
-    simp
+    exact Measure.fst_prod
   -- 3. reindex: Set.range ℓ → ι
   have hre := measurePreserving_piCongrLeft
     (μ := fun _ : ι => μm) e.symm
@@ -99,7 +98,7 @@ theorem integral_multiLink [NeZero N]
         rw [hmp.map_eq]
     _ = ∏ i, ∫ g, f i g ∂μm := by
         letI : MeasureSpace G := ⟨μm⟩
-        exact MeasureTheory.integral_fintype_prod_eq_prod f
+        exact MeasureTheory.integral_fintype_prod_eq_prod (f := f)
 
 /-- **Proved: at β = 0 the Gibbs expectation of a product of
     single-link observables over distinct links is the product of the
