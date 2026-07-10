@@ -43,7 +43,7 @@ theorem measurePreserving_multiLink [NeZero N]
   have hsplit := measurePreserving_piEquivPiSubtypeProd
     (μ := fun _ : Link N => μm) (· ∈ Set.range ℓ)
   have hre := measurePreserving_piCongrLeft
-    (μ := fun _ : ι => μm) e.symm
+    (fun _ : ι => μm) e.symm
   have hmeas_full : Measurable fun U : Config N G => fun i => U (ℓ i) :=
     measurable_pi_lambda _ fun i => measurable_pi_apply (ℓ i)
   have hco : (⇑(MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm)) ∘
@@ -57,6 +57,7 @@ theorem measurePreserving_multiLink [NeZero N]
         (fun _ : Link N => G) (· ∈ Set.range ℓ)) U).1 (e i)
     simpa [Equiv.symm_apply_apply, he] using h
   refine ⟨hmeas_full, ?_⟩
+  unfold configMeasure
   rw [← hco,
     ← Measure.map_map (MeasurableEquiv.piCongrLeft (fun _ : ι => G) e.symm).measurable
       (measurable_fst.comp (MeasurableEquiv.piEquivPiSubtypeProd
