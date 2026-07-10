@@ -14,8 +14,13 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 
 ## Build status
 
-As of July 5, 2026, **Phase 2 compiles** (`lake build`, Lean 4 + Mathlib, GitHub
-Actions CI) — the first successful build in the project's history. The original
+As of July 10, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
+(LatticeGauge) compiles** with **13 files, ~56 theorems, ZERO axioms** —
+lattice, Wilson action, gauge and translation invariance, Gibbs measure,
+Wilson loops, expectation values, Haar on U(n) (with right invariance
+proved), the formal statement of the lattice mass gap (open target), and
+independence/clustering at β = 0 including single- and pair-link laws.
+The first successful builds in the project's history date to July 5, 2026. The original
 files, reconstructed after the loss of the previous repository, contained
 truncated declarations and could not have compiled as published. Phase 1 does
 not yet have a working Lake project and is not covered by CI.
@@ -37,7 +42,7 @@ not yet have a working Lake project and is not covered by CI.
 
 ## Authorship and method
 
-Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Fable 5, Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
+Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Fable 5, GPT-5.6 "Sol", Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
 
 AI cross-validation is **not** equivalent to peer review or numerical simulation. Earlier claims of "numerical validation by Gemini" referred to LLM-generated assertions, not executed lattice computations, and are retracted. All former `gemini_*` axioms have been removed (21 orphans) or converted into explicit named hypotheses (`def ...Assumption : Prop`) that theorems carry in their signatures.
 
@@ -75,7 +80,8 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 Code Audit & Etapa 0 Hygiene (Anthropic)
+- **Claude Fable 5** — Lean 4 Code Audit, Etapas 0-1, Phase 3 stones 1-13 execution (Anthropic)
+- **GPT-5.6 "Sol"** — Technical review; winning strategy for stone 12 (single-link marginal route) after reading the failure logs (OpenAI)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — Numerical Validation (Google)
