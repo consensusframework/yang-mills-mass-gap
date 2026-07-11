@@ -100,21 +100,22 @@ theorem abs_integral_mul_weight_sub_le [NeZero N] [Fintype (Site N)]
         show g U * gibbsWeight β χ U - g U = g U * (gibbsWeight β χ U - 1)
         ring
     _ ≤ ∫ U : Config N G, ‖g U * (gibbsWeight β χ U - 1)‖
-          ∂(configMeasure μm N) :=
-        by
-          rw [← Real.norm_eq_abs]
-          exact norm_integral_le_integral_norm _
+          ∂(configMeasure μm N) := by
+        have h1 := norm_integral_le_integral_norm
+          (μ := configMeasure μm N)
+          (f := fun U : Config N G => g U * (gibbsWeight β χ U - 1))
+        rwa [Real.norm_eq_abs] at h1
     _ ≤ ∫ _U : Config N G, K * (β * B) ∂(configMeasure μm N) := by
-        refine integral_mono ?_ (integrable_const _) fun U => ?_
-        · exact (hgwint.sub hgint).norm.congr
-            (Filter.Eventually.of_forall fun U => by
-              rw [Real.norm_eq_abs]
-              congr 1
-              ring)
-        · rw [Real.norm_eq_abs, abs_mul]
-          exact mul_le_mul (hg U)
-            (abs_gibbsWeight_sub_one_le (N := N) hβ hχ hB U)
-            (abs_nonneg _) hK
+        have hsubint : Integrable
+            (fun U : Config N G => g U * (gibbsWeight β χ U - 1))
+            (configMeasure μm N) :=
+          (hgwint.sub hgint).congr
+            (Filter.Eventually.of_forall fun U => by ring)
+        refine integral_mono hsubint.norm (integrable_const _) fun U => ?_
+        rw [Real.norm_eq_abs, abs_mul]
+        exact mul_le_mul (hg U)
+          (abs_gibbsWeight_sub_one_le (N := N) hβ hχ hB U)
+          (abs_nonneg _) hK
     _ = K * (β * B) := by simp
 
 /-- **CAPSTONE (pedra 17): finite-volume continuity bound from β = 0.**
@@ -141,10 +142,14 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
   -- cotas dos blocos
   have hnum : |a - a0| ≤ C * (β * B) :=
     abs_integral_mul_weight_sub_le (N := N) μm mχ hβ hχ hB mf hf
-  have hden : |z - 1| ≤ 1 * (β * B) := by
-    have := abs_integral_mul_weight_sub_le (N := N) μm mχ hβ hχ hB
-      (g := fun _ => (1 : ℝ)) measurable_const (fun _ => by norm_num)
-    simpa [hzdef, realZ] using this
+  have hden : |z - 1| ≤ β * B := by
+    have h := abs_integral_mul_weight_sub_le (N := N) μm mχ hβ hχ hB
+      (g := fun _ : Config N G => (1 : ℝ)) measurable_const
+      (fun _ => by norm_num)
+    simp only [one_mul] at h
+    rw [hzdef]
+    unfold realZ
+    simpa using h
   have ha0_le : |a0| ≤ C := by
     calc |a0| ≤ ∫ U : Config N G, ‖f U‖ ∂(configMeasure μm N) := by
           rw [ha0, ← Real.norm_eq_abs]
@@ -189,15 +194,15 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
       _ ≤ C * (β * B) + C * (β * B) := by
           refine add_le_add hnum ?_
           rw [abs_mul]
-          calc |a0| * |1 - z| ≤ C * (1 * (β * B)) := by
+          calc |a0| * |1 - z| ≤ C * (β * B) := by
                 refine mul_le_mul ha0_le ?_ (abs_nonneg _) hC
                 rw [abs_sub_comm]
                 exact hden
-            _ = C * (β * B) := by ring
   calc |a - a0 * z| / z = |a - a0 * z| * z⁻¹ := div_eq_mul_inv _ _
     _ ≤ (C * (β * B) + C * (β * B)) * Real.exp (β * B) := by
         refine mul_le_mul hsplit hzinv (inv_nonneg.mpr hz.le) ?_
-        positivity
+        have h1 : 0 ≤ C * (β * B) := mul_nonneg hC (mul_nonneg hβ hB0)
+        linarith
     _ = 2 * C * B * β * Real.exp (β * B) := by ring
 
 /-- **Corolário local-linear:** em qualquer janela 0 ≤ β ≤ β₀. -/
@@ -221,7 +226,10 @@ theorem abs_gibbsExpectation_sub_zero_le_of_window [NeZero N]
       ≤ 2 * C * B * β * Real.exp (β * B) := h
     _ ≤ 2 * C * B * β * Real.exp (β₀ * B) := by
         refine mul_le_mul_of_nonneg_left hexp ?_
-        positivity
+        have : 0 ≤ 2 * C * B := by
+          have := mul_nonneg hC hB0
+          linarith
+        exact mul_nonneg this hβ
     _ = 2 * C * B * Real.exp (β₀ * B) * β := by ring
 
 /-- **Corolário Wilson-path (C = 1): a ponte com a 16ª pedra.** -/
