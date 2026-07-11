@@ -21,7 +21,7 @@ gauge theory foundations in Lean 4 (Mathlib v4.15).
 time), human-coordinated. Every formal proof is accepted only after kernel
 checking and green CI; mathematical interpretation and scope are
 documented separately and are exactly what we are submitting here for
-community review. No proof was ever accepted on model confidence. The recent stones were CROSS-LAB work: architecture reviews by
+community review. No Phase 3 result listed below was accepted on model confidence. The recent stones were CROSS-LAB work: architecture reviews by
 GPT-5.6 (including an epistemic veto that stopped a false Wilson-loop
 factorization before implementation), execution by Claude (Fable 5),
 verdict by CI. Full per-commit credits in the git history; the working
@@ -79,7 +79,8 @@ Questions:
    of course rebase against master for any PR.)
 2. Any advice on the long-term target — strong-coupling cluster
    expansion / Osterwalder–Seiler mass gap for lattice Yang-Mills?
-   With β = 0 exactly solved and HasLatticeMassGap formally stated,
+   With the β = 0 sector of the finite periodic lattice model developed
+   here characterized exactly and HasLatticeMassGap formally stated,
    the next climb is β > 0 perturbation of the product state. We know
    this is a multi-year, community-scale effort; we're looking for
    guidance and collaborators, not making claims.

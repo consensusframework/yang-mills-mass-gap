@@ -31,14 +31,15 @@ independence (any injective family of links is jointly Haar), the
 FRESH-LINK THEOREM (Haar-distributed holonomies), and the exact β = 0
 expectation formula for Wilson-path observables — unconditional on U(n)
 up to the explicit structural hypotheses (nonempty path, no repeated
-links). A structural audit is under way (branch audit-zero): 1425
-declarations inventoried; legacy Phases 1-2 are being reclassified, not
-counted as results. First successful builds: July 5, 2026. The original
+links). A structural audit is under way. The current live tree contains 922
+inventoried declarations, including 99 CORE; approximately 503 additional
+declarations were moved intact into the historical archive during the
+first audit pass. Stable artifacts are available under docs/audit/. First successful builds: July 5, 2026. The original
 files, reconstructed after the loss of the previous repository, contained
 truncated declarations and could not have compiled as published. Phase 1 does
 not yet have a working Lake project and is not covered by CI.
 
-## Honest accounting (see AXIOM_AUDIT.md)
+## Honest accounting — LEGACY SNAPSHOT (2026-07-05 scope and methodology; NOT the current live-tree census, which lives in docs/audit/AUDIT_ZERO_V2_SUMMARY.md)
 
 | Metric | Value |
 |---|---|
