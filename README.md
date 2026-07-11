@@ -14,13 +14,19 @@ A collection of Lean 4 files exploring how statements *about* a hypothetical Yan
 
 ## Build status
 
-As of July 10, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
-(LatticeGauge) compiles** with **13 files, ~56 theorems, ZERO axioms** —
+As of July 11, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
+(LatticeGauge) contains 16 verified stones — ~68 axiom-free theorems**:
 lattice, Wilson action, gauge and translation invariance, Gibbs measure,
-Wilson loops, expectation values, Haar on U(n) (with right invariance
-proved), the formal statement of the lattice mass gap (open target), and
-independence/clustering at β = 0 including single- and pair-link laws.
-The first successful builds in the project's history date to July 5, 2026. The original
+Wilson loops, expectation values, Haar measure instantiated on U(n) with
+right- AND inversion-invariance proved by uniqueness, the formal statement
+of the lattice mass gap (open target, stated not proved), finite-link
+independence (any injective family of links is jointly Haar), the
+FRESH-LINK THEOREM (Haar-distributed holonomies), and the exact β = 0
+expectation formula for Wilson-path observables — unconditional on U(n)
+up to the explicit structural hypotheses (nonempty path, no repeated
+links). A structural audit is under way (branch audit-zero): 1425
+declarations inventoried; legacy Phases 1-2 are being reclassified, not
+counted as results. First successful builds: July 5, 2026. The original
 files, reconstructed after the loss of the previous repository, contained
 truncated declarations and could not have compiled as published. Phase 1 does
 not yet have a working Lake project and is not covered by CI.
@@ -31,7 +37,8 @@ not yet have a working Lake project and is not covered by CI.
 |---|---|
 | `axiom` declarations | 293  |
 | Theorems/lemmas | ~442 |
-| Theorems unconditional (axiom-free beyond Lean/Mathlib) | ~0 substantive — provable statements are elementary real-analysis facts |
+| Theorems unconditional, LEGACY Phases 1-2 | ~0 substantive — elementary real-analysis facts |
+| Theorems unconditional, Phase 3 (2026-07) | ~68, incl. fresh-link holonomy law and exact β=0 Wilson formula on U(n) |
 | `sorry` in code | present in 21 files across |
 | Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
 | Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
