@@ -2,7 +2,7 @@ name: Lean CI (all phases)
 
 on:
   push:
-    branches: [main, pedra17-sol]
+    branches: [main]
   pull_request:
   workflow_dispatch:
 
