@@ -10,17 +10,26 @@ o estado de Gibbs é LIPSCHITZ em β na origem, com constante explícita.
 Sem isso, nenhuma expansão tem chão. Com isso, a 18ª (derivada em 0 =
 −Cov₀(f, S)) e as seguintes têm onde pisar.
 
-## Enunciado-alvo proposto (aberto a redesenho)
+## Enunciado-alvo — v2, redesenho aprovado pelo arquiteto
 
-Para f mensurável com |f| ≤ C pontual, χ com |χ| ≤ 1, e B a cota
-uniforme da ação (exists_wilsonAction_bound):
+NOME CONCEITUAL: finite-volume continuity bound from β = 0
+(não "Lipschitz": controla a distância a zero, não β₁ vs β₂).
 
-    ∀ β ∈ [0, 1],
-    |gibbsExpectation μm β χ f − gibbsExpectation μm 0 χ f|
-      ≤ 2 · C · B · β · exp(B)
+TEOREMA CENTRAL (sem hard-code de β ≤ 1), para β ≥ 0, f mensurável com
+|f| ≤ C, χ ≤ 1, S ≤ B:
 
-(constante não otimizada de propósito — otimizar depois é barato,
-formalizar constante feia é caro).
+    |⟨f⟩_β − ⟨f⟩₀| ≤ 2·C·B·β·exp(β·B)
+
+COROLÁRIO local-linear, para 0 ≤ β ≤ β₀:
+
+    |⟨f⟩_β − ⟨f⟩₀| ≤ 2·C·B·exp(β₀·B)·β
+
+COROLÁRIO Wilson-path (C = 1, ponte com a 16ª): mesma cota com
+f = wilsonLoop χ · x p e |χ| ≤ 1.
+
+Respostas do arquiteto às Q1-Q4: C explícito; β ≥ 0 geral + corolário
+β₀; Wilson-path nesta pedra; derivada em β = 0 na 18ª, arquivo
+separado. IMPLEMENTAÇÃO AUTORIZADA em branch própria após este v2.
 
 ## Decomposição proposta (todos análise real elementar + pedras 5-6)
 
