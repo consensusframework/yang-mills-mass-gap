@@ -2,7 +2,7 @@ name: Lean CI (all phases)
 
 on:
   push:
-    branches: [main]
+    branches: [main, bloco4-inv]
   pull_request:
   workflow_dispatch:
 

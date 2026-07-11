@@ -15,6 +15,8 @@ import LatticeGauge.WilsonLoop
 import LatticeGauge.Expectation
 import LatticeGauge.Beta0
 import LatticeGauge.SingleLink
+import LatticeGauge.UnitaryChar
+import LatticeGauge.HaarUnitary
 
 open MeasureTheory
 
@@ -284,5 +286,24 @@ theorem gibbsExpectation_wilsonLoop_zero
     _ = ∫ g, χ g ∂μm := by rw [hmp.map_eq]
 
 end Measure
+
+section Unitary
+
+open MeasureTheory
+
+variable (n : ℕ) [NeZero n] {N : ℕ} [NeZero N] [Fintype (Site N)]
+
+/-- **UNCONDITIONAL (pedra 16 em U(n)): on the physical gauge group
+    with concrete Haar measure, ⟨Wilson loop⟩₀ = ∫ χ dHaar for every
+    nonempty non-self-repeating loop — no hypotheses at all.** -/
+theorem gibbsExpectation_wilsonLoop_zero_unitary
+    (x : Site N) (p : List Step)
+    (hp : p ≠ []) (hnd : (pathLinks x p).Nodup) :
+    gibbsExpectation (N := N) (haarU n) 0 (uChar n)
+        (fun U => wilsonLoop (uChar n) U x p)
+      = linkCharacterIntegral (haarU n) (uChar n) :=
+  gibbsExpectation_wilsonLoop_zero (haarU n) (measurable_uChar n) x p hp hnd
+
+end Unitary
 
 end LatticeGauge
