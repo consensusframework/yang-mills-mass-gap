@@ -304,6 +304,19 @@ theorem gibbsExpectation_wilsonLoop_zero_unitary
       = linkCharacterIntegral (haarU n) (uChar n) :=
   gibbsExpectation_wilsonLoop_zero (haarU n) (measurable_uChar n) x p hp hnd
 
+/-- **Corolário de apresentação (Sol): o WILSON LOOP físico.** Same
+    formula, with the closedness of the path explicit in the signature —
+    the object a physicist recognizes. (The proof does not need
+    closedness; the general theorem is strictly stronger.) -/
+theorem gibbsExpectation_wilsonLoop_zero_unitary_closed
+    (x : Site N) (p : List Step)
+    (hp : p ≠ []) (hnd : (pathLinks x p).Nodup)
+    (_hclosed : IsClosed x p) :
+    gibbsExpectation (N := N) (haarU n) 0 (uChar n)
+        (fun U => wilsonLoop (uChar n) U x p)
+      = linkCharacterIntegral (haarU n) (uChar n) :=
+  gibbsExpectation_wilsonLoop_zero_unitary n x p hp hnd
+
 end Unitary
 
 end LatticeGauge
