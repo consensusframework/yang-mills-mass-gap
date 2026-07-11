@@ -4,7 +4,14 @@
 
 ## What this repository is
 
-A collection of Lean 4 files exploring how statements *about* a hypothetical Yang-Mills mass gap function could be organized formally. All physical content is **assumed via explicit `axiom` declarations**; the theorems proven are logical consequences of those assumptions.
+This repository contains **two clearly separated layers**. **Legacy
+Phases 1-2** are conditional formalization experiments whose physical
+content is carried by explicit assumptions and axioms; their theorems are
+logical consequences of those assumptions. **Phase 3** is a new,
+independently built finite-lattice gauge theory library: the results in
+its verification table are **axiom-free beyond Lean and Mathlib
+foundations** (see VERIFICATION_STATUS.md and the structural audit in
+docs/audit/AUDIT_ZERO_V2_SUMMARY.md).
 
 ## What this repository is NOT
 
@@ -36,7 +43,7 @@ not yet have a working Lake project and is not covered by CI.
 | Metric | Value |
 |---|---|
 | `axiom` declarations | 293  |
-| Theorems/lemmas | ~442 |
+| Theorems/lemmas (live tree) | see census above |
 | Theorems unconditional, LEGACY Phases 1-2 | ~0 substantive — elementary real-analysis facts |
 | Theorems unconditional, Phase 3 (2026-07) | ~68, incl. fresh-link holonomy law and exact β=0 Wilson formula on U(n) |
 | `sorry` in code | present in 21 files across |
@@ -87,9 +94,9 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 Code Audit, Etapas 0-1, Phase 3 stones 1-13 execution (Anthropic)
-- **GPT-5.6 "Sol"** — Technical review; winning strategy for stone 12 (single-link marginal route) after reading the failure logs (OpenAI)
+- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-16 execution, structural census (Anthropic)
+- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15 (single-link marginal, n-link independence, fresh-link theorem); epistemic veto of a false factorization; documentation reviews (OpenAI)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
-- **Gemini 3 Pro** — Numerical Validation (Google)
+- **Gemini 3 Pro** — historical draft generation (Google); former "numerical validation" claims RETRACTED and not treated as evidence
 - **Manus AI 1.6** — DevOps, Integration & Project Coordination

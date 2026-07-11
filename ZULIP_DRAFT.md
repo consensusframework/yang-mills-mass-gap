@@ -51,7 +51,8 @@ axiom-free and CI-checked (GitHub Actions, `lake build`):
   Gibbs state; truncated correlations with an a-priori bound; and the
   FORMAL STATEMENT of the lattice mass gap (exponential clustering) —
   stated, explicitly NOT claimed as proved;
-- the β = 0 regime EXACTLY SOLVED: the Gibbs state is the product Haar
+- the β = 0 sector of the finite periodic lattice model developed here
+  is characterized exactly: the Gibbs state is the product Haar
   state; single-, pair- and n-link marginals (any finite injective
   family of links is jointly Haar-independent); disjoint-support
   factorization and vanishing truncated correlations;
@@ -82,9 +83,12 @@ Questions:
    the next climb is β > 0 perturbation of the product state. We know
    this is a multi-year, community-scale effort; we're looking for
    guidance and collaborators, not making claims.
-3. We are also mid-way through a structural audit (AUDIT_ZERO, branch
-   audit-zero): 1425 declarations inventoried, 97 CORE — the legacy
-   conditional phases are being reclassified, not counted as results.
+3. We are also mid-way through a structural audit (stable artifact:
+   docs/audit/AUDIT_ZERO_V2_SUMMARY.md): 922 live declarations currently
+   inventoried, including 99 CORE; approximately 503 additional
+   declarations were moved intact into the historical archive during the
+   first audit pass. Legacy conditional phases are being reclassified,
+   not counted as results.
 
 **Important honesty note:** this project makes NO claim on the Clay
 problem. The repository documents exactly what is proved and what is
