@@ -146,7 +146,7 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
     abs_integral_mul_weight_sub_le (N := N) μm mχ hβ hχ hB mf hf
   have hden : |z - 1| ≤ β * B := by
     have h := abs_integral_mul_weight_sub_le (N := N) μm mχ hβ hχ hB
-      (g := fun _ : Config N G => (1 : ℝ)) measurable_const
+      (g := fun _ : Config N G => (1 : ℝ)) (K := 1) measurable_const
       (fun _ => by norm_num)
     simp only [one_mul] at h
     have hone : (∫ _U : Config N G, (1 : ℝ) ∂(configMeasure μm N)) = 1 := by
