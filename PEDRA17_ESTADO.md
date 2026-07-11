@@ -53,6 +53,37 @@ Q3: vale já enunciar o corolário para o Wilson-path observable
 Q4: a 18ª proposta (derivada em β=0 via hasDerivAt_integral_of_dominated)
     entra no mesmo arquivo ou pedra separada? Voto: separada.
 
+## Referência literária
+
+O resultado-alvo é o lema elementar de continuidade em alta temperatura
+que abre qualquer tratamento de expansões: cf. Friedli–Velenik,
+*Statistical Mechanics of Lattice Systems* (CUP 2017), cap. de
+high-temperature expansions; Seiler, *Gauge Theories as a Problem of
+Constructive QFT* (LNP 159, 1982) §2; a estrada adiante é
+Osterwalder–Seiler, Ann. Phys. 110 (1978). Nenhuma dessas fontes é
+necessária para a prova (análise elementar); são o mapa da montanha.
+
+## Dependências já formalizadas vs lemas ausentes
+
+Já verdes: gibbsWeight/realZ/gibbsExpectation (5ª), integrable_gibbsWeight,
+realZ_pos, abs_gibbsExpectation_le (5ª), exists_wilsonAction_bound (6ª),
+gibbsExpectation_zero (11ª).
+Ausentes (todos elementares): L1-L5 do plano.
+
+## Hipóteses e parâmetros de uniformidade — AVISO HONESTO
+
+A constante B = cota da ação DEPENDE do tamanho N do lattice
+(B ~ 2·#plaquetas). Nesta pedra isso é aceitável e explícito: o
+enunciado é por-volume-finito. Uniformidade em N (constantes por sítio)
+é EXATAMENTE o que a expansão de cluster de verdade fornece — não
+prometemos isso aqui, e o docstring dirá isso com todas as letras.
+
+## Primeiro resultado mínimo correto e útil
+
+Sub-marco (se o arquiteto preferir fatiar): só L2+L4 —
+|realZ β − 1| ≤ β·B e realZ β ≥ exp(−β·B) — "a função de partição é
+Lipschitz em β na origem". Já é publicável no acervo e destrava o resto.
+
 ## Campo minado herdado
 
 - unfold configMeasure antes de padrões com Measure.pi.
