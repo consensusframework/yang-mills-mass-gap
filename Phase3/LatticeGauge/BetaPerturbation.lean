@@ -150,6 +150,7 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
       (fun _ => by norm_num)
     simp only [one_mul] at h
     have hone : (∫ _U : Config N G, (1 : ℝ) ∂(configMeasure μm N)) = 1 := by
+      rw [integral_const]
       simp
     rw [hone] at h
     rw [hzdef]
@@ -195,15 +196,16 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
     ring
   rw [hdiff, abs_div, abs_of_pos hz]
   have hsplit : |a - a0 * z| ≤ C * (β * B) + C * (β * B) := by
-    calc |a - a0 * z| = |(a - a0) + a0 * (1 - z)| := by ring_nf
+    calc |a - a0 * z| = |(a - a0) + a0 * (1 - z)| := by
+          congr 1
+          ring
       _ ≤ |a - a0| + |a0 * (1 - z)| := abs_add _ _
       _ ≤ C * (β * B) + C * (β * B) := by
           refine add_le_add hnum ?_
           rw [abs_mul]
-          calc |a0| * |1 - z| ≤ C * (β * B) := by
-                refine mul_le_mul ha0_le ?_ (abs_nonneg _) hC
-                rw [abs_sub_comm]
-                exact hden
+          refine mul_le_mul ha0_le ?_ (abs_nonneg _) hC
+          rw [abs_sub_comm]
+          exact hden
   calc |a - a0 * z| / z = |a - a0 * z| * z⁻¹ := div_eq_mul_inv _ _
     _ ≤ (C * (β * B) + C * (β * B)) * Real.exp (β * B) := by
         refine mul_le_mul hsplit hzinv (inv_nonneg.mpr hz.le) ?_
