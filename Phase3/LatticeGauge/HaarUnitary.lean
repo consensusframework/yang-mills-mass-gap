@@ -138,6 +138,25 @@ instance : (haarU n).IsMulRightInvariant := by
   calc (haarU n).map (· * b) = Measure.haarMeasure (UGfull n) := huniq.symm
     _ = haarU n := rfl
 
+/-- **Proved (bloco 4 da 15ª pedra): Haar on U(n) is INV-INVARIANT.**
+    Mirror of the right-invariance argument: μ.inv is a left-invariant
+    probability measure (left-invariance of the inverse follows from
+    right-invariance of μ), hence by uniqueness it is Haar itself. -/
+instance : (haarU n).IsInvInvariant := by
+  constructor
+  haveI hinvprob : IsProbabilityMeasure (haarU n).inv := by
+    constructor
+    rw [Measure.inv, Measure.map_apply measurable_inv MeasurableSet.univ]
+    simp
+  haveI hinvleft : (haarU n).inv.IsMulLeftInvariant := inferInstance
+  have huniq := (Measure.haarMeasure_eq_iff (UGfull n)
+    ((haarU n).inv)).mpr (by
+      have : (↑(UGfull n) : Set (UG n)) = Set.univ := rfl
+      rw [this]
+      exact measure_univ)
+  calc (haarU n).inv = Measure.haarMeasure (UGfull n) := huniq.symm
+    _ = haarU n := rfl
+
 /-! ## The physical character is measurable -/
 
 /-- **Proved:** the physical character is continuous. -/
