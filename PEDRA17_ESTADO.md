@@ -1,0 +1,68 @@
+# PEDRA17_ESTADO.md — perturbação quantitativa do acampamento-base (β pequeno)
+
+**Commit main:** cfbfe45b8df99dc3a7c686cc5e8d501fd988f297  •  Nada implementado; arquitetura a alinhar.
+
+## Por que este alvo (e não a expansão de caracteres direto)
+
+A expansão de cluster inteira é, no fundo, "β pequeno se comporta como
+β = 0 com correções controladas". O degrau mínimo honesto dessa frase é:
+o estado de Gibbs é LIPSCHITZ em β na origem, com constante explícita.
+Sem isso, nenhuma expansão tem chão. Com isso, a 18ª (derivada em 0 =
+−Cov₀(f, S)) e as seguintes têm onde pisar.
+
+## Enunciado-alvo proposto (aberto a redesenho)
+
+Para f mensurável com |f| ≤ C pontual, χ com |χ| ≤ 1, e B a cota
+uniforme da ação (exists_wilsonAction_bound):
+
+    ∀ β ∈ [0, 1],
+    |gibbsExpectation μm β χ f − gibbsExpectation μm 0 χ f|
+      ≤ 2 · C · B · β · exp(B)
+
+(constante não otimizada de propósito — otimizar depois é barato,
+formalizar constante feia é caro).
+
+## Decomposição proposta (todos análise real elementar + pedras 5-6)
+
+L1 (elementar): 0 ≤ x → |exp(−x) − 1| ≤ x.
+  Mathlib: Real.add_one_le_exp dá 1 − x ≤ exp(−x); com exp(−x) ≤ 1
+  fecha. Zero medida.
+
+L2 (peso): 0 ≤ β ≤ 1 → |gibbsWeight β χ U − 1| ≤ β·B pontual.
+  L1 com x = β·S(U), S ≤ B, monotonia.
+
+L3 (numerador): |∫ f·w_β − ∫ f·w_0| ≤ C·β·B.
+  |f·(w_β − 1)| ≤ C·β·B pontual + integral_mono; integrabilidade já
+  existe (integrable_gibbsWeight, hfwint da pedra 5 — mesmo padrão).
+
+L4 (denominador): |realZ β − 1| ≤ β·B  e  realZ β ≥ exp(−β·B) ≥ exp(−B).
+  L2 integrado + realZ_pos (já provada).
+
+L5 (montagem): |a/z − a₀| com a₀ = ∫f·w₀, z = realZ β:
+  a/z − a₀ = (a − a₀)/z + a₀(1 − z)/z;
+  |·| ≤ (C·β·B)·exp(B) + C·(β·B)·exp(B) = 2·C·B·β·exp(B). ✓
+
+## Perguntas ao arquiteto
+
+Q1: enunciar com C explícito na hipótese (padrão das pedras 5-6) ou
+    com ⨆? Prefiro hipótese explícita (|f| ≤ C), fiel ao acervo.
+Q2: β ∈ [0,1] arbitrário para simplificar exp(β·B) ≤ exp(B) — ok, ou
+    queres β₀ genérico já?
+Q3: vale já enunciar o corolário para o Wilson-path observable
+    (C = 1), preparando a ponte com a 16ª?
+Q4: a 18ª proposta (derivada em β=0 via hasDerivAt_integral_of_dominated)
+    entra no mesmo arquivo ou pedra separada? Voto: separada.
+
+## Campo minado herdado
+
+- unfold configMeasure antes de padrões com Measure.pi.
+- goals de integral_congr_ae chegam beta-não-reduzidos: show primeiro.
+- instâncias explícitas em lemas com medida em metavariável.
+- hidra Fintype: não deve aparecer (zero subtipos neste alvo).
+
+## Arquivo-alvo
+
+Phase3/LatticeGauge/BetaPerturbation.lean, importando Gibbs,
+Expectation, WilsonExpectation, Beta0.
+
+Contrato de sempre. — Fable
