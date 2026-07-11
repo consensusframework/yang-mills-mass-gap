@@ -2,15 +2,35 @@
 
 **922 declarações:** 283 PARKED, 182 UNKNOWN, 124 ARCHIVE, 114 REFORMULATE, 99 CORE, 93 COROLLARY, 27 DUPLICATE_CANDIDATE
 
-## Reconciliação 52 → 42 (exigência do parecer, item 2)
+## Reconciliação 52 → 42 (item 2 do parecer — EXATA, por diff de árvores)
 
-O inventário v1 detectou 52 órfãos NA ÁRVORE DE ONTEM. Entre o inventário
-e o passo 1 entraram na main o bloco 4 e a 16ª pedra, cujos imports novos
-(UnitaryChar, HaarUnitary em HolonomyHaar) 'adotaram' arquivos por nome de
-folha; o passo 1 recomputou a lista NA HORA da execução (42) em vez de
-aplicar a lista velha — comportamento correto. Os 10 preservados:
+52 órfãos (v1) = 42 arquivados no passo 1 + 10 que JÁ ESTAVAM em
+Phase1/archive/ (as variantes da dedup de 2026-07-05: EntropicPrinciple
+×7, R1_FOR_CLAUDE ×2, R4_ROUND2). O passo 1 exclui '/archive/' por
+construção — arquivar o já-arquivado seria ruído. Nenhuma anomalia;
+os 10, nominalmente:
 
-(lista v1 truncada em 30 no summary — reconciliação completa: comparar coluna 'orphan' dos dois CSVs)
+- Phase1/archive/EntropicPrinciple.lean
+- Phase1/archive/EntropicPrinciple_OPUS45_ORIGINAL.lean
+- Phase1/archive/EntropicPrinciple_v2.lean
+- Phase1/archive/EntropicPrinciple_v2_fixed.lean
+- Phase1/archive/EntropicPrinciple_v3.lean
+- Phase1/archive/EntropicPrinciple_v4.lean
+- Phase1/archive/EntropicPrinciple_v5_1_.lean
+- Phase1/archive/R1_ORIGINAL_FOR_CLAUDE.lean
+- Phase1/archive/R1_RicciWellDefined_FOR_CLAUDE.lean
+- Phase1/archive/R4_BishopGromov_ROUND2.lean
+
+Verificação independente: diff entre a árvore da branch audit-zero (52
+recomputados) e archive_peneira/orphans (42 movidos); interseção
+movidos∖v1 = ∅.
+
+## Nota de escopo do total v2
+
+v1 contava 1425 declarações incluindo os arquivos hoje em
+archive_peneira/ (fora do glob Phase*). Conta viva v2: 922 declarações
+na árvore ativa + ~503 nos 42 arquivos arquivados no passo 1. Nada
+sumiu; mudou de coluna.
 
 ## Duplicatas (NÃO remover — aguardando parecer sobre este v2)
 - 8×: mass_gap_numerical_consistency@Phase1/YangMills/EntropicPrinciple_Standalone.lean, mass_gap_numerical_consistency@Phase1/YangMills/EntropicTest.lean, mass_gap_numerical_consistency@Phase1/archive/EntropicPrinciple.lean, mass_gap_numerical_consistency@Phase1/archive/EntropicPrinciple_OPUS45_ORIGINAL.lean
