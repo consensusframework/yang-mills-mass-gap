@@ -71,9 +71,8 @@ theorem hasDerivAt_weightedNumerator_zero [NeZero N] [Fintype (Site N)]
       refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
       show f U * (Real.exp (-(0:ℝ) * S U) * -(S U)) = -(f U * S U)
       simp
-      ring
     rw [hval] at h
-    exact h
+    exact h.2
   · -- integrabilidade de F 0 = f·w₀
     refine ((integrable_const C).mono'
       ((mf.mul (measurable_gibbsWeight mχ 0)).aestronglyMeasurable) ?_)
@@ -155,7 +154,8 @@ theorem hasDerivAt_gibbsExpectation_zero_integral_form [NeZero N]
           * -(∫ U : Config N G, wilsonAction χ U ∂(configMeasure μm N)))
         / realZ (N := N) μm 0 χ ^ 2) 0 := h
   rw [hz1] at this
-  simpa using this.congr_deriv (by ring)
+  convert this using 1
+  ring
 
 /-- **D. CAPSTONE (pedra 18): linear response as a covariance.**
     d/dβ ⟨f⟩_β |₀ = −(⟨f·S⟩₀ − ⟨f⟩₀·⟨S⟩₀). Finite volume; derivative
@@ -191,7 +191,8 @@ theorem hasDerivAt_gibbsExpectation_zero_covariance [NeZero N]
     simp
   rw [e1, e2, e3]
   rw [e4] at h
-  simpa using h.congr_deriv (by ring)
+  convert h using 1
+  ring
 
 end Measure
 
