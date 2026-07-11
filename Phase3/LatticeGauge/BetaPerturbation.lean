@@ -110,7 +110,9 @@ theorem abs_integral_mul_weight_sub_le [NeZero N] [Fintype (Site N)]
             (fun U : Config N G => g U * (gibbsWeight β χ U - 1))
             (configMeasure μm N) :=
           (hgwint.sub hgint).congr
-            (Filter.Eventually.of_forall fun U => by ring)
+            (Filter.Eventually.of_forall fun U => by
+              simp only [Pi.sub_apply]
+              ring)
         refine integral_mono hsubint.norm (integrable_const _) fun U => ?_
         rw [Real.norm_eq_abs, abs_mul]
         exact mul_le_mul (hg U)
@@ -147,9 +149,12 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
       (g := fun _ : Config N G => (1 : ℝ)) measurable_const
       (fun _ => by norm_num)
     simp only [one_mul] at h
+    have hone : (∫ _U : Config N G, (1 : ℝ) ∂(configMeasure μm N)) = 1 := by
+      simp
+    rw [hone] at h
     rw [hzdef]
     unfold realZ
-    simpa using h
+    exact h
   have ha0_le : |a0| ≤ C := by
     calc |a0| ≤ ∫ U : Config N G, ‖f U‖ ∂(configMeasure μm N) := by
           rw [ha0, ← Real.norm_eq_abs]
@@ -187,6 +192,7 @@ theorem abs_gibbsExpectation_sub_zero_le [NeZero N] [Fintype (Site N)]
   rw [hEβ, hE0]
   have hdiff : a / z - a0 = (a - a0 * z) / z := by
     field_simp
+    ring
   rw [hdiff, abs_div, abs_of_pos hz]
   have hsplit : |a - a0 * z| ≤ C * (β * B) + C * (β * B) := by
     calc |a - a0 * z| = |(a - a0) + a0 * (1 - z)| := by ring_nf
