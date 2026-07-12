@@ -41,10 +41,12 @@ Beta0 (⟨·⟩₀), abs_exp_neg_sub_one_le (a refinar).
 
 ## Riscos nomeados
 
-- Nome exato do lema quadrático de exp na v4.15
-  (Real.abs_exp_sub_one_sub_id_le : |x| ≤ 1 → |exp x − 1 − x| ≤ x²).
-  VERIFICAR ANTES (lição da 18ª). Se só existir p/ |x| ≤ 1, impor
-  β·B ≤ 1 na janela ou provar a versão x ≥ 0 na mão (elementar).
+- ~~Nome do lema quadrático~~ RESOLVIDO (lição 15 do atlas, aplicada):
+  abs_exp_sub_one_sub_id_le EXISTE e é usado na v4.15
+  (Mathlib/Analysis/SpecialFunctions/Exp.lean:39; statement em
+  Complex/Exponential): |exp x − 1 − x| ≤ |x|² para |x| ≤ 1.
+  Consequência: R3 viável com hipótese de janela β·B ≤ 1 no teorema
+  (ou teorema geral + corolário-janela, padrão da 17ª).
 - Álgebra do quociente de 2ª ordem é feia; R3 minimiza mas não zera.
 
 ## Limites de sempre
