@@ -8,4 +8,4 @@ rev = "v4.15.0"
 
 [[lean_lib]]
 name = "LatticeGauge"
-globs = ["LatticeGauge.Basic", "LatticeGauge.GaugeInvariance", "LatticeGauge.Gibbs", "LatticeGauge.WilsonLoop", "LatticeGauge.Expectation", "LatticeGauge.WilsonExpectation", "LatticeGauge.GaugeSymmetry", "LatticeGauge.UnitaryChar", "LatticeGauge.HaarUnitary", "LatticeGauge.Translation", "LatticeGauge.Beta0", "LatticeGauge.SingleLink", "LatticeGauge.PairLink", "LatticeGauge.MultiLink", "LatticeGauge.HolonomyHaar", "LatticeGauge.BetaPerturbation", "LatticeGauge.LinearResponse", "LatticeGauge.SecondOrder"]
+globs = ["LatticeGauge.Basic", "LatticeGauge.GaugeInvariance", "LatticeGauge.Gibbs", "LatticeGauge.WilsonLoop", "LatticeGauge.Expectation", "LatticeGauge.WilsonExpectation", "LatticeGauge.GaugeSymmetry", "LatticeGauge.UnitaryChar", "LatticeGauge.HaarUnitary", "LatticeGauge.Translation", "LatticeGauge.Beta0", "LatticeGauge.SingleLink", "LatticeGauge.PairLink", "LatticeGauge.MultiLink", "LatticeGauge.HolonomyHaar", "LatticeGauge.BetaPerturbation", "LatticeGauge.LinearResponse", "LatticeGauge.SecondOrder", "LatticeGauge.FiniteBetaResponse"]
