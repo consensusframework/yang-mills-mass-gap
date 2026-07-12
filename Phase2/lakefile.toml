@@ -8,7 +8,7 @@ rev = "v4.15.0"
 
 [[lean_lib]]
 name = "RGFlow_Work"
-globs = ["RGFlow_Work.Basic",
+globs = ["RGFlow_Work.Basic", "RGFlow_Work.Audit",
  "RGFlow_Work.GeminiValidation2","RGFlow_Work.GeminiValidation3","RGFlow_Work.GeminiValidation4",
  "RGFlow_Work.GeminiValidation5","RGFlow_Work.GeminiValidation6","RGFlow_Work.GeminiValidation7",
  "RGFlow_Work.GeminiValidation8","RGFlow_Work.GeminiValidation12","RGFlow_Work.GeminiValidation13",
