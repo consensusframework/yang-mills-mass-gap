@@ -2,7 +2,7 @@ name: Lean CI (all phases)
 
 on:
   push:
-    branches: [main]
+    branches: [main, kernel-xray-fix]
   pull_request:
   workflow_dispatch:
 
@@ -28,7 +28,20 @@ jobs:
 
       - name: Build Phase 2
         working-directory: Phase2
-        run: lake build
+        run: lake build 2>&1 | tee ../kernel_raw.log
+
+      - name: Kernel X-ray report
+        run: python3 scripts/kernel_xray.py kernel_raw.log docs/audit
+
+      - name: Upload kernel X-ray artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kernel-xray-raw-log
+          path: |
+            kernel_raw.log
+            docs/audit/KERNEL_XRAY.md
+            docs/audit/KERNEL_XRAY.json
+            docs/audit/KERNEL_XRAY.csv
 
       - name: Axiom report (phase2)
         if: success()
