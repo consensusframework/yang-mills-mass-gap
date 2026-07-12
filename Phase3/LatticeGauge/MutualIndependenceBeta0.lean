@@ -49,7 +49,7 @@ def familyEvent (s : Finset ι) (f : ι → Config N G → ℝ)
   ⋂ i ∈ s, f i ⁻¹' sets i
 
 /-- **A2. The real-valued indicator of the family event.** -/
-def familyEventIndicator (s : Finset ι) (f : ι → Config N G → ℝ)
+noncomputable def familyEventIndicator (s : Finset ι) (f : ι → Config N G → ℝ)
     (sets : ι → Set ℝ) : Config N G → ℝ :=
   (familyEvent s f sets).indicator (fun _ => (1 : ℝ))
 
@@ -196,7 +196,7 @@ theorem iIndepFun_of_pairwise_disjoint_support [NeZero N]
       ({1} : Set ℝ) hEa (measurableSet_singleton 1)
     rw [familyEventIndicator_preimage_one] at hpair
     unfold familyEvent at hpair
-    rw [Set.biInter_insert, hpair,
+    rw [Finset.set_biInter_insert, hpair,
       ih (fun i hi => msets i (Finset.mem_insert_of_mem hi)),
       Finset.prod_insert ha]
 
