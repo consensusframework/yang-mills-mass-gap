@@ -112,7 +112,12 @@ theorem abs_integral_secondOrder [NeZero N] [Fintype (Site N)]
       funext U
       ring
     conv_rhs => rw [hpt]
-    rw [integral_add (hgwint.sub hgint) (hgSint.const_mul β),
+    have h1 : Integrable (fun U : Config N G =>
+        g U * gibbsWeight β χ U - g U) (configMeasure μm N) :=
+      (hgwint.sub hgint).congr
+        (Filter.Eventually.of_forall fun U => by
+          simp only [Pi.sub_apply])
+    rw [integral_add h1 (hgSint.const_mul β),
       integral_sub hgwint hgint, integral_mul_left]
   rw [hcomb]
   have hRint : Integrable
