@@ -1,0 +1,677 @@
+﻿2026-07-12T11:27:52.3110821Z Current runner version: '2.335.1'
+2026-07-12T11:27:52.3141760Z ##[group]Runner Image Provisioner
+2026-07-12T11:27:52.3143228Z Hosted Compute Agent
+2026-07-12T11:27:52.3144082Z Version: 20260624.560
+2026-07-12T11:27:52.3145150Z Commit: 925d229a51159bc391ae97e54a2dd1fe20af789d
+2026-07-12T11:27:52.3146292Z Build Date: 2026-06-24T18:26:47Z
+2026-07-12T11:27:52.3147605Z Worker ID: {ab574178-6cd4-47b2-bb7f-a48d91e62352}
+2026-07-12T11:27:52.3148662Z Azure Region: eastus2
+2026-07-12T11:27:52.3149515Z ##[endgroup]
+2026-07-12T11:27:52.3151685Z ##[group]Operating System
+2026-07-12T11:27:52.3152621Z Ubuntu
+2026-07-12T11:27:52.3153393Z 24.04.4
+2026-07-12T11:27:52.3154330Z LTS
+2026-07-12T11:27:52.3155114Z ##[endgroup]
+2026-07-12T11:27:52.3155978Z ##[group]Runner Image
+2026-07-12T11:27:52.3156927Z Image: ubuntu-24.04
+2026-07-12T11:27:52.3158054Z Version: 20260705.232.1
+2026-07-12T11:27:52.3160101Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260705.232/images/ubuntu/Ubuntu2404-Readme.md
+2026-07-12T11:27:52.3162619Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260705.232
+2026-07-12T11:27:52.3164028Z ##[endgroup]
+2026-07-12T11:27:52.3165776Z ##[group]GITHUB_TOKEN Permissions
+2026-07-12T11:27:52.3168999Z Contents: read
+2026-07-12T11:27:52.3169920Z Metadata: read
+2026-07-12T11:27:52.3170883Z Packages: read
+2026-07-12T11:27:52.3171756Z ##[endgroup]
+2026-07-12T11:27:52.3175175Z Secret source: Actions
+2026-07-12T11:27:52.3176567Z Prepare workflow directory
+2026-07-12T11:27:52.3638730Z Prepare all required actions
+2026-07-12T11:27:52.3691974Z Getting action download info
+2026-07-12T11:27:52.5513897Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-07-12T11:27:52.7110981Z Complete job name: build-phase2
+2026-07-12T11:27:52.7967200Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-12T11:27:52.7976053Z ##[group]Run actions/checkout@v4
+2026-07-12T11:27:52.7976735Z with:
+2026-07-12T11:27:52.7977254Z   repository: consensusframework/yang-mills-mass-gap
+2026-07-12T11:27:52.7981347Z   token: ***
+2026-07-12T11:27:52.7981788Z   ssh-strict: true
+2026-07-12T11:27:52.7982230Z   ssh-user: git
+2026-07-12T11:27:52.7982674Z   persist-credentials: true
+2026-07-12T11:27:52.7983156Z   clean: true
+2026-07-12T11:27:52.7983602Z   sparse-checkout-cone-mode: true
+2026-07-12T11:27:52.7984113Z   fetch-depth: 1
+2026-07-12T11:27:52.7984540Z   fetch-tags: false
+2026-07-12T11:27:52.7984973Z   show-progress: true
+2026-07-12T11:27:52.7985402Z   lfs: false
+2026-07-12T11:27:52.7985860Z   submodules: false
+2026-07-12T11:27:52.7986305Z   set-safe-directory: true
+2026-07-12T11:27:52.7986978Z ##[endgroup]
+2026-07-12T11:27:52.9037671Z Syncing repository: consensusframework/yang-mills-mass-gap
+2026-07-12T11:27:52.9040027Z ##[group]Getting Git version info
+2026-07-12T11:27:52.9040878Z Working directory is '/home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap'
+2026-07-12T11:27:52.9042219Z [command]/usr/bin/git version
+2026-07-12T11:27:52.9086024Z git version 2.54.0
+2026-07-12T11:27:52.9108064Z ##[endgroup]
+2026-07-12T11:27:52.9125799Z Temporarily overriding HOME='/home/runner/work/_temp/d023bc83-29f8-445a-a525-01b758455fac' before making global git config changes
+2026-07-12T11:27:52.9128268Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-12T11:27:52.9132220Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap
+2026-07-12T11:27:52.9200318Z Deleting the contents of '/home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap'
+2026-07-12T11:27:52.9204612Z ##[group]Initializing the repository
+2026-07-12T11:27:52.9210761Z [command]/usr/bin/git init /home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap
+2026-07-12T11:27:52.9321475Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-07-12T11:27:52.9323147Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-07-12T11:27:52.9324382Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-07-12T11:27:52.9325675Z hint: call:
+2026-07-12T11:27:52.9326789Z hint:
+2026-07-12T11:27:52.9327807Z hint: 	git config --global init.defaultBranch <name>
+2026-07-12T11:27:52.9328900Z hint:
+2026-07-12T11:27:52.9329901Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-07-12T11:27:52.9331389Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-07-12T11:27:52.9332614Z hint:
+2026-07-12T11:27:52.9333295Z hint: 	git branch -m <name>
+2026-07-12T11:27:52.9334019Z hint:
+2026-07-12T11:27:52.9335878Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-07-12T11:27:52.9337968Z Initialized empty Git repository in /home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap/.git/
+2026-07-12T11:27:52.9344203Z [command]/usr/bin/git remote add origin https://github.com/consensusframework/yang-mills-mass-gap
+2026-07-12T11:27:52.9390814Z ##[endgroup]
+2026-07-12T11:27:52.9392094Z ##[group]Disabling automatic garbage collection
+2026-07-12T11:27:52.9395725Z [command]/usr/bin/git config --local gc.auto 0
+2026-07-12T11:27:52.9429233Z ##[endgroup]
+2026-07-12T11:27:52.9430317Z ##[group]Setting up auth
+2026-07-12T11:27:52.9436664Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-12T11:27:52.9474574Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-12T11:27:52.9870576Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-12T11:27:52.9914448Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-12T11:27:53.0159801Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-12T11:27:53.0197941Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-12T11:27:53.0438728Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-07-12T11:27:53.0479772Z ##[endgroup]
+2026-07-12T11:27:53.0480650Z ##[group]Fetching the repository
+2026-07-12T11:27:53.0489077Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4234d04953961a38423a868fa790077c579ade9d:refs/remotes/origin/kernel-audit
+2026-07-12T11:27:53.3791846Z From https://github.com/consensusframework/yang-mills-mass-gap
+2026-07-12T11:27:53.3808664Z  * [new ref]         4234d04953961a38423a868fa790077c579ade9d -> origin/kernel-audit
+2026-07-12T11:27:53.3834380Z ##[endgroup]
+2026-07-12T11:27:53.3835768Z ##[group]Determining the checkout info
+2026-07-12T11:27:53.3837774Z ##[endgroup]
+2026-07-12T11:27:53.3844605Z [command]/usr/bin/git sparse-checkout disable
+2026-07-12T11:27:53.3899641Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-07-12T11:27:53.3933601Z ##[group]Checking out the ref
+2026-07-12T11:27:53.3938134Z [command]/usr/bin/git checkout --progress --force -B kernel-audit refs/remotes/origin/kernel-audit
+2026-07-12T11:27:53.4167324Z Switched to a new branch 'kernel-audit'
+2026-07-12T11:27:53.4170561Z branch 'kernel-audit' set up to track 'origin/kernel-audit'.
+2026-07-12T11:27:53.4177325Z ##[endgroup]
+2026-07-12T11:27:53.4227981Z [command]/usr/bin/git log -1 --format=%H
+2026-07-12T11:27:53.4257291Z 4234d04953961a38423a868fa790077c579ade9d
+2026-07-12T11:27:53.4484417Z ##[group]Run curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
+2026-07-12T11:27:53.4486093Z [36;1mcurl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none[0m
+2026-07-12T11:27:53.4487116Z [36;1mecho "$HOME/.elan/bin" >> $GITHUB_PATH[0m
+2026-07-12T11:27:53.4647620Z shell: /usr/bin/bash -e {0}
+2026-07-12T11:27:53.4648317Z ##[endgroup]
+2026-07-12T11:27:53.6213263Z info: downloading installer
+2026-07-12T11:27:53.8950110Z ##[group]Run lake update
+2026-07-12T11:27:53.8951425Z [36;1mlake update[0m
+2026-07-12T11:27:53.8991905Z shell: /usr/bin/bash -e {0}
+2026-07-12T11:27:53.8993225Z ##[endgroup]
+2026-07-12T11:27:54.1511719Z info: downloading https://releases.lean-lang.org/lean4/v4.15.0/lean-4.15.0-linux.tar.zst
+2026-07-12T11:27:56.1744799Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.15.0
+2026-07-12T11:27:59.1508668Z info: RGFlow_Work: no previous manifest, creating one from scratch
+2026-07-12T11:28:32.1629631Z info: leanprover-community/mathlib: cloning https://github.com/leanprover-community/mathlib4
+2026-07-12T11:28:32.1630840Z info: leanprover-community/mathlib: checking out revision '9837ca9d65d9de6fad1ef4381750ca688774e608'
+2026-07-12T11:28:32.1631956Z info: toolchain not updated; already up-to-date
+2026-07-12T11:28:32.7763027Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-07-12T11:28:32.7764071Z info: plausible: checking out revision '2c57364ef83406ea86d0f78ce3e342079a2fece5'
+2026-07-12T11:28:32.9172176Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-07-12T11:28:32.9173080Z info: LeanSearchClient: checking out revision '003ff459cdd85de551f4dcf95cdfeefe10f20531'
+2026-07-12T11:28:33.4124193Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-07-12T11:28:33.4125269Z info: importGraph: checking out revision '9a0b533c2fbd6195df067630be18e11e4349051c'
+2026-07-12T11:28:33.8989455Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-07-12T11:28:33.8990533Z info: proofwidgets: checking out revision '2b000e02d50394af68cfb4770a291113d94801b5'
+2026-07-12T11:28:34.8169767Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-07-12T11:28:34.8170646Z info: aesop: checking out revision '2689851f387bb2cef351e6825fe94a56a304ca13'
+2026-07-12T11:28:35.0140797Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-07-12T11:28:35.0141631Z info: Qq: checking out revision 'f0c584bcb14c5adfb53079781eeea75b26ebbd32'
+2026-07-12T11:28:38.0307155Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-07-12T11:28:38.0308275Z info: batteries: checking out revision 'e8dc5fc16c625fc4fe08f42d625523275ddbbb4b'
+2026-07-12T11:28:38.2028470Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-07-12T11:28:38.2029060Z info: Cli: checking out revision '0c8ea32a15a4f74143e4e1e107ba2c412adb90fd'
+2026-07-12T11:28:38.2040795Z info: mathlib: running post-update hooks
+2026-07-12T11:28:40.3190657Z ✔ [3/11] Built Cache.IO
+2026-07-12T11:28:41.1207254Z ✔ [4/11] Built Cache.Hashing
+2026-07-12T11:28:42.2218949Z ✔ [5/11] Built Cache.Requests
+2026-07-12T11:28:42.7223716Z ✔ [6/11] Built Cache.Hashing:c.o
+2026-07-12T11:28:42.9225731Z ✔ [7/11] Built Cache.Main
+2026-07-12T11:28:43.6222719Z ✔ [8/11] Built Cache.Main:c.o
+2026-07-12T11:28:43.8225450Z ✔ [9/11] Built Cache.IO:c.o
+2026-07-12T11:28:43.8226545Z ✔ [10/11] Built Cache.Requests:c.o
+2026-07-12T11:28:44.4231333Z ✔ [11/11] Built cache
+2026-07-12T11:28:45.2114090Z   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+2026-07-12T11:28:45.2114868Z                                  Dload  Upload   Total   Spent    Left  Speed
+2026-07-12T11:28:45.2115264Z 
+2026-07-12T11:28:45.2115641Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-07-12T11:28:45.2116230Z   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+2026-07-12T11:28:45.2116626Z 
+2026-07-12T11:28:45.2116879Z 100 1059k  100 1059k    0     0  5976k      0 --:--:-- --:--:-- --:--:-- 5976k
+2026-07-12T11:28:45.2117963Z 
+2026-07-12T11:28:45.2387952Z installing leantar 0.1.14
+2026-07-12T11:28:46.2105102Z Attempting to download 5826 file(s)
+2026-07-12T11:28:47.3707090Z 
+2026-07-12T11:28:47.4703251Z Downloaded: 1 file(s) [attempted 1/5826 = 0%]
+2026-07-12T11:28:47.5710099Z Downloaded: 121 file(s) [attempted 121/5826 = 2%]
+2026-07-12T11:28:47.6713181Z Downloaded: 250 file(s) [attempted 250/5826 = 4%]
+2026-07-12T11:28:47.7739516Z Downloaded: 389 file(s) [attempted 389/5826 = 6%]
+2026-07-12T11:28:47.8754536Z Downloaded: 534 file(s) [attempted 534/5826 = 9%]
+2026-07-12T11:28:47.9763880Z Downloaded: 676 file(s) [attempted 676/5826 = 11%]
+2026-07-12T11:28:48.0775355Z Downloaded: 818 file(s) [attempted 818/5826 = 14%]
+2026-07-12T11:28:48.1803754Z Downloaded: 965 file(s) [attempted 965/5826 = 16%]
+2026-07-12T11:28:48.2824535Z Downloaded: 1112 file(s) [attempted 1112/5826 = 19%]
+2026-07-12T11:28:48.3819800Z Downloaded: 1261 file(s) [attempted 1261/5826 = 21%]
+2026-07-12T11:28:48.4819422Z Downloaded: 1404 file(s) [attempted 1404/5826 = 24%]
+2026-07-12T11:28:48.5843443Z Downloaded: 1551 file(s) [attempted 1551/5826 = 26%]
+2026-07-12T11:28:48.6847583Z Downloaded: 1699 file(s) [attempted 1699/5826 = 29%]
+2026-07-12T11:28:48.7878569Z Downloaded: 1848 file(s) [attempted 1848/5826 = 31%]
+2026-07-12T11:28:48.8886853Z Downloaded: 1995 file(s) [attempted 1995/5826 = 34%]
+2026-07-12T11:28:48.9898194Z Downloaded: 2137 file(s) [attempted 2137/5826 = 36%]
+2026-07-12T11:28:49.0893633Z Downloaded: 2272 file(s) [attempted 2272/5826 = 38%]
+2026-07-12T11:28:49.1897512Z Downloaded: 2419 file(s) [attempted 2419/5826 = 41%]
+2026-07-12T11:28:49.2899950Z Downloaded: 2568 file(s) [attempted 2568/5826 = 44%]
+2026-07-12T11:28:49.3907018Z Downloaded: 2717 file(s) [attempted 2717/5826 = 46%]
+2026-07-12T11:28:49.4909454Z Downloaded: 2866 file(s) [attempted 2866/5826 = 49%]
+2026-07-12T11:28:49.5909574Z Downloaded: 3016 file(s) [attempted 3016/5826 = 51%]
+2026-07-12T11:28:49.6913852Z Downloaded: 3167 file(s) [attempted 3167/5826 = 54%]
+2026-07-12T11:28:49.7933614Z Downloaded: 3319 file(s) [attempted 3319/5826 = 56%]
+2026-07-12T11:28:49.8944150Z Downloaded: 3468 file(s) [attempted 3468/5826 = 59%]
+2026-07-12T11:28:49.9940635Z Downloaded: 3619 file(s) [attempted 3619/5826 = 62%]
+2026-07-12T11:28:50.0943475Z Downloaded: 3768 file(s) [attempted 3768/5826 = 64%]
+2026-07-12T11:28:50.1944881Z Downloaded: 3920 file(s) [attempted 3920/5826 = 67%]
+2026-07-12T11:28:50.2949840Z Downloaded: 4064 file(s) [attempted 4064/5826 = 69%]
+2026-07-12T11:28:50.3965140Z Downloaded: 4209 file(s) [attempted 4209/5826 = 72%]
+2026-07-12T11:28:50.4979498Z Downloaded: 4356 file(s) [attempted 4356/5826 = 74%]
+2026-07-12T11:28:50.5991998Z Downloaded: 4505 file(s) [attempted 4505/5826 = 77%]
+2026-07-12T11:28:50.6998439Z Downloaded: 4656 file(s) [attempted 4656/5826 = 79%]
+2026-07-12T11:28:50.7999680Z Downloaded: 4808 file(s) [attempted 4808/5826 = 82%]
+2026-07-12T11:28:50.9002416Z Downloaded: 4957 file(s) [attempted 4957/5826 = 85%]
+2026-07-12T11:28:51.0006183Z Downloaded: 5108 file(s) [attempted 5108/5826 = 87%]
+2026-07-12T11:28:51.1008824Z Downloaded: 5260 file(s) [attempted 5260/5826 = 90%]
+2026-07-12T11:28:51.2039458Z Downloaded: 5409 file(s) [attempted 5409/5826 = 92%]
+2026-07-12T11:28:51.3047166Z Downloaded: 5558 file(s) [attempted 5558/5826 = 95%]
+2026-07-12T11:28:51.4229977Z Downloaded: 5700 file(s) [attempted 5700/5826 = 97%]
+2026-07-12T11:28:51.5378749Z Downloaded: 5821 file(s) [attempted 5821/5826 = 99%]
+2026-07-12T11:28:51.5908145Z Downloaded: 5823 file(s) [attempted 5823/5826 = 99%]
+2026-07-12T11:28:51.5908887Z Downloaded: 5826 file(s) [attempted 5826/5826 = 100%] (100% success)
+2026-07-12T11:29:04.0280164Z Decompressing 5826 file(s)
+2026-07-12T11:29:04.0280619Z Unpacked in 12408 ms
+2026-07-12T11:29:04.0280911Z Completed successfully!
+2026-07-12T11:29:04.0740291Z ##[group]Run lake exe cache get
+2026-07-12T11:29:04.0740598Z [36;1mlake exe cache get[0m
+2026-07-12T11:29:04.0777237Z shell: /usr/bin/bash -e {0}
+2026-07-12T11:29:04.0777856Z ##[endgroup]
+2026-07-12T11:29:05.6356614Z No files to download
+2026-07-12T11:29:05.6357027Z Decompressing 5826 file(s)
+2026-07-12T11:29:05.6357555Z Unpacked in 90 ms
+2026-07-12T11:29:05.6357877Z Completed successfully!
+2026-07-12T11:29:05.6540311Z ##[group]Run lake build
+2026-07-12T11:29:05.6540599Z [36;1mlake build[0m
+2026-07-12T11:29:05.6578637Z shell: /usr/bin/bash -e {0}
+2026-07-12T11:29:05.6578901Z ##[endgroup]
+2026-07-12T11:29:11.3841201Z ✔ [5838/5897] Built RGFlow_Work.GeminiValidation13
+2026-07-12T11:29:11.4809193Z ✔ [5839/5897] Built RGFlow_Work.GeminiValidation15
+2026-07-12T11:29:12.2803012Z ⚠ [5840/5897] Built RGFlow_Work.Theorem12_ContinuumLipschitzInG
+2026-07-12T11:29:12.2828861Z warning: ././././RGFlow_Work/Theorem12_ContinuumLipschitzInG.lean:123:8: `mem_nhdsWithin_Ioi_iff_exists_Ioc_subset` has been deprecated: use `mem_nhdsGT_iff_exists_Ioc_subset` instead
+2026-07-12T11:29:12.7838892Z ✔ [5841/5897] Built RGFlow_Work.Theorem15_UniversalPhysicalBound
+2026-07-12T11:29:15.3868723Z ✔ [5842/5897] Built RGFlow_Work.Basic
+2026-07-12T11:29:15.4879115Z ✔ [5843/5897] Built RGFlow_Work.GeminiValidation12
+2026-07-12T11:29:18.2907595Z ⚠ [5844/5897] Built RGFlow_Work.Theorem14_RGInvariance
+2026-07-12T11:29:18.2928742Z warning: ././././RGFlow_Work/Theorem14_RGInvariance.lean:154:5: unused variable `hg`
+2026-07-12T11:29:18.2929756Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:18.2930568Z warning: ././././RGFlow_Work/Theorem14_RGInvariance.lean:192:5: unused variable `hg`
+2026-07-12T11:29:18.2931350Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:18.2932085Z warning: ././././RGFlow_Work/Theorem14_RGInvariance.lean:210:5: unused variable `hg`
+2026-07-12T11:29:18.2932840Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:18.2933646Z warning: ././././RGFlow_Work/Theorem14_RGInvariance.lean:266:5: unused variable `hg`
+2026-07-12T11:29:18.2934448Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:18.5911182Z ⚠ [5845/5897] Built RGFlow_Work.Theorem13_ContinuumMonotonicityInG
+2026-07-12T11:29:18.5948869Z warning: ././././RGFlow_Work/Theorem13_ContinuumMonotonicityInG.lean:125:8: `mem_nhdsWithin_Ioi_iff_exists_Ioc_subset` has been deprecated: use `mem_nhdsGT_iff_exists_Ioc_subset` instead
+2026-07-12T11:29:19.9969093Z ℹ [5846/5897] Built RGFlow_Work.Audit_GeminiValidation13
+2026-07-12T11:29:19.9998649Z info: ././././RGFlow_Work/Audit_GeminiValidation13.lean:6:0: 'RGFlow.gemini_min_gap_positive' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:20.0000562Z info: ././././RGFlow_Work/Audit_GeminiValidation13.lean:7:0: 'RGFlow.gemini_total_gap_positive' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:20.0038213Z ℹ [5847/5897] Built RGFlow_Work.Audit_GeminiValidation15
+2026-07-12T11:29:20.0058482Z info: ././././RGFlow_Work/Audit_GeminiValidation15.lean:6:0: 'RGFlow.gemini_all_positive' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:20.0068548Z info: ././././RGFlow_Work/Audit_GeminiValidation15.lean:7:0: 'RGFlow.gemini_amplitude_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:23.7028937Z ✔ [5848/5897] Built RGFlow_Work.GeminiValidation11
+2026-07-12T11:29:24.5028893Z ℹ [5849/5897] Built RGFlow_Work.Audit_Basic
+2026-07-12T11:29:24.5068354Z info: ././././RGFlow_Work/Audit_Basic.lean:6:0: 'RGFlow.g0_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:24.5078559Z info: ././././RGFlow_Work/Audit_Basic.lean:7:0: 'RGFlow.gap_lower_bound_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:25.0029096Z ℹ [5850/5897] Built RGFlow_Work.Audit_Theorem12_ContinuumLipschitzInG
+2026-07-12T11:29:25.0078922Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:6:0: 'RGFlow.Ioc_mem_nhdsWithin_Ioi_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:25.0108968Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:7:0: 'RGFlow.continuum_gap_positive_and_lipschitz' depends on axioms: [propext,
+2026-07-12T11:29:25.0138045Z  Classical.choice,
+2026-07-12T11:29:25.0138485Z  Quot.sound,
+2026-07-12T11:29:25.0167888Z  RGFlow.Delta0,
+2026-07-12T11:29:25.0197863Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0208035Z  RGFlow.mass_gap_lipschitz_in_g,
+2026-07-12T11:29:25.0258102Z  RGFlow.mass_gap_lower_bound_continuum,
+2026-07-12T11:29:25.0267943Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:25.0298455Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:8:0: 'RGFlow.continuum_lipschitz_in_g' depends on axioms: [propext,
+2026-07-12T11:29:25.0308038Z  Classical.choice,
+2026-07-12T11:29:25.0338114Z  Quot.sound,
+2026-07-12T11:29:25.0357901Z  RGFlow.Delta0,
+2026-07-12T11:29:25.0367925Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0397811Z  RGFlow.mass_gap_lipschitz_in_g,
+2026-07-12T11:29:25.0417992Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:25.0448448Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:9:0: 'RGFlow.continuum_mass_gap_continuous_in_g' depends on axioms: [propext,
+2026-07-12T11:29:25.0487868Z  Classical.choice,
+2026-07-12T11:29:25.0507870Z  Quot.sound,
+2026-07-12T11:29:25.0517763Z  RGFlow.Delta0,
+2026-07-12T11:29:25.0547749Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0578299Z  RGFlow.mass_gap_lipschitz_in_g,
+2026-07-12T11:29:25.0598023Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:25.0608566Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:10:0: 'RGFlow.continuum_smoother_than_lattice' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:25.0638310Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:11:0: 'RGFlow.lipschitz_bound_eventually' depends on axioms: [propext,
+2026-07-12T11:29:25.0657893Z  Classical.choice,
+2026-07-12T11:29:25.0667753Z  Quot.sound,
+2026-07-12T11:29:25.0688076Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0717890Z  RGFlow.mass_gap_lipschitz_in_g]
+2026-07-12T11:29:25.0748399Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:12:0: 'RGFlow.mass_gap_abs_diff_tendsto' depends on axioms: [propext,
+2026-07-12T11:29:25.0757767Z  Classical.choice,
+2026-07-12T11:29:25.0787787Z  Quot.sound,
+2026-07-12T11:29:25.0807858Z  RGFlow.Delta0,
+2026-07-12T11:29:25.0817761Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0847800Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:25.0868359Z info: ././././RGFlow_Work/Audit_Theorem12_ContinuumLipschitzInG.lean:13:0: 'RGFlow.mass_gap_diff_tendsto' depends on axioms: [propext,
+2026-07-12T11:29:25.0897819Z  Classical.choice,
+2026-07-12T11:29:25.0907834Z  Quot.sound,
+2026-07-12T11:29:25.0937800Z  RGFlow.Delta0,
+2026-07-12T11:29:25.0967735Z  RGFlow.mass_gap,
+2026-07-12T11:29:25.0997816Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:25.4033899Z ℹ [5851/5897] Built RGFlow_Work.Audit_Theorem15_UniversalPhysicalBound
+2026-07-12T11:29:25.4035723Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:6:0: 'RGFlow.complete_characterization' depends on axioms: [propext,
+2026-07-12T11:29:25.4036716Z  Classical.choice,
+2026-07-12T11:29:25.4037152Z  Quot.sound,
+2026-07-12T11:29:25.4037727Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4038136Z  RGFlow.Delta0_at_gmax,
+2026-07-12T11:29:25.4038575Z  RGFlow.Delta0_at_gmin,
+2026-07-12T11:29:25.4039004Z  RGFlow.continuum_lipschitz_in_g,
+2026-07-12T11:29:25.4039500Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4040382Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:7:0: 'RGFlow.extremes_at_endpoints' depends on axioms: [propext,
+2026-07-12T11:29:25.4041265Z  Classical.choice,
+2026-07-12T11:29:25.4041668Z  Quot.sound,
+2026-07-12T11:29:25.4042049Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4042467Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4043383Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:8:0: 'RGFlow.lower_bound_from_monotonicity' depends on axioms: [propext,
+2026-07-12T11:29:25.4044749Z  Classical.choice,
+2026-07-12T11:29:25.4045172Z  Quot.sound,
+2026-07-12T11:29:25.4045560Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4046205Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4047148Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:9:0: 'RGFlow.mass_gap_amplitude' depends on axioms: [propext,
+2026-07-12T11:29:25.4048209Z  Classical.choice,
+2026-07-12T11:29:25.4048614Z  Quot.sound,
+2026-07-12T11:29:25.4049008Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4049473Z  RGFlow.Delta0_at_gmax,
+2026-07-12T11:29:25.4050080Z  RGFlow.Delta0_at_gmin]
+2026-07-12T11:29:25.4050943Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:10:0: 'RGFlow.mass_gap_never_vanishes' depends on axioms: [propext,
+2026-07-12T11:29:25.4052008Z  Classical.choice,
+2026-07-12T11:29:25.4052499Z  Quot.sound,
+2026-07-12T11:29:25.4052898Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4053314Z  RGFlow.Delta0_at_gmax,
+2026-07-12T11:29:25.4053759Z  RGFlow.Delta0_at_gmin,
+2026-07-12T11:29:25.4054196Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4055138Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:11:0: 'RGFlow.mass_gap_strictly_positive_strong' depends on axioms: [propext,
+2026-07-12T11:29:25.4056103Z  Classical.choice,
+2026-07-12T11:29:25.4056506Z  Quot.sound,
+2026-07-12T11:29:25.4056892Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4057297Z  RGFlow.Delta0_at_gmax,
+2026-07-12T11:29:25.4057886Z  RGFlow.Delta0_at_gmin,
+2026-07-12T11:29:25.4058551Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4063920Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:12:0: 'RGFlow.universal_physical_bound' depends on axioms: [propext,
+2026-07-12T11:29:25.4064961Z  Classical.choice,
+2026-07-12T11:29:25.4065389Z  Quot.sound,
+2026-07-12T11:29:25.4065802Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4066213Z  RGFlow.Delta0_at_gmax,
+2026-07-12T11:29:25.4066642Z  RGFlow.Delta0_at_gmin,
+2026-07-12T11:29:25.4067098Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:25.4068227Z info: ././././RGFlow_Work/Audit_Theorem15_UniversalPhysicalBound.lean:13:0: 'RGFlow.upper_bound_from_monotonicity' depends on axioms: [propext,
+2026-07-12T11:29:25.4069283Z  Classical.choice,
+2026-07-12T11:29:25.4087818Z  Quot.sound,
+2026-07-12T11:29:25.4098031Z  RGFlow.Delta0,
+2026-07-12T11:29:25.4128026Z  RGFlow.continuum_monotonic_in_g]
+2026-07-12T11:29:27.6089064Z ✔ [5852/5897] Built RGFlow_Work.GeminiValidation8
+2026-07-12T11:29:28.7063534Z ✔ [5853/5897] Built RGFlow_Work.GeminiValidation9
+2026-07-12T11:29:29.0079087Z ⚠ [5854/5897] Built RGFlow_Work.GeminiValidation14
+2026-07-12T11:29:29.0079945Z warning: ././././RGFlow_Work/GeminiValidation14.lean:113:5: unused variable `hg`
+2026-07-12T11:29:29.0126182Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:29.3063984Z ⚠ [5855/5897] Built RGFlow_Work.GeminiValidation4
+2026-07-12T11:29:29.3098669Z warning: ././././RGFlow_Work/GeminiValidation4.lean:83:5: unused variable `hg1_pos`
+2026-07-12T11:29:29.3108249Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:29.3128262Z warning: ././././RGFlow_Work/GeminiValidation4.lean:84:5: unused variable `hg1_le_g2`
+2026-07-12T11:29:29.3137991Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:29.3168008Z warning: ././././RGFlow_Work/GeminiValidation4.lean:85:5: unused variable `hg2_bound`
+2026-07-12T11:29:29.3188328Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:29.3218110Z warning: ././././RGFlow_Work/GeminiValidation4.lean:107:5: unused variable `ha_pos`
+2026-07-12T11:29:29.3228038Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:29.3258017Z warning: ././././RGFlow_Work/GeminiValidation4.lean:108:5: unused variable `ha_bound`
+2026-07-12T11:29:29.3278290Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:31.6112154Z ⚠ [5856/5897] Built RGFlow_Work.GeminiValidation2
+2026-07-12T11:29:31.6128268Z warning: ././././RGFlow_Work/GeminiValidation2.lean:94:5: unused variable `h_order`
+2026-07-12T11:29:31.6158627Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:31.6188007Z warning: ././././RGFlow_Work/GeminiValidation2.lean:95:5: unused variable `hg`
+2026-07-12T11:29:31.6188906Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:31.6218119Z warning: ././././RGFlow_Work/GeminiValidation2.lean:96:5: unused variable `ha`
+2026-07-12T11:29:31.6219224Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:32.7141442Z ⚠ [5857/5897] Built RGFlow_Work.GeminiValidation6
+2026-07-12T11:29:32.7188390Z warning: ././././RGFlow_Work/GeminiValidation6.lean:98:5: unused variable `hg`
+2026-07-12T11:29:32.7198272Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:32.7228135Z warning: ././././RGFlow_Work/GeminiValidation6.lean:99:5: unused variable `ha1`
+2026-07-12T11:29:32.7229041Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:32.7229877Z warning: ././././RGFlow_Work/GeminiValidation6.lean:100:5: unused variable `ha2`
+2026-07-12T11:29:32.7230682Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.0153981Z ⚠ [5858/5897] Built RGFlow_Work.GeminiValidation5
+2026-07-12T11:29:33.0178663Z warning: ././././RGFlow_Work/GeminiValidation5.lean:97:5: unused variable `hg1`
+2026-07-12T11:29:33.0208402Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.0238081Z warning: ././././RGFlow_Work/GeminiValidation5.lean:98:5: unused variable `hg2`
+2026-07-12T11:29:33.0268091Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.0297937Z warning: ././././RGFlow_Work/GeminiValidation5.lean:99:5: unused variable `ha`
+2026-07-12T11:29:33.0327918Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.3169094Z ⚠ [5859/5897] Built RGFlow_Work.GeminiValidation7
+2026-07-12T11:29:33.3208441Z warning: ././././RGFlow_Work/GeminiValidation7.lean:108:5: unused variable `hg1`
+2026-07-12T11:29:33.3238233Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.3268180Z warning: ././././RGFlow_Work/GeminiValidation7.lean:109:5: unused variable `hg2`
+2026-07-12T11:29:33.3298270Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.3318235Z warning: ././././RGFlow_Work/GeminiValidation7.lean:110:5: unused variable `hlt`
+2026-07-12T11:29:33.3358129Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:33.3388031Z warning: ././././RGFlow_Work/GeminiValidation7.lean:111:5: unused variable `ha`
+2026-07-12T11:29:33.3408165Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:35.9189137Z ⚠ [5860/5897] Built RGFlow_Work.Theorem11_ContinuumMassGapLowerBound
+2026-07-12T11:29:35.9248761Z warning: ././././RGFlow_Work/Theorem11_ContinuumMassGapLowerBound.lean:41:8: `mem_nhdsWithin_Ioi_iff_exists_Ioc_subset` has been deprecated: use `mem_nhdsGT_iff_exists_Ioc_subset` instead
+2026-07-12T11:29:36.6178881Z ⚠ [5861/5897] Built RGFlow_Work.Theorem1_BetaNegativity
+2026-07-12T11:29:36.6208062Z warning: ././././RGFlow_Work/Theorem1_BetaNegativity.lean:103:3: unused variable `hg`
+2026-07-12T11:29:36.6238252Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:36.6268021Z warning: ././././RGFlow_Work/Theorem1_BetaNegativity.lean:104:3: unused variable `ha`
+2026-07-12T11:29:36.6298058Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:36.9189025Z ⚠ [5862/5897] Built RGFlow_Work.GeminiValidation3
+2026-07-12T11:29:36.9209188Z warning: ././././RGFlow_Work/GeminiValidation3.lean:94:5: unused variable `h_order`
+2026-07-12T11:29:36.9258364Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:36.9268713Z warning: ././././RGFlow_Work/GeminiValidation3.lean:95:5: unused variable `hg`
+2026-07-12T11:29:36.9298069Z note: this linter can be disabled with `set_option linter.unusedVariables false`
+2026-07-12T11:29:37.3198871Z ✔ [5863/5897] Built RGFlow_Work.Theorem2_RunningCouplingMonotonicity
+2026-07-12T11:29:40.2272526Z ℹ [5864/5897] Built RGFlow_Work.Audit_GeminiValidation12
+2026-07-12T11:29:40.2288814Z info: ././././RGFlow_Work/Audit_GeminiValidation12.lean:6:0: 'RGFlow.gemini_continuum_smoother_than_lattice' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:42.6349121Z ℹ [5865/5897] Built RGFlow_Work.Audit_GeminiValidation9
+2026-07-12T11:29:42.6378630Z info: ././././RGFlow_Work/Audit_GeminiValidation9.lean:6:0: 'RGFlow.validation9_c2_negative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:42.6408459Z info: ././././RGFlow_Work/Audit_GeminiValidation9.lean:7:0: 'RGFlow.validation9_consistent_thm6' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:42.6438323Z info: ././././RGFlow_Work/Audit_GeminiValidation9.lean:8:0: 'RGFlow.validation9_good_fit' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:42.6468348Z info: ././././RGFlow_Work/Audit_GeminiValidation9.lean:9:0: 'RGFlow.validation9_small_jump' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:42.7329095Z ℹ [5866/5897] Built RGFlow_Work.Audit_Theorem14_RGInvariance
+2026-07-12T11:29:42.7358609Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:6:0: 'RGFlow.continuum_diff_eq_zero' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:42.7388232Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:7:0: 'RGFlow.continuum_limit_well_defined' depends on axioms: [propext,
+2026-07-12T11:29:42.7407763Z  Classical.choice,
+2026-07-12T11:29:42.7447914Z  Quot.sound,
+2026-07-12T11:29:42.7477776Z  RGFlow.Delta0,
+2026-07-12T11:29:42.7487786Z  RGFlow.mass_gap_A,
+2026-07-12T11:29:42.7488205Z  RGFlow.mass_gap_A_tendsto]
+2026-07-12T11:29:42.7508325Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:8:0: 'RGFlow.mass_gap_is_physical_observable' depends on axioms: [propext,
+2026-07-12T11:29:42.7517779Z  Classical.choice,
+2026-07-12T11:29:42.7518112Z  Quot.sound,
+2026-07-12T11:29:42.7518394Z  RGFlow.Delta0,
+2026-07-12T11:29:42.7518693Z  RGFlow.mass_gap_A,
+2026-07-12T11:29:42.7519028Z  RGFlow.mass_gap_A_tendsto,
+2026-07-12T11:29:42.7519386Z  RGFlow.mass_gap_B]
+2026-07-12T11:29:42.7520376Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:9:0: 'RGFlow.rg_invariance' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:42.7521851Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:10:0: 'RGFlow.rg_invariance_strong' depends on axioms: [propext,
+2026-07-12T11:29:42.7522749Z  Classical.choice,
+2026-07-12T11:29:42.7523051Z  Quot.sound,
+2026-07-12T11:29:42.7523347Z  RGFlow.mass_gap_A,
+2026-07-12T11:29:42.7523665Z  RGFlow.mass_gap_B]
+2026-07-12T11:29:42.7524508Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:11:0: 'RGFlow.scheme_diff_tendsto_zero' depends on axioms: [propext,
+2026-07-12T11:29:42.7525317Z  Classical.choice,
+2026-07-12T11:29:42.7525609Z  Quot.sound,
+2026-07-12T11:29:42.7525879Z  RGFlow.Delta0,
+2026-07-12T11:29:42.7526174Z  RGFlow.mass_gap_A,
+2026-07-12T11:29:42.7526488Z  RGFlow.mass_gap_A_tendsto,
+2026-07-12T11:29:42.7526866Z  RGFlow.mass_gap_B,
+2026-07-12T11:29:42.7527183Z  RGFlow.mass_gap_B_tendsto]
+2026-07-12T11:29:42.7528412Z info: ././././RGFlow_Work/Audit_Theorem14_RGInvariance.lean:12:0: 'RGFlow.scheme_diff_within_tolerance' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:43.7369303Z ℹ [5867/5897] Built RGFlow_Work.Audit_Theorem13_ContinuumMonotonicityInG
+2026-07-12T11:29:43.7409101Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:6:0: 'RGFlow.Ioc_mem_nhdsWithin_Ioi_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:43.7438198Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:7:0: 'RGFlow.continuum_complete_picture' depends on axioms: [propext,
+2026-07-12T11:29:43.7467706Z  Classical.choice,
+2026-07-12T11:29:43.7497736Z  Quot.sound,
+2026-07-12T11:29:43.7527748Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7548194Z  RGFlow.continuum_gap_quantitative_separation,
+2026-07-12T11:29:43.7587850Z  RGFlow.mass_gap_lower_bound_continuum]
+2026-07-12T11:29:43.7618218Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:8:0: 'RGFlow.continuum_gap_diff_nonneg' depends on axioms: [propext,
+2026-07-12T11:29:43.7647717Z  Classical.choice,
+2026-07-12T11:29:43.7677759Z  Quot.sound,
+2026-07-12T11:29:43.7707739Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7737706Z  RGFlow.mass_gap,
+2026-07-12T11:29:43.7767720Z  RGFlow.mass_gap_monotonic_in_g,
+2026-07-12T11:29:43.7797717Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:43.7828422Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:9:0: 'RGFlow.continuum_gap_injective' depends on axioms: [propext,
+2026-07-12T11:29:43.7857714Z  Classical.choice,
+2026-07-12T11:29:43.7867990Z  Quot.sound,
+2026-07-12T11:29:43.7897862Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7927870Z  RGFlow.continuum_gap_quantitative_separation]
+2026-07-12T11:29:43.7928950Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:10:0: 'RGFlow.continuum_gap_quantitative_bound' depends on axioms: [propext,
+2026-07-12T11:29:43.7929919Z  Classical.choice,
+2026-07-12T11:29:43.7930236Z  Quot.sound,
+2026-07-12T11:29:43.7930514Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7930865Z  RGFlow.continuum_gap_quantitative_separation]
+2026-07-12T11:29:43.7931870Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:11:0: 'RGFlow.continuum_gap_strictly_decreasing' depends on axioms: [propext,
+2026-07-12T11:29:43.7932873Z  Classical.choice,
+2026-07-12T11:29:43.7933175Z  Quot.sound,
+2026-07-12T11:29:43.7933457Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7933807Z  RGFlow.continuum_gap_quantitative_separation]
+2026-07-12T11:29:43.7934838Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:12:0: 'RGFlow.continuum_monotonic_in_g' depends on axioms: [propext,
+2026-07-12T11:29:43.7935762Z  Classical.choice,
+2026-07-12T11:29:43.7936061Z  Quot.sound,
+2026-07-12T11:29:43.7936347Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7936694Z  RGFlow.continuum_gap_quantitative_separation]
+2026-07-12T11:29:43.7937880Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:13:0: 'RGFlow.gap_diff_tendsto' depends on axioms: [propext,
+2026-07-12T11:29:43.7938753Z  Classical.choice,
+2026-07-12T11:29:43.7939047Z  Quot.sound,
+2026-07-12T11:29:43.7939316Z  RGFlow.Delta0,
+2026-07-12T11:29:43.7939605Z  RGFlow.mass_gap,
+2026-07-12T11:29:43.7939956Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:43.7940898Z info: ././././RGFlow_Work/Audit_Theorem13_ContinuumMonotonicityInG.lean:14:0: 'RGFlow.lattice_gap_diff_eventually_pos' depends on axioms: [propext,
+2026-07-12T11:29:43.7941862Z  Classical.choice,
+2026-07-12T11:29:43.7942160Z  Quot.sound,
+2026-07-12T11:29:43.7942436Z  RGFlow.mass_gap,
+2026-07-12T11:29:43.7942763Z  RGFlow.mass_gap_monotonic_in_g]
+2026-07-12T11:29:44.5376961Z ℹ [5868/5897] Built RGFlow_Work.Audit_GeminiValidation14
+2026-07-12T11:29:44.5408681Z info: ././././RGFlow_Work/Audit_GeminiValidation14.lean:6:0: 'RGFlow.gemini_diff_well_below_target' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:44.5438623Z info: ././././RGFlow_Work/Audit_GeminiValidation14.lean:7:0: 'RGFlow.gemini_scheme_agreement_trivial' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0]
+2026-07-12T11:29:47.1411338Z ℹ [5869/5897] Built RGFlow_Work.Audit_GeminiValidation4
+2026-07-12T11:29:47.1438442Z info: ././././RGFlow_Work/Audit_GeminiValidation4.lean:6:0: 'RGFlow.validation4_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:47.1440767Z info: ././././RGFlow_Work/Audit_GeminiValidation4.lean:7:0: 'RGFlow.validation4_extensive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:47.1442340Z info: ././././RGFlow_Work/Audit_GeminiValidation4.lean:8:0: 'RGFlow.validation4_margin_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:47.2413126Z ℹ [5870/5897] Built RGFlow_Work.Audit_GeminiValidation2
+2026-07-12T11:29:47.2448699Z info: ././././RGFlow_Work/Audit_GeminiValidation2.lean:6:0: 'RGFlow.validation2_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:47.2458588Z info: ././././RGFlow_Work/Audit_GeminiValidation2.lean:7:0: 'RGFlow.validation2_extensive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:47.2478382Z info: ././././RGFlow_Work/Audit_GeminiValidation2.lean:8:0: 'RGFlow.validation2_high_confidence' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:48.8457590Z ℹ [5871/5897] Built RGFlow_Work.Audit_GeminiValidation6
+2026-07-12T11:29:48.8468650Z info: ././././RGFlow_Work/Audit_GeminiValidation6.lean:6:0: 'RGFlow.lipschitz_L_a_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:48.8498482Z info: ././././RGFlow_Work/Audit_GeminiValidation6.lean:7:0: 'RGFlow.validation6_absurd_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:48.8508384Z info: ././././RGFlow_Work/Audit_GeminiValidation6.lean:8:0: 'RGFlow.validation6_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:48.8538376Z info: ././././RGFlow_Work/Audit_GeminiValidation6.lean:9:0: 'RGFlow.validation6_extensive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:48.8558268Z info: ././././RGFlow_Work/Audit_GeminiValidation6.lean:10:0: 'RGFlow.validation6_massive_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:49.6458903Z ℹ [5872/5897] Built RGFlow_Work.Audit_GeminiValidation5
+2026-07-12T11:29:49.6488577Z info: ././././RGFlow_Work/Audit_GeminiValidation5.lean:6:0: 'RGFlow.lipschitz_L_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:49.6518441Z info: ././././RGFlow_Work/Audit_GeminiValidation5.lean:7:0: 'RGFlow.validation5_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:49.6538442Z info: ././././RGFlow_Work/Audit_GeminiValidation5.lean:8:0: 'RGFlow.validation5_extensive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:49.6540043Z info: ././././RGFlow_Work/Audit_GeminiValidation5.lean:9:0: 'RGFlow.validation5_smooth_avg' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:49.6541538Z info: ././././RGFlow_Work/Audit_GeminiValidation5.lean:10:0: 'RGFlow.validation5_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:52.0510136Z ℹ [5873/5897] Built RGFlow_Work.Audit_GeminiValidation7
+2026-07-12T11:29:52.0528519Z info: ././././RGFlow_Work/Audit_GeminiValidation7.lean:6:0: 'RGFlow.C_mono_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:52.0558384Z info: ././././RGFlow_Work/Audit_GeminiValidation7.lean:7:0: 'RGFlow.validation7_complete' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:52.0568661Z info: ././././RGFlow_Work/Audit_GeminiValidation7.lean:8:0: 'RGFlow.validation7_extensive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:52.0588318Z info: ././././RGFlow_Work/Audit_GeminiValidation7.lean:9:0: 'RGFlow.validation7_safe' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:53.0529208Z ℹ [5874/5897] Built RGFlow_Work.Audit_Theorem11_ContinuumMassGapLowerBound
+2026-07-12T11:29:53.0568720Z info: ././././RGFlow_Work/Audit_Theorem11_ContinuumMassGapLowerBound.lean:6:0: 'RGFlow.Ioc_mem_nhdsWithin_Ioi_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:29:53.0591045Z info: ././././RGFlow_Work/Audit_Theorem11_ContinuumMassGapLowerBound.lean:7:0: 'RGFlow.continuum_mass_gap_lower_bound' depends on axioms: [propext,
+2026-07-12T11:29:53.0627774Z  Classical.choice,
+2026-07-12T11:29:53.0657858Z  Quot.sound,
+2026-07-12T11:29:53.0687730Z  RGFlow.Delta0,
+2026-07-12T11:29:53.0717744Z  RGFlow.mass_gap,
+2026-07-12T11:29:53.0738220Z  RGFlow.mass_gap_lower_bound,
+2026-07-12T11:29:53.0808027Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:53.0838434Z info: ././././RGFlow_Work/Audit_Theorem11_ContinuumMassGapLowerBound.lean:8:0: 'RGFlow.continuum_mass_gap_ne_zero' depends on axioms: [propext,
+2026-07-12T11:29:53.0867757Z  Classical.choice,
+2026-07-12T11:29:53.0887929Z  Quot.sound,
+2026-07-12T11:29:53.0897746Z  RGFlow.Delta0,
+2026-07-12T11:29:53.0928213Z  RGFlow.mass_gap,
+2026-07-12T11:29:53.0952660Z  RGFlow.mass_gap_lower_bound,
+2026-07-12T11:29:53.0957798Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:53.0978694Z info: ././././RGFlow_Work/Audit_Theorem11_ContinuumMassGapLowerBound.lean:9:0: 'RGFlow.continuum_mass_gap_positive' depends on axioms: [propext,
+2026-07-12T11:29:53.1017788Z  Classical.choice,
+2026-07-12T11:29:53.1037772Z  Quot.sound,
+2026-07-12T11:29:53.1077779Z  RGFlow.Delta0,
+2026-07-12T11:29:53.1097795Z  RGFlow.mass_gap,
+2026-07-12T11:29:53.1137810Z  RGFlow.mass_gap_lower_bound,
+2026-07-12T11:29:53.1167816Z  RGFlow.mass_gap_tendsto_continuum]
+2026-07-12T11:29:53.1188419Z info: ././././RGFlow_Work/Audit_Theorem11_ContinuumMassGapLowerBound.lean:10:0: 'RGFlow.mass_gap_eventually_ge_bound' depends on axioms: [propext,
+2026-07-12T11:29:53.1189436Z  Classical.choice,
+2026-07-12T11:29:53.1189750Z  Quot.sound,
+2026-07-12T11:29:53.1190042Z  RGFlow.mass_gap,
+2026-07-12T11:29:53.1190373Z  RGFlow.mass_gap_lower_bound]
+2026-07-12T11:29:53.1191233Z ✔ [5875/5897] Built RGFlow_Work.Theorem9_AsymptoticExpansion
+2026-07-12T11:29:53.6548755Z ✔ [5876/5897] Built RGFlow_Work.GeminiValidation10
+2026-07-12T11:29:56.1589060Z ✔ [5877/5897] Built RGFlow_Work.Theorem4_MassGapPersistence
+2026-07-12T11:29:56.9630715Z ✔ [5878/5897] Built RGFlow_Work.Theorem2_Monotonicity
+2026-07-12T11:29:57.1638950Z ✔ [5879/5897] Built RGFlow_Work.Theorem5_LipschitzContinuity
+2026-07-12T11:29:58.3669104Z ✔ [5880/5897] Built RGFlow_Work.Theorem8_JointLipschitz
+2026-07-12T11:30:00.3678980Z ✔ [5881/5897] Built RGFlow_Work.Theorem7_QuantitativeMonotonicity
+2026-07-12T11:30:01.1715674Z ℹ [5882/5897] Built RGFlow_Work.Audit_Theorem1_BetaNegativity
+2026-07-12T11:30:01.1738747Z info: ././././RGFlow_Work/Audit_Theorem1_BetaNegativity.lean:6:0: 'RGFlow.beta_negativity' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.beta]
+2026-07-12T11:30:01.1768240Z ✔ [5883/5897] Built RGFlow_Work.Theorem6_LipschitzContinuityInA
+2026-07-12T11:30:03.7754350Z ℹ [5884/5897] Built RGFlow_Work.Audit_Theorem2_RunningCouplingMonotonicity
+2026-07-12T11:30:03.7779011Z info: ././././RGFlow_Work/Audit_Theorem2_RunningCouplingMonotonicity.lean:6:0: 'RGFlow.coupling_bounded_above' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.initial_condition]
+2026-07-12T11:30:03.7808745Z info: ././././RGFlow_Work/Audit_Theorem2_RunningCouplingMonotonicity.lean:7:0: 'RGFlow.coupling_decreases' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.initial_condition]
+2026-07-12T11:30:03.7838688Z info: ././././RGFlow_Work/Audit_Theorem2_RunningCouplingMonotonicity.lean:8:0: 'RGFlow.running_coupling_monotonicity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:04.2760194Z ✔ [5885/5897] Built RGFlow_Work.Theorem3_BoundPreservation
+2026-07-12T11:30:05.7793025Z ℹ [5886/5897] Built RGFlow_Work.Audit_GeminiValidation10
+2026-07-12T11:30:05.7818846Z info: ././././RGFlow_Work/Audit_GeminiValidation10.lean:6:0: 'RGFlow.validation10_perfect_fit' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:05.7848584Z info: ././././RGFlow_Work/Audit_GeminiValidation10.lean:7:0: 'RGFlow.validation10_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:06.5858822Z ℹ [5887/5897] Built RGFlow_Work.Audit_Theorem9_AsymptoticExpansion
+2026-07-12T11:30:06.5888884Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:6:0: 'RGFlow.asymptotic_consistent_with_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:06.5918364Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:7:0: 'RGFlow.c2_is_negative' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.c2_negative_axiom]
+2026-07-12T11:30:06.5940725Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:8:0: 'RGFlow.continuum_gap_positive' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.Delta0_positive_axiom]
+2026-07-12T11:30:06.5968373Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:9:0: 'RGFlow.continuum_limit_from_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:06.5969800Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:10:0: 'RGFlow.mass_gap_asymptotic_in_a' depends on axioms: [propext,
+2026-07-12T11:30:06.6027779Z  Classical.choice,
+2026-07-12T11:30:06.6028119Z  Quot.sound,
+2026-07-12T11:30:06.6087768Z  RGFlow.expansion_form,
+2026-07-12T11:30:06.6088090Z  RGFlow.mass_gap]
+2026-07-12T11:30:06.6148379Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:11:0: 'RGFlow.theorem9_c2_negative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:06.6149820Z info: ././././RGFlow_Work/Audit_Theorem9_AsymptoticExpansion.lean:12:0: 'RGFlow.theorem9_good_fit' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:07.7863903Z ✔ [5888/5897] Built RGFlow_Work.Theorem10_ContinuumLimitExistence
+2026-07-12T11:30:10.1888988Z ℹ [5889/5897] Built RGFlow_Work.Audit_Theorem4_MassGapPersistence
+2026-07-12T11:30:10.1918547Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:6:0: 'RGFlow.gap_never_vanishes' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:10.1938964Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:7:0: 'RGFlow.mass_gap_monotone_in_g' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:10.1948486Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:8:0: 'RGFlow.mass_gap_persistence' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:10.1978574Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:9:0: 'RGFlow.mass_gap_strictly_positive' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:10.1998623Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:10:0: 'RGFlow.mass_gap_uniform_bound_at_g0' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:10.2028501Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:11:0: 'RGFlow.theorem4_has_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:10.2038537Z info: ././././RGFlow_Work/Audit_Theorem4_MassGapPersistence.lean:12:0: 'RGFlow.theorem4_validated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:11.4928879Z ℹ [5890/5897] Built RGFlow_Work.Audit_Theorem2_Monotonicity
+2026-07-12T11:30:11.4930058Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:6:0: 'RGFlow.coupling_decreases_from_reference' depends on axioms: [propext,
+2026-07-12T11:30:11.4958117Z  Classical.choice,
+2026-07-12T11:30:11.4968225Z  Quot.sound,
+2026-07-12T11:30:11.5017819Z  RGFlow.coupling_decrease_from_ref]
+2026-07-12T11:30:11.5028464Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:7:0: 'RGFlow.monotonicity_from_beta_negativity_concept' does not depend on any axioms
+2026-07-12T11:30:11.5058396Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:8:0: 'RGFlow.no_constant_regions' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:11.5060631Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:9:0: 'RGFlow.running_coupling_monotonicity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:11.5062600Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:10:0: 'RGFlow.theorem2_extensive_tests' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:11.5064241Z info: ././././RGFlow_Work/Audit_Theorem2_Monotonicity.lean:11:0: 'RGFlow.theorem2_validated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:11.9930766Z ℹ [5891/5897] Built RGFlow_Work.Audit_Theorem5_LipschitzContinuity
+2026-07-12T11:30:11.9958686Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:6:0: 'RGFlow.gap_bounded_across_region' depends on axioms: [propext,
+2026-07-12T11:30:11.9987935Z  Classical.choice,
+2026-07-12T11:30:12.0008084Z  Quot.sound,
+2026-07-12T11:30:12.0018390Z  RGFlow.gap_bounded_aux,
+2026-07-12T11:30:12.0047924Z  RGFlow.mass_gap]
+2026-07-12T11:30:12.0078391Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:7:0: 'RGFlow.mass_gap_continuous' depends on axioms: [propext,
+2026-07-12T11:30:12.0079388Z  Classical.choice,
+2026-07-12T11:30:12.0107844Z  Quot.sound,
+2026-07-12T11:30:12.0108210Z  RGFlow.continuity_from_lipschitz,
+2026-07-12T11:30:12.0108635Z  RGFlow.mass_gap]
+2026-07-12T11:30:12.0109669Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:8:0: 'RGFlow.mass_gap_domesticated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:12.0111592Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:9:0: 'RGFlow.mass_gap_lipschitz_continuous' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:12.0113469Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:10:0: 'RGFlow.theorem5_smooth' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:12.0115154Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:11:0: 'RGFlow.theorem5_tight' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:12.0116902Z info: ././././RGFlow_Work/Audit_Theorem5_LipschitzContinuity.lean:12:0: 'RGFlow.theorem5_validated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:12.0118638Z ℹ [5892/5897] Built RGFlow_Work.Audit_Theorem8_JointLipschitz
+2026-07-12T11:30:12.0138729Z info: ././././RGFlow_Work/Audit_Theorem8_JointLipschitz.lean:6:0: 'RGFlow.mass_gap_joint_lipschitz_L1' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:15.0987098Z ℹ [5893/5897] Built RGFlow_Work.Audit_Theorem7_QuantitativeMonotonicity
+2026-07-12T11:30:15.0988567Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:6:0: 'RGFlow.gap_change_full_range' depends on axioms: [propext,
+2026-07-12T11:30:15.0989682Z  Classical.choice,
+2026-07-12T11:30:15.0990086Z  Quot.sound,
+2026-07-12T11:30:15.0990481Z  RGFlow.gap_change_full_range_aux,
+2026-07-12T11:30:15.0991038Z  RGFlow.mass_gap]
+2026-07-12T11:30:15.0995546Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:7:0: 'RGFlow.mass_gap_quantitative_monotonicity' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:15.0998029Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:8:0: 'RGFlow.mass_gap_two_sided_bound' depends on axioms: [propext,
+2026-07-12T11:30:15.0999157Z  Classical.choice,
+2026-07-12T11:30:15.0999583Z  Quot.sound,
+2026-07-12T11:30:15.0999992Z  RGFlow.mass_gap,
+2026-07-12T11:30:15.1000442Z  RGFlow.two_sided_upper_bound]
+2026-07-12T11:30:15.1001739Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:9:0: 'RGFlow.no_plateaus' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap, RGFlow.no_plateaus_aux]
+2026-07-12T11:30:15.1003712Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:10:0: 'RGFlow.theorem7_safe' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:15.1005965Z info: ././././RGFlow_Work/Audit_Theorem7_QuantitativeMonotonicity.lean:11:0: 'RGFlow.theorem7_validated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:16.3999754Z ℹ [5894/5897] Built RGFlow_Work.Audit_Theorem6_LipschitzContinuityInA
+2026-07-12T11:30:16.4001256Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:6:0: 'RGFlow.continuum_limit_exists' depends on axioms: [propext,
+2026-07-12T11:30:16.4002378Z  Classical.choice,
+2026-07-12T11:30:16.4002956Z  Quot.sound,
+2026-07-12T11:30:16.4003355Z  RGFlow.continuum_limit_exists_aux]
+2026-07-12T11:30:16.4004327Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:7:0: 'RGFlow.gap_stable_under_refinement' depends on axioms: [propext,
+2026-07-12T11:30:16.4005290Z  Classical.choice,
+2026-07-12T11:30:16.4005596Z  Quot.sound,
+2026-07-12T11:30:16.4005900Z  RGFlow.gap_stable_aux,
+2026-07-12T11:30:16.4006256Z  RGFlow.mass_gap]
+2026-07-12T11:30:16.4011684Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:8:0: 'RGFlow.mass_gap_jointly_lipschitz' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:16.4013673Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:9:0: 'RGFlow.mass_gap_lipschitz_in_a' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:16.4015468Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:10:0: 'RGFlow.theorem6_12x_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:16.4017166Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:11:0: 'RGFlow.theorem6_bunker_nuclear' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:16.4019022Z info: ././././RGFlow_Work/Audit_Theorem6_LipschitzContinuityInA.lean:12:0: 'RGFlow.theorem6_validated' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.0005163Z ℹ [5895/5897] Built RGFlow_Work.Audit_Theorem10_ContinuumLimitExistence
+2026-07-12T11:30:17.0006543Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:6:0: 'RGFlow.continuum_gap_well_defined' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.0008604Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:7:0: 'RGFlow.continuum_limit_exists_thm10' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:17.0010492Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:8:0: 'RGFlow.continuum_limit_is_Delta0' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.mass_gap]
+2026-07-12T11:30:17.0012083Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:9:0: 'RGFlow.continuum_limit_unique' depends on axioms: [propext,
+2026-07-12T11:30:17.0012943Z  Classical.choice,
+2026-07-12T11:30:17.0013235Z  Quot.sound,
+2026-07-12T11:30:17.0013527Z  RGFlow.limit_unique_aux,
+2026-07-12T11:30:17.0013865Z  RGFlow.mass_gap]
+2026-07-12T11:30:17.0014773Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:10:0: 'RGFlow.phase3_foundation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.0016381Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:11:0: 'RGFlow.theorem10_perfect' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.0018203Z info: ././././RGFlow_Work/Audit_Theorem10_ContinuumLimitExistence.lean:12:0: 'RGFlow.theorem10_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.4009718Z ℹ [5896/5897] Built RGFlow_Work.Audit_Theorem3_BoundPreservation
+2026-07-12T11:30:17.4010901Z info: ././././RGFlow_Work/Audit_Theorem3_BoundPreservation.lean:6:0: 'RGFlow.bound_from_monotonicity_concept' does not depend on any axioms
+2026-07-12T11:30:17.4012480Z info: ././././RGFlow_Work/Audit_Theorem3_BoundPreservation.lean:7:0: 'RGFlow.bound_preservation' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.4014508Z info: ././././RGFlow_Work/Audit_Theorem3_BoundPreservation.lean:8:0: 'RGFlow.coupling_stays_bounded' depends on axioms: [propext,
+2026-07-12T11:30:17.4015398Z  Classical.choice,
+2026-07-12T11:30:17.4015909Z  Quot.sound,
+2026-07-12T11:30:17.4016226Z  RGFlow.coupling_stays_bounded_aux]
+2026-07-12T11:30:17.4017631Z info: ././././RGFlow_Work/Audit_Theorem3_BoundPreservation.lean:9:0: 'RGFlow.no_landau_pole' depends on axioms: [propext, Classical.choice, Quot.sound, RGFlow.coupling_stays_bounded_aux]
+2026-07-12T11:30:17.4019416Z info: ././././RGFlow_Work/Audit_Theorem3_BoundPreservation.lean:10:0: 'RGFlow.theorem3_fast' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-07-12T11:30:17.4071786Z Build completed successfully.
+2026-07-12T11:30:17.4272336Z ##[group]Run echo "Build OK. Axiom inventory:"
+2026-07-12T11:30:17.4272706Z [36;1mecho "Build OK. Axiom inventory:"[0m
+2026-07-12T11:30:17.4273087Z [36;1mgrep -rn "^axiom\|^\s*axiom" RGFlow_Work --include="*.lean" | wc -l[0m
+2026-07-12T11:30:17.4308125Z shell: /usr/bin/bash -e {0}
+2026-07-12T11:30:17.4308381Z ##[endgroup]
+2026-07-12T11:30:17.4362653Z Build OK. Axiom inventory:
+2026-07-12T11:30:17.4443719Z 66
+2026-07-12T11:30:17.4548023Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-12T11:30:17.4549524Z Post job cleanup.
+2026-07-12T11:30:17.5391311Z [command]/usr/bin/git version
+2026-07-12T11:30:17.5433605Z git version 2.54.0
+2026-07-12T11:30:17.5503169Z Temporarily overriding HOME='/home/runner/work/_temp/83b7093c-c114-482e-97f2-ed43ca5b4ae8' before making global git config changes
+2026-07-12T11:30:17.5504757Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-12T11:30:17.5508960Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/yang-mills-mass-gap/yang-mills-mass-gap
+2026-07-12T11:30:17.5548541Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-12T11:30:17.5593611Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-12T11:30:17.5855490Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-12T11:30:17.5885104Z http.https://github.com/.extraheader
+2026-07-12T11:30:17.5895527Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-07-12T11:30:17.5932256Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-12T11:30:17.6209656Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-12T11:30:17.6248107Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-12T11:30:17.6683559Z Cleaning up orphan processes
+2026-07-12T11:30:17.6973982Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
