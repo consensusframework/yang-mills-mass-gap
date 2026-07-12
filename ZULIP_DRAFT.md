@@ -65,7 +65,15 @@ axiom-free and CI-checked (GitHub Actions, `lake build`):
   axioms or abstract Haar-invariance assumptions remain — only the
   explicit structural conditions (finite periodic lattice, nonempty
   path, no repeated links); a presentation corollary states the closed
-  (Wilson-loop) case with `IsClosed` in the signature.
+  (Wilson-loop) case with `IsClosed` in the signature;
+- finite-volume continuity from β = 0:
+  |⟨f⟩_β − ⟨f⟩₀| ≤ 2CBβ·exp(βB) for β ≥ 0, with a local-linear window
+  corollary;
+- linear response at β = 0: d/dβ ⟨f⟩_β|₀ = −Cov₀(f, S), proved via
+  dominated differentiation under the integral. Both are finite-volume
+  results; the constants are not uniform in the lattice size; these are
+  preparatory perturbative statements, not a completed cluster expansion
+  or thermodynamic-limit result.
 
 Repo: https://github.com/consensusframework/yang-mills-mass-gap
 (Phase3/LatticeGauge; the repo's Phases 1-2 are historical conditional
@@ -79,9 +87,11 @@ Questions:
    of course rebase against master for any PR.)
 2. Any advice on the long-term target — strong-coupling cluster
    expansion / Osterwalder–Seiler mass gap for lattice Yang-Mills?
-   With the β = 0 sector of the finite periodic lattice model developed
-   here characterized exactly and HasLatticeMassGap formally stated,
-   the next climb is β > 0 perturbation of the product state. We know
+   With the β = 0 sector characterized exactly, HasLatticeMassGap
+   formally stated, and the first finite-volume β > 0 statements in
+   place (continuity bound and linear response), the next challenge is
+   passing from local response at β = 0 to strong-coupling estimates
+   uniform enough for a cluster expansion and volume limits. We know
    this is a multi-year, community-scale effort; we're looking for
    guidance and collaborators, not making claims.
 3. We are also mid-way through a structural audit (stable artifact:

@@ -22,16 +22,21 @@ docs/audit/AUDIT_ZERO_V2_SUMMARY.md).
 ## Build status
 
 As of July 11, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
-(LatticeGauge) contains 16 verified stones — ~68 axiom-free theorems**:
+(LatticeGauge) contains 18 verified stones — ~78 axiom-free theorems**:
 lattice, Wilson action, gauge and translation invariance, Gibbs measure,
 Wilson loops, expectation values, Haar measure instantiated on U(n) with
 right- AND inversion-invariance proved by uniqueness, the formal statement
 of the lattice mass gap (open target, stated not proved), finite-link
 independence (any injective family of links is jointly Haar), the
-FRESH-LINK THEOREM (Haar-distributed holonomies), and the exact β = 0
+FRESH-LINK THEOREM (Haar-distributed holonomies), the exact β = 0
 expectation formula for Wilson-path observables — unconditional on U(n)
 up to the explicit structural hypotheses (nonempty path, no repeated
-links). A structural audit is under way. The current live tree contains 922
+links) — and the first two β > 0 results: the finite-volume continuity
+bound from β = 0 (|⟨f⟩_β − ⟨f⟩₀| ≤ 2CBβ·exp(βB)) and the linear-response
+identity (d/dβ ⟨f⟩_β|₀ = −Cov₀(f, S)). These are finite-volume results;
+the constants are not uniform in the lattice size; they are preparatory
+perturbative statements, not a completed cluster expansion or
+thermodynamic-limit result. A structural audit is under way. The current live tree contains 922
 inventoried declarations, including 99 CORE; approximately 503 additional
 declarations were moved intact into the historical archive during the
 first audit pass. Stable artifacts are available under docs/audit/. First successful builds: July 5, 2026. The original
@@ -95,8 +100,8 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-16 execution, structural census (Anthropic)
-- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15 (single-link marginal, n-link independence, fresh-link theorem); epistemic veto of a false factorization; documentation reviews (OpenAI)
+- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-18 execution, structural census, kernel X-ray instrumentation (Anthropic)
+- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17, 18 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response); epistemic veto of a false factorization; audit methodology and documentation reviews (OpenAI)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — historical draft generation (Google); former "numerical validation" claims RETRACTED and not treated as evidence

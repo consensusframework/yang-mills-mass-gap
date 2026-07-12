@@ -12,3 +12,8 @@
       retratação; NÃO discutir por quem está certo — só por artefato.
 [ ] 8. Backup pós-post (git clone --mirror) e revogar o token do dia.
 [ ] 9. Registrar os melhores feedbacks em Issues/NEXT_STONES.
+[ ] 10. Conferir README/ZULIP/VERIFICATION_STATUS/CLAIMS_MATRIX entre si
+       (mesmos números: 18 pedras, ~78, 60/126).
+[ ] 11. Tag imutável do estado apresentado, criada SÓ após CI verde.
+[ ] 12. Registrar SHA da tag e URL do run público no post/release notes.
+[ ] 13. Confirmar Issues #3-#9 publicamente visíveis.
