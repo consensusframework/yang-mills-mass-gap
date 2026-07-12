@@ -21,19 +21,30 @@ docs/audit/AUDIT_ZERO_V2_SUMMARY.md).
 
 ## Build status
 
-As of July 11, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
-(LatticeGauge) contains 18 verified stones — ~78 axiom-free theorems**:
+As of July 12, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
+(LatticeGauge) contains 29 verified stones — ~151 axiom-free theorems**:
 lattice, Wilson action, gauge and translation invariance, Gibbs measure,
 Wilson loops, expectation values, Haar measure instantiated on U(n) with
 right- AND inversion-invariance proved by uniqueness, the formal statement
 of the lattice mass gap (open target, stated not proved), finite-link
-independence (any injective family of links is jointly Haar), the
-FRESH-LINK THEOREM (Haar-distributed holonomies), the exact β = 0
-expectation formula for Wilson-path observables — unconditional on U(n)
-up to the explicit structural hypotheses (nonempty path, no repeated
-links) — and the first two β > 0 results: the finite-volume continuity
-bound from β = 0 (|⟨f⟩_β − ⟨f⟩₀| ≤ 2CBβ·exp(βB)) and the linear-response
-identity (d/dβ ⟨f⟩_β|₀ = −Cov₀(f, S)). These are finite-volume results;
+independence, the FRESH-LINK THEOREM (Haar-distributed holonomies), and
+the exact β = 0 expectation formula for Wilson-path observables —
+unconditional on U(n) up to explicit structural hypotheses. The local
+analysis package at β = 0 is complete: continuity
+(|⟨f⟩_β − ⟨f⟩₀| ≤ 2CBβ·exp(βB)), linear response
+(d/dβ ⟨f⟩_β|₀ = −Cov₀(f, S)) and the first-order Taylor remainder
+(≤ 4CB²β²·exp(βB) for βB ≤ 1). Response identities hold at EVERY
+β₀ ≥ 0: fluctuation–response (d/dβ ⟨f⟩_β = −Cov_β(f, S)), the
+second-response/third-cumulant pair (no formal iteratedDeriv wrapper is
+claimed), Wilson-observable specializations, the log-partition response
+(d/dβ log Z_β = −⟨S⟩_β; log partition function, not "free energy"), and
+Gibbs-variance positivity (d/dβ[−⟨S⟩_β] = Var_β(S) ≥ 0 — pointwise sign,
+no convexity wrapper claimed). The independence structure of the β = 0
+product state is characterized: exact factorization of link-disjoint
+Wilson observables (binary, finite families, one-vs-block vanishing of
+the third connected cumulant — order 3 only), and, at the measure level,
+official Mathlib IndepFun/iIndepFun independence with the joint law of a
+pair equal to the product of its marginals. These are finite-volume results;
 the constants are not uniform in the lattice size; they are preparatory
 perturbative statements, not a completed cluster expansion or
 thermodynamic-limit result. A structural audit is under way. The current live tree contains 922
@@ -51,7 +62,7 @@ not yet have a working Lake project and is not covered by CI.
 | `axiom` declarations | 293  |
 | Theorems/lemmas (live tree) | see census above |
 | Theorems unconditional, LEGACY Phases 1-2 | ~0 substantive — elementary real-analysis facts |
-| Theorems unconditional, Phase 3 (2026-07) | ~68, incl. fresh-link holonomy law and exact β=0 Wilson formula on U(n) |
+| Theorems unconditional, Phase 3 (2026-07) | ~151 (see Build status; census artifacts in docs/audit/) |
 | `sorry` in code | present in 21 files across |
 | Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
 | Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
@@ -100,8 +111,8 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-18 execution, structural census, kernel X-ray instrumentation (Anthropic)
-- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17, 18 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response); epistemic veto of a false factorization; audit methodology and documentation reviews (OpenAI)
+- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-29 execution, structural census, kernel X-ray instrumentation (Anthropic)
+- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17-29 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response, Taylor remainder, fluctuation-response, second response, Wilson responses, log-partition response, Gibbs variance, disjoint-support factorizations, third connected cumulant, measure-level independence and mutual independence); epistemic veto of a false factorization; naming discipline (log partition, not free energy; response identities, not curvature; order-3 cumulant only); audit methodology and documentation reviews (OpenAI)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — historical draft generation (Google); former "numerical validation" claims RETRACTED and not treated as evidence
