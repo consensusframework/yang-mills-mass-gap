@@ -45,16 +45,15 @@ theorem abs_gibbsWeight_sub_one_add_le [NeZero N] [Fintype (Site N)]
   have hx : |(-(β * wilsonAction χ U))| ≤ 1 := by
     rw [abs_neg, abs_of_nonneg hβS]
     linarith
-  have h := abs_exp_sub_one_sub_id_le hx
+  have h := Real.abs_exp_sub_one_sub_id_le hx
   have heq : gibbsWeight β χ U - 1 + β * wilsonAction χ U
       = Real.exp (-(β * wilsonAction χ U)) - 1 - (-(β * wilsonAction χ U)) := by
     unfold gibbsWeight
     ring_nf
   rw [heq]
   calc |Real.exp (-(β * wilsonAction χ U)) - 1 - (-(β * wilsonAction χ U))|
-      ≤ |(-(β * wilsonAction χ U))| ^ 2 := h
-    _ = (β * wilsonAction χ U) ^ 2 := by
-        rw [abs_neg, abs_of_nonneg hβS]
+      ≤ (-(β * wilsonAction χ U)) ^ 2 := h
+    _ = (β * wilsonAction χ U) ^ 2 := by ring
     _ ≤ (β * B) ^ 2 := by
         exact pow_le_pow_left hβS hβSβB 2
     _ = β ^ 2 * B ^ 2 := by ring
@@ -106,12 +105,15 @@ theorem abs_integral_secondOrder [NeZero N] [Fintype (Site N)]
       = ∫ U : Config N G,
           g U * (gibbsWeight β χ U - 1 + β * wilsonAction χ U)
           ∂(configMeasure μm N) := by
-    rw [← integral_sub hgwint hgint, ← integral_mul_left β,
-      ← integral_add (hgwint.sub hgint) (hgSint.const_mul β)]
-    refine integral_congr_ae (Filter.Eventually.of_forall fun U => ?_)
-    show g U * gibbsWeight β χ U - g U + β * (g U * wilsonAction χ U)
-        = g U * (gibbsWeight β χ U - 1 + β * wilsonAction χ U)
-    ring
+    have hpt : (fun U : Config N G =>
+        g U * (gibbsWeight β χ U - 1 + β * wilsonAction χ U))
+        = fun U => (g U * gibbsWeight β χ U - g U)
+            + β * (g U * wilsonAction χ U) := by
+      funext U
+      ring
+    conv_rhs => rw [hpt]
+    rw [integral_add (hgwint.sub hgint) (hgSint.const_mul β),
+      integral_sub hgwint hgint, integral_mul_left]
   rw [hcomb]
   have hRint : Integrable
       (fun U : Config N G =>
