@@ -53,11 +53,9 @@ theorem wilsonPath_dependsOnlyOn_pathLinkSet [NeZero N]
     DependsOnlyOn (fun U : Config N G => wilsonLoop χ U x p)
       (pathLinkSet x p) := by
   intro U V hUV
-  unfold wilsonLoop
-  congr 1
-  apply holonomy_congr_on_pathLinks p x U V
-  intro ℓ hℓ
-  exact hUV ℓ (by simpa [pathLinkSet] using hℓ)
+  show χ (holonomy U x p) = χ (holonomy V x p)
+  exact congrArg χ (holonomy_congr_on_pathLinks p x U V
+    fun ℓ hℓ => hUV ℓ (by simpa [pathLinkSet] using hℓ))
 
 section Measure
 
@@ -88,8 +86,9 @@ theorem gibbsExpectation_mul_wilsonPaths_zero_of_disjoint
   have hs₂c : pathLinkSet (N := N) x₂ p₂
       ⊆ (pathLinkSet (N := N) x₁ p₁)ᶜ := by
     intro ℓ hℓ₂
-    exact Set.mem_compl_iff.mpr fun hℓ₁ =>
-      Set.disjoint_left.1 hdisj hℓ₁ hℓ₂
+    simp only [Set.mem_compl_iff]
+    intro hℓ₁
+    exact Set.disjoint_left.1 hdisj hℓ₁ hℓ₂
   have hW₂c : DependsOnlyOn
       (fun U : Config N G => wilsonLoop χ U x₂ p₂)
       (pathLinkSet (N := N) x₁ p₁)ᶜ :=
@@ -121,8 +120,9 @@ theorem truncatedCorrelation_wilsonPaths_zero_of_disjoint
   have hs₂c : pathLinkSet (N := N) x₂ p₂
       ⊆ (pathLinkSet (N := N) x₁ p₁)ᶜ := by
     intro ℓ hℓ₂
-    exact Set.mem_compl_iff.mpr fun hℓ₁ =>
-      Set.disjoint_left.1 hdisj hℓ₁ hℓ₂
+    simp only [Set.mem_compl_iff]
+    intro hℓ₁
+    exact Set.disjoint_left.1 hdisj hℓ₁ hℓ₂
   have hW₂c : DependsOnlyOn
       (fun U : Config N G => wilsonLoop χ U x₂ p₂)
       (pathLinkSet (N := N) x₁ p₁)ᶜ :=
