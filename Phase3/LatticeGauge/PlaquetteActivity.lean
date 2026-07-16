@@ -167,11 +167,13 @@ theorem realZ_eq_sum_integral_prod_activity [NeZero N]
       Integrable (fun U : Config N G =>
         ∏ p ∈ A, plaquetteActivity β χ U p) (configMeasure μm N) := by
     intro A _
-    refine (integrable_const ((2 * β) ^ A.card)).mono'
-      ((measurable_finsetProd A
+    have hmeas : Measurable (fun U : Config N G =>
+        ∏ p ∈ A, plaquetteActivity β χ U p) :=
+      measurable_finsetProd A
         (fun p U => plaquetteActivity β χ U p)
-        (fun p _ => measurable_plaquetteActivity β mχ p))
-          .aestronglyMeasurable) ?_
+        (fun p _ => measurable_plaquetteActivity β mχ p)
+    refine (integrable_const ((2 * β) ^ A.card)).mono'
+      hmeas.aestronglyMeasurable ?_
     filter_upwards with U
     rw [Real.norm_eq_abs]
     exact hprodbound A U
