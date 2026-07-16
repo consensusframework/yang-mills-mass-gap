@@ -231,7 +231,7 @@ theorem gibbsExpectation_prod_activity_eq_prod_component [NeZero N]
     (fun C U => blockActivity β χ C U)
     blockLinkSupport
     (fun C _ => blockActivity_dependsOnlyOn β χ C)
-    (fun C _ => measurable_blockActivity μm β mχ C)
+    (fun C _ => measurable_blockActivity β mχ C)
     (fun C hC D hD hne =>
       componentFamily_blockLinkSupport_disjoint hA hC hD hne)
 
