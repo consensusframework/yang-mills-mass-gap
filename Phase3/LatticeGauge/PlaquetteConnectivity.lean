@@ -91,12 +91,13 @@ theorem connectedWithin_trans [NeZero N]
   exact ⟨hp, hr, hr1.trans hr2⟩
 
 /-- **The connected block (component) of a plaquette inside A** — a
-    plain Finset in the ambient index type. -/
-open Classical in
+    plain Finset in the ambient index type. Decidability of
+    connectivity is supplied classically and stays internal. -/
 noncomputable def plaquetteComponent [NeZero N]
     (A : Finset (Site N × Dir × Dir)) (p : Site N × Dir × Dir) :
     Finset (Site N × Dir × Dir) :=
-  A.filter (fun q => connectedWithin A p q)
+  @Finset.filter _ (fun q => connectedWithin A p q)
+    (Classical.decPred _) A
 
 theorem mem_plaquetteComponent_iff [NeZero N]
     {A : Finset (Site N × Dir × Dir)} {p q : Site N × Dir × Dir} :
