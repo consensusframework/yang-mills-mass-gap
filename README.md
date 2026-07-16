@@ -22,7 +22,7 @@ docs/audit/AUDIT_ZERO_V2_SUMMARY.md).
 ## Build status
 
 As of July 12, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
-(LatticeGauge) contains 30 verified stones — ~159 axiom-free theorems**:
+(LatticeGauge) contains 31 verified stones — ~165 axiom-free theorems**:
 lattice, Wilson action, gauge and translation invariance, Gibbs measure,
 Wilson loops, expectation values, Haar measure instantiated on U(n) with
 right- AND inversion-invariance proved by uniqueness, the formal statement
@@ -45,8 +45,10 @@ Wilson observables (binary, finite families, one-vs-block vanishing of
 the third connected cumulant — order 3 only), and, at the measure level,
 official Mathlib IndepFun/iIndepFun independence, the joint law of a
 pair equal to the product of its marginals, and the finite joint tuple
-law: the random vector of link-disjoint Wilson loops has exactly the
-product distribution of its marginals. These are finite-volume results;
+law (the random vector of link-disjoint Wilson loops has exactly the
+product distribution of its marginals), and its stability under
+coordinate-wise measurable post-composition — every derived statistic
+inherits the product law. These are finite-volume results;
 the constants are not uniform in the lattice size; they are preparatory
 perturbative statements, not a completed cluster expansion or
 thermodynamic-limit result. A structural audit is under way. The current live tree contains 922
@@ -64,7 +66,7 @@ not yet have a working Lake project and is not covered by CI.
 | `axiom` declarations | 293  |
 | Theorems/lemmas (live tree) | see census above |
 | Theorems unconditional, LEGACY Phases 1-2 | ~0 substantive — elementary real-analysis facts |
-| Theorems unconditional, Phase 3 (2026-07) | ~159 (see Build status; census artifacts in docs/audit/) |
+| Theorems unconditional, Phase 3 (2026-07) | ~165 (see Build status; census artifacts in docs/audit/) |
 | `sorry` in code | present in 21 files across |
 | Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
 | Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
@@ -113,8 +115,8 @@ https://github.com/consensusframework/yang-mills-mass-gap
 ## Team
 
 - **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-30 execution, structural census, kernel X-ray instrumentation (Anthropic)
-- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17-30 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response, Taylor remainder, fluctuation-response, second response, Wilson responses, log-partition response, Gibbs variance, disjoint-support factorizations, third connected cumulant, measure-level independence and mutual independence); epistemic veto of a false factorization; naming discipline (log partition, not free energy; response identities, not curvature; order-3 cumulant only); audit methodology and documentation reviews (OpenAI)
+- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-31 execution, structural census, kernel X-ray instrumentation (Anthropic)
+- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17-31 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response, Taylor remainder, fluctuation-response, second response, Wilson responses, log-partition response, Gibbs variance, disjoint-support factorizations, third connected cumulant, measure-level independence and mutual independence); epistemic veto of a false factorization; naming discipline (log partition, not free energy; response identities, not curvature; order-3 cumulant only); audit methodology and documentation reviews (OpenAI)
 - **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
 - **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
 - **Gemini 3 Pro** — historical draft generation (Google); former "numerical validation" claims RETRACTED and not treated as evidence
