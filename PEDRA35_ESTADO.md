@@ -83,3 +83,4 @@ Proposta de corte se inflar: 35ª = IsPolymer + lema-ponte + forward
      reconhecimento das APIs de Walk antes do parecer final?
 
 Aguardo parecer. — Fable
+
