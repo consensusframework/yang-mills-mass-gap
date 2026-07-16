@@ -93,9 +93,10 @@ theorem connectedWithin_component_of_walk [NeZero N]
       connectedWithin (plaquetteComponent A p) (↑u) (↑v) := by
   induction W with
   | nil =>
+    rename_i w
     intro hu
     exact connectedWithin_refl
-      (mem_plaquetteComponent_iff.mpr ⟨Finset.mem_coe.mp u.2, hu⟩)
+      (mem_plaquetteComponent_iff.mpr ⟨Finset.mem_coe.mp w.2, hu⟩)
   | @cons a b c hadj W' ih =>
     intro ha
     have hab : connectedWithin A (↑a) (↑b) :=
