@@ -29,6 +29,8 @@ import LatticeGauge.Basic
 import LatticeGauge.FiniteSupportFactorizationBeta0
 import LatticeGauge.PlaquetteActivity
 
+open scoped Classical
+
 namespace LatticeGauge
 
 variable {N : ℕ}
@@ -96,8 +98,7 @@ theorem connectedWithin_trans [NeZero N]
 noncomputable def plaquetteComponent [NeZero N]
     (A : Finset (Site N × Dir × Dir)) (p : Site N × Dir × Dir) :
     Finset (Site N × Dir × Dir) :=
-  @Finset.filter _ (fun q => connectedWithin A p q)
-    (Classical.decPred _) A
+  A.filter (fun q => connectedWithin A p q)
 
 theorem mem_plaquetteComponent_iff [NeZero N]
     {A : Finset (Site N × Dir × Dir)} {p q : Site N × Dir × Dir} :
