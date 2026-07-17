@@ -1,137 +1,366 @@
-# Conditional Lean 4 Formalization Exercises Around the Yang-Mills Mass Gap
+# A Multi-Phase Lean 4 Formalization Program Around the Yang–Mills Mass Gap
 
-**Status: exploratory / conditional formalization — NOT a proof (partial or otherwise) of the Clay Millennium Problem.**
+> **Status:** exploratory formalization research.
+> This repository is **not a proof, partial proof, or claimed solution** of the
+> Yang–Mills Existence and Mass Gap Millennium Problem.
 
-## What this repository is
+## Repository history and reconstruction
 
-This repository contains **two clearly separated layers**. **Legacy
-Phases 1-2** are conditional formalization experiments whose physical
-content is carried by explicit assumptions and axioms; their theorems are
-logical consequences of those assumptions. **Phase 3** is a new,
-independently built finite-lattice gauge theory library: the results in
-its verification table are **axiom-free beyond Lean and Mathlib
-foundations** (see VERIFICATION_STATUS.md and the structural audit in
-docs/audit/AUDIT_ZERO_V2_SUMMARY.md).
+This is the **second public repository** of the project.
 
-## What this repository is NOT
+The original repository was suspended by GitHub without an explanation available
+to the project team. Because access to the repository was not restored, the
+maintainers were unable to export or retrieve its complete contents.
 
-- It is **not** a proof of the Yang-Mills mass gap, in whole or in part.
-- It does **not** construct the Yang-Mills measure, a Hilbert space, a Hamiltonian, or verify Wightman/Osterwalder-Schrader axioms — the actual content of the Clay problem.
+This repository was therefore reconstructed from surviving local files, papers,
+build artifacts, documentation, model-session outputs, and later-recovered Lean
+modules. The reconstruction was not initially complete: portions of the original
+phase structure and several files were recovered only later through a dedicated
+forensic audit.
 
+The recovered material made it possible to identify and document three distinct
+stages of the project:
 
-## Build status
+1. early exploratory formalization;
+2. conditional and axiom-based formalization;
+3. a new finite-lattice gauge theory library built independently and without
+   scientific axioms.
 
-As of July 12, 2026: **Phase 2 compiles** (25/25 modules); **Phase 3
-(LatticeGauge) contains 35 verified stones — ~206 axiom-free theorems**:
-lattice, Wilson action, gauge and translation invariance, Gibbs measure,
-Wilson loops, expectation values, Haar measure instantiated on U(n) with
-right- AND inversion-invariance proved by uniqueness, the formal statement
-of the lattice mass gap (open target, stated not proved), finite-link
-independence, the FRESH-LINK THEOREM (Haar-distributed holonomies), and
-the exact β = 0 expectation formula for Wilson-path observables —
-unconditional on U(n) up to explicit structural hypotheses. The local
-analysis package at β = 0 is complete: continuity
-(|⟨f⟩_β − ⟨f⟩₀| ≤ 2CBβ·exp(βB)), linear response
-(d/dβ ⟨f⟩_β|₀ = −Cov₀(f, S)) and the first-order Taylor remainder
-(≤ 4CB²β²·exp(βB) for βB ≤ 1). Response identities hold at EVERY
-β₀ ≥ 0: fluctuation–response (d/dβ ⟨f⟩_β = −Cov_β(f, S)), the
-second-response/third-cumulant pair (no formal iteratedDeriv wrapper is
-claimed), Wilson-observable specializations, the log-partition response
-(d/dβ log Z_β = −⟨S⟩_β; log partition function, not "free energy"), and
-Gibbs-variance positivity (d/dβ[−⟨S⟩_β] = Var_β(S) ≥ 0 — pointwise sign,
-no convexity wrapper claimed). The independence structure of the β = 0
-product state is characterized: exact factorization of link-disjoint
-Wilson observables (binary, finite families, one-vs-block vanishing of
-the third connected cumulant — order 3 only), and, at the measure level,
-official Mathlib IndepFun/iIndepFun independence, the joint law of a
-pair equal to the product of its marginals, and the finite joint tuple
-law (the random vector of link-disjoint Wilson loops has exactly the
-product distribution of its marginals), and its stability under
-coordinate-wise measurable post-composition — every derived statistic
-inherits the product law. The first step of cluster-expansion MECHANICS
-is in place at level (a): the finite plaquette-activity (Mayer subset)
-identity with local activity bounds — an exact algebraic identity, NOT
-a connected-cluster expansion, with no convergence or volume-uniformity
-claim — followed by finite plaquette connectivity: link-sharing
-components of a finite plaquette set are well-defined and different
-components have disjoint link supports (pure combinatorics, the bridge
-to the independence machinery) — and the two halves now meet: each
-Mayer term factorizes over the connected components of its subset,
-giving the exact connected form realZ_β = Σ_A ∏_{C∈Comp(A)} E₀[block C]
-(still a sum over all subsets; not yet a polymer-gas representation;
-no convergence estimate) — and PLAQUETTE POLYMERS are now formal
-objects: nonempty, admissible, intrinsically link-connected sets;
-the canonical decomposition of any admissible subset is a compatible
-polymer family (inverse correspondence and gas reindexing pending). These are finite-volume results;
-the constants are not uniform in the lattice size; they are preparatory
-perturbative statements, not a completed cluster expansion or
-thermodynamic-limit result. A structural audit is under way. The current live tree contains 922
-inventoried declarations, including 99 CORE; approximately 503 additional
-declarations were moved intact into the historical archive during the
-first audit pass. Stable artifacts are available under docs/audit/. First successful builds: July 5, 2026. The original
-files, reconstructed after the loss of the previous repository, contained
-truncated declarations and could not have compiled as published. Phase 1 does
-not yet have a working Lake project and is not covered by CI.
+Historical files are preserved as research provenance. They document the
+evolution of the ideas, definitions, attempted architectures, and human–AI
+collaboration that preceded the current verified development path.
 
-## Honest accounting — LEGACY SNAPSHOT (2026-07-05 scope and methodology; NOT the current live-tree census, which lives in docs/audit/AUDIT_ZERO_V2_SUMMARY.md)
+No claim is made that the reconstructed historical tree is byte-for-byte
+identical to the inaccessible original repository.
 
-| Metric | Value |
-|---|---|
-| `axiom` declarations | 293  |
-| Theorems/lemmas (live tree) | see census above |
-| Theorems unconditional, LEGACY Phases 1-2 | ~0 substantive — elementary real-analysis facts |
-| Theorems unconditional, Phase 3 (2026-07) | ~206 (see Build status; census artifacts in docs/audit/) |
-| `sorry` in code | present in 21 files across |
-| Axioms that assert LLM outputs (`gemini_*`) | **0** — all removed or converted to explicit hypotheses (Etapa 0/1, July 2026) |
-| Axioms equivalent to open problems (incl. the mass gap itself) | ~60 |
+---
 
-### Example of what is actually proven
+## Project structure
 
-`Theorem15_UniversalPhysicalBound` proves: *if* a function `Delta0 : ℝ → ℝ` is strictly decreasing on [0.5, 1.18] *and* takes assumed values at the endpoints, *then* it is bounded between those values. This is an elementary fact about monotone functions; the Yang-Mills content resides entirely in the five axioms it imports.
+### Phase 1 — Early exploratory formalization
 
-## Authorship and method
+Phase 1 contains the earliest Lean experiments, conceptual decompositions, draft
+definitions, and preliminary attempts to express parts of the Yang–Mills program.
 
-Coordinated by **Jucelha Carvalho** ([ORCID: 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)) using multiple AI assistants (Manus AI 1.6, Claude Fable 5, GPT-5.6 "Sol", Claude Opus 4.5/4.6/4.7, GPT-5.2, Gemini 3 Pro) for drafting Lean code.
+This phase was created with the models, libraries, tooling, and project knowledge
+available at the time. Its value is primarily historical and architectural: it
+records the first formal vocabulary and the initial decomposition of a very large
+research problem into smaller formalization targets.
 
-AI cross-validation is **not** equivalent to peer review or numerical simulation. Earlier claims of "numerical validation by Gemini" referred to LLM-generated assertions, not executed lattice computations, and are retracted. All former `gemini_*` axioms have been removed (21 orphans) or converted into explicit named hypotheses (`def ...Assumption : Prop`) that theorems carry in their signatures.
+Phase 1 does not currently have a complete working Lake project and is not covered
+by continuous integration.
 
-## Roadmap
+### Phase 2 — Conditional formalization
 
-See [`PHASE3_ROADMAP.md`](PHASE3_ROADMAP.md) for a revised, realistic plan focused on:
+Phase 2 contains conditional Lean formalizations in which substantial physical or
+mathematical content is represented by explicit assumptions, hypotheses, or
+axioms.
 
-1. Eliminating Group A axioms via Mathlib imports (weeks)
-2. Removing all `gemini_*` axioms (weeks)
-3. A tractable formalization target: **the lattice strong-coupling mass gap** (Osterwalder–Seiler 1978) — a known theorem, never formalized in Lean 4
+The resulting theorems should be read in the form:
 
-## Audit
+> **If the stated assumptions hold, then the formal conclusion follows.**
 
-See [`AXIOM_AUDIT.md`](AXIOM_AUDIT.md) for the complete inventory of all 404 axiom declarations, classified into:
-- ✅ Group A: Already in Mathlib4 (~15)
-- 🔬 Group B: Known results, not yet formalized (~40)
-- 🔴 Group C: Open problems / circular assumptions (~60)
-- ⚠️ Group D: LLM assertions with no probative value (~110)
+These modules do not establish the assumptions themselves and therefore do not
+constitute progress toward solving the Clay problem. They remain useful as:
+
+- dependency maps;
+- formal statement experiments;
+- records of earlier research directions;
+- organizational scaffolding for possible future formalizations;
+- documentation of the project's methodological evolution.
+
+Phase 2 currently compiles as a 25-module Lake project.
+
+### Phase 3 — Finite-lattice gauge theory
+
+Phase 3 is a new and independently constructed Lean 4 library for finite-lattice
+gauge theory.
+
+Unlike the legacy phases, the verified Phase 3 development path introduces no
+scientific axioms and contains no `sorry`. Its principal declarations are checked
+with `#print axioms` and depend only on the standard Lean/Mathlib foundations:
+
+- `propext`;
+- `Classical.choice`;
+- `Quot.sound`.
+
+Phase 3 does not import the conditional conclusions of Phases 1–2 as mathematical
+foundations. Historical material may inform research questions and architecture,
+but any result entering Phase 3 must be defined and proved again within the
+axiom-free development.
+
+### Historical archive
+
+Recovered, superseded, incomplete, or alternative modules are retained in the
+historical archive and audit directories.
+
+The archive is not part of the trusted Phase 3 proof path. Its purpose is to
+preserve provenance, document earlier approaches, and prevent the loss of
+potentially useful definitions or research questions.
+
+---
+
+## Current verified status
+
+**Last updated: July 16, 2026**
+
+- **Phase 2:** 25/25 modules compile.
+- **Phase 3 / `LatticeGauge`:** 35 verified stones.
+- **Phase 3 source files:** 34.
+- **Phase 3 declarations:** approximately 206 verified theorems and supporting
+  definitions.
+- **Scientific axioms introduced in Phase 3:** 0.
+- **`sorry` declarations in Phase 3:** 0.
+
+The Phase 3 library currently includes formalizations of:
+
+- finite periodic lattices, sites, directions, links, and plaquettes;
+- lattice gauge configurations;
+- Wilson action and plaquette observables;
+- gauge and translation invariance;
+- finite-volume Gibbs weights, partition functions, and expectations;
+- Wilson paths and Wilson loops;
+- Haar probability measure instantiated on `U(n)`;
+- right-invariance and inversion-invariance obtained from Haar uniqueness;
+- finite-link independence in the product Haar state;
+- Haar-distributed fresh-link holonomies;
+- exact β = 0 expectation formulas for suitable Wilson-path observables;
+- finite-volume continuity and first-order Taylor estimates around β = 0;
+- fluctuation–response identities at arbitrary β ≥ 0;
+- covariance, variance, and third connected-cumulant identities;
+- binary and finite-family factorization for link-disjoint observables;
+- `IndepFun` and `iIndepFun` formulations using the official Mathlib API;
+- product laws for finite tuples of link-disjoint Wilson observables;
+- stability of those product laws under coordinate-wise measurable
+  post-composition;
+- the exact finite plaquette-activity/Mayer subset identity;
+- finite plaquette connectivity through shared links;
+- canonical decomposition into connected plaquette components;
+- exact factorization of every Mayer term over its connected components;
+- an exact finite-volume representation of `realZ` as a sum of products of
+  connected-component weights;
+- plaquette polymers (nonempty, admissible, intrinsically link-connected
+  plaquette sets), their compatibility relation, and the proof that the
+  canonical decomposition of an admissible subset is a compatible polymer
+  family.
+
+The latest results establish the **finite algebraic and probabilistic foundations**
+needed for a future cluster-expansion development.
+
+They do not yet establish convergence of a cluster expansion.
+
+---
+
+## Scientific scope and limitations
+
+The verified results are finite-volume statements.
+
+At the present stage, the project does **not**:
+
+- construct four-dimensional continuum Yang–Mills theory;
+- construct the continuum Yang–Mills measure;
+- construct the physical Hilbert space;
+- define and control the Yang–Mills Hamiltonian;
+- verify the Wightman axioms;
+- verify the Osterwalder–Schrader axioms;
+- prove reflection positivity for the required continuum construction;
+- establish a thermodynamic or continuum limit;
+- establish bounds uniform in lattice volume;
+- prove exponential clustering in the required setting;
+- prove the Yang–Mills mass gap.
+
+A formal statement of a lattice mass-gap target may appear in the library, but the
+target is explicitly marked as open and is not asserted as a theorem.
+
+Nothing in this repository should be cited as a solution or partial solution of
+the Clay Millennium Problem.
+
+---
+
+## Verification discipline
+
+The current Phase 3 workflow follows these rules:
+
+1. no new scientific `axiom` declarations;
+2. no `sorry`;
+3. complete local build before integration;
+4. continuous-integration verification after integration;
+5. `#print axioms` inspection for principal declarations;
+6. exact documentation of hypotheses and mathematical scope;
+7. explicit separation between:
+   - finite identities;
+   - analytic estimates;
+   - volume-uniform estimates;
+   - thermodynamic or continuum limits;
+   - physical conclusions;
+8. no claim stronger than the formal theorem actually proves.
+
+Names and documentation are chosen conservatively. For example:
+
+- `log Z` is called the **log partition function**, not automatically free energy;
+- pointwise response identities are not called convexity results without the
+  corresponding formal wrapper;
+- a third connected cumulant is not presented as a theorem about cumulants of
+  every order;
+- a finite Mayer identity is not presented as a completed cluster expansion.
+
+Detailed verification and structural-audit artifacts are available in:
+
+- [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md)
+- [`docs/audit/`](docs/audit/)
+- [`PHASE3_ROADMAP.md`](PHASE3_ROADMAP.md)
+
+---
+
+## Historical assumptions and audit
+
+The earlier phases contain explicit assumptions, conditional results, unfinished
+proofs, alternative drafts, and exploratory model-generated estimates.
+
+These materials were produced during different stages of the project, with
+different generations of AI models, different Mathlib knowledge, different
+context windows, and different levels of access to the repository.
+
+Later audits classify declarations according to their formal role:
+
+- verified definition or theorem;
+- theorem conditional on explicit hypotheses;
+- literature-based assumption not yet formalized;
+- open-problem assumption;
+- incomplete proof;
+- exploratory numerical or conceptual input;
+- superseded historical module.
+
+This classification is intended to clarify mathematical status, **not to diminish
+the contribution of earlier models or collaborators**.
+
+Each stage contributed something necessary to the next one: vocabulary,
+architecture, attempted decompositions, Lean structures, debugging experience,
+research questions, documentation, recovery material, or verified code.
+
+Some early statements described as numerical validation were generated as
+exploratory model outputs rather than produced by an executed lattice simulation.
+They are now preserved and labelled according to that origin. This is a
+clarification of evidence type, not a judgment on the models that generated them.
+
+The historical audit is a record of how the project learned to distinguish more
+precisely between assumptions, conditional consequences, machine-checked results,
+and open research targets.
+
+---
+
+## Human-led, multi-model methodology
+
+The project is coordinated by **Jucelha Carvalho**
+([ORCID 0009-0004-6047-2306](https://orcid.org/0009-0004-6047-2306)).
+
+AI systems have been used as computational research assistants for:
+
+- Lean 4 drafting and implementation;
+- theorem architecture;
+- source-code and Mathlib API inspection;
+- debugging and build repair;
+- axiom and dependency audits;
+- documentation;
+- repository reconstruction;
+- research planning;
+- adversarial checking of proposed statements;
+- CI and integration support.
+
+The project evolved across several model generations. No single model produced
+the entire repository, and the current Phase 3 library depends on the accumulated
+work of the models and human coordination that preceded it.
+
+AI cross-validation is not a substitute for mathematical peer review, independent
+reproduction, or numerical simulation. Machine-checked Lean proofs verify that a
+formal conclusion follows from its formal definitions and hypotheses; they do not
+by themselves establish that the formalization captures every required aspect of
+the physical Yang–Mills problem.
+
+---
+
+## Current roadmap
+
+The immediate Phase 3 roadmap is:
+
+1. define finite connected plaquette polymers — **done (stone 35)**;
+2. prove the correspondence between plaquette subsets and compatible polymer
+   families (forward direction done in stone 35; inverse direction in
+   progress);
+3. rewrite the finite-volume partition function as an exact polymer-gas sum;
+4. introduce connected coefficients and the combinatorics required for a genuine
+   cluster expansion;
+5. prove finite-volume convergence estimates;
+6. investigate estimates uniform in lattice volume;
+7. study the consequences for connected correlations and clustering.
+
+Later stages would require substantially new infrastructure, including:
+
+- thermodynamic limits;
+- continuum scaling;
+- reflection positivity;
+- Hilbert-space reconstruction;
+- Hamiltonian and spectral theory;
+- rigorous treatment of gauge constraints;
+- possible entropy and entanglement structures;
+- comparison with known constructive strong-coupling results.
+
+These are long-term research directions, not completed results.
+
+---
 
 ## Citation
 
-If citing, please cite as a *conditional formalization exercise*, not as progress on the Millennium Problem.
+Please cite this repository as an exploratory, multi-phase Lean 4 formalization
+project, not as progress establishing the Millennium Problem.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21416570.svg)](https://doi.org/10.5281/zenodo.21416570)
+
+```text
+Carvalho, J. (2026).
+From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
+Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
+Yang-Mills Mass Gap (Version 35). Zenodo.
+https://doi.org/10.5281/zenodo.21416570
 ```
-Carvalho, J. et al. (2026). Conditional Lean 4 Formalization Exercises Around the
-Yang-Mills Mass Gap. GitHub repository.
-https://github.com/consensusframework/yang-mills-mass-gap
-```
+
+Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
+Frozen source tag for this version: `zenodo-v35` (commit bfd8e46).
 
 ## Contact
 
-- **Email:** jucelha@smarttourbrasil.com.br
-- **ORCID:** https://orcid.org/0009-0004-6047-2306
+- Jucelha Carvalho
+- Email: jucelha@smarttourbrasil.com.br
+- ORCID: <https://orcid.org/0009-0004-6047-2306>
 
-## Team
+## Project contributors and computational assistants
 
-- **Jucelha Carvalho** — Lead Researcher & Coordinator | jucelha@smarttourbrasil.com.br | [ORCID](https://orcid.org/0009-0004-6047-2306)
-- **Claude Fable 5** — Lean 4 code audit, Etapas 0-1, Phase 3 stones 1-35 execution, structural census, kernel X-ray instrumentation (Anthropic)
-- **GPT-5.6 "Sol"** — Architecture of stones 12, 14, 15, 17-35 (single-link marginal, n-link independence, fresh-link theorem, continuity bound, linear response, Taylor remainder, fluctuation-response, second response, Wilson responses, log-partition response, Gibbs variance, disjoint-support factorizations, third connected cumulant, measure-level independence and mutual independence); epistemic veto of a false factorization; naming discipline (log partition, not free energy; response identities, not curvature; order-3 cumulant only); audit methodology and documentation reviews (OpenAI)
-- **Claude Opus 4.5/4.6/4.7** — Lean 4 Formal Verification, Sorry Elimination (Anthropic)
-- **GPT-5.2** — Axiom Reformulation & Strategic Planning (OpenAI)
-- **Gemini 3 Pro** — historical draft generation (Google); former "numerical validation" claims RETRACTED and not treated as evidence
-- **Manus AI 1.6** — DevOps, Integration & Project Coordination
+### Human coordination
+
+- **Jucelha Carvalho** — Lead researcher and project coordinator; research
+  direction, multi-model orchestration, repository recovery, scope decisions,
+  validation workflow, documentation, and integration supervision.
+
+### AI research assistants
+
+- **Claude Fable 5 (Anthropic)** — Lean 4 implementation and debugging,
+  structural census, kernel-dependency inspection, Mathlib source
+  reconnaissance, Phase 3 stone execution, build verification, CI integration,
+  and technical state documentation.
+- **GPT-5.6 "Sol" (OpenAI)** — theorem and stone architecture, probabilistic and
+  cluster-expansion roadmap, scope control, mathematical review, counterexample
+  and false-factorization detection, naming discipline, audit methodology, and
+  documentation review.
+- **Claude Opus 4.5 / 4.6 / 4.7 (Anthropic)** — formal-verification work,
+  incomplete-proof reduction, historical-code recovery, forensic inventory,
+  dependency mapping, and comparative audit of reconstructed modules.
+- **GPT-5.2 (OpenAI)** — early axiom reformulation, conditional-theorem design,
+  and strategic planning.
+- **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
+  numerical and physical hypothesis exploration, and historical architecture.
+- **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
+  project operations.
+
+The roles above describe contributions made at different stages of the project.
+They are not rankings. The present repository exists because those contributions
+were cumulative.
