@@ -53,7 +53,7 @@ theorem graphUrsellCoeff_natAbs_le_card {n : ℕ}
           refine Finset.sum_congr rfl fun E _ => ?_
           rw [abs_pow, abs_neg, abs_one, one_pow]
       _ = ((connectedSpanningEdgeSets G).card : ℤ) := by
-          rw [Finset.sum_const, smul_eq_mul, mul_one]
+          rw [Finset.sum_const, nsmul_eq_mul, mul_one]
   rwa [Int.abs_eq_natAbs, Nat.cast_le] at habs
 
 /-- **2a. The number of terms is at most the powerset count.** -/
