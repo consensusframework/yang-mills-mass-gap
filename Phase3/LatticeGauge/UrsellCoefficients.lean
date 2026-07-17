@@ -227,8 +227,11 @@ theorem ursellCoeff_of_pairwise_compatible [NeZero N] {n : ℕ}
     ursellCoeff γ = 0 := by
   apply ursellCoeff_of_not_connected
   intro hconn
-  have heq := reachable_eq_of_no_adj
-    (fun a b hab => hab.2 (h a b hab.1))
+  have hno : ∀ a b : Fin n,
+      ¬ (polymerIncompatibilityGraph γ).Adj a b := by
+    intro a b hab
+    exact hab.2 (h a b hab.1)
+  have heq := reachable_eq_of_no_adj hno
     (hconn.preconnected ⟨0, by omega⟩ ⟨1, by omega⟩)
   have hval := congrArg Fin.val heq
   simp at hval
@@ -283,10 +286,22 @@ theorem ursellCoeff_pair [NeZero N]
           Finset (OrderedEdge 2))).Connected :=
       connected_of_adj_fin2
         (Or.inl ⟨by decide, Finset.mem_singleton_self _⟩)
+    have hfilter : Finset.filter
+        (fun E => (graphOfEdges E).Connected)
+        ({⟨((0 : Fin 2), (1 : Fin 2)), by decide⟩} :
+          Finset (OrderedEdge 2)).powerset
+        = {{⟨((0 : Fin 2), (1 : Fin 2)), by decide⟩}} := by
+      ext E
+      rw [Finset.mem_filter, Finset.mem_powerset, Finset.mem_singleton]
+      constructor
+      · rintro ⟨hsub, hconn⟩
+        rcases Finset.subset_singleton_iff.mp hsub with rfl | rfl
+        · exact absurd hconn hnc0
+        · rfl
+      · rintro rfl
+        exact ⟨Finset.Subset.refl _, hconn1⟩
     unfold ursellCoeff graphUrsellCoeff connectedSpanningEdgeSets
-    rw [hav, Finset.powerset_singleton, Finset.filter_insert,
-      if_neg hnc0, Finset.filter_singleton, if_pos hconn1,
-      Finset.sum_singleton]
+    rw [hav, hfilter, Finset.sum_singleton]
     simp
 
 /-! ## Separate cancellation tool (NOT used above) -/
