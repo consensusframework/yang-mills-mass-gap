@@ -300,7 +300,7 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
         have hlt1 := e₁.2
         have hlt2 := e₂.2
         rw [heq] at hlt1
-        rw [← p1] at hlt2
+        rw [p1] at hlt2
         exact absurd hlt1 (lt_asymm hlt2)
       · have hc1 : childOfEdge H e₁ = e₁.val.1 := by
           unfold childOfEdge; rw [if_neg q1]
@@ -313,7 +313,7 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
         have hlt1 := e₁.2
         have hlt2 := e₂.2
         rw [heq] at hlt1
-        rw [← p1] at hlt2
+        rw [p1] at hlt2
         exact absurd hlt2 (lt_asymm hlt1)
       · have hc1 : childOfEdge H e₁ = e₁.val.1 := by
           unfold childOfEdge; rw [if_neg q1]
@@ -337,15 +337,16 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
         unfold childOfEdge
         rw [if_pos hpar]
       · rw [canonicalOrderedEdge_of_gt h' hne]
-        unfold childOfEdge
-        rw [if_neg ?_]
-        · rfl
-        · intro hbad
+        have hbad : ¬ penroseParent? H u = some v := by
+          intro hbad
           have d1 := penroseParent?_depth hpar
           have d2 := penroseParent?_depth hbad
           omega
+        unfold childOfEdge
+        rw [if_neg hbad]
   rw [hbij, Finset.filter_ne', Finset.card_erase_of_mem
     (Finset.mem_univ 0), Finset.card_univ, Fintype.card_fin]
+  omega
 
 /-! ## 8 + 10. Connectivity and exact BFS distances -/
 
@@ -396,8 +397,8 @@ theorem penroseTree_dist {H : SimpleGraph (Fin (n + 1))}
   apply le_antisymm
   · rw [← hp]
     exact SimpleGraph.dist_le p
-  · obtain ⟨r, hr⟩ :=
-      (⟨p⟩ : (penroseTree H).Reachable 0 v).exists_walk_length_eq_dist
+  · have hreach : (penroseTree H).Reachable 0 v := ⟨p⟩
+    obtain ⟨r, hr⟩ := hreach.exists_walk_length_eq_dist
     have hmap := SimpleGraph.dist_le
       (r.map (SimpleGraph.Hom.mapSpanningSubgraphs (penroseTree_le H)))
     rw [SimpleGraph.Walk.length_map, hr] at hmap
