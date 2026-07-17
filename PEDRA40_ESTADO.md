@@ -1,5 +1,4 @@
-# PEDRA 40 — PARTE (a) CONCLUÍDA; PARADA REGISTRADA PARA (b)
-# (2026-07-17)
+# PEDRA 40 — CONCLUÍDA INTEGRALMENTE (a + b, 2026-07-17)
 
 ## Entregue (verde em 3 rodadas; PenroseTree.lean, ~400 linhas)
 Sobre Fin (n+1), raiz 0, defs TOTAIS (sem prova como dado):
@@ -50,3 +49,18 @@ NOTA para a 41ª: a partição usa T.IsTree como HIPÓTESE (árvores
 dadas), então a 41 pode começar SEM a 40b — mas a idempotência
 (item 11) é consumida no argumento das fibras; ordem sugerida:
 40b → 41.
+
+
+## PARTE (b) — CONCLUÍDA (verde em UMA rodada; PenroseTreeB.lean)
+Rota escolhida pelo arquiteto: recíproca cardinal por minimalidade.
+- availableEdges (graphOfEdges S) = S (geral, reutilizável);
+- n ≤ |E| para conexos (contém a própria BFS);
+- |E| = n ⟹ toda aresta essencial (contagem);
+- essencial ⟹ ponte: lema do DESVIO por indução simples em Walk
+  (nil/cons, padrão vacinado — ZERO IsCycle);
+- isTree_of_connected_card (o substituto local da recíproca ausente);
+- penroseTree_isTree; penroseTreeEdges_eq_of_isTree;
+  penroseTree_eq_self_of_isTree; penroseTree_idem.
+Sym2: um único adaptador local (eraseOrderedEdgeGraph_eq_deleteEdges);
+equivalência geral segue como dívida técnica registrada.
+Itens 9 e 11 da especificação original: FECHADOS.
