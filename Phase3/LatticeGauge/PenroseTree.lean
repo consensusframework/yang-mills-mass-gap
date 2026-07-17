@@ -257,6 +257,8 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
     refine Finset.card_bij (fun e _ => childOfEdge H e) ?_ ?_ ?_
     · -- child is non-root
       intro e he
+      show childOfEdge H e ∈ Finset.filter
+        (fun v : Fin (n + 1) => v ≠ 0) Finset.univ
       rcases penroseTreeEdges_exclusive he with ⟨h, _⟩ | ⟨h, h'⟩
       · have hc : childOfEdge H e = e.val.2 := by
           unfold childOfEdge
@@ -272,6 +274,7 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
         exact (penroseParent?_spec h).1
     · -- injectivity
       intro e₁ h₁ e₂ h₂ heq
+      simp only [] at heq
       rcases penroseTreeEdges_exclusive h₁ with ⟨p1, q1⟩ | ⟨p1, q1⟩ <;>
         rcases penroseTreeEdges_exclusive h₂ with ⟨p2, q2⟩ | ⟨p2, q2⟩
       · have hc1 : childOfEdge H e₁ = e₁.val.2 := by
@@ -328,6 +331,7 @@ theorem card_penroseTreeEdges {H : SimpleGraph (Fin (n + 1))}
       have hne : u ≠ v := penroseParent?_ne hpar
       refine ⟨canonicalOrderedEdge u v hne,
         canonical_parent_mem_penroseTreeEdges hpar hne, ?_⟩
+      show childOfEdge H (canonicalOrderedEdge u v hne) = v
       rcases hne.lt_or_lt with h' | h'
       · rw [canonicalOrderedEdge_of_lt h' hne]
         unfold childOfEdge
