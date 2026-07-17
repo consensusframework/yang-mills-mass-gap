@@ -19,10 +19,11 @@ Equiv.Perm — no arbitrary vertex types, no Fin n ≃ Fin m, no graph
 isomorphisms between different types (that would force simultaneous
 changes to the edge canonicalization and the sum type without helping
 the future series, which uses Fin n tuples precisely). CONSEQUENCE
-(promised in stone 37's docstring): the coefficient depends on the
-labelled incompatibility graph only up to permutation, so it can
-later be treated as a coefficient of the unordered family — while the
-series itself will still use tuples to allow repetitions. NOTHING
+(promised in stone 37's docstring): ursellCoeff is invariant under
+reordering and therefore depends only on the UNORDERED TUPLE of
+polymer occurrences, INCLUDING MULTIPLICITIES — repeated polymers are
+neither identified nor eliminated; repetitions remain essential for
+the future cluster series. NOTHING
 analytic: no tuple quotients, no orbit sums, no multisets, no cluster
 series, no 1/n!, no log realZ, no tree-graph inequality, no tree
 counting, no Penrose, no Kotecký–Preiss, no convergence. NO axioms.
@@ -321,11 +322,11 @@ theorem polymerIncompatibilityGraph_comp_perm [NeZero N] {n : ℕ}
     exact ⟨fun hc => hne (congrArg σ hc), h⟩
 
 /-- **8. CAPSTONE (pedra 38): the Ursell coefficient is invariant
-    under permutation of the occurrences.** The coefficient depends on
-    the labelled incompatibility graph only up to the permutation-
-    induced isomorphism — so it may later be treated as a coefficient
-    of the unordered family, while the future series still uses tuples
-    to allow repetitions. No series, no convergence, no log Z
+    under permutation of the occurrences.** The coefficient is
+    invariant under reordering and therefore depends only on the
+    unordered tuple of polymer occurrences, including multiplicities —
+    repetitions are neither identified nor eliminated, and remain
+    essential for the future cluster series. No series, no convergence, no log Z
     statement is made. Sanity cases (n = 0, n = 1, the transposition
     at n = 2, disconnected graphs) are direct corollaries and are
     deliberately not duplicated as separate theorems. -/
