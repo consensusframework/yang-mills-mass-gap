@@ -4,8 +4,8 @@
 
 **Version 35 — July 2026**
 
-**Version-specific DOI:** [RESERVE BEFORE GENERATING THE FINAL PDF]
-**Concept DOI:** [CONFIRM IN THE ZENODO DASHBOARD]
+**Version-specific DOI:** 10.5281/zenodo.21416570
+**Concept DOI:** 10.5281/zenodo.17397622
 **Reassesses Version 34:** 10.5281/zenodo.20432205
 
 **Jucelha Carvalho**
@@ -189,15 +189,15 @@ The direction is preserved as a scientifically motivated future question.
 
 ## 5. Current machine-verified development
 
-**Reference commit:** `[INSERT TAGGED COMMIT SHA]`
-**Repository tag:** `[INSERT ZENODO RELEASE TAG]`
-**Final CI status:** `[INSERT WORKFLOW LINK OR IDENTIFIER]`
+**Reference commit:** `[SHA of tag zenodo-v35 — inserted in the published PDF]`
+**Repository tag:** `zenodo-v35`
+**Final CI status:** green — https://github.com/consensusframework/yang-mills-mass-gap/actions/runs/29539151917
 
 At the reference commit, `Phase3/LatticeGauge` contains:
 
-- `[EXACT COUNT]` verified project milestones ("stones");
-- `[EXACT COUNT]` Lean source files;
-- `[EXACT COUNT]` theorem and lemma declarations;
+- 35 verified project milestones ("stones");
+- 34 Lean source files;
+- 211 theorem and lemma declarations (plus 64 supporting definitions);
 - zero scientific `axiom` declarations;
 - zero `sorry`.
 
@@ -359,12 +359,12 @@ Carvalho, J. (2026).
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
 Yang–Mills Mass Gap* (Version 35).
 Zenodo.
-https://doi.org/10.5281/zenodo.[NEW VERSION-SPECIFIC DOI]
+https://doi.org/10.5281/zenodo.21416570
 
 For the evolving collection of versions:
 
 Concept DOI:
-https://doi.org/10.5281/zenodo.[CONFIRMED CONCEPT DOI]
+https://doi.org/10.5281/zenodo.17397622
 
 Version 34 reassessed in this document:
 
