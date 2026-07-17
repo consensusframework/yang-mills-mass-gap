@@ -25,7 +25,7 @@ project as it was understood at that time. Between March and July 2026 the proje
 structural and kernel-level audit of its Lean 4 codebase, reconstructed
 the repository after the loss of the original one, and built a new,
 independently verified finite-lattice gauge theory library. This version
-replaces the February claims with the audited status. Earlier versions
+replaces the earlier claims with the audited status. Earlier versions
 remain available through Zenodo versioning as historical record of the
 project's evolution.
 
@@ -33,11 +33,13 @@ project's evolution.
 Yang–Mills Existence and Mass Gap Millennium Problem, and should not be
 cited as such.**
 
-## What Version 33 stated, and its current classification
+## What the previous version stated, and its current classification
 
-The February document reflected the best understanding available to the
+The May 2026 document reflected the best understanding available to the
 team at that time, produced with the models, tools and verification
-practices then in use. The subsequent audit clarified the TYPE of
+practices then in use — and it already contained a genuine methodological
+advance: the sorry audit, which replaced "zero sorry" with documented
+honest gaps. The subsequent audit clarified the TYPE of
 evidence behind each statement — a clarification of evidence type, not a
 judgment on the models or people who produced it.
 
@@ -100,8 +102,8 @@ accumulated work that preceded it.
 ## How to cite
 
 Carvalho, J. (2026). A Multi-Phase Lean 4 Formalization Program Around
-the Yang–Mills Mass Gap (Version 34). Zenodo.
-https://doi.org/10.5281/zenodo.17397623
+the Yang–Mills Mass Gap (Version 35). Zenodo.
+https://doi.org/10.5281/zenodo.20432205
 
 ---
 # NOTAS PARA O SOL (não publicar):
