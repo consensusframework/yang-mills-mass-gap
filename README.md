@@ -314,12 +314,18 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21416570.svg)](https://doi.org/10.5281/zenodo.21416570)
+
 ```text
 Carvalho, J. (2026).
-A Multi-Phase Lean 4 Formalization Program Around the Yang–Mills Mass Gap.
-GitHub repository.
-https://github.com/consensusframework/yang-mills-mass-gap
+From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
+Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
+Yang-Mills Mass Gap (Version 35). Zenodo.
+https://doi.org/10.5281/zenodo.21416570
 ```
+
+Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
+Frozen source tag for this version: `zenodo-v35` (commit bfd8e46).
 
 ## Contact
 
