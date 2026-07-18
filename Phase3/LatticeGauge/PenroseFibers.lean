@@ -215,10 +215,12 @@ theorem penroseParent?_eq_of_mem_interval
           have hpq : p = q := Option.some.inj hq
           rw [hpq]
           exact le_of_lt hlt
-        · omega
+        · dsimp only at hd2
+          omega
       · rw [canonicalOrderedEdge_of_gt h' hne] at hP2
         rcases hP2 with ⟨hd2, -⟩ | ⟨-, q, hq, hlt⟩
-        · omega
+        · dsimp only at hd2
+          omega
         · rw [hp] at hq
           have hpq : p = q := Option.some.inj hq
           rw [hpq]
