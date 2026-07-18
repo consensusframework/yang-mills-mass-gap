@@ -137,8 +137,12 @@ theorem mem_penroseClosureEdges {G T : SimpleGraph (Fin (n + 1))}
 /-- **Upper half of the sandwich — no hypotheses.** -/
 theorem penroseClosure_le (G T : SimpleGraph (Fin (n + 1))) :
     penroseClosure G T ≤ G := by
+  unfold penroseClosure penroseClosureEdges
   have h := graphOfEdges_mono
-    (Finset.filter_subset _ (availableEdges G))
+    (Finset.filter_subset
+      (fun e => e ∈ availableEdges T ∨
+        penroseSameLevelEdge T e ∨ penroseForwardEdge T e)
+      (availableEdges G))
   rwa [graphOfEdges_availableEdges] at h
 
 /-- **Lower half of the sandwich** — needs only T ≤ G (IsTree is not
@@ -216,7 +220,6 @@ theorem penroseParent?_penroseTree {H : SimpleGraph (Fin (n + 1))}
       intro y hy
       rw [hcand, Finset.mem_singleton] at hy
       rw [hy]
-      exact le_refl p
   rw [hmin]
 
 /-! ## 7. Depth trichotomy along an edge -/
