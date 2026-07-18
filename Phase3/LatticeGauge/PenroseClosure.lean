@@ -130,7 +130,7 @@ theorem mem_penroseClosureEdges {G T : SimpleGraph (Fin (n + 1))}
         (e ∈ availableEdges T ∨
           penroseSameLevelEdge T e ∨ penroseForwardEdge T e) := by
   unfold penroseClosureEdges
-  exact Finset.mem_filter
+  simp [Finset.mem_filter]
 
 /-! ## 5. The sandwich T ≤ R_G(T) ≤ G -/
 
@@ -191,7 +191,8 @@ theorem penroseParent?_penroseTree {H : SimpleGraph (Fin (n + 1))}
       · have hdv := penroseParent?_depth h
         rw [hdT, hdT] at hd
         omega
-    · rintro rfl
+    · intro hu
+      rw [hu]
       refine ⟨?_, ?_⟩
       · have hne : p ≠ v := penroseParent?_ne hp
         unfold penroseTree
@@ -214,7 +215,7 @@ theorem penroseParent?_penroseTree {H : SimpleGraph (Fin (n + 1))}
     · apply Finset.le_min'
       intro y hy
       rw [hcand, Finset.mem_singleton] at hy
-      subst hy
+      rw [hy]
       exact le_refl p
   rw [hmin]
 
