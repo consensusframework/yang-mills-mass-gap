@@ -102,12 +102,12 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 16, 2026**
+**Last updated: July 18, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 35 verified stones.
-- **Phase 3 source files:** 34.
-- **Phase 3 declarations:** approximately 206 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 42 verified stones (through stone 42a; 42b in progress).
+- **Phase 3 source files:** 43.
+- **Phase 3 declarations:** approximately 340 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -142,7 +142,18 @@ The Phase 3 library currently includes formalizations of:
 - plaquette polymers (nonempty, admissible, intrinsically link-connected
   plaquette sets), their compatibility relation, and the proof that the
   canonical decomposition of an admissible subset is a compatible polymer
-  family.
+  family;
+- the exact finite polymer-gas representation of `realZ` (hard-core gas over
+  compatible polymer families);
+- finite Ursell coefficients as signed sums over connected spanning edge sets,
+  with permutation invariance, elementary bounds, and the exact tree case;
+- the canonical rooted BFS tree extraction (total, deterministic), the local
+  cardinal tree converse, the Penrose closure with strict consecutive-level
+  edges, and the proof that the fibres of the extraction are exactly the
+  Penrose boolean intervals;
+- the transport of the fibre theory to edge-set `Finset`s: fibres over a
+  spanning tree are boolean intervals with free extra-edge coordinates,
+  disjoint, and exactly covering the connected spanning edge sets.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
