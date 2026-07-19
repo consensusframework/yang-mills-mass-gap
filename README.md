@@ -102,12 +102,12 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 18, 2026**
+**Last updated: July 19, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 42 verified stones (through stone 42a; 42b in progress).
-- **Phase 3 source files:** 43.
-- **Phase 3 declarations:** approximately 340 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 42 verified stones (stone 42 complete: the exact Penrose identity and the finite tree-graph bound).
+- **Phase 3 source files:** 44.
+- **Phase 3 declarations:** approximately 360 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -153,7 +153,10 @@ The Phase 3 library currently includes formalizations of:
   Penrose boolean intervals;
 - the transport of the fibre theory to edge-set `Finset`s: fibres over a
   spanning tree are boolean intervals with free extra-edge coordinates,
-  disjoint, and exactly covering the connected spanning edge sets.
+  disjoint, and exactly covering the connected spanning edge sets;
+- the exact Penrose identity `graphUrsellCoeff G = (−1)^n · #PenroseTrees(G)`
+  obtained by two formal reindexations and the (1−1)^m cancellation, and the
+  finite tree-graph bound `|φ(G)| ≤ #SpanningTrees(G)` as its corollary.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
