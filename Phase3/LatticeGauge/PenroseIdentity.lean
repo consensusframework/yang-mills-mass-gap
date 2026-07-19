@@ -114,8 +114,8 @@ theorem sum_fiber_eq_sum_powerset {G : SimpleGraph (Fin (n + 1))}
       _ = E₂ := union_sdiff_fiber hET h₂
   · intro F hF
     refine ⟨ET ∪ F, extrasToFiber_mem hET (Finset.mem_powerset.mp hF), ?_⟩
-    show F = (ET ∪ F) \ ET
-    exact (sdiff_union_extras (Finset.mem_powerset.mp hF)).symm
+    show (ET ∪ F) \ ET = F
+    exact sdiff_union_extras (Finset.mem_powerset.mp hF)
   · intro E hE
     show (-1 : ℤ) ^ E.card = (-1 : ℤ) ^ (ET ∪ (E \ ET)).card
     rw [union_sdiff_fiber hET hE]
