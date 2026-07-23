@@ -50,6 +50,8 @@ import LatticeGauge.LocalGeometry
 open MeasureTheory
 open scoped Classical
 
+set_option maxHeartbeats 800000
+
 namespace LatticeGauge
 
 variable {N : ℕ} [NeZero N] [Fintype (Site N)]
@@ -144,7 +146,7 @@ theorem walksFrom_succ_subset (p₀ : Site N × Dir × Dir) (L : ℕ) :
       show (plaquetteGraph N).Adj
         (f (Fin.castSucc j.castSucc)) (f (Fin.castSucc j.succ))
       have hcs : (Fin.castSucc j).succ = Fin.castSucc j.succ :=
-        Fin.ext (by simp [Fin.val_succ])
+        Fin.ext (by simp [Fin.val_succ, Fin.coe_castSucc])
       have h := hadj j.castSucc
       rwa [hcs] at h
   · rw [Finset.mem_image]
@@ -152,11 +154,10 @@ theorem walksFrom_succ_subset (p₀ : Site N × Dir × Dir) (L : ℕ) :
     · rw [SimpleGraph.mem_neighborFinset]
       show (plaquetteGraph N).Adj
         (f (Fin.castSucc (Fin.last L))) (f (Fin.last (L + 1)))
-      have hlast : (Fin.castSucc (Fin.last L)).succ
-          = Fin.last (L + 1) :=
-        Fin.ext (by simp [Fin.val_succ])
-      have h := hadj (Fin.castSucc (Fin.last L))
-      · rwa [hlast] at h
+      have hlast : (Fin.last L).succ = Fin.last (L + 1) :=
+        Fin.ext (by simp [Fin.val_succ, Fin.val_last])
+      have h := hadj (Fin.last L)
+      rwa [hlast] at h
     · show Fin.snoc (Fin.init f) (f (Fin.last (L + 1))) = f
       funext i
       refine Fin.lastCases ?_ ?_ i
@@ -241,9 +242,9 @@ theorem confinedLengths_nonempty_of_connectedWithin
     (confinedLengths Dset p q).Nonempty := by
   obtain ⟨hp, hq, hreach⟩ := h
   obtain ⟨w⟩ := hreach
-  refine ⟨(w.map (SimpleGraph.Embedding.induce
-    (↑Dset : Set (Site N × Dir × Dir))).toHom).length,
-    w.map _, rfl, ?_⟩
+  set wm := w.map (SimpleGraph.Embedding.induce
+    (↑Dset : Set (Site N × Dir × Dir))).toHom with hwm
+  refine ⟨wm.length, wm, rfl, ?_⟩
   intro x hx
   rw [SimpleGraph.Walk.support_map, List.mem_map] at hx
   obtain ⟨⟨y, hy⟩, -, hval⟩ := hx
