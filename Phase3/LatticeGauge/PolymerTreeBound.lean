@@ -219,7 +219,15 @@ theorem hardCoreTreeIndicator_eq_subgraphIndicator [NeZero N]
           (fun e _ => hardCoreEdgeIndicator_eq_ite γ e)
     _ = if ∀ e ∈ ET,
           e ∈ availableEdges (polymerIncompatibilityGraph γ)
-        then 1 else 0 := Finset.prod_boole
+        then 1 else 0 := by
+        by_cases h : ∀ e ∈ ET,
+            e ∈ availableEdges (polymerIncompatibilityGraph γ)
+        · rw [if_pos h]
+          exact Finset.prod_eq_one (fun e he => by rw [if_pos (h e he)])
+        · rw [if_neg h]
+          push_neg at h
+          obtain ⟨e, he, hnot⟩ := h
+          exact Finset.prod_eq_zero he (by rw [if_neg hnot])
     _ = if ET ⊆ availableEdges (polymerIncompatibilityGraph γ)
         then 1 else 0 := by
         by_cases h : ET ⊆ availableEdges (polymerIncompatibilityGraph γ)
@@ -331,7 +339,11 @@ theorem spanningTreeEdgeSets_top_fin_one :
     · rw [SimpleGraph.connected_iff]
       refine ⟨?_, ⟨0⟩⟩
       intro u v
-      rw [Subsingleton.elim u v]
+      have hu := u.isLt
+      have hv := v.isLt
+      have huv : u = v := Fin.ext (by omega)
+      rw [huv]
+      exact ⟨SimpleGraph.Walk.nil⟩
     · rw [availableEdges_graphOfEdges]
       exact Finset.card_empty
 
