@@ -107,7 +107,7 @@ potentially useful definitions or research questions.
 - **Phase 2:** 25/25 modules compile.
 - **Phase 3 / `LatticeGauge`:** 45 verified stones + part b-i (latest: the uniform local geometry — at most 16 plaquettes per link and adjacency degree at most 64, volume-free constants).
 - **Phase 3 source files:** 48.
-- **Phase 3 declarations:** approximately 425 verified theorems and supporting
+- **Phase 3 declarations:** approximately 430 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
