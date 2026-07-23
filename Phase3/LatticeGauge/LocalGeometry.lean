@@ -180,6 +180,7 @@ private theorem slotFilter1_card_le (ℓ : Link N) :
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
+  dsimp only at ha hb hab
   have h3 : a3 = b3 := ha.2.2.trans hb.2.2.symm
   have h1 : a1 = b1 := by
     refine shift_injective (μ := b2) ?_
@@ -199,6 +200,7 @@ private theorem slotFilter2_card_le (ℓ : Link N) :
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
+  dsimp only at ha hb hab
   have h2 : a2 = b2 := ha.2.2.trans hb.2.2.symm
   have h1 : a1 = b1 := by
     refine shift_injective (μ := b3) ?_
