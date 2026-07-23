@@ -102,12 +102,12 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 19, 2026**
+**Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 42 verified stones (stone 42 complete: the exact Penrose identity and the finite tree-graph bound).
-- **Phase 3 source files:** 44.
-- **Phase 3 declarations:** approximately 360 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 43 verified stones (latest: the hard-core tree-graph bound for polymer tuples).
+- **Phase 3 source files:** 45.
+- **Phase 3 declarations:** approximately 380 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -156,7 +156,11 @@ The Phase 3 library currently includes formalizations of:
   disjoint, and exactly covering the connected spanning edge sets;
 - the exact Penrose identity `graphUrsellCoeff G = (−1)^n · #PenroseTrees(G)`
   obtained by two formal reindexations and the (1−1)^m cancellation, and the
-  finite tree-graph bound `|φ(G)| ≤ #SpanningTrees(G)` as its corollary.
+  finite tree-graph bound `|φ(G)| ≤ #SpanningTrees(G)` as its corollary;
+- the hard-core tree-graph bound for polymer tuples: the Ursell coefficient
+  of a tuple is controlled by a sum over labelled trees of the complete graph
+  with a hard-core incompatibility indicator on every edge — the format that
+  preserves the local constraints needed by future activity sums.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
