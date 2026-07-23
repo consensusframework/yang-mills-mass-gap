@@ -105,9 +105,9 @@ potentially useful definitions or research questions.
 **Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 45 verified stones, all parts complete (latest: at most 16·64^(2m) connected polymers of size m+1 using a fixed link, by doubled-walk covering).
-- **Phase 3 source files:** 49.
-- **Phase 3 declarations:** approximately 455 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 46 verified stones (latest: the Kotecký–Preiss smallness hypothesis verified with the concrete threshold β ≤ 1/40000).
+- **Phase 3 source files:** 50.
+- **Phase 3 declarations:** approximately 470 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -177,7 +177,13 @@ The Phase 3 library currently includes formalizations of:
   the exact visited set of some closed walk of length 2m (a covering by the
   image of walks — no canonical tree, no injectivity), so at most 64^(2m)
   rooted polymers per plaquette and 16·64^(2m) per link, with the weighted
-  one-size slice bounds that stone 46 will sum.
+  one-size slice bounds;
+- the finite geometric majorant (no infinite series anywhere) and the
+  KOTECKÝ–PREISS SMALLNESS HYPOTHESIS, verified with fully traced constants:
+  Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C| whenever
+  0 ≤ β ≤ 1/40000 (symbolic threshold β ≤ 1/(8320·e); the abstract KP
+  theorem turning this hypothesis into convergence of the cluster expansion
+  is the next chapter and is NOT claimed).
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
