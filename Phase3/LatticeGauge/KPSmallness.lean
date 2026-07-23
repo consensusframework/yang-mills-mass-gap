@@ -133,7 +133,7 @@ private theorem normalize_slice (β α : ℝ) (m : ℕ) :
     ((16 * 64 ^ (2 * m) : ℕ) : ℝ)
         * ((2 * β) ^ (m + 1) * Real.exp (α * (m + 1)))
       = 16 * kpQ β α * kpR β α ^ m := by
-  unfold kpQ kpR
+  unfold kpR kpQ
   push_cast
   have h64 : ((64 : ℝ)) ^ (2 * m) = 4096 ^ m := by
     rw [pow_mul]
@@ -169,11 +169,8 @@ theorem geom_sum_le_inv_one_sub {r : ℝ} (h0 : 0 ≤ r) (h1 : r < 1)
   have hpow : 0 ≤ r ^ P := pow_nonneg h0 P
   have hle : (∑ m ∈ Finset.range P, r ^ m) * (1 - r) ≤ 1 := by
     rw [hkey]; linarith
-  first
-  | · rw [le_div_iff₀ hpos]
-      exact hle
-  | · rw [le_div_iff hpos]
-      exact hle
+  rw [le_div_iff₀ hpos]
+  exact hle
 
 /-! ## 8. Rooted-link bound, uniform in the volume -/
 
@@ -279,6 +276,7 @@ theorem kp_smallness_alpha_one {β : ℝ} (hβ : 0 ≤ β)
     have h2 : (1 / (8320 * Real.exp 1)) * Real.exp 1
         = 1 / 8320 := by
       field_simp
+      ring
     rw [h2] at h1
     linarith
   have hq0 : 0 ≤ kpQ β 1 := kpQ_nonneg hβ 1
@@ -330,11 +328,8 @@ theorem kp_hypothesis_beta_le_one_div_40000
   have hepos : (0 : ℝ) < Real.exp 1 := Real.exp_pos 1
   have h1 : 8320 * Real.exp 1 < 40000 := by nlinarith
   have h2 : (1 : ℝ) / 40000 ≤ 1 / (8320 * Real.exp 1) := by
-    first
-    | · rw [div_le_div_iff₀ (by norm_num) (by positivity)]
-        nlinarith
-    | · rw [div_le_div_iff (by norm_num) (by positivity)]
-        nlinarith
+    rw [div_le_div_iff₀ (by norm_num) (by positivity)]
+    nlinarith
   linarith
 
 /-! ## 15-16. Sanity -/
