@@ -105,9 +105,9 @@ potentially useful definitions or research questions.
 **Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 43 verified stones (latest: the hard-core tree-graph bound for polymer tuples).
-- **Phase 3 source files:** 45.
-- **Phase 3 declarations:** approximately 380 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 44 verified stones (latest: the exponential bound |w_β(C)| ≤ (2β)^|C| on a single polymer activity).
+- **Phase 3 source files:** 46.
+- **Phase 3 declarations:** approximately 390 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -160,7 +160,10 @@ The Phase 3 library currently includes formalizations of:
 - the hard-core tree-graph bound for polymer tuples: the Ursell coefficient
   of a tuple is controlled by a sum over labelled trees of the complete graph
   with a hard-core incompatibility indicator on every edge — the format that
-  preserves the local constraints needed by future activity sums.
+  preserves the local constraints needed by future activity sums;
+- the exponential activity bound |w_β(C)| ≤ (2β)^|C| for every finite block
+  (volume-independent, no independence inside the block; no decay, no series,
+  no convergence claim).
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
