@@ -343,7 +343,6 @@ theorem spanningTreeEdgeSets_top_fin_one :
       have hv := v.isLt
       have huv : u = v := Fin.ext (by omega)
       rw [huv]
-      exact ⟨SimpleGraph.Walk.nil⟩
     · rw [availableEdges_graphOfEdges]
       exact Finset.card_empty
 
