@@ -166,21 +166,29 @@ theorem walksFrom_succ_subset (p₀ : Site N × Dir × Dir) (L : ℕ) :
         rw [Fin.snoc_castSucc]
         rfl
 
+set_option maxHeartbeats 1600000 in
 theorem walksFrom_card_succ_le (p₀ : Site N × Dir × Dir) (L : ℕ) :
     (walksFrom (N := N) p₀ (L + 1)).card
       ≤ 64 * (walksFrom p₀ L).card := by
-  refine (Finset.card_le_card (walksFrom_succ_subset p₀ L)).trans ?_
-  refine Finset.card_biUnion_le.trans ?_
-  calc ∑ g ∈ walksFrom p₀ L,
-        (((plaquetteGraph N).neighborFinset (g (Fin.last L))).image
-          (fun q => Fin.snoc g q)).card
+  set B : (Fin (L + 1) → Site N × Dir × Dir) →
+      Finset (Fin (L + 1 + 1) → Site N × Dir × Dir) :=
+    fun g => ((plaquetteGraph N).neighborFinset (g (Fin.last L))).image
+      (fun q => Fin.snoc g q) with hB
+  have h1 : (walksFrom (N := N) p₀ (L + 1)).card
+      ≤ ((walksFrom p₀ L).biUnion B).card :=
+    Finset.card_le_card (walksFrom_succ_subset p₀ L)
+  have h2 : ((walksFrom p₀ L).biUnion B).card
+      ≤ ∑ g ∈ walksFrom p₀ L, (B g).card :=
+    Finset.card_biUnion_le
+  have h3 : (∑ g ∈ walksFrom p₀ L, (B g).card)
       ≤ ∑ _g ∈ walksFrom p₀ L, 64 :=
-        Finset.sum_le_sum (fun g _ =>
-          Finset.card_image_le.trans
-            (neighborFinset_card_le (g (Fin.last L))))
-    _ = (walksFrom p₀ L).card * 64 := by
-        rw [Finset.sum_const, smul_eq_mul]
-    _ = 64 * (walksFrom p₀ L).card := Nat.mul_comm _ _
+    Finset.sum_le_sum (fun g _ =>
+      Finset.card_image_le.trans
+        (neighborFinset_card_le (g (Fin.last L))))
+  have h4 : (∑ _g ∈ walksFrom p₀ L, 64)
+      = (walksFrom p₀ L).card * 64 := by
+    rw [Finset.sum_const, smul_eq_mul]
+  omega
 
 /-- **The photograph count**: at most 64^L walks of length L. -/
 theorem walksFrom_card_le (p₀ : Site N × Dir × Dir) (L : ℕ) :
