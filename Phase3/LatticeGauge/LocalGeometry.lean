@@ -508,3 +508,4 @@ theorem polymersUsingLink_eq_empty {ℓ : Link N}
   exact Finset.not_mem_empty p hp
 
 end LatticeGauge
+
