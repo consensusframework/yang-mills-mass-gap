@@ -287,13 +287,15 @@ noncomputable def extendPermSucc {n : ℕ} (π : Equiv.Perm (Fin n)) :
 @[simp] theorem extendPermSucc_zero {n : ℕ}
     (π : Equiv.Perm (Fin n)) :
     extendPermSucc π 0 = 0 := by
-  show Fin.cons 0 (fun i => (π i).succ) 0 = 0
+  unfold extendPermSucc
+  simp only [Equiv.coe_fn_mk]
   exact Fin.cons_zero _ _
 
 @[simp] theorem extendPermSucc_succ {n : ℕ}
     (π : Equiv.Perm (Fin n)) (i : Fin n) :
     extendPermSucc π i.succ = (π i).succ := by
-  show Fin.cons 0 (fun j => (π j).succ) i.succ = (π i).succ
+  unfold extendPermSucc
+  simp only [Equiv.coe_fn_mk]
   exact Fin.cons_succ _ _ _
 
 /-- The rooted tuple of a permuted tail is the composed tuple: the
