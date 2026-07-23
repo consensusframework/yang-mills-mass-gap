@@ -105,9 +105,9 @@ potentially useful definitions or research questions.
 **Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 44 verified stones (latest: the exponential bound |w_β(C)| ≤ (2β)^|C| on a single polymer activity).
-- **Phase 3 source files:** 46.
-- **Phase 3 declarations:** approximately 390 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 45 verified stones (latest: covering the incompatibilities of a block by its ≤ 4·|C| support links).
+- **Phase 3 source files:** 47.
+- **Phase 3 declarations:** approximately 410 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -163,7 +163,11 @@ The Phase 3 library currently includes formalizations of:
   preserves the local constraints needed by future activity sums;
 - the exponential activity bound |w_β(C)| ≤ (2β)^|C| for every finite block
   (volume-independent, no independence inside the block; no decay, no series,
-  no convergence claim).
+  no convergence claim);
+- the link-covering inequality: the sum of any nonnegative weight over the
+  polymers incompatible with a block C is at most the sum over the ≤ 4·|C|
+  support links of C of the rooted per-link sums — with the Kotecký–Preiss
+  shaped weight |w_β(D)|·exp(α·|D|) as documented specialization.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
