@@ -105,9 +105,9 @@ potentially useful definitions or research questions.
 **Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 45 verified stones + part b-i (latest: the uniform local geometry — at most 16 plaquettes per link and adjacency degree at most 64, volume-free constants).
-- **Phase 3 source files:** 48.
-- **Phase 3 declarations:** approximately 430 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 45 verified stones, all parts complete (latest: at most 16·64^(2m) connected polymers of size m+1 using a fixed link, by doubled-walk covering).
+- **Phase 3 source files:** 49.
+- **Phase 3 declarations:** approximately 455 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -172,7 +172,12 @@ The Phase 3 library currently includes formalizations of:
   use a fixed link and the stone-33 adjacency graph has degree at most 64 —
   constants with no volume parameter in their types — reducing the control of
   all polymers incompatible with C to the size-counting of connected polymers
-  containing a fixed root plaquette.
+  containing a fixed root plaquette;
+- the doubled-walk counting: every rooted connected polymer of size m+1 is
+  the exact visited set of some closed walk of length 2m (a covering by the
+  image of walks — no canonical tree, no injectivity), so at most 64^(2m)
+  rooted polymers per plaquette and 16·64^(2m) per link, with the weighted
+  one-size slice bounds that stone 46 will sum.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
