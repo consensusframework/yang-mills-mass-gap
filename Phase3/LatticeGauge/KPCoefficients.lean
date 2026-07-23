@@ -116,7 +116,7 @@ noncomputable def rootedTreeSum (n : ℕ)
 
 noncomputable def kpTreeCoeff (n : ℕ)
     (ρ : Polymer N → ℝ) (γ₀ : Polymer N) : ℝ :=
-  rootedTreeSum n ρ γ₀ / (n ! : ℝ)
+  rootedTreeSum n ρ γ₀ / ((Nat.factorial n : ℕ) : ℝ)
 
 /-! ## 5. The Ursell coefficient Aₙ -/
 
@@ -124,7 +124,7 @@ noncomputable def kpUrsellCoeff (n : ℕ)
     (ρ : Polymer N → ℝ) (γ₀ : Polymer N) : ℝ :=
   (∑ γ : Fin n → Polymer N,
       ((ursellCoeff (rootedTuple γ₀ γ)).natAbs : ℝ)
-        * ∏ i : Fin n, ρ (γ i)) / (n ! : ℝ)
+        * ∏ i : Fin n, ρ (γ i)) / ((Nat.factorial n : ℕ) : ℝ)
 
 /-! ## 6. The zero cases: only the root, coefficient 1 -/
 
@@ -190,7 +190,7 @@ theorem kpUrsellCoeff_le_kpTreeCoeff (n : ℕ)
     refine mul_le_mul_of_nonneg_right ?_
       (Finset.prod_nonneg (fun i _ => hρ (γ i)))
     exact_mod_cast ursellCoeff_hardCoreTree_bound (rootedTuple γ₀ γ)
-  · exact_mod_cast Nat.factorial_pos n
+  · exact Nat.cast_nonneg _
 
 /-! ## 9. Relabeling: the tree universe is stable under
     permutations (stone-38 machinery + the 40b cardinal converse —
@@ -252,14 +252,13 @@ theorem treeSum_comp_perm {n : ℕ}
     exact relabelEdgeSet_mem_spanningTreeEdgeSets_top σ hET
   · intro E₁ h₁ E₂ h₂ heq
     simp only [] at heq
-    have h := congrArg (relabelEdgeSet σ.symm) heq
-    rwa [relabelEdgeSet_symm_cancel, relabelEdgeSet_symm_cancel] at h
+    unfold relabelEdgeSet at heq
+    exact Finset.map_injective _ heq
   · intro ET' hET'
     refine ⟨relabelEdgeSet σ.symm ET',
       relabelEdgeSet_mem_spanningTreeEdgeSets_top σ.symm hET', ?_⟩
     show relabelEdgeSet σ (relabelEdgeSet σ.symm ET') = ET'
-    have h := relabelEdgeSet_symm_cancel σ.symm ET'
-    rwa [Equiv.symm_symm] at h
+    exact relabelEdgeSet_symm_cancel σ ET' 
   · intro ET hET
     rw [hardCoreTreeIndicator_comp_perm]
 
@@ -287,13 +286,15 @@ noncomputable def extendPermSucc {n : ℕ} (π : Equiv.Perm (Fin n)) :
 
 @[simp] theorem extendPermSucc_zero {n : ℕ}
     (π : Equiv.Perm (Fin n)) :
-    extendPermSucc π 0 = 0 :=
-  Fin.cons_zero _ _
+    extendPermSucc π 0 = 0 := by
+  show Fin.cons 0 (fun i => (π i).succ) 0 = 0
+  exact Fin.cons_zero _ _
 
 @[simp] theorem extendPermSucc_succ {n : ℕ}
     (π : Equiv.Perm (Fin n)) (i : Fin n) :
-    extendPermSucc π i.succ = (π i).succ :=
-  Fin.cons_succ _ _ _
+    extendPermSucc π i.succ = (π i).succ := by
+  show Fin.cons 0 (fun j => (π j).succ) i.succ = (π i).succ
+  exact Fin.cons_succ _ _ _
 
 /-- The rooted tuple of a permuted tail is the composed tuple: the
     root stays at 0, the tails follow π. -/
