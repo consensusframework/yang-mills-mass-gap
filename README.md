@@ -105,9 +105,9 @@ potentially useful definitions or research questions.
 **Last updated: July 23, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 46 verified stones (latest: the Kotecký–Preiss smallness hypothesis verified with the concrete threshold β ≤ 1/40000).
-- **Phase 3 source files:** 50.
-- **Phase 3 declarations:** approximately 470 verified theorems and supporting
+- **Phase 3 / `LatticeGauge`:** 46 verified stones + part 47b-i (latest: the finite rooted cluster coefficients Aₙ ≤ Tₙ with their relabeling lemmas, the layer below the Kotecký–Preiss induction).
+- **Phase 3 source files:** 51.
+- **Phase 3 declarations:** approximately 485 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -183,7 +183,14 @@ The Phase 3 library currently includes formalizations of:
   Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C| whenever
   0 ≤ β ≤ 1/40000 (symbolic threshold β ≤ 1/(8320·e); the abstract KP
   theorem turning this hypothesis into convergence of the cluster expansion
-  is the next chapter and is NOT claimed).
+  is the next chapter and is NOT claimed);
+- the finite rooted cluster coefficients: Aₙ (rooted Ursell, no root
+  activity) and its labelled-tree majorant Tₙ as finite sums over the real
+  polymer universe, with A₀ = T₀ = 1, nonnegativity, Aₙ ≤ Tₙ from the
+  hard-core tree bound, and named relabeling lemmas (tree universe and
+  rooted summand invariant under index permutations) — the layer beneath
+  the Kotecký–Preiss induction, whose paper proof survived independent
+  adversarial audit.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
