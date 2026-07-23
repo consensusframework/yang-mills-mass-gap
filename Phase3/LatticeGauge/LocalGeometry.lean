@@ -161,7 +161,8 @@ private theorem slotFilter0_card_le (ℓ : Link N) :
   refine Finset.card_le_card_of_injOn (fun p => p.2.2)
     (fun p _ => Finset.mem_univ _) ?_
   intro a ha b hb hab
-  rw [Finset.mem_coe, Finset.mem_filter] at ha hb
+  unfold slotFilter0 at ha hb
+  rw [Finset.mem_filter] at ha hb
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
@@ -174,7 +175,8 @@ private theorem slotFilter1_card_le (ℓ : Link N) :
   refine Finset.card_le_card_of_injOn (fun p => p.2.1)
     (fun p _ => Finset.mem_univ _) ?_
   intro a ha b hb hab
-  rw [Finset.mem_coe, Finset.mem_filter] at ha hb
+  unfold slotFilter1 at ha hb
+  rw [Finset.mem_filter] at ha hb
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
@@ -192,7 +194,8 @@ private theorem slotFilter2_card_le (ℓ : Link N) :
   refine Finset.card_le_card_of_injOn (fun p => p.2.2)
     (fun p _ => Finset.mem_univ _) ?_
   intro a ha b hb hab
-  rw [Finset.mem_coe, Finset.mem_filter] at ha hb
+  unfold slotFilter2 at ha hb
+  rw [Finset.mem_filter] at ha hb
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
@@ -210,7 +213,8 @@ private theorem slotFilter3_card_le (ℓ : Link N) :
   refine Finset.card_le_card_of_injOn (fun p => p.2.1)
     (fun p _ => Finset.mem_univ _) ?_
   intro a ha b hb hab
-  rw [Finset.mem_coe, Finset.mem_filter] at ha hb
+  unfold slotFilter3 at ha hb
+  rw [Finset.mem_filter] at ha hb
   dsimp only at hab
   obtain ⟨a1, a2, a3⟩ := a
   obtain ⟨b1, b2, b3⟩ := b
