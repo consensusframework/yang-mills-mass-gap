@@ -30,6 +30,11 @@ onde γ₀ :: γ é a tupla Fin (n+1) → P com valor γ₀ no índice 0 e
 - as ocorrências são rotuladas por Fin n; a 38ª garante que φ só
   depende da tupla não ordenada COM multiplicidades.
 
+CONVENÇÃO DE VÉRTICES (fixada antes de qualquer indicador de aresta):
+o vértice 0 carrega γ₀; o vértice i.succ carrega γ(i); a atividade da
+raiz γ₀ NÃO aparece no produto de atividades; cada um dos n demais
+vértices contribui exatamente uma vez ao produto Π ρ(γᵢ).
+
 O majorante de árvores (mesma normalização):
 
   Tₙ(γ₀) := (1/n!) · Σ_{γ : Fin n → P} Σ_{T ∈ Árvores({0,…,n})}
@@ -41,9 +46,11 @@ vazios).
 
 ## 2. TREE-GRAPH MAJORANT (43ª consumida, nada reprovado)
 
-A 43ª dá, para cada tupla fixa:
-  |φ(γ₀ :: γ)| ≤ Σ_{T} Π_{{i,j}∈T} 1[γᵢ ≁ γⱼ]
-(hardCoreTreeIndicator somado sobre spanningTreeEdgeSets de ⊤).
+A 43ª dá, para cada tupla fixa — TEOREMA EXATO CONSUMIDO:
+`ursellCoeff_hardCoreTree_bound` (PolymerTreeBound.lean):
+  (ursellCoeff γtupla).natAbs
+    ≤ Σ_{ET ∈ spanningTreeEdgeSets ⊤} hardCoreTreeIndicator γtupla ET
+i.e.  |φ(γ₀ :: γ)| ≤ Σ_{T} Π_{{i,j}∈T} 1[γᵢ ≁ γⱼ].
 Multiplicando por Πρ ≥ 0 e somando: **Aₙ(γ₀) ≤ Tₙ(γ₀)** para todo n.
 
 ## 3. DECOMPOSIÇÃO DA ÁRVORE NA RAIZ
@@ -94,14 +101,27 @@ corresponde a exatamente k! sequências — mesmo quando os valores
 
 CÁLCULO DE F(B) para |B| = m+1: fixe r ∈ B e uma bijeção qualquer de
 B∖{r} com {1,…,m} (r ↦ 0). A soma sobre (t, γ) é invariante pela
-relabelagem (permutação de índices: análogo da 38ª para somas de
-árvores — LEMA A FORMALIZAR na 47b, ponto 6 da lista), logo
+relabelagem — LEMA DE RELABELAGEM (enunciado preciso, a formalizar na 47b-i):
+para tipos finitos V, V′ com |V| = |V′| = m+1, uma equivalência
+σ : V ≃ V′, uma marca r ∈ V com r′ := σ(r), e η ∈ P:
+  Σ_{t ∈ Árvores(V)} Σ_{γ : V → P, γ(r) = η}
+      Π_{{i,j}∈t} 1[γᵢ≁γⱼ] · Π_{i∈V∖{r}} ρ(γᵢ)
+    = Σ_{t′ ∈ Árvores(V′)} Σ_{γ′ : V′ → P, γ′(r′) = η}
+      Π_{{i,j}∈t′} 1[γ′ᵢ≁γ′ⱼ] · Π_{i∈V′∖{r′}} ρ(γ′ᵢ)
+(a bijeção t ↦ σ(t), γ′ := γ ∘ σ⁻¹ preserva adjacência, indicadores
+e o produto reindexado de atividades). REALIZAÇÃO LEAN: como o nosso
+OrderedEdge usa a ordem de Fin, a versão formal será por permutações
+de Fin (m+1) via a maquinaria canônica da 38ª (canonicalOrderedEdge/
+relabelEdgeSet), composta com Finset.equivFin para blocos — logo
 
   Σ_{t sobre B} Σ_{γ:B→P, γ_r = η} (…) = m! · T_m(η) · [coef. já
     normalizado: por definição T_m(η) = (1/m!)·(a mesma soma sobre
     {0,…,m} com raiz η)]
 
-e portanto F(B) = Σ_{r∈B} Σ_η 1[η≁γ₀] ρ(η) · m!·T_m(η)
+e portanto — com a expressão m!·T_m(η) contendo atividades SOMENTE
+nos vértices B∖{r}, o fator ρ(η) da raiz marcada colocado
+externamente exatamente uma vez —
+F(B) = Σ_{r∈B} Σ_η 1[η≁γ₀] ρ(η) · m!·T_m(η)
               = (m+1) · m! · Σ_η 1[η≁γ₀] ρ(η) T_m(η).
 
 CONTAGEM DAS PARTIÇÕES ORDENADAS por tamanhos: para (n₁+1,…,n_k+1)
@@ -145,6 +165,12 @@ está auditado em três ordens.
 
   S_M(γ) := Σ_{n=0}^{M} Tₙ(γ).
 
+NÃO NEGATIVIDADE EXPLÍCITA (registrada ANTES de qualquer extensão):
+0 ≤ Tₙ(γ) (soma de produtos de indicadores e ρ ≥ 0), logo
+0 ≤ S_M(γ), logo 0 ≤ X := Σ_{η≁γ₀} ρ(η)·S_{M−1}(η). A desigualdade
+da exponencial truncada Σ_{k≤M} X^k/k! ≤ e^X será usada SOMENTE após
+X ≥ 0 estabelecido.
+
 Para n ≥ 1 na recorrência, k ≥ 1 força cada nⱼ ≤ n−k ≤ M−1 — logo só
 T_{nⱼ} com nⱼ ≤ M−1 aparecem (ponto do item 6 da fita). Como todos os
 termos são ≥ 0, ESTENDER a soma sobre composições ao produto de somas
@@ -162,11 +188,17 @@ Nenhuma série infinita: ambos os lados são somas finitas.
 **Hipótese (KP, provada na 46ª para o nosso gás):**
   ∀γ: Σ_{η≁γ} ρ(η)·e^{a(η)} ≤ a(γ),  com a ≥ 0.
 
-**Afirmação:** ∀M: S_M(γ) ≤ e^{a(γ)}.
+**MOTIVO DE INDUÇÃO (correção do Kimi — SIMULTÂNEO em todas as
+raízes):**
+  P(M) := ∀ γ, S_M(γ) ≤ e^{a(γ)}.
+A indução é em M com TODAS as raízes quantificadas dentro do motivo:
+não é indução para raiz fixa, porque o passo para γ₀ consulta
+S_{M−1}(η) para TODO η — inclusive η = γ₀.
 
-Base M = 0: S₀ = T₀ = 1 ≤ e^{a(γ)} pois a(γ) ≥ 0 (ponto 4 da lista —
+Base P(0): ∀γ, S₀(γ) = T₀(γ) = 1 ≤ e^{a(γ)} pois a(γ) ≥ 0 (ponto 4 —
 no nosso gás a(D) = |D| ≥ 1 > 0 ✓).
-Passo: por indução S_{M−1}(η) ≤ e^{a(η)} ⟹
+Passo P(M−1) ⟹ P(M): fixe γ₀; a hipótese P(M−1) dá
+∀η, S_{M−1}(η) ≤ e^{a(η)} ⟹
   X ≤ Σ_{η≁γ₀} ρ(η)e^{a(η)} ≤ a(γ₀)   [hipótese KP — usada UMA vez,
     sem circularidade: é insumo da 46ª, não desta indução — ponto 7]
   S_M(γ₀) ≤ Σ_{k=0}^{M} X^k/k! ≤ e^X ≤ e^{a(γ₀)}
@@ -180,9 +212,10 @@ A PRIMEIRA forma é a interface principal (a segunda é corolário).
 
 ## 9. APLICAÇÃO AO NOSSO GÁS (só papel)
 
-ρ(D) := |polymerWeight β χ D|, a(D) := D.card, 0 ≤ β ≤ 1/40000.
-A 46ª (kp_hypothesis_beta_le_one_div_40000) é exatamente a hipótese
-do §7 com essas escolhas. Conclusão: TODAS as somas parciais da
+ρ(D) := |polymerWeight β χ D| — NÃO NEGATIVA por construção (valor
+absoluto); a(D) := D.card ≥ 0 (de fato ≥ 1 para polímeros);
+0 ≤ β ≤ 1/40000. A 46ª (kp_hypothesis_beta_le_one_div_40000) fornece
+a hipótese do §7 PARA TODA raiz D, sem caso especial de raiz pesada. Conclusão: TODAS as somas parciais da
 expansão enraizada em D₀ são ≤ exp(D₀.card). Sem Summable.
 
 ## 10. STATUS EPISTÊMICO
@@ -207,12 +240,19 @@ C. (rejeitada) power series formais: máquina demais.
 
 O único lema de partição necessário é o do §3/§4: bijeção
 árvores ↔ (partição ordenada com marcas)/k!, com a versão Lean
-proposta SEM quocientes: somar sobre dados ORDENADOS e provar a
-k!-multiplicidade via ação livre de Equiv.Perm (Fin k) sobre as
-sequências de blocos (livre porque blocos são conjuntos distintos).
-Se essa ação-livre-⟹-contagem não fechar com Finset.card_smul... a
-lacuna estará EXATAMENTE aí e será formulada isolada. Nenhuma
-identidade de espécies é necessária.
+proposta SEM quocientes e SEM divisão em tipos discretos:
+- dados ordenados de componentes empacotados como sequências
+  Fin k → (Σ m : ℕ, ComponentData m) — o Σ-empacotamento evita
+  transportes heterogêneos entre blocos de tamanhos distintos;
+- ação de Equiv.Perm (Fin k) por PRÉ-COMPOSIÇÃO nas sequências;
+- a ação é LIVRE porque os blocos são disjuntos, não vazios e
+  distintos como conjuntos de rótulos (sem estabilizador);
+- órbita-estabilizador com estabilizador trivial, formulado
+  MULTIPLICATIVAMENTE:
+    card (orderedData) = k! * card (unorderedFamilies).
+Se a contagem órbita-estabilizador não fechar, a lacuna estará
+EXATAMENTE aí e será formulada isolada. Nenhuma identidade de
+espécies é necessária.
 
 ## LISTA EXPLÍCITA PARA REVISÃO ADVERSARIAL (Kimi)
 
