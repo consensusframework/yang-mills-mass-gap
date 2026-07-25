@@ -102,17 +102,35 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 23, 2026**
+**Last updated: July 25, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 46 verified stones + part 47b-i (latest: the finite rooted cluster coefficients Aₙ ≤ Tₙ with their relabeling lemmas, the layer below the Kotecký–Preiss induction).
+- **Phase 3 / `LatticeGauge`:** 47 stone deliveries verified (stones 1–46
+  complete; stone 47 in progress: the paper proof of the finite
+  Kotecký–Preiss induction is frozen and adversarially audited, and its first
+  formal layer — part b-i — is integrated).
 - **Phase 3 source files:** 51.
 - **Phase 3 declarations:** approximately 485 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
 
-The Phase 3 library currently includes formalizations of:
+**Milestone of the current chapter.** The Kotecký–Preiss smallness
+hypothesis for this lattice polymer gas is now a machine-verified theorem
+with fully traced constants: for 0 ≤ β ≤ 1/40000,
+`Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C|`.
+This is the numerical key required by the Kotecký–Preiss convergence
+criterion; the abstract theorem that turns this hypothesis into convergence
+of the cluster expansion is the chapter currently under construction
+(its combinatorial proof is written and independently audited; its
+formalization is in progress). No convergence, clustering, or mass-gap
+statement is claimed.
+
+The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
+state, the exact β = 0 probabilistic chapter, the exact expansion mechanics
+(Mayer → components → polymers → gas), the Penrose/tree-graph combinatorics,
+and the Kotecký–Preiss bounds chapter — and currently includes
+formalizations of:
 
 - finite periodic lattices, sites, directions, links, and plaquettes;
 - lattice gauge configurations;
@@ -188,9 +206,11 @@ The Phase 3 library currently includes formalizations of:
   activity) and its labelled-tree majorant Tₙ as finite sums over the real
   polymer universe, with A₀ = T₀ = 1, nonnegativity, Aₙ ≤ Tₙ from the
   hard-core tree bound, and named relabeling lemmas (tree universe and
-  rooted summand invariant under index permutations) — the layer beneath
-  the Kotecký–Preiss induction, whose paper proof survived independent
-  adversarial audit.
+  rooted summand invariant under index permutations) — the first formal
+  layer beneath the Kotecký–Preiss induction, whose complete paper proof
+  (`PEDRA47A_PROOF.md`, frozen at commit `ede2ba63d2`) survived independent
+  adversarial audit by a fourth model (Kimi/Moonshot) before any
+  formalization began.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
