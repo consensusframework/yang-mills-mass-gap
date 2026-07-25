@@ -424,6 +424,11 @@ Frozen source tag for this version: `zenodo-v35` (commit bfd8e46).
   dependency mapping, and comparative audit of reconstructed modules.
 - **GPT-5.2 (OpenAI)** — early axiom reformulation, conditional-theorem design,
   and strategic planning.
+- **Kimi 3 (Moonshot AI)** — independent adversarial audit of the finite
+  Kotecký–Preiss induction manuscript (stone 47a-P, frozen at `ede2ba63d2`):
+  verification of the recurrence, the factorial cancellations, the 1/k!
+  multiplicity under repetitions, and the non-circularity of the KP
+  hypothesis, with corrections incorporated before any formalization.
 - **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
   numerical and physical hypothesis exploration, and historical architecture.
 - **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
