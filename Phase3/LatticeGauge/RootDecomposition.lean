@@ -324,7 +324,7 @@ theorem exists_walkUp {ET : Finset (OrderedEdge (n + 1))}
   | nil => exact ⟨SimpleGraph.Walk.nil, rfl⟩
   | cons hadj p ih =>
     obtain ⟨p', hp'⟩ := ih
-    refine ⟨SimpleGraph.Walk.cons (childGraph_le _ _ hadj) p', ?_⟩
+    refine ⟨SimpleGraph.Walk.cons (childGraph_le hadj) p', ?_⟩
     rw [SimpleGraph.Walk.support_cons, SimpleGraph.Walk.support_cons,
       hp']
 
