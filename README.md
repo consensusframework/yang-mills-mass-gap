@@ -102,15 +102,16 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 25, 2026**
+**Last updated: July 30, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 47 stone deliveries verified (stones 1–46
+- **Phase 3 / `LatticeGauge`:** 48 stone deliveries verified (stones 1–46
   complete; stone 47 in progress: the paper proof of the finite
-  Kotecký–Preiss induction is frozen and adversarially audited, and its first
-  formal layer — part b-i — is integrated).
-- **Phase 3 source files:** 51.
-- **Phase 3 declarations:** approximately 485 verified theorems and supporting
+  Kotecký–Preiss induction is frozen and adversarially audited, and its
+  formal layers b-i — rooted coefficients and relabeling — and b-iiA — the
+  root-removal partition of spanning trees — are integrated).
+- **Phase 3 source files:** 52.
+- **Phase 3 declarations:** approximately 520 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -210,7 +211,13 @@ formalizations of:
   layer beneath the Kotecký–Preiss induction, whose complete paper proof
   (`PEDRA47A_PROOF.md`, frozen at commit `ede2ba63d2`) survived independent
   adversarial audit by a fourth model (Kimi/Moonshot) before any
-  formalization began.
+  formalization began;
+- the root-removal partition of spanning trees: the root neighbours (typed
+  to exclude the root), the child forest with the root isolated, exactly one
+  root neighbour per connected component (via the unique-path
+  characterization of trees), the disjoint edge factorization, and the exact
+  reconstruction — the combinatorial substrate on which the k! enumeration
+  count of part b-iiB will stand.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
