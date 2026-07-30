@@ -133,7 +133,7 @@ theorem rootEdgesOf_eq_image (ET : Finset (OrderedEdge (n + 1))) :
   rw [Finset.mem_filter, Finset.mem_image]
   constructor
   · rintro ⟨hmem, h0⟩
-    obtain ⟨(a, b), hab⟩ := e
+    obtain ⟨⟨a, b⟩, hab⟩ := e
     dsimp only at h0
     subst h0
     rcases Fin.eq_zero_or_eq_succ b with rfl | ⟨j, rfl⟩
@@ -301,7 +301,6 @@ theorem exists_rootNeighbor_component
   obtain ⟨w⟩ := hTree.isConnected 0 v.succ
   obtain ⟨w', hw'⟩ := w.toPath
   cases w' with
-  | nil => exact absurd rfl (Fin.succ_ne_zero v).symm
   | cons hadj rest =>
     rw [SimpleGraph.Walk.cons_isPath_iff] at hw'
     obtain ⟨hrest, h0rest⟩ := hw'
@@ -314,6 +313,20 @@ theorem exists_rootNeighbor_component
     exact (child_reachable_of_walk rest h0rest).symm
 
 /-! ## 6. THE CENTRAL LEMMA: one root neighbour per component -/
+
+/-- Child-forest walks lift to ET-walks with the SAME support list
+    (edge-by-edge rebuild — no hom unfolding). -/
+theorem exists_walkUp {ET : Finset (OrderedEdge (n + 1))}
+    {a b : Fin (n + 1)}
+    (w : (graphOfEdges (childEdges ET)).Walk a b) :
+    ∃ w' : (graphOfEdges ET).Walk a b, w'.support = w.support := by
+  induction w with
+  | nil => exact ⟨SimpleGraph.Walk.nil, rfl⟩
+  | cons hadj p ih =>
+    obtain ⟨p', hp'⟩ := ih
+    refine ⟨SimpleGraph.Walk.cons (childGraph_le _ _ hadj) p', ?_⟩
+    rw [SimpleGraph.Walk.support_cons, SimpleGraph.Walk.support_cons,
+      hp']
 
 /-- **Two root neighbours in the same component coincide** — an
     internal path plus the two root edges would give two distinct
@@ -332,8 +345,6 @@ theorem rootNeighbor_eq_of_mem_component
       s.succ r.succ := mem_rootComponent.mp hmem
   obtain ⟨wc⟩ := hreach
   obtain ⟨pc, hpc⟩ := wc.toPath
-  have hle : graphOfEdges (childEdges ET) ≤ graphOfEdges ET :=
-    childGraph_le
   have hadjr : (graphOfEdges ET).Adj 0 r.succ :=
     adj_zero_succ_iff.mpr (mem_rootNeighbors.mp hr)
   have hadjs : (graphOfEdges ET).Adj 0 s.succ :=
@@ -343,17 +354,13 @@ theorem rootNeighbor_eq_of_mem_component
     SimpleGraph.Walk.cons hadjr SimpleGraph.Walk.nil with hP1
   have hP1path : P1.IsPath := by
     rw [hP1, SimpleGraph.Walk.cons_isPath_iff]
-    refine ⟨SimpleGraph.Walk.IsPath.nil, ?_⟩
+    refine ⟨SimpleGraph.Walk.IsPath.mk' (by simp), ?_⟩
     rw [SimpleGraph.Walk.support_nil, List.mem_singleton]
     exact (Fin.succ_ne_zero r).symm
-  -- path 2: root edge to s, then the internal path up in ET
-  set W : (graphOfEdges ET).Walk s.succ r.succ :=
-    pc.mapLe hle with hW
-  have hWpath : W.IsPath := hpc.mapLe hle
-  have hWsupp : W.support = pc.support := by
-    rw [hW]
-    simp [SimpleGraph.Walk.mapLe, SimpleGraph.Walk.support_map,
-      SimpleGraph.Hom.mapSpanningSubgraphs]
+  -- path 2: root edge to s, then the internal path lifted to ET
+  obtain ⟨W, hWsupp⟩ := exists_walkUp pc
+  have hWpath : W.IsPath :=
+    SimpleGraph.Walk.IsPath.mk' (hWsupp ▸ hpc.support_nodup)
   have h0W : (0 : Fin (n + 1)) ∉ W.support := by
     rw [hWsupp]
     exact zero_not_mem_child_walk_support (Fin.succ_ne_zero s) pc
@@ -363,13 +370,13 @@ theorem rootNeighbor_eq_of_mem_component
     rw [hP2, SimpleGraph.Walk.cons_isPath_iff]
     exact ⟨hWpath, h0W⟩
   -- uniqueness in the tree
-  obtain ⟨-, huniq⟩ := isTree_iff_existsUnique_path.mp hTree
+  obtain ⟨-, huniq⟩ :=
+    SimpleGraph.isTree_iff_existsUnique_path.mp hTree
   obtain ⟨q, -, hq⟩ := huniq 0 r.succ
   have h12 : P1 = P2 := (hq P1 hP1path).trans (hq P2 hP2path).symm
   -- but their second vertices differ
   have e1 : P1.getVert 1 = r.succ := rfl
   have e2 : P2.getVert 1 = s.succ := by
-    rw [hP2]
     show W.getVert 0 = s.succ
     exact W.getVert_zero
   rw [h12, e2] at e1
@@ -420,7 +427,7 @@ theorem child_edge_adj {ET : Finset (OrderedEdge (n + 1))}
     {e : OrderedEdge (n + 1)} (he : e ∈ childEdges ET) :
     (graphOfEdges (childEdges ET)).Adj e.val.1 e.val.2 :=
   Or.inl ⟨e.2, by
-    obtain ⟨(a, b), hab⟩ := e
+    obtain ⟨⟨a, b⟩, hab⟩ := e
     exact he⟩
 
 /-- **The child edges split exactly by component.** -/
