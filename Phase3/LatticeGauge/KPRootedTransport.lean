@@ -40,8 +40,8 @@ open scoped Classical
 namespace LatticeGauge
 
 variable {N : ℕ} [NeZero N] [Fintype (Site N)]
-variable {V : Type*} [Fintype V] [LinearOrder V]
-variable {V' : Type*} [Fintype V'] [LinearOrder V']
+variable {V : Type*} [Fintype V] [LinearOrder V] [DecidableEq V]
+variable {V' : Type*} [Fintype V'] [LinearOrder V'] [DecidableEq V']
 
 /-! ## Ordered edges and generated graphs over a linear type -/
 
@@ -229,7 +229,8 @@ theorem graphOfEdgesOn_relabel_connected_iff (σ : V ≃ V')
     IsTree on generic types — the 40b converse enters only at the
     Fin end, in Gate IV-B) -/
 
-noncomputable def connTreesOn (V : Type*) [Fintype V] [LinearOrder V] :
+noncomputable def connTreesOn (V : Type*) [Fintype V] [LinearOrder V]
+    [DecidableEq V] :
     Finset (Finset (OrderedEdgeOn V)) :=
   Finset.univ.filter (fun E =>
     (graphOfEdgesOn E).Connected ∧ E.card + 1 = Fintype.card V)
@@ -408,7 +409,7 @@ theorem rootedTreeSumOn_congr_refl (ρ : Polymer N → ℝ) (r : V)
   rootedTreeSumOn_congr (Equiv.refl V) rfl ρ η
 
 theorem rootedTreeSumOn_congr_trans {V'' : Type*} [Fintype V'']
-    [LinearOrder V''] (σ : V ≃ V') (τ : V' ≃ V'')
+    [LinearOrder V''] [DecidableEq V''] (σ : V ≃ V') (τ : V' ≃ V'')
     {r : V} {r' : V'} {r'' : V''}
     (hr : σ r = r') (hr' : τ r' = r'')
     (ρ : Polymer N → ℝ) (η : Polymer N) :

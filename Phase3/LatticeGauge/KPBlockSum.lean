@@ -136,7 +136,8 @@ theorem connTreesOn_fin_eq (m : ℕ) :
 
 theorem rootedTuple_eq_val_comp (η : Polymer N) {m : ℕ}
     (γ' : Fin m → Polymer N) :
-    rootedTuple η γ' = fun i => (Fin.cons η γ' i).val := by
+    rootedTuple η γ'
+      = fun i => ((Fin.cons η γ' : Fin (m + 1) → Polymer N) i).val := by
   funext i
   refine Fin.cases ?_ ?_ i
   · rw [rootedTuple_zero, Fin.cons_zero]
@@ -151,17 +152,18 @@ theorem rootedTreeWeightOn_cons (ρ : Polymer N → ℝ) (η : Polymer N)
     (E : Finset (OrderedEdgeOn (Fin (m + 1)))) :
     rootedTreeWeightOn ρ (0 : Fin (m + 1)) (Fin.cons η γ') E
       = rootedTreeWeight ρ η γ' E := by
+  set δc : Fin (m + 1) → Polymer N := Fin.cons η γ' with hδc
   unfold rootedTreeWeightOn rootedTreeWeight treeIndicatorOn
     hardCoreTreeIndicator rootedActivityOn
   have hind : ∀ ed ∈ E,
-      edgeIndicatorOn (Fin.cons η γ') ed
+      edgeIndicatorOn δc ed
         = hardCoreEdgeIndicator (rootedTuple η γ') ed := by
     intro ed _
-    rw [rootedTuple_eq_val_comp]
+    rw [rootedTuple_eq_val_comp, hδc]
     rfl
   rw [Finset.prod_congr rfl hind]
   have hact : (∏ v ∈ Finset.univ.erase (0 : Fin (m + 1)),
-      ρ (Fin.cons η γ' v)) = ∏ i : Fin m, ρ (γ' i) := by
+      ρ (δc v)) = ∏ i : Fin m, ρ (γ' i) := by
     refine (Finset.prod_bij
       (fun (i : Fin m) _ => i.succ) ?_ ?_ ?_ ?_).symm
     · intro i _
@@ -174,6 +176,8 @@ theorem rootedTreeWeightOn_cons (ρ : Polymer N → ℝ) (η : Polymer N)
       obtain ⟨j, rfl⟩ := (Fin.eq_zero_or_eq_succ v).resolve_left hv.1
       exact ⟨j, Finset.mem_univ j, rfl⟩
     · intro i _
+      show ρ (γ' i) = ρ (δc i.succ)
+      rw [hδc]
       show ρ (γ' i) = ρ (Fin.cons η γ' i.succ)
       rw [Fin.cons_succ]
   rw [hact]
@@ -262,11 +266,11 @@ theorem fixedRootBlockSum_unit (ρ : Polymer N → ℝ)
     fixedRootBlockSum ρ B r η = 1 := by
   have hm : blockTailCard B r = 0 := by
     unfold blockTailCard
-    have hr : r.val = a := by
-      have := r.2
-      rw [hB, Finset.mem_singleton] at this
-      exact this
-    rw [hB, hr, Finset.erase_singleton, Finset.card_empty]
+    have hcard : B.card = 1 := by
+      rw [hB]
+      exact Finset.card_singleton a
+    have herase := Finset.card_erase_of_mem r.2
+    omega
   rw [fixedRootBlockSum_eq_rootedTreeSum, hm]
   exact rootedTreeSum_zero ρ η
 
