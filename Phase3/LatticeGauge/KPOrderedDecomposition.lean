@@ -463,7 +463,9 @@ theorem childEdges_reconstructTree (D : OrderedDecomposition n k) :
   rw [mem_childEdges, mem_reconstructTree, Finset.mem_biUnion]
   constructor
   · rintro ⟨⟨j, hj⟩ | ⟨j, hj⟩, hne⟩
-    · exact absurd (by rw [← hj]) hne
+    · refine absurd ?_ hne
+      rw [← hj]
+      rfl
     · exact ⟨j, Finset.mem_univ j, hj⟩
   · rintro ⟨j, -, hj⟩
     exact ⟨Or.inr ⟨j, hj⟩, itree_fst_ne_zero hj⟩
@@ -492,9 +494,12 @@ theorem card_reconstructTree (D : OrderedDecomposition n k) :
     obtain ⟨j', -, hj'⟩ := h2
     refine itree_fst_ne_zero hj' ?_
     rw [← hj]
+    rfl
+  have hinj : Function.Injective
+      (fun j : Fin k => rootEdge (D.marked j)) :=
+    fun a b h => D.marked_inj (rootEdge_injective h)
   rw [Finset.card_union_of_disjoint hdisj,
-    Finset.card_image_of_injective _
-      (rootEdge_injective.comp D.marked_inj),
+    Finset.card_image_of_injective _ hinj,
     Finset.card_univ, Fintype.card_fin,
     Finset.card_biUnion
       (fun j₁ _ j₂ _ hne => itree_pairwise_disjoint D hne)]
