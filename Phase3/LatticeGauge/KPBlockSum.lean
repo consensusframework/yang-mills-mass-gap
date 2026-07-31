@@ -177,9 +177,10 @@ theorem rootedTreeWeightOn_cons (ρ : Polymer N → ℝ) (η : Polymer N)
       exact ⟨j, Finset.mem_univ j, rfl⟩
     · intro i _
       show ρ (γ' i) = ρ (δc i.succ)
-      rw [hδc]
-      show ρ (γ' i) = ρ (Fin.cons η γ' i.succ)
-      rw [Fin.cons_succ]
+      have hcs : δc i.succ = γ' i := by
+        rw [hδc]
+        exact Fin.cons_succ η γ' i
+      rw [hcs]
   rw [hact]
 
 /-- **IV-B.4D: the Fin rooted sum IS the stone-47b-i coefficient
@@ -208,7 +209,8 @@ theorem rootedTreeSumOn_fin_eq_rootedTreeSum (ρ : Polymer N → ℝ)
   · intro γ' _
     refine ⟨Fin.cons η γ', ?_, ?_⟩
     · rw [Finset.mem_filter]
-      exact ⟨Finset.mem_univ _, Fin.cons_zero η γ'⟩
+      refine ⟨Finset.mem_univ _, ?_⟩
+      exact Fin.cons_zero η γ' 
     · show Fin.tail (Fin.cons η γ') = γ'
       exact Fin.tail_cons η γ'
   · intro δ hδ
