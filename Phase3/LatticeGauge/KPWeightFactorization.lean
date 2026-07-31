@@ -186,7 +186,7 @@ theorem univ_eq_biUnion_blocks (OD : OrderedDecomposition n k) :
   ext v
   simp only [Finset.mem_univ, true_iff, Finset.mem_biUnion]
   obtain ⟨j, hj⟩ := OD.cover v
-  exact ⟨j, Finset.mem_univ j, hj⟩
+  exact ⟨j, trivial, hj⟩
 
 /-- 8. The activity product splits by blocks. -/
 theorem prod_activity_by_blocks (OD : OrderedDecomposition n k)
@@ -206,6 +206,7 @@ theorem prod_activity_block_split (OD : OrderedDecomposition n k)
       = ρ (orderedRootValue γ OD j)
         * ∏ v : {x // x ∈ ODtail OD j},
             ρ (orderedTailAssignment γ OD j v) := by
+  simp only [orderedTailAssignment_apply]
   rw [Finset.prod_coe_sort]
   unfold orderedRootValue ODtail
   exact (Finset.mul_prod_erase (OD.block j) (fun v => ρ (γ v))
@@ -348,8 +349,8 @@ theorem enumeratedTreeWeight_factorization (ρ : Polymer N → ℝ)
             * ρ (orderedRootValue γ (decompose hET e) j)
             * orderedInternalRootedWeight ρ γ₀ γ
                 (decompose hET e) j) := by
-  rw [← decomposeThenReconstruct hET e]
-  exact reconWeight_factorization ρ γ₀ γ (decompose hET e)
+  have h := reconWeight_factorization ρ γ₀ γ (decompose hET e)
+  rwa [decomposeThenReconstruct hET e] at h
 
 /-! ## Edge cases (criteria) -/
 
@@ -387,8 +388,9 @@ theorem orderedInternalRootedWeight_of_block_singleton
     (hj : OD.block j = {a}) :
     orderedInternalRootedWeight ρ γ₀ γ OD j = 1 := by
   unfold orderedInternalRootedWeight orderedInternalTreeIndicator
-  rw [itree_eq_empty_of_block_singleton OD hj, Finset.prod_empty,
-    Finset.prod_coe_sort]
+  rw [itree_eq_empty_of_block_singleton OD hj, Finset.prod_empty]
+  simp only [orderedTailAssignment_apply]
+  rw [Finset.prod_coe_sort]
   have hmark : OD.marked j = a := by
     have := OD.marked_mem j
     rw [hj, Finset.mem_singleton] at this
