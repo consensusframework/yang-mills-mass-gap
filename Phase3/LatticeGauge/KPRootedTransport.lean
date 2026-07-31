@@ -80,6 +80,13 @@ theorem canonicalOrderedEdgeOn_of_gt {i j : V} (h' : j < i)
   unfold canonicalOrderedEdgeOn
   rw [dif_neg (lt_asymm h')]
 
+theorem canonicalOrderedEdgeOn_congr {i i' j j' : V} {h : i ≠ j}
+    (hi : i = i') (hj : j = j') (h' : i' ≠ j') :
+    canonicalOrderedEdgeOn i j h = canonicalOrderedEdgeOn i' j' h' := by
+  subst hi
+  subst hj
+  rfl
+
 theorem graphOfEdgesOn_adj_iff_canonical
     {E : Finset (OrderedEdgeOn V)} {i j : V} (h : i ≠ j) :
     (graphOfEdgesOn E).Adj i j ↔ canonicalOrderedEdgeOn i j h ∈ E := by
@@ -178,8 +185,8 @@ theorem relabelFunOn_canonical (σ : V ≃ V') {i j : V} (h : i ≠ j) :
   · rw [canonicalOrderedEdgeOn_of_lt h' h]
   · rw [canonicalOrderedEdgeOn_of_gt h' h]
     show canonicalOrderedEdgeOn (σ j) (σ i) _ = _
-    rcases (fun he => h (σ.injective he) :
-        σ i ≠ σ j).lt_or_lt with h'' | h''
+    have hσ : σ i ≠ σ j := fun he => h (σ.injective he)
+    rcases hσ.lt_or_lt with h'' | h''
     · rw [canonicalOrderedEdgeOn_of_lt h'',
         canonicalOrderedEdgeOn_of_gt h'']
     · rw [canonicalOrderedEdgeOn_of_gt h'',
@@ -197,20 +204,10 @@ theorem graphOfEdgesOn_relabel_adj (σ : V ≃ V')
   · have hab' : σ a ≠ σ b := fun h => hab (σ.injective h)
     rw [graphOfEdgesOn_adj_iff_canonical hab',
       graphOfEdgesOn_adj_iff_canonical hab,
-      mem_relabelSetOn]
-    have h := relabelFunOn_canonical σ.symm
-      (i := σ a) (j := σ b) hab'
-    constructor
-    · intro hm
-      rw [h] at hm
-      have ha := σ.symm_apply_apply a
-      have hb := σ.symm_apply_apply b
-      convert hm using 2 <;> [exact ha.symm; exact hb.symm]
-    · intro hm
-      rw [h]
-      have ha := σ.symm_apply_apply a
-      have hb := σ.symm_apply_apply b
-      convert hm using 2 <;> [exact ha; exact hb]
+      mem_relabelSetOn,
+      relabelFunOn_canonical σ.symm (i := σ a) (j := σ b) hab',
+      canonicalOrderedEdgeOn_congr (σ.symm_apply_apply a)
+        (σ.symm_apply_apply b) hab]
 
 noncomputable def graphOfEdgesOnRelabelIso (σ : V ≃ V')
     (E : Finset (OrderedEdgeOn V)) :
@@ -266,6 +263,7 @@ theorem edgeIndicatorOn_canonical (δ : V → Polymer N) {i j : V}
       = if PlaquetteCompatible (δ i).val (δ j).val then 0 else 1 := by
   rcases h.lt_or_lt with h' | h'
   · rw [canonicalOrderedEdgeOn_of_lt h' h]
+    rfl
   · rw [canonicalOrderedEdgeOn_of_gt h' h]
     show (if PlaquetteCompatible (δ j).val (δ i).val
       then 0 else 1) = _
@@ -324,7 +322,8 @@ theorem rootedActivityOn_relabel (σ : V ≃ V') {r : V} {r' : V'}
       intro h
       refine hv'.1 ?_
       rw [← hr, ← h, Equiv.apply_symm_apply]
-    · exact (Equiv.apply_symm_apply σ v').symm
+    · show σ (σ.symm v') = v'
+      exact Equiv.apply_symm_apply σ v' 
   · intro v _
     show ρ (δ v) = ρ ((δ ∘ ⇑σ.symm) (σ v))
     rw [Function.comp_apply, Equiv.symm_apply_apply]
@@ -389,19 +388,15 @@ theorem rootedTreeSumOn_congr (σ : V ≃ V') {r : V} {r' : V'}
           relabelSetOn σ.symm (relabelSetOn σ F) = F := by
         intro F
         ext ed
-        rw [mem_relabelSetOn, mem_relabelSetOn, Equiv.symm_symm,
-          relabelFunOn_symm_cancel']
+        rw [mem_relabelSetOn, Equiv.symm_symm, mem_relabelSetOn,
+          relabelFunOn_symm_cancel]
       rwa [hcancel, hcancel] at h2
     · intro E' hE'
       refine ⟨relabelSetOn σ.symm E',
         relabelSetOn_mem_connTreesOn hE', ?_⟩
       ext ed
-      rw [mem_relabelSetOn, mem_relabelSetOn, Equiv.symm_symm]
-      constructor
-      · intro h
-        rwa [relabelFunOn_symm_cancel] at h
-      · intro h
-        rwa [relabelFunOn_symm_cancel]
+      rw [mem_relabelSetOn, mem_relabelSetOn, Equiv.symm_symm,
+        relabelFunOn_symm_cancel']
     · intro E hE
       exact (rootedTreeWeightOn_relabel σ hr ρ δ E).symm
 
