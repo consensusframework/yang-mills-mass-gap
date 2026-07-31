@@ -206,11 +206,19 @@ theorem prod_activity_block_split (OD : OrderedDecomposition n k)
       = ρ (orderedRootValue γ OD j)
         * ∏ v : {x // x ∈ ODtail OD j},
             ρ (orderedTailAssignment γ OD j v) := by
-  simp only [orderedTailAssignment_apply]
-  rw [Finset.prod_coe_sort]
-  unfold orderedRootValue ODtail
-  exact (Finset.mul_prod_erase (OD.block j) (fun v => ρ (γ v))
-    (OD.marked_mem j)).symm
+  have hsplit : (∏ v ∈ OD.block j, ρ (γ v))
+      = ρ (γ (OD.marked j)) * ∏ v ∈ ODtail OD j, ρ (γ v) := by
+    unfold ODtail
+    exact (Finset.mul_prod_erase (OD.block j) (fun v => ρ (γ v))
+      (OD.marked_mem j)).symm
+  calc (∏ v ∈ OD.block j, ρ (γ v))
+      = ρ (γ (OD.marked j)) * ∏ v ∈ ODtail OD j, ρ (γ v) := hsplit
+    _ = ρ (orderedRootValue γ OD j)
+        * ∏ v : {x // x ∈ ODtail OD j},
+            ρ (orderedTailAssignment γ OD j v) := by
+        refine congrArg₂ (· * ·) rfl ?_
+        exact (Finset.prod_coe_sort (s := ODtail OD j)
+          (f := fun v => ρ (γ v))).symm
 
 /-- **10. ACTIVITY CAPSTONE**: every marked activity exactly once,
     every tail activity exactly once, γ₀ absent. -/
@@ -387,16 +395,23 @@ theorem orderedInternalRootedWeight_of_block_singleton
     (OD : OrderedDecomposition n k) {j : Fin k} {a : Fin n}
     (hj : OD.block j = {a}) :
     orderedInternalRootedWeight ρ γ₀ γ OD j = 1 := by
-  unfold orderedInternalRootedWeight orderedInternalTreeIndicator
-  rw [itree_eq_empty_of_block_singleton OD hj, Finset.prod_empty]
-  simp only [orderedTailAssignment_apply]
-  rw [Finset.prod_coe_sort]
   have hmark : OD.marked j = a := by
     have := OD.marked_mem j
     rw [hj, Finset.mem_singleton] at this
     exact this
-  unfold ODtail
-  rw [hj, hmark, Finset.erase_singleton, Finset.prod_empty]
+  have htail : (∏ v : {x // x ∈ ODtail OD j},
+      ρ (orderedTailAssignment γ OD j v)) = 1 :=
+    calc (∏ v : {x // x ∈ ODtail OD j},
+        ρ (orderedTailAssignment γ OD j v))
+        = ∏ v ∈ ODtail OD j, ρ (γ v) :=
+          Finset.prod_coe_sort (s := ODtail OD j)
+            (f := fun v => ρ (γ v))
+      _ = 1 := by
+          unfold ODtail
+          rw [hj, hmark, Finset.erase_singleton, Finset.prod_empty]
+  unfold orderedInternalRootedWeight orderedInternalTreeIndicator
+  rw [itree_eq_empty_of_block_singleton OD hj, Finset.prod_empty,
+    htail]
   norm_num
 
 end LatticeGauge
