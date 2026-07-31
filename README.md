@@ -102,14 +102,20 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 30, 2026**
+**Last updated: July 31, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 48 stone deliveries verified (stones 1–46
-  complete; stone 47 in progress: the paper proof of the finite
+- **Phase 3 / `LatticeGauge`:** 48 stone deliveries verified and integrated
+  (stones 1–46 complete; stone 47 in progress: the paper proof of the finite
   Kotecký–Preiss induction is frozen and adversarially audited, and its
   formal layers b-i — rooted coefficients and relabeling — and b-iiA — the
-  root-removal partition of spanning trees — are integrated).
+  root-removal partition of spanning trees — are integrated). On the active
+  development branch, five of the six internal gates of layer b-iiB are
+  already CI-verified (the k! enumeration count, the bidirectional
+  tree/decomposition equivalence, the exact weight factorization, the rooted
+  transport between finite types, and the block-sum identification
+  fixedRootBlockSum = rootedTreeSum); they will enter this scoreboard only
+  after integration.
 - **Phase 3 source files:** 52.
 - **Phase 3 declarations:** approximately 520 verified theorems and supporting
   definitions.
