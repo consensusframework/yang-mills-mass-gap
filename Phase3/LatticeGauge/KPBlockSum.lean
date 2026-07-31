@@ -211,8 +211,8 @@ theorem rootedTreeSumOn_fin_eq_rootedTreeSum (ρ : Polymer N → ℝ)
     · rw [Finset.mem_filter]
       refine ⟨Finset.mem_univ _, ?_⟩
       exact Fin.cons_zero .. 
-    · show Fin.tail (Fin.cons η γ') = γ'
-      exact Fin.tail_cons η γ'
+    · dsimp only
+      exact Fin.tail_cons ..
   · intro δ hδ
     rw [Finset.mem_filter] at hδ
     have e : δ = Fin.cons η (Fin.tail δ) := by
