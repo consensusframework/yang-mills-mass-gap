@@ -172,7 +172,7 @@ theorem sum_componentSize_add_k
     simp only [Finset.mem_biUnion, Finset.mem_univ, true_and,
       iff_true]
     obtain ⟨j, hj⟩ := orderedRootBlock_cover hET e v
-    exact ⟨j, Finset.mem_univ j, hj⟩
+    exact ⟨j, hj⟩
   have hdisj : ∀ j₁ ∈ (Finset.univ : Finset (Fin k)),
       ∀ j₂ ∈ (Finset.univ : Finset (Fin k)), j₁ ≠ j₂ →
       Disjoint (orderedRootBlock ET e j₁)
@@ -214,15 +214,17 @@ theorem componentEdges_endpoints
     intro h0
     rw [h0] at this
     exact Fin.not_lt_zero _ this
-  obtain ⟨b, rfl⟩ := (Fin.eq_zero_or_eq_succ ed.val.2).resolve_left hne2
+  obtain ⟨b, hb2⟩ :=
+    (Fin.eq_zero_or_eq_succ ed.val.2).resolve_left hne2
   have hadj := child_edge_adj hchild
-  rw [← ha1] at hadj
+  rw [← ha1, hb2] at hadj
   have hreach : sameRootDeletedComponent ET b a :=
     (SimpleGraph.Adj.reachable hadj).symm
-  have hb : b ∈ rootComponent ET r := by
+  have hbmem : b ∈ rootComponent ET r := by
     rw [mem_rootComponent]
     exact hreach.trans (mem_rootComponent.mp ha)
-  exact mem_succImage.mpr ⟨b, hb, rfl⟩
+  rw [hb2]
+  exact mem_succImage.mpr ⟨b, hbmem, rfl⟩
 
 /-- Child-forest walks starting in a component stay inside its
     componentEdges (second confinement induction). -/
