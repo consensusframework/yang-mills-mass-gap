@@ -102,22 +102,21 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: July 31, 2026**
+**Last updated: August 1, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 48 stone deliveries verified and integrated
+- **Phase 3 / `LatticeGauge`:** 49 stone deliveries verified and integrated
   (stones 1–46 complete; stone 47 in progress: the paper proof of the finite
   Kotecký–Preiss induction is frozen and adversarially audited, and its
-  formal layers b-i — rooted coefficients and relabeling — and b-iiA — the
-  root-removal partition of spanning trees — are integrated). On the active
-  development branch, five of the six internal gates of layer b-iiB are
-  already CI-verified (the k! enumeration count, the bidirectional
+  formal layers b-i, b-iiA and the six-gate A-package of b-iiB are
+  integrated — the k! enumeration count, the bidirectional
   tree/decomposition equivalence, the exact weight factorization, the rooted
-  transport between finite types, and the block-sum identification
-  fixedRootBlockSum = rootedTreeSum); they will enter this scoreboard only
-  after integration.
-- **Phase 3 source files:** 52.
-- **Phase 3 declarations:** approximately 520 verified theorems and supporting
+  transport between finite linear types, the block-sum identification
+  fixedRootBlockSum = rootedTreeSum, and the formal F(B) with its (m+1)!
+  factor audit; remaining for stone 47: the ordered-partition count, the
+  exact recurrence and the finite KP induction).
+- **Phase 3 source files:** 58.
+- **Phase 3 declarations:** approximately 620 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -222,8 +221,16 @@ formalizations of:
   to exclude the root), the child forest with the root isolated, exactly one
   root neighbour per connected component (via the unique-path
   characterization of trees), the disjoint edge factorization, and the exact
-  reconstruction — the combinatorial substrate on which the k! enumeration
-  count of part b-iiB will stand.
+  reconstruction;
+- the A-package of the enumeration route: exactly k! enumerations of the
+  root neighbours (counted, not divided); enumerated trees ≃ admissible
+  ordered decompositions with both inverses; global assignments ≃ ordered
+  per-component data; the exact factorization of the rooted tree weight over
+  its components; the rooted transport of tree sums between finite linear
+  types; the identification of the fixed-root block sum with the standard
+  coefficient sum (no factorial), then m!·kpTreeCoeff; and the formal F(B):
+  summing over the m+1 possible marks turns m! into (m+1)!, with the origin
+  of every factor recorded in the kernel.
 
 The latest results establish the **finite algebraic and probabilistic foundations**
 needed for a future cluster-expansion development.
