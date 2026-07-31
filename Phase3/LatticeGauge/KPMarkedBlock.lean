@@ -83,6 +83,7 @@ theorem cast_succ_mul_factorial (m : ℕ) :
     ((m + 1 : ℕ) : ℝ) * ((Nat.factorial m : ℕ) : ℝ)
       = ((Nat.factorial (m + 1) : ℕ) : ℝ) := by
   rw [← Nat.cast_mul]
+  congr 1
 
 /-! ## IV-C.4/6 — CAPSTONE: F(B) -/
 
