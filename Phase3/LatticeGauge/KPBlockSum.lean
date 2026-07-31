@@ -179,7 +179,7 @@ theorem rootedTreeWeightOn_cons (ρ : Polymer N → ℝ) (η : Polymer N)
       show ρ (γ' i) = ρ (δc i.succ)
       have hcs : δc i.succ = γ' i := by
         rw [hδc]
-        exact Fin.cons_succ η γ' i
+        exact Fin.cons_succ ..
       rw [hcs]
   rw [hact]
 
@@ -210,7 +210,7 @@ theorem rootedTreeSumOn_fin_eq_rootedTreeSum (ρ : Polymer N → ℝ)
     refine ⟨Fin.cons η γ', ?_, ?_⟩
     · rw [Finset.mem_filter]
       refine ⟨Finset.mem_univ _, ?_⟩
-      exact Fin.cons_zero η γ' 
+      exact Fin.cons_zero .. 
     · show Fin.tail (Fin.cons η γ') = γ'
       exact Fin.tail_cons η γ'
   · intro δ hδ
