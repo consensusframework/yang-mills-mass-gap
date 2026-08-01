@@ -260,4 +260,286 @@ theorem SizeProfile.k_one_val (s : SizeProfile n 1) :
   have h := s.2
   rwa [Fin.sum_univ_one] at h
 
+/-! ## VI-A.4a — the generic connectivity lower bound: a block
+    reachable to its mark through confined edges has at most
+    |edges| + 1 vertices (transport to Fin (c+1) and consumption of
+    the stone-40b BFS bound; no trees, no new graph theory) -/
+
+/-- Confinement of one ambient edge with both endpoints in S. -/
+def confineEdge {S : Finset (Fin (n + 1))}
+    (ed : OrderedEdge (n + 1)) (h1 : ed.val.1 ∈ S)
+    (h2 : ed.val.2 ∈ S) : OrderedEdgeOn {x // x ∈ S} :=
+  ⟨(⟨ed.val.1, h1⟩, ⟨ed.val.2, h2⟩),
+    Subtype.mk_lt_mk.mpr ed.property⟩
+
+/-- Confinement of a whole edge set (through attach — the
+    membership proofs travel with the edges). -/
+noncomputable def confineSet {S : Finset (Fin (n + 1))}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S) :
+    Finset (OrderedEdgeOn {x // x ∈ S}) :=
+  E.attach.image (fun x =>
+    confineEdge x.val (hsub x.val x.property).1
+      (hsub x.val x.property).2)
+
+theorem card_confineSet_le {S : Finset (Fin (n + 1))}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S) :
+    (confineSet E hsub).card ≤ E.card := by
+  calc (confineSet E hsub).card
+      ≤ E.attach.card := Finset.card_image_le
+    _ = E.card := Finset.card_attach _
+
+theorem confineEdge_mem_confineSet {S : Finset (Fin (n + 1))}
+    {E : Finset (OrderedEdge (n + 1))}
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S)
+    {ed : OrderedEdge (n + 1)} (hed : ed ∈ E) :
+    confineEdge ed (hsub ed hed).1 (hsub ed hed).2
+      ∈ confineSet E hsub := by
+  unfold confineSet
+  exact Finset.mem_image.mpr ⟨⟨ed, hed⟩, Finset.mem_attach _ _, rfl⟩
+
+/-- One ambient adjacency confines (proof irrelevance aligns the
+    subtype points). -/
+theorem confined_adj {S : Finset (Fin (n + 1))}
+    {E : Finset (OrderedEdge (n + 1))}
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S)
+    {u w : Fin (n + 1)} (hadj : (graphOfEdges E).Adj u w)
+    (hu : u ∈ S) (hw : w ∈ S) :
+    (graphOfEdgesOn (confineSet E hsub)).Adj ⟨u, hu⟩ ⟨w, hw⟩ := by
+  show (∃ h : (⟨u, hu⟩ : {x // x ∈ S}) < ⟨w, hw⟩,
+      (⟨(⟨u, hu⟩, ⟨w, hw⟩), h⟩ : OrderedEdgeOn {x // x ∈ S})
+        ∈ confineSet E hsub)
+    ∨ (∃ h : (⟨w, hw⟩ : {x // x ∈ S}) < ⟨u, hu⟩,
+      (⟨(⟨w, hw⟩, ⟨u, hu⟩), h⟩ : OrderedEdgeOn {x // x ∈ S})
+        ∈ confineSet E hsub)
+  rcases graphOfEdges_adj.mp hadj with ⟨hlt, hmem⟩ | ⟨hlt, hmem⟩
+  · exact Or.inl ⟨Subtype.mk_lt_mk.mpr hlt,
+      confineEdge_mem_confineSet hsub hmem⟩
+  · exact Or.inr ⟨Subtype.mk_lt_mk.mpr hlt,
+      confineEdge_mem_confineSet hsub hmem⟩
+
+/-- Ambient walks confine: every vertex they touch lies in S, and
+    each step transports (ascending edge-by-edge, support in S by
+    construction — the 45b-ii style, no `mapLe`). -/
+theorem walk_confine {S : Finset (Fin (n + 1))}
+    {E : Finset (OrderedEdge (n + 1))}
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S) :
+    ∀ {u v : Fin (n + 1)}, (graphOfEdges E).Walk u v →
+      u ∈ S →
+      ∃ hv : v ∈ S,
+        (graphOfEdgesOn (confineSet E hsub)).Reachable
+          ⟨u, ‹u ∈ S›⟩ ⟨v, hv⟩ := by
+  intro u v p
+  induction p with
+  | nil =>
+      intro hu
+      exact ⟨hu, SimpleGraph.Reachable.refl _⟩
+  | @cons a b c hadj p ih =>
+      intro ha
+      have hb : b ∈ S := by
+        rcases graphOfEdges_adj.mp hadj with ⟨hlt, hmem⟩
+          | ⟨hlt, hmem⟩
+        · exact (hsub _ hmem).2
+        · exact (hsub _ hmem).1
+      obtain ⟨hc, hr⟩ := ih hb
+      exact ⟨hc, SimpleGraph.Reachable.trans
+        (SimpleGraph.Adj.reachable (confined_adj hsub hadj ha hb))
+        hr⟩
+
+/-- The confined graph of a marked, internally-reachable block is
+    CONNECTED on the subtype of the succ-image. -/
+theorem confined_connected {B : Finset (Fin n)}
+    {E : Finset (OrderedEdge (n + 1))} {m : Fin n} (hm : m ∈ B)
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ)
+    (hconn : ∀ v ∈ B,
+      (graphOfEdges E).Reachable v.succ m.succ) :
+    (graphOfEdgesOn (confineSet E hsub)).Connected := by
+  rw [SimpleGraph.connected_iff]
+  constructor
+  · rintro ⟨xv, hxv⟩ ⟨yv, hyv⟩
+    obtain ⟨bx, hbx, rfl⟩ := Finset.mem_image.mp hxv
+    obtain ⟨by', hby, rfl⟩ := Finset.mem_image.mp hyv
+    obtain ⟨px⟩ := hconn bx hbx
+    obtain ⟨py⟩ := hconn by' hby
+    obtain ⟨hmx, hrx⟩ := walk_confine hsub px hxv
+    obtain ⟨hmy, hry⟩ := walk_confine hsub py hyv
+    exact SimpleGraph.Reachable.trans hrx
+      (SimpleGraph.Reachable.symm hry)
+  · exact ⟨⟨m.succ, Finset.mem_image_of_mem _ hm⟩⟩
+
+/-- **VI-A.4a CAPSTONE (the generic lower bound)**: a block whose
+    vertices all reach the mark through edges confined to the block
+    has at most |E| + 1 elements — relabel the block to Fin (c+1)
+    (Gate IV-A transport) and consume the stone-40b BFS bound.
+    No spanning trees, no acyclicity, no new BFS. -/
+theorem block_card_le_edges_add_one {B : Finset (Fin n)}
+    {E : Finset (OrderedEdge (n + 1))} {m : Fin n} (hm : m ∈ B)
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ)
+    (hconn : ∀ v ∈ B,
+      (graphOfEdges E).Reachable v.succ m.succ) :
+    B.card ≤ E.card + 1 := by
+  obtain ⟨c, hc⟩ : ∃ c, B.card = c + 1 := by
+    have hpos : 0 < B.card := Finset.card_pos.mpr ⟨m, hm⟩
+    exact ⟨B.card - 1, by omega⟩
+  have hS : (B.image Fin.succ).card = c + 1 := by
+    rw [Finset.card_image_of_injective _ (Fin.succ_injective n)]
+    exact hc
+  let σ : {x // x ∈ B.image Fin.succ} ≃ Fin (c + 1) :=
+    (B.image Fin.succ).equivFin.trans (finCongr hS)
+  have h1 : (graphOfEdgesOn
+      (relabelSetOn σ (confineSet E hsub))).Connected :=
+    (graphOfEdgesOn_relabel_connected_iff σ
+      (confineSet E hsub)).mpr
+      (confined_connected hm hsub hconn)
+  rw [graphOfEdgesOn_fin] at h1
+  have h2 := connected_card_availableEdges_ge h1
+  rw [availableEdges_graphOfEdges] at h2
+  rw [card_relabelSetOn] at h2
+  have h3 := card_confineSet_le E hsub
+  omega
+
+/-! ## VI-A.4b — the per-block PINCH: connectivity forces each
+    block to have EXACTLY |itree| + 1 vertices (pointwise ≤ from
+    the generic bound, equality from the two global sum identities
+    — the 40b argument distributed over the blocks) -/
+
+/-- The sum of the block cardinalities of any ordered
+    decomposition is n (the blocks partition Fin n). -/
+theorem OrderedDecomposition.sum_card_block
+    (OD : OrderedDecomposition n k) :
+    (∑ j, (OD.block j).card) = n := by
+  have hcover : Finset.univ.biUnion OD.block
+      = (Finset.univ : Finset (Fin n)) := by
+    ext v
+    constructor
+    · intro _
+      exact Finset.mem_univ v
+    · intro _
+      obtain ⟨j, hj⟩ := OD.cover v
+      exact Finset.mem_biUnion.mpr ⟨j, Finset.mem_univ j, hj⟩
+  have hdisj : ∀ j₁ ∈ (Finset.univ : Finset (Fin k)),
+      ∀ j₂ ∈ (Finset.univ : Finset (Fin k)), j₁ ≠ j₂ →
+      Disjoint (OD.block j₁) (OD.block j₂) :=
+    fun j₁ _ j₂ _ h => OD.disj j₁ j₂ h
+  have h := Finset.card_biUnion hdisj
+  rw [hcover] at h
+  rw [← h, Finset.card_univ, Fintype.card_fin]
+
+/-- **VI-A.4b CAPSTONE (the pinch)**: in every ordered
+    decomposition each internal tree has exactly one edge less than
+    its block has vertices. Pointwise ≤ from the generic bound; the
+    global cardSum and the partition sum close the gap through
+    `Finset.sum_lt_sum`. -/
+theorem OrderedDecomposition.card_itree_add_one
+    (OD : OrderedDecomposition n k) (j : Fin k) :
+    (OD.itree j).card + 1 = (OD.block j).card := by
+  have hle : ∀ i : Fin k,
+      (OD.block i).card ≤ (OD.itree i).card + 1 :=
+    fun i => block_card_le_edges_add_one (OD.marked_mem i)
+      (OD.sub i) (OD.conn i)
+  have hsum1 : (∑ i, (OD.block i).card) = n :=
+    OD.sum_card_block
+  have hsum2 : (∑ i : Fin k, ((OD.itree i).card + 1)) = n := by
+    rw [Finset.sum_add_distrib, Finset.sum_const,
+      Finset.card_univ, Fintype.card_fin, smul_eq_mul, mul_one]
+    exact OD.cardSum
+  by_contra hne
+  have hlt : (OD.block j).card < (OD.itree j).card + 1 := by
+    have := hle j
+    omega
+  have hstrict := Finset.sum_lt_sum
+    (f := fun i => (OD.block i).card)
+    (g := fun i => (OD.itree i).card + 1)
+    (fun i _ => hle i) ⟨j, Finset.mem_univ j, hlt⟩
+  omega
+
+/-- The decompose-image form: internal trees of a spanning tree
+    have exactly componentSize edges. -/
+theorem card_orderedInternalTree
+    {ET : Finset (OrderedEdge (n + 1))}
+    (hET : ET ∈ treesWithKRootNeighbors n k)
+    (e : RootEnumeration ET k) (j : Fin k) :
+    (orderedInternalTree ET e j).card = componentSize ET e j := by
+  have h1 := (decompose hET e).card_itree_add_one j
+  have h2 := card_orderedRootBlock ET e j
+  -- decompose fields are definitionally the ordered pieces
+  have h3 : (decompose hET e).itree j = orderedInternalTree ET e j :=
+    rfl
+  have h4 : (decompose hET e).block j = orderedRootBlock ET e j :=
+    rfl
+  rw [h3, h4] at h1
+  omega
+
+/-! ## VI-A.5 — the per-block datum (fully local: no global
+    coupling; the cardinal is a FIELD, delivered by the pinch) -/
+
+/-- All the local data of one labelled block: the mark, the
+    internal tree (with its confinement, reachability and EXACT
+    cardinal), the root value and the tail values. Everything a
+    block contributes to the weight, nothing global. -/
+structure BlockDatum (N : ℕ) [NeZero N] [Fintype (Site N)]
+    {n : ℕ} (B : Finset (Fin n)) : Type where
+  marked : Fin n
+  marked_mem : marked ∈ B
+  itree : Finset (OrderedEdge (n + 1))
+  sub : ∀ ed ∈ itree,
+    ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ
+  conn : ∀ v ∈ B,
+    (graphOfEdges itree).Reachable v.succ marked.succ
+  cardEq : itree.card + 1 = B.card
+  rootValue : Polymer N
+  tailValue : {x // x ∈ B.erase marked} → Polymer N
+
+/-- Extensionality through the EXTENDED tail function (the
+    dif-extension aligns the dependent domains; the atlas pattern
+    of reconstructAssignment). -/
+theorem BlockDatum.ext_of_extended {B : Finset (Fin n)}
+    {D₁ D₂ : BlockDatum N B}
+    (hm : D₁.marked = D₂.marked) (hi : D₁.itree = D₂.itree)
+    (hr : D₁.rootValue = D₂.rootValue)
+    (ht : (fun v : Fin n =>
+        if h : v ∈ B.erase D₁.marked then D₁.tailValue ⟨v, h⟩
+        else D₁.rootValue)
+      = (fun v : Fin n =>
+        if h : v ∈ B.erase D₂.marked then D₂.tailValue ⟨v, h⟩
+        else D₂.rootValue)) : D₁ = D₂ := by
+  obtain ⟨m₁, mm₁, i₁, s₁, c₁, ce₁, r₁, t₁⟩ := D₁
+  obtain ⟨m₂, mm₂, i₂, s₂, c₂, ce₂, r₂, t₂⟩ := D₂
+  dsimp only at hm hi hr ht
+  subst hm
+  subst hi
+  subst hr
+  have h5 : t₁ = t₂ := by
+    funext x
+    have h6 := congrFun ht x.val
+    rw [dif_pos x.property, dif_pos x.property] at h6
+    exact h6
+  subst h5
+  rfl
+
+/-- Fintype for the block data, by injection into a plain
+    quadruple (the tail extended by dif to a total function). -/
+noncomputable instance {B : Finset (Fin n)} :
+    Fintype (BlockDatum N B) :=
+  Fintype.ofInjective
+    (fun D =>
+      ((D.marked, D.itree, D.rootValue,
+        fun v : Fin n =>
+          if h : v ∈ B.erase D.marked then D.tailValue ⟨v, h⟩
+          else D.rootValue)
+        : Fin n × Finset (OrderedEdge (n + 1)) × Polymer N
+            × (Fin n → Polymer N)))
+    (fun D₁ D₂ h => by
+      have h1 : D₁.marked = D₂.marked :=
+        congrArg (fun x => x.1) h
+      have h2 : D₁.itree = D₂.itree :=
+        congrArg (fun x => x.2.1) h
+      have h3 : D₁.rootValue = D₂.rootValue :=
+        congrArg (fun x => x.2.2.1) h
+      have h4 := congrArg (fun x => x.2.2.2) h
+      exact BlockDatum.ext_of_extended h1 h2 h3 h4)
+
 end LatticeGauge
