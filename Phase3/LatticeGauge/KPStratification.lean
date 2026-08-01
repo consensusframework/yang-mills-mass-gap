@@ -71,6 +71,7 @@ theorem rootedTreeSum_eq_sum_rootDegreeContribution
   refine (Finset.sum_fiberwise_of_maps_to
     (g := fun ET => (rootNeighbors ET).card)
     (fun ET _ => Finset.mem_range.mpr ?_) _).symm
+  show (rootNeighbors ET).card < n + 1
   have h1 : (rootNeighbors ET).card ≤ n := by
     calc (rootNeighbors ET).card
         ≤ Fintype.card (Fin n) := Finset.card_le_univ _
