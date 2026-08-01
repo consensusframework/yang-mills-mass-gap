@@ -544,4 +544,257 @@ noncomputable instance {B : Finset (Fin n)} :
       have h4 := congrArg (fun x => x.2.2.2) h
       exact BlockDatum.ext_of_extended h1 h2 h3 h4)
 
+/-! ## VI-A.5b — assembly and extraction (the two directions of the
+    profiled repackaging, all fields shuffled, nothing recomputed) -/
+
+theorem OrderedDecomposition.erase_card_add_one
+    (OD : OrderedDecomposition n k) (j : Fin k) :
+    ((OD.block j).erase (OD.marked j)).card + 1
+      = (OD.block j).card := by
+  have h2 := Finset.card_erase_of_mem (OD.marked_mem j)
+  have h3 : 0 < (OD.block j).card :=
+    Finset.card_pos.mpr ⟨OD.marked j, OD.marked_mem j⟩
+  omega
+
+theorem OrderedDecomposition.blockTail_card_lt
+    (OD : OrderedDecomposition n k) (j : Fin k) :
+    ((OD.block j).erase (OD.marked j)).card < n + 1 := by
+  have h1 : ((OD.block j).erase (OD.marked j)).card
+      ≤ Fintype.card (Fin n) := Finset.card_le_univ _
+  rw [Fintype.card_fin] at h1
+  omega
+
+/-- The size profile READ OFF a decomposition (tail cardinalities —
+    no truncated subtraction anywhere). -/
+noncomputable def profileOfOD (OD : OrderedDecomposition n k) :
+    SizeProfile n k :=
+  ⟨fun j => ⟨((OD.block j).erase (OD.marked j)).card,
+      OD.blockTail_card_lt j⟩, by
+    show (∑ j : Fin k,
+        (((OD.block j).erase (OD.marked j)).card + 1)) = n
+    calc (∑ j : Fin k,
+        (((OD.block j).erase (OD.marked j)).card + 1))
+        = ∑ j, (OD.block j).card :=
+          Finset.sum_congr rfl
+            (fun j _ => OD.erase_card_add_one j)
+      _ = n := OD.sum_card_block⟩
+
+/-- The ordered partition READ OFF a decomposition. -/
+noncomputable def partitionOfOD (OD : OrderedDecomposition n k) :
+    OrderedPartition (profileNat (profileOfOD OD)) n where
+  block := OD.block
+  card_block := fun j => by
+    show (OD.block j).card
+      = ((OD.block j).erase (OD.marked j)).card + 1
+    exact (OD.erase_card_add_one j).symm
+  cover := OD.cover
+  disj := OD.disj
+
+/-- The per-block data READ OFF a decomposition and an assignment
+    (the pinch delivers the cardinal field). -/
+noncomputable def datumOfOD (OD : OrderedDecomposition n k)
+    (A : OrderedAssignmentData (N := N) OD) (j : Fin k) :
+    BlockDatum N ((partitionOfOD OD).block j) where
+  marked := OD.marked j
+  marked_mem := OD.marked_mem j
+  itree := OD.itree j
+  sub := OD.sub j
+  conn := OD.conn j
+  cardEq := by
+    show (OD.itree j).card + 1 = (OD.block j).card
+    exact OD.card_itree_add_one j
+  rootValue := A.rootValue j
+  tailValue := A.tailValue j
+
+/-- The decomposition ASSEMBLED from profiled data (cardSum derived
+    from the per-block cardinal fields and the profile identity —
+    the blocks are fully independent). -/
+noncomputable def assembledOD {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) :
+    OrderedDecomposition n k where
+  block := P.block
+  marked := fun j => (D j).marked
+  itree := fun j => (D j).itree
+  marked_mem := fun j => (D j).marked_mem
+  marked_inj := by
+    intro j₁ j₂ h
+    by_contra hne
+    have h1 := (D j₁).marked_mem
+    have h2 : (D j₁).marked ∈ P.block j₂ := by
+      rw [h]
+      exact (D j₂).marked_mem
+    exact Finset.disjoint_left.mp (P.disj j₁ j₂ hne) h1 h2
+  cover := P.cover
+  disj := P.disj
+  sub := fun j => (D j).sub
+  conn := fun j => (D j).conn
+  cardSum := by
+    have h1 : ∀ j : Fin k,
+        ((D j).itree).card = profileNat s j := by
+      intro j
+      have h2 := (D j).cardEq
+      have h3 := P.card_block j
+      omega
+    calc (∑ j, ((D j).itree).card) + k
+        = (∑ j, profileNat s j) + k :=
+          congrArg (· + k)
+            (Finset.sum_congr rfl (fun j _ => h1 j))
+      _ = ∑ j, (profileNat s j + 1) := by
+          rw [Finset.sum_add_distrib, Finset.sum_const,
+            Finset.card_univ, Fintype.card_fin, smul_eq_mul,
+            mul_one]
+      _ = n := s.2
+
+/-- The assignment data ASSEMBLED from profiled data. -/
+noncomputable def assembledData {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) :
+    OrderedAssignmentData (N := N) (assembledOD P D) where
+  rootValue := fun j => (D j).rootValue
+  tailValue := fun j => (D j).tailValue
+
+/-! ## VI-A.6 — the CENTRAL EQUIVALENCE -/
+
+/-- The architect's alias: profile + labelled partition + fully
+    local per-block data (the three-storey sigma, packaged). -/
+abbrev ProfiledDecompositionData (N : ℕ) [NeZero N]
+    [Fintype (Site N)] (n k : ℕ) : Type _ :=
+  Σ s : SizeProfile n k,
+    Σ P : OrderedPartition (profileNat s) n,
+      ∀ j : Fin k, BlockDatum N (P.block j)
+
+/-- Dependent extensionality for profiled data: profile values,
+    blocks, then data (HEq resolved AFTER both substitutions — the
+    circular-subst trap avoided by destructuring both sides). -/
+theorem profiledData_ext {X Y : ProfiledDecompositionData N n k}
+    (hs : X.1 = Y.1)
+    (hblock : ∀ j, X.2.1.block j = Y.2.1.block j)
+    (hdatum : ∀ j, HEq (X.2.2 j) (Y.2.2 j)) : X = Y := by
+  obtain ⟨s₁, P₁, D₁⟩ := X
+  obtain ⟨s₂, P₂, D₂⟩ := Y
+  dsimp only at hs hblock hdatum
+  subst hs
+  have hP : P₁ = P₂ := OrderedPartition.ext' (funext hblock)
+  subst hP
+  have hD : D₁ = D₂ := funext (fun j => eq_of_heq (hdatum j))
+  subst hD
+  rfl
+
+/-- **VI-A.6 CAPSTONE part 1: (decomposition, assignment) ≃
+    profiled data** — both inverses; the decomposition roundtrip is
+    definitional (structure and function eta); the profiled
+    roundtrip needs exactly one propositional step, the REAL block
+    cardinalities identifying the profile, as the architect
+    demanded. -/
+noncomputable def decompositionDataEquivProfiled :
+    (Σ OD : OrderedDecomposition n k,
+        OrderedAssignmentData (N := N) OD)
+      ≃ ProfiledDecompositionData N n k where
+  toFun X := ⟨profileOfOD X.1, partitionOfOD X.1,
+    datumOfOD X.1 X.2⟩
+  invFun Y := ⟨assembledOD Y.2.1 Y.2.2,
+    assembledData Y.2.1 Y.2.2⟩
+  left_inv X := by
+    obtain ⟨OD, A⟩ := X
+    rfl
+  right_inv Y := by
+    obtain ⟨s, P, D⟩ := Y
+    refine profiledData_ext ?_ (fun j => rfl) (fun j => HEq.rfl)
+    refine SizeProfile.ext' (fun j => Fin.ext ?_)
+    show ((P.block j).erase ((D j).marked)).card = (s.1 j : ℕ)
+    have h1 := Finset.card_erase_of_mem (D j).marked_mem
+    have h2 := P.card_block j
+    have h2' : (P.block j).card = (s.1 j : ℕ) + 1 := h2
+    have h3 : 0 < (P.block j).card :=
+      Finset.card_pos.mpr ⟨(D j).marked, (D j).marked_mem⟩
+    omega
+
+/-- **VI-A.6 CAPSTONE: the central equivalence** — enumerated tree
+    + global assignment ≃ profile + partition + local block data,
+    assembled from Gates II and III and the profiled repackaging;
+    every arrow an equivalence, no surjection-and-count. -/
+noncomputable def enumeratedDataEquivProfiled :
+    EnumeratedRootDegreeData N n k
+      ≃ ProfiledDecompositionData N n k :=
+  (Equiv.prodCongr enumeratedTree_equiv_orderedDecomposition
+      (Equiv.refl (Fin n → Polymer N))).trans
+    ((Equiv.sigmaEquivProd (OrderedDecomposition n k)
+        (Fin n → Polymer N)).symm.trans
+      ((Equiv.sigmaCongrRight
+          (fun OD => globalAssignmentEquivOrderedAssignments
+            (N := N) OD)).trans
+        decompositionDataEquivProfiled))
+
+/-! ## VI-A.7 — weight preservation -/
+
+/-- The weight of profiled data: a PRODUCT of local factors — each
+    factor depends on one block's datum (the mark's activity and
+    incompatibility explicitly; the internal weight through the
+    Gate-III local weight of the assembled decomposition). -/
+noncomputable def profiledWeight (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) (Y : ProfiledDecompositionData N n k) : ℝ :=
+  ∏ j : Fin k,
+    (incompatibilityIndicator γ₀ ((Y.2.2 j).rootValue)
+      * ρ ((Y.2.2 j).rootValue)
+      * orderedInternalRootedWeight ρ γ₀
+          (reconstructAssignment (assembledOD Y.2.1 Y.2.2)
+            (assembledData Y.2.1 Y.2.2))
+          (assembledOD Y.2.1 Y.2.2) j)
+
+/-- **VI-A.7, pointwise**: the central equivalence preserves the
+    weight EXACTLY (Gate III consumed; the only propositional step
+    is the Gate-III roundtrip of the assignment). -/
+theorem enumeratedDataWeight_eq_profiledWeight
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N)
+    (X : EnumeratedRootDegreeData N n k) :
+    enumeratedDataWeight ρ γ₀ X
+      = profiledWeight ρ γ₀ (enumeratedDataEquivProfiled X) := by
+  obtain ⟨T, γ⟩ := X
+  have hγ : reconstructAssignment (decompose T.mem T.enum)
+      (decomposeAssignment (decompose T.mem T.enum) γ) = γ :=
+    (globalAssignmentEquivOrderedAssignments
+      (N := N) (decompose T.mem T.enum)).left_inv γ
+  calc enumeratedDataWeight ρ γ₀ (T, γ)
+      = rootedTreeWeight ρ γ₀ γ T.ET := rfl
+    _ = ∏ j : Fin k,
+          (incompatibilityIndicator γ₀
+              (orderedRootValue γ (decompose T.mem T.enum) j)
+            * ρ (orderedRootValue γ (decompose T.mem T.enum) j)
+            * orderedInternalRootedWeight ρ γ₀ γ
+                (decompose T.mem T.enum) j) :=
+        enumeratedTreeWeight_factorization ρ γ₀ γ T.mem T.enum
+    _ = profiledWeight ρ γ₀
+          (enumeratedDataEquivProfiled (T, γ)) := by
+        unfold profiledWeight
+        refine Finset.prod_congr rfl (fun j _ => ?_)
+        show incompatibilityIndicator γ₀
+              (orderedRootValue γ (decompose T.mem T.enum) j)
+            * ρ (orderedRootValue γ (decompose T.mem T.enum) j)
+            * orderedInternalRootedWeight ρ γ₀ γ
+                (decompose T.mem T.enum) j
+          = incompatibilityIndicator γ₀
+              (orderedRootValue γ (decompose T.mem T.enum) j)
+            * ρ (orderedRootValue γ (decompose T.mem T.enum) j)
+            * orderedInternalRootedWeight ρ γ₀
+                (reconstructAssignment (decompose T.mem T.enum)
+                  (decomposeAssignment
+                    (decompose T.mem T.enum) γ))
+                (decompose T.mem T.enum) j
+        rw [hγ]
+
+/-- **VI-A.7 CAPSTONE: the sums coincide** — one reindexation by
+    the central equivalence, nothing else. -/
+theorem enumeratedData_sum_eq_profiledData_sum
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) :
+    (∑ X : EnumeratedRootDegreeData N n k,
+        enumeratedDataWeight ρ γ₀ X)
+      = ∑ Y : ProfiledDecompositionData N n k,
+          profiledWeight ρ γ₀ Y := by
+  rw [← Equiv.sum_comp
+    (enumeratedDataEquivProfiled (N := N) (n := n) (k := k))
+    (profiledWeight ρ γ₀)]
+  exact Finset.sum_congr rfl
+    (fun X _ => enumeratedDataWeight_eq_profiledWeight ρ γ₀ X)
+
 end LatticeGauge
