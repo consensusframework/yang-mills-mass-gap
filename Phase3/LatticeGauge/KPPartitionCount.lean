@@ -112,7 +112,8 @@ theorem enum_fiber_injective {s : Fin k → ℕ}
       (fun x : Fin (s j + 1) => e ⟨j, x⟩) := by
   intro x y hxy
   have h2 := e.injective hxy
-  exact eq_of_heq (Sigma.mk.inj h2).2
+  cases h2
+  rfl
 
 noncomputable def partitionOfEnumeration {s : Fin k → ℕ}
     (e : GlobalEnumeration s n) : OrderedPartition s n where
@@ -133,7 +134,7 @@ noncomputable def partitionOfEnumeration {s : Fin k → ℕ}
     obtain ⟨x, -, hx⟩ := h1
     obtain ⟨y, -, hy⟩ := h2
     have h3 := e.injective (hx.trans hy.symm)
-    exact hne (Sigma.mk.inj h3).1
+    exact hne (congrArg Sigma.fst h3)
 
 /-- The forgetful map: keep the blocks, forget the internal
     enumerations. -/
@@ -177,7 +178,8 @@ theorem block_of_fiber {s : Fin k → ℕ} {P : OrderedPartition s n}
     P.block j
       = Finset.univ.image
           (fun x : Fin (s j + 1) => e.val ⟨j, x⟩) := by
-  rw [← e.2]
+  obtain ⟨e', he'⟩ := e
+  rw [← he']
   rfl
 
 theorem mem_block_of_fiber {s : Fin k → ℕ}
