@@ -112,11 +112,14 @@ potentially useful definitions or research questions.
   integrated — the k! enumeration count, the bidirectional
   tree/decomposition equivalence, the exact weight factorization, the rooted
   transport between finite linear types, the block-sum identification
-  fixedRootBlockSum = rootedTreeSum, and the formal F(B) with its (m+1)!
-  factor audit; remaining for stone 47: the ordered-partition count, the
-  exact recurrence and the finite KP induction).
-- **Phase 3 source files:** 58.
-- **Phase 3 declarations:** approximately 620 verified theorems and supporting
+  fixedRootBlockSum = rootedTreeSum, the formal F(B) with its (m+1)!
+  factor audit, and GATE V: the ordered-partition count with the
+  MULTINOMIAL AS A THEOREM — card(OrderedPartition) · Π (s_j+1)! = n!
+  proved by counting both sides of a structural fiber equivalence, with
+  no division in ℕ and no stabilizers; remaining for stone 47: the exact
+  recurrence (Gate VI) and the finite KP induction (47c)).
+- **Phase 3 source files:** 59.
+- **Phase 3 declarations:** approximately 640 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
