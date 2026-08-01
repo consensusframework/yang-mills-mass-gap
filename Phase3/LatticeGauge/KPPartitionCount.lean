@@ -179,6 +179,8 @@ theorem block_of_fiber {s : Fin k → ℕ} {P : OrderedPartition s n}
       = Finset.univ.image
           (fun x : Fin (s j + 1) => e.val ⟨j, x⟩) := by
   obtain ⟨e', he'⟩ := e
+  show P.block j
+    = Finset.univ.image (fun x : Fin (s j + 1) => e' ⟨j, x⟩)
   rw [← he']
   rfl
 
