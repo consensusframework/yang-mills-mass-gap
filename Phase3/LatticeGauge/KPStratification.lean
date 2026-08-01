@@ -1059,24 +1059,12 @@ theorem intrinsic_ambientBlockTree {B : Finset (Fin n)}
   constructor
   · intro hg
     obtain ⟨x, -, hx⟩ := Finset.mem_image.mp hg
-    obtain ⟨f, hf, hfx⟩ := Finset.mem_image.mp x.property
-    -- x.val = ambientEdge f
-    have h4 : confineEdge x.val
-        ((ambientBlockTree_sub F) x.val x.property).1
-        ((ambientBlockTree_sub F) x.val x.property).2
-        = relabelFunOn (blockSuccEquiv B) g := hx
-    have h5 := congrArg (relabelFunOn (blockSuccEquiv B).symm) h4
+    obtain ⟨xv, hxv⟩ := x
+    obtain ⟨f, hf, hfx⟩ := Finset.mem_image.mp hxv
+    subst hfx
+    have h5 := congrArg (relabelFunOn (blockSuccEquiv B).symm) hx
     rw [relabelFunOn_symm_cancel] at h5
-    have h6 : x.val = ambientEdge f := hfx.symm
-    -- rewrite the confined edge through h6 inside h5 (dependent:
-    -- restate through the roundtrip lemma)
-    have h7 : relabelFunOn (blockSuccEquiv B).symm
-        (confineEdge x.val
-          ((ambientBlockTree_sub F) x.val x.property).1
-          ((ambientBlockTree_sub F) x.val x.property).2) = f := by
-      subst h6
-      exact confine_relabel_ambient_edge f _ _
-    rw [h7] at h5
+    rw [confine_relabel_ambient_edge] at h5
     rw [← h5]
     exact hf
   · intro hg
