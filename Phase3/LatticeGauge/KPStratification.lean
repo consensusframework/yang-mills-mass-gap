@@ -798,4 +798,298 @@ theorem enumeratedData_sum_eq_profiledData_sum
   exact Finset.sum_congr rfl
     (fun X _ => enumeratedDataWeight_eq_profiledWeight ρ γ₀ X)
 
+/-! ## VI-B.0a — the per-block tree correspondence: ambient
+    confined trees ↔ intrinsic trees on ↥B (the bridge that lets
+    Gate IV-B's fixedRootBlockSum consume the profiled data; edge
+    maps with both roundtrips, no counting arguments) -/
+
+/-- The order equivalence between a block and its succ-image. -/
+noncomputable def blockSuccEquiv (B : Finset (Fin n)) :
+    {x // x ∈ B} ≃ {y // y ∈ B.image Fin.succ} :=
+  Equiv.ofBijective
+    (fun v => ⟨v.val.succ, Finset.mem_image_of_mem _ v.property⟩)
+    ⟨fun a b h => Subtype.ext
+        (Fin.succ_injective n (congrArg Subtype.val h)),
+      fun y => by
+        obtain ⟨b, hb, hy⟩ := Finset.mem_image.mp y.property
+        exact ⟨⟨b, hb⟩, Subtype.ext hy⟩⟩
+
+theorem blockSuccEquiv_strictMono (B : Finset (Fin n)) :
+    StrictMono (blockSuccEquiv B) := by
+  intro a b h
+  exact Fin.strictMono_succ h
+
+theorem blockSuccEquiv_symm_lt {B : Finset (Fin n)}
+    {x y : {y // y ∈ B.image Fin.succ}} (h : x < y) :
+    (blockSuccEquiv B).symm x < (blockSuccEquiv B).symm y := by
+  rw [← (blockSuccEquiv_strictMono B).lt_iff_lt,
+    Equiv.apply_symm_apply, Equiv.apply_symm_apply]
+  exact h
+
+theorem blockSuccEquiv_symm_val_succ {B : Finset (Fin n)}
+    (y : {y // y ∈ B.image Fin.succ}) :
+    ((blockSuccEquiv B).symm y).val.succ = y.val := by
+  have h := (blockSuccEquiv B).apply_symm_apply y
+  exact congrArg Subtype.val h
+
+/-- Confinement is edge-injective, so the cardinal is EXACT. -/
+theorem card_confineSet_eq {S : Finset (Fin (n + 1))}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S) :
+    (confineSet E hsub).card = E.card := by
+  unfold confineSet
+  rw [Finset.card_image_of_injective _ ?inj, Finset.card_attach]
+  case inj =>
+    intro x y h
+    have h2 := congrArg (fun e : OrderedEdgeOn {z // z ∈ S} =>
+      (((e.val.1 : Fin (n + 1)), (e.val.2 : Fin (n + 1)))
+        : Fin (n + 1) × Fin (n + 1))) h
+    dsimp only [confineEdge] at h2
+    exact Subtype.ext (Subtype.ext h2)
+
+/-- The intrinsic tree of an ambient confined edge set: confine,
+    then relabel the succ-image back onto the block. -/
+noncomputable def intrinsicBlockTree {B : Finset (Fin n)}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ) :
+    Finset (OrderedEdgeOn {x // x ∈ B}) :=
+  relabelSetOn (blockSuccEquiv B).symm (confineSet E hsub)
+
+theorem card_intrinsicBlockTree {B : Finset (Fin n)}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ) :
+    (intrinsicBlockTree E hsub).card = E.card := by
+  unfold intrinsicBlockTree
+  rw [card_relabelSetOn, card_confineSet_eq]
+
+/-- **Membership in the intrinsic tree universe**: a block datum's
+    tree lands in connTreesOn ↥B (connectivity from the confined
+    walks; the cardinal from the pinch field). -/
+theorem intrinsicBlockTree_mem_connTreesOn {B : Finset (Fin n)}
+    {m : Fin n} (hm : m ∈ B)
+    {E : Finset (OrderedEdge (n + 1))}
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ)
+    (hconn : ∀ v ∈ B, (graphOfEdges E).Reachable v.succ m.succ)
+    (hcard : E.card + 1 = B.card) :
+    intrinsicBlockTree E hsub ∈ connTreesOn {x // x ∈ B} := by
+  refine mem_connTreesOn.mpr ⟨?_, ?_⟩
+  · exact (graphOfEdgesOn_relabel_connected_iff
+      (blockSuccEquiv B).symm (confineSet E hsub)).mpr
+      (confined_connected hm hsub hconn)
+  · rw [card_intrinsicBlockTree, Fintype.card_coe]
+    exact hcard
+
+/-- Ambientization of one intrinsic edge (succ of both endpoints —
+    strictly monotone, so the orientation survives). -/
+def ambientEdge {B : Finset (Fin n)}
+    (ed : OrderedEdgeOn {x // x ∈ B}) : OrderedEdge (n + 1) :=
+  ⟨(ed.val.1.val.succ, ed.val.2.val.succ),
+    Fin.strictMono_succ ed.property⟩
+
+theorem ambientEdge_injective {B : Finset (Fin n)} :
+    Function.Injective (ambientEdge (B := B)) := by
+  intro x y h
+  have h2 := congrArg
+    (fun e : OrderedEdge (n + 1) => (e.val.1, e.val.2)) h
+  dsimp only [ambientEdge] at h2
+  have h3 : x.val.1.val.succ = y.val.1.val.succ :=
+    congrArg Prod.fst h2
+  have h4 : x.val.2.val.succ = y.val.2.val.succ :=
+    congrArg Prod.snd h2
+  refine Subtype.ext (Prod.ext ?_ ?_)
+  · exact Subtype.ext (Fin.succ_injective n h3)
+  · exact Subtype.ext (Fin.succ_injective n h4)
+
+/-- Ambientization of an intrinsic edge set. -/
+noncomputable def ambientBlockTree {B : Finset (Fin n)}
+    (F : Finset (OrderedEdgeOn {x // x ∈ B})) :
+    Finset (OrderedEdge (n + 1)) :=
+  F.image ambientEdge
+
+theorem card_ambientBlockTree {B : Finset (Fin n)}
+    (F : Finset (OrderedEdgeOn {x // x ∈ B})) :
+    (ambientBlockTree F).card = F.card :=
+  Finset.card_image_of_injective _ ambientEdge_injective
+
+theorem ambientBlockTree_sub {B : Finset (Fin n)}
+    (F : Finset (OrderedEdgeOn {x // x ∈ B})) :
+    ∀ ed ∈ ambientBlockTree F,
+      ed.val.1 ∈ B.image Fin.succ
+        ∧ ed.val.2 ∈ B.image Fin.succ := by
+  intro ed hed
+  obtain ⟨f, hf, rfl⟩ := Finset.mem_image.mp hed
+  constructor
+  · exact Finset.mem_image_of_mem _ f.val.1.property
+  · exact Finset.mem_image_of_mem _ f.val.2.property
+
+/-- Intrinsic adjacency ambientizes (per edge, both
+    orientations). -/
+theorem ambient_adj_of_intrinsic {B : Finset (Fin n)}
+    {F : Finset (OrderedEdgeOn {x // x ∈ B})}
+    {a b : {x // x ∈ B}} (h : (graphOfEdgesOn F).Adj a b) :
+    (graphOfEdges (ambientBlockTree F)).Adj
+      a.val.succ b.val.succ := by
+  rcases h with ⟨hlt, hmem⟩ | ⟨hlt, hmem⟩
+  · refine Or.inl ⟨Fin.strictMono_succ hlt, ?_⟩
+    exact Finset.mem_image_of_mem _ hmem
+  · refine Or.inr ⟨Fin.strictMono_succ hlt, ?_⟩
+    exact Finset.mem_image_of_mem _ hmem
+
+/-- Intrinsic walks ambientize step by step. -/
+theorem ambient_reachable_of_intrinsic {B : Finset (Fin n)}
+    {F : Finset (OrderedEdgeOn {x // x ∈ B})}
+    {a b : {x // x ∈ B}}
+    (h : (graphOfEdgesOn F).Reachable a b) :
+    (graphOfEdges (ambientBlockTree F)).Reachable
+      a.val.succ b.val.succ := by
+  obtain ⟨p⟩ := h
+  induction p with
+  | nil => exact SimpleGraph.Reachable.refl _
+  | @cons x y z hadj p ih =>
+      exact SimpleGraph.Reachable.trans
+        (SimpleGraph.Adj.reachable
+          (ambient_adj_of_intrinsic hadj)) ih
+
+/-- **The ambient conn field from intrinsic connectivity**: every
+    block vertex reaches the mark through the ambientized tree. -/
+theorem ambientBlockTree_conn {B : Finset (Fin n)} {m : Fin n}
+    (hm : m ∈ B) {F : Finset (OrderedEdgeOn {x // x ∈ B})}
+    (hF : (graphOfEdgesOn F).Connected) :
+    ∀ v ∈ B, (graphOfEdges (ambientBlockTree F)).Reachable
+      v.succ m.succ := by
+  intro v hv
+  exact ambient_reachable_of_intrinsic (hF.preconnected ⟨v, hv⟩ ⟨m, hm⟩)
+
+/-! ## VI-B.0a — the two roundtrips (edge level, then set level) -/
+
+/-- Edge roundtrip 1: ambientize after confine-and-relabel is the
+    identity (the strict monotonicity keeps every canonicalization
+    in its of_lt branch). -/
+theorem relabel_confine_ambient_edge {B : Finset (Fin n)}
+    {ed : OrderedEdge (n + 1)}
+    (h1 : ed.val.1 ∈ B.image Fin.succ)
+    (h2 : ed.val.2 ∈ B.image Fin.succ) :
+    ambientEdge (relabelFunOn (blockSuccEquiv B).symm
+      (confineEdge ed h1 h2)) = ed := by
+  unfold relabelFunOn confineEdge
+  rw [canonicalOrderedEdgeOn_of_lt
+    (blockSuccEquiv_symm_lt (Subtype.mk_lt_mk.mpr ed.property))]
+  refine Subtype.ext (Prod.ext ?_ ?_)
+  · exact blockSuccEquiv_symm_val_succ ⟨ed.val.1, h1⟩
+  · exact blockSuccEquiv_symm_val_succ ⟨ed.val.2, h2⟩
+
+/-- Edge roundtrip 2: confine-and-relabel after ambientize is the
+    identity. -/
+theorem confine_relabel_ambient_edge {B : Finset (Fin n)}
+    (f : OrderedEdgeOn {x // x ∈ B})
+    (h1 : (ambientEdge f).val.1 ∈ B.image Fin.succ)
+    (h2 : (ambientEdge f).val.2 ∈ B.image Fin.succ) :
+    relabelFunOn (blockSuccEquiv B).symm
+      (confineEdge (ambientEdge f) h1 h2) = f := by
+  unfold relabelFunOn confineEdge
+  have hx : (⟨(ambientEdge f).val.1, h1⟩
+      : {y // y ∈ B.image Fin.succ}) = blockSuccEquiv B f.val.1 :=
+    Subtype.ext rfl
+  have hy : (⟨(ambientEdge f).val.2, h2⟩
+      : {y // y ∈ B.image Fin.succ}) = blockSuccEquiv B f.val.2 :=
+    Subtype.ext rfl
+  have hlt : (blockSuccEquiv B).symm
+        (⟨(ambientEdge f).val.1, h1⟩ : {y // y ∈ B.image Fin.succ})
+      < (blockSuccEquiv B).symm ⟨(ambientEdge f).val.2, h2⟩ := by
+    rw [hx, hy, Equiv.symm_apply_apply, Equiv.symm_apply_apply]
+    exact f.property
+  rw [canonicalOrderedEdgeOn_of_lt hlt]
+  refine Subtype.ext (Prod.ext ?_ ?_)
+  · show (blockSuccEquiv B).symm ⟨(ambientEdge f).val.1, h1⟩
+      = f.val.1
+    rw [hx, Equiv.symm_apply_apply]
+  · show (blockSuccEquiv B).symm ⟨(ambientEdge f).val.2, h2⟩
+      = f.val.2
+    rw [hy, Equiv.symm_apply_apply]
+
+/-- Set roundtrip 1: ambientizing the intrinsic tree recovers the
+    ambient edge set. -/
+theorem ambient_intrinsicBlockTree {B : Finset (Fin n)}
+    (E : Finset (OrderedEdge (n + 1)))
+    (hsub : ∀ ed ∈ E,
+      ed.val.1 ∈ B.image Fin.succ ∧ ed.val.2 ∈ B.image Fin.succ) :
+    ambientBlockTree (intrinsicBlockTree E hsub) = E := by
+  ext ed
+  unfold ambientBlockTree intrinsicBlockTree
+  constructor
+  · intro hed
+    obtain ⟨f, hf, rfl⟩ := Finset.mem_image.mp hed
+    have hf2 := mem_relabelSetOn.mp hf
+    -- hf2 : relabelFunOn σ.symm.symm f ∈ confineSet E hsub
+    rw [Equiv.symm_symm] at hf2
+    obtain ⟨x, -, hx⟩ := Finset.mem_image.mp hf2
+    -- hx : confineEdge x.val … = relabelFunOn (blockSuccEquiv B) f
+    have h3 : relabelFunOn (blockSuccEquiv B).symm
+        (confineEdge x.val (hsub x.val x.property).1
+          (hsub x.val x.property).2)
+        = relabelFunOn (blockSuccEquiv B).symm
+            (relabelFunOn (blockSuccEquiv B) f) :=
+      congrArg _ hx
+    rw [relabelFunOn_symm_cancel] at h3
+    rw [← h3, relabel_confine_ambient_edge]
+    exact x.property
+  · intro hed
+    refine Finset.mem_image.mpr
+      ⟨relabelFunOn (blockSuccEquiv B).symm
+        (confineEdge ed (hsub ed hed).1 (hsub ed hed).2), ?_, ?_⟩
+    · exact mem_relabelSetOn.mpr (by
+        rw [Equiv.symm_symm, relabelFunOn_symm_cancel']
+        exact confineEdge_mem_confineSet hsub hed)
+    · exact relabel_confine_ambient_edge (hsub ed hed).1
+        (hsub ed hed).2
+
+/-- Set roundtrip 2: the intrinsic tree of an ambientized set is
+    the original intrinsic set. -/
+theorem intrinsic_ambientBlockTree {B : Finset (Fin n)}
+    (F : Finset (OrderedEdgeOn {x // x ∈ B})) :
+    intrinsicBlockTree (ambientBlockTree F)
+      (ambientBlockTree_sub F) = F := by
+  ext g
+  unfold intrinsicBlockTree
+  rw [mem_relabelSetOn, Equiv.symm_symm]
+  unfold confineSet
+  constructor
+  · intro hg
+    obtain ⟨x, -, hx⟩ := Finset.mem_image.mp hg
+    obtain ⟨f, hf, hfx⟩ := Finset.mem_image.mp x.property
+    -- x.val = ambientEdge f
+    have h4 : confineEdge x.val
+        ((ambientBlockTree_sub F) x.val x.property).1
+        ((ambientBlockTree_sub F) x.val x.property).2
+        = relabelFunOn (blockSuccEquiv B) g := hx
+    have h5 := congrArg (relabelFunOn (blockSuccEquiv B).symm) h4
+    rw [relabelFunOn_symm_cancel] at h5
+    have h6 : x.val = ambientEdge f := hfx.symm
+    -- rewrite the confined edge through h6 inside h5 (dependent:
+    -- restate through the roundtrip lemma)
+    have h7 : relabelFunOn (blockSuccEquiv B).symm
+        (confineEdge x.val
+          ((ambientBlockTree_sub F) x.val x.property).1
+          ((ambientBlockTree_sub F) x.val x.property).2) = f := by
+      subst h6
+      exact confine_relabel_ambient_edge f _ _
+    rw [h7] at h5
+    rw [← h5]
+    exact hf
+  · intro hg
+    refine Finset.mem_image.mpr
+      ⟨⟨ambientEdge g, Finset.mem_image_of_mem _ hg⟩,
+        Finset.mem_attach _ _, ?_⟩
+    have h8 := congrArg (relabelFunOn (blockSuccEquiv B)) 
+      (confine_relabel_ambient_edge g
+        ((ambientBlockTree_sub F) (ambientEdge g)
+          (Finset.mem_image_of_mem _ hg)).1
+        ((ambientBlockTree_sub F) (ambientEdge g)
+          (Finset.mem_image_of_mem _ hg)).2)
+    rw [relabelFunOn_symm_cancel'] at h8
+    exact h8
+
 end LatticeGauge
