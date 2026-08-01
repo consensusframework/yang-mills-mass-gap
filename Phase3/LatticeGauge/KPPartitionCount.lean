@@ -309,6 +309,14 @@ theorem internalEnumerations_card {s : Fin k → ℕ}
   exact Finset.prod_congr rfl
     (fun j _ => card_internalEnumeration P j)
 
+/-- Fintype for the fibers (classical decidability of the
+    forgetting predicate; the base type is already finite). -/
+noncomputable instance enumerationFiberFintype {s : Fin k → ℕ}
+    (P : OrderedPartition s n) : Fintype (EnumerationFiber P) := by
+  classical
+  unfold EnumerationFiber
+  infer_instance
+
 /-- V-B.2: the constant fiber count (the V-A capstone consumed, the
     roundtrips not reproved). -/
 theorem enumerationFiber_card {s : Fin k → ℕ}
@@ -385,14 +393,11 @@ theorem orderedPartition_card_k_one {s : Fin 1 → ℕ}
     (hs : (∑ j, (s j + 1)) = n) :
     Fintype.card (OrderedPartition s n) = 1 := by
   have h := orderedPartitions_card_mul_factorials hs
-  have hprod : (∏ j : Fin 1, Nat.factorial (s j + 1))
-      = Nat.factorial n := by
-    rw [Fin.prod_univ_one]
-    congr 1
-    have h1 : (∑ j : Fin 1, (s j + 1)) = s 0 + 1 := by
+  have h1 : s 0 + 1 = n := by
+    have h2 : (∑ j : Fin 1, (s j + 1)) = s 0 + 1 := by
       rw [Fin.sum_univ_one]
     omega
-  rw [hprod] at h
+  rw [Fin.prod_univ_one, h1] at h
   refine Nat.eq_of_mul_eq_mul_right (Nat.factorial_pos n) ?_
   rw [one_mul]
   exact h
