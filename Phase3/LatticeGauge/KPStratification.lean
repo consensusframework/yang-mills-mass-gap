@@ -619,10 +619,11 @@ noncomputable def assembledOD {s : SizeProfile n k}
   marked_mem := fun j => (D j).marked_mem
   marked_inj := by
     intro j₁ j₂ h
+    have h' : (D j₁).marked = (D j₂).marked := h
     by_contra hne
     have h1 := (D j₁).marked_mem
     have h2 : (D j₁).marked ∈ P.block j₂ := by
-      rw [h]
+      rw [h']
       exact (D j₂).marked_mem
     exact Finset.disjoint_left.mp (P.disj j₁ j₂ hne) h1 h2
   cover := P.cover
