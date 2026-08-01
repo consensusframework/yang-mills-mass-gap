@@ -288,7 +288,7 @@ theorem card_confineSet_le {S : Finset (Fin (n + 1))}
     (confineSet E hsub).card ≤ E.card := by
   calc (confineSet E hsub).card
       ≤ E.attach.card := Finset.card_image_le
-    _ = E.card := Finset.card_attach _
+    _ = E.card := Finset.card_attach
 
 theorem confineEdge_mem_confineSet {S : Finset (Fin (n + 1))}
     {E : Finset (OrderedEdge (n + 1))}
@@ -326,10 +326,10 @@ theorem walk_confine {S : Finset (Fin (n + 1))}
     {E : Finset (OrderedEdge (n + 1))}
     (hsub : ∀ ed ∈ E, ed.val.1 ∈ S ∧ ed.val.2 ∈ S) :
     ∀ {u v : Fin (n + 1)}, (graphOfEdges E).Walk u v →
-      u ∈ S →
+      ∀ (hu : u ∈ S),
       ∃ hv : v ∈ S,
         (graphOfEdgesOn (confineSet E hsub)).Reachable
-          ⟨u, ‹u ∈ S›⟩ ⟨v, hv⟩ := by
+          ⟨u, hu⟩ ⟨v, hv⟩ := by
   intro u v p
   induction p with
   | nil =>
@@ -454,6 +454,8 @@ theorem OrderedDecomposition.card_itree_add_one
     (f := fun i => (OD.block i).card)
     (g := fun i => (OD.itree i).card + 1)
     (fun i _ => hle i) ⟨j, Finset.mem_univ j, hlt⟩
+  have h5 : (∑ i : Fin k, (OD.block i).card)
+      < (∑ i : Fin k, ((OD.itree i).card + 1)) := hstrict
   omega
 
 /-- The decompose-image form: internal trees of a spanning tree
