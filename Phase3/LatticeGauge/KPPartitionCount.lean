@@ -290,4 +290,111 @@ noncomputable def emptyOrderedPartition (s : Fin 0 → ℕ) :
   cover v := v.elim0
   disj j₁ := j₁.elim0
 
+/-! ## GATE V-B — counting the fibers (no new combinatorics: only
+    counting the two sides of the V-A equivalence) -/
+
+/-- Fintype for the partitions, via the injective block map. -/
+noncomputable instance {s : Fin k → ℕ} :
+    Fintype (OrderedPartition s n) :=
+  Fintype.ofInjective OrderedPartition.block
+    (fun _ _ h => OrderedPartition.ext' h)
+
+/-- V-B.1: the dependent product of internal enumerations — the
+    right side literally independent of P. -/
+theorem internalEnumerations_card {s : Fin k → ℕ}
+    (P : OrderedPartition s n) :
+    Fintype.card (InternalEnumerations P)
+      = ∏ j : Fin k, Nat.factorial (s j + 1) := by
+  rw [Fintype.card_pi]
+  exact Finset.prod_congr rfl
+    (fun j _ => card_internalEnumeration P j)
+
+/-- V-B.2: the constant fiber count (the V-A capstone consumed, the
+    roundtrips not reproved). -/
+theorem enumerationFiber_card {s : Fin k → ℕ}
+    (P : OrderedPartition s n) :
+    Fintype.card (EnumerationFiber P)
+      = ∏ j : Fin k, Nat.factorial (s j + 1) := by
+  rw [Fintype.card_congr
+    (enumerationFiberEquivInternalEnumerations P)]
+  exact internalEnumerations_card P
+
+/-- V-B.3: the canonical decomposition of the global enumerations
+    into fibers (proof irrelevance only on Prop fields; the e-object
+    equality is by rfl after subst). -/
+noncomputable def globalEnumerationEquivSigmaFiber (s : Fin k → ℕ)
+    (n : ℕ) :
+    GlobalEnumeration s n
+      ≃ Σ P : OrderedPartition s n, EnumerationFiber P where
+  toFun e := ⟨forgetInternalEnumerations e, ⟨e, rfl⟩⟩
+  invFun x := x.2.val
+  left_inv e := rfl
+  right_inv := by
+    rintro ⟨P, ⟨e, he⟩⟩
+    subst he
+    rfl
+
+/-- V-B.4: the global count as the sum of the fibers. -/
+theorem card_global_eq_sum_fibers (s : Fin k → ℕ) (n : ℕ) :
+    Fintype.card (GlobalEnumeration s n)
+      = ∑ P : OrderedPartition s n,
+          Fintype.card (EnumerationFiber P) := by
+  rw [Fintype.card_congr (globalEnumerationEquivSigmaFiber s n)]
+  exact Fintype.card_sigma
+
+/-- **GATE V CAPSTONE: the multinomial as a theorem, with NO
+    division in ℕ.** n! counts the global enumerations; each
+    partition owns one fiber; each fiber holds Π (s j + 1)! internal
+    enumerations; the blocks stay labelled by j, so equal sizes
+    produce no stabilizers and no correction factors. -/
+theorem orderedPartitions_card_mul_factorials {s : Fin k → ℕ}
+    (hs : (∑ j, (s j + 1)) = n) :
+    Fintype.card (OrderedPartition s n)
+        * ∏ j : Fin k, Nat.factorial (s j + 1)
+      = Nat.factorial n := by
+  have h1 := card_globalEnumeration s hs
+  have h2 := card_global_eq_sum_fibers s n
+  have h3 : (∑ P : OrderedPartition s n,
+      Fintype.card (EnumerationFiber P))
+      = ∑ _P : OrderedPartition s n,
+          ∏ j : Fin k, Nat.factorial (s j + 1) :=
+    Finset.sum_congr rfl (fun P _ => enumerationFiber_card P)
+  rw [h2, h3, Finset.sum_const, Finset.card_univ, smul_eq_mul] at h1
+  exact h1
+
+/-- V-B.8: the ℝ corollary (the principal identity stays in ℕ). -/
+theorem orderedPartitions_card_mul_factorials_real {s : Fin k → ℕ}
+    (hs : (∑ j, (s j + 1)) = n) :
+    ((Fintype.card (OrderedPartition s n) : ℕ) : ℝ)
+        * ∏ j : Fin k, ((Nat.factorial (s j + 1) : ℕ) : ℝ)
+      = ((Nat.factorial n : ℕ) : ℝ) := by
+  exact_mod_cast orderedPartitions_card_mul_factorials hs
+
+/-! ## Sanities -/
+
+/-- k = 0, n = 0: exactly one (empty) partition. -/
+theorem orderedPartition_card_k_zero {s : Fin 0 → ℕ} :
+    Fintype.card (OrderedPartition s 0) = 1 := by
+  have hs : (∑ j : Fin 0, (s j + 1)) = 0 := by simp
+  have h := orderedPartitions_card_mul_factorials hs
+  simpa using h
+
+/-- k = 1: exactly one partition (the single block is everything);
+    the product carries all of n!. -/
+theorem orderedPartition_card_k_one {s : Fin 1 → ℕ}
+    (hs : (∑ j, (s j + 1)) = n) :
+    Fintype.card (OrderedPartition s n) = 1 := by
+  have h := orderedPartitions_card_mul_factorials hs
+  have hprod : (∏ j : Fin 1, Nat.factorial (s j + 1))
+      = Nat.factorial n := by
+    rw [Fin.prod_univ_one]
+    congr 1
+    have h1 : (∑ j : Fin 1, (s j + 1)) = s 0 + 1 := by
+      rw [Fin.sum_univ_one]
+    omega
+  rw [hprod] at h
+  refine Nat.eq_of_mul_eq_mul_right (Nat.factorial_pos n) ?_
+  rw [one_mul]
+  exact h
+
 end LatticeGauge
