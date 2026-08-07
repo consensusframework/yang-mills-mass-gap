@@ -1335,6 +1335,18 @@ theorem sum_blockDatumWeight_eq_markedBlockContribution
 
 /-- The reconstructed global assignment agrees with the local block
     assignment on every block vertex. -/
+/-- Term-level evaluations of the block assignment (the dif
+    vaccine). -/
+theorem blockAssign_tail {B : Finset (Fin n)} (d : BlockDatum N B)
+    (u : {x // x ∈ B}) (hv : u.val ∈ B.erase d.marked) :
+    blockAssign d u = d.tailValue ⟨u.val, hv⟩ :=
+  dif_pos hv
+
+theorem blockAssign_root {B : Finset (Fin n)} (d : BlockDatum N B)
+    (u : {x // x ∈ B}) (hv : ¬ u.val ∈ B.erase d.marked) :
+    blockAssign d u = d.rootValue :=
+  dif_neg hv
+
 theorem reconstruct_eq_blockAssign {s : SizeProfile n k}
     (P : OrderedPartition (profileNat s) n)
     (D : ∀ j : Fin k, BlockDatum N (P.block j)) (j : Fin k)
@@ -1344,16 +1356,15 @@ theorem reconstruct_eq_blockAssign {s : SizeProfile n k}
       = blockAssign (D j) u := by
   by_cases hv : u.val ∈ (P.block j).erase ((D j).marked)
   · exact (reconstructAssignment_tail (assembledOD P D)
-      (assembledData P D) (j := j) hv).trans (dif_pos hv).symm
+      (assembledData P D) (j := j) hv).trans
+      (blockAssign_tail (D j) u hv).symm
   · have hu : u.val = (D j).marked := by
       by_contra hne
       exact hv (Finset.mem_erase.mpr ⟨hne, u.property⟩)
     rw [hu]
     exact (reconstructAssignment_marked (assembledOD P D)
-      (assembledData P D) j).trans (dif_neg hv').symm
-  where hv' := by
-    intro h
-    exact (Finset.mem_erase.mp h).1 rfl
+      (assembledData P D) j).trans
+      (blockAssign_root (D j) u hv).symm
 
 /-- Per-edge identification: the ambient hard-core indicator on a
     confined edge equals the intrinsic edge indicator of the
@@ -1375,18 +1386,20 @@ theorem hcei_eq_edgeIndicatorOn (γ₀ : Polymer N)
   rw [canonicalOrderedEdgeOn_of_lt
     (blockSuccEquiv_symm_lt (Subtype.mk_lt_mk.mpr ed.property))]
   unfold hardCoreEdgeIndicator edgeIndicatorOn
+  have h1s := blockSuccEquiv_symm_val_succ
+    (B := P.block j) ⟨ed.val.1, h1⟩
+  have h2s := blockSuccEquiv_symm_val_succ
+    (B := P.block j) ⟨ed.val.2, h2⟩
   have e1 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
       (assembledData P D)) ed.val.1
       = (blockAssign (D j)
           ((blockSuccEquiv (P.block j)).symm ⟨ed.val.1, h1⟩)).val := by
-    rw [← blockSuccEquiv_symm_val_succ ⟨ed.val.1, h1⟩,
-      rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+    rw [← h1s, rootedTuple_succ, reconstruct_eq_blockAssign P D j]
   have e2 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
       (assembledData P D)) ed.val.2
       = (blockAssign (D j)
           ((blockSuccEquiv (P.block j)).symm ⟨ed.val.2, h2⟩)).val := by
-    rw [← blockSuccEquiv_symm_val_succ ⟨ed.val.2, h2⟩,
-      rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+    rw [← h2s, rootedTuple_succ, reconstruct_eq_blockAssign P D j]
   rw [e1, e2]
 
 /-- The ambient internal indicator of an assembled decomposition IS
@@ -1545,7 +1558,9 @@ theorem contributionOfProfile_eq (ρ : Polymer N → ℝ)
         rw [mul_assoc]
     _ = ((Nat.factorial n : ℕ) : ℝ)
           * ∏ j, kpG ρ γ₀ (profileNat s j) := by
-        rw [orderedPartitions_card_mul_factorials_real s.2]
+        have hs : (∑ j, (profileNat s j + 1)) = n := s.2
+        rw [orderedPartitions_card_mul_factorials_real
+          (s := profileNat s) hs]
 
 /-! ## VI-B.5 — the UNIVERSAL capstone -/
 
