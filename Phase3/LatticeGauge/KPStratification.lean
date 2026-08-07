@@ -1333,8 +1333,6 @@ theorem sum_blockDatumWeight_eq_markedBlockContribution
     weights (the ambient/intrinsic indicator identification as its
     own theorem — NOT hidden inside the B.1 simp) -/
 
-/-- The reconstructed global assignment agrees with the local block
-    assignment on every block vertex. -/
 /-- Term-level evaluations of the block assignment (the dif
     vaccine). -/
 theorem blockAssign_tail {B : Finset (Fin n)} (d : BlockDatum N B)
@@ -1386,10 +1384,12 @@ theorem hcei_eq_edgeIndicatorOn (γ₀ : Polymer N)
   rw [canonicalOrderedEdgeOn_of_lt
     (blockSuccEquiv_symm_lt (Subtype.mk_lt_mk.mpr ed.property))]
   unfold hardCoreEdgeIndicator edgeIndicatorOn
-  have h1s := blockSuccEquiv_symm_val_succ
-    (B := P.block j) ⟨ed.val.1, h1⟩
-  have h2s := blockSuccEquiv_symm_val_succ
-    (B := P.block j) ⟨ed.val.2, h2⟩
+  have h1s : ((blockSuccEquiv (P.block j)).symm
+      ⟨ed.val.1, h1⟩).val.succ = ed.val.1 :=
+    blockSuccEquiv_symm_val_succ ⟨ed.val.1, h1⟩
+  have h2s : ((blockSuccEquiv (P.block j)).symm
+      ⟨ed.val.2, h2⟩).val.succ = ed.val.2 :=
+    blockSuccEquiv_symm_val_succ ⟨ed.val.2, h2⟩
   have e1 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
       (assembledData P D)) ed.val.1
       = (blockAssign (D j)
