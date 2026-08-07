@@ -1329,4 +1329,287 @@ theorem sum_blockDatumWeight_eq_markedBlockContribution
           * fixedRootBlockSum ρ B r η := by
         rw [sum_tail_tree_eq_fixedRootBlockSum]
 
+/-! ## VI-B.0c — the profiled weight IS the product of block datum
+    weights (the ambient/intrinsic indicator identification as its
+    own theorem — NOT hidden inside the B.1 simp) -/
+
+/-- The reconstructed global assignment agrees with the local block
+    assignment on every block vertex. -/
+theorem reconstruct_eq_blockAssign {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) (j : Fin k)
+    (u : {x // x ∈ P.block j}) :
+    reconstructAssignment (assembledOD P D) (assembledData P D)
+        u.val
+      = blockAssign (D j) u := by
+  by_cases hv : u.val ∈ (P.block j).erase ((D j).marked)
+  · exact (reconstructAssignment_tail (assembledOD P D)
+      (assembledData P D) (j := j) hv).trans (dif_pos hv).symm
+  · have hu : u.val = (D j).marked := by
+      by_contra hne
+      exact hv (Finset.mem_erase.mpr ⟨hne, u.property⟩)
+    rw [hu]
+    exact (reconstructAssignment_marked (assembledOD P D)
+      (assembledData P D) j).trans (dif_neg hv').symm
+  where hv' := by
+    intro h
+    exact (Finset.mem_erase.mp h).1 rfl
+
+/-- Per-edge identification: the ambient hard-core indicator on a
+    confined edge equals the intrinsic edge indicator of the
+    relabeled edge (rootedTuple_succ + the local values; the
+    orientation survives, no symmetry needed). -/
+theorem hcei_eq_edgeIndicatorOn (γ₀ : Polymer N)
+    {s : SizeProfile n k} (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) (j : Fin k)
+    {ed : OrderedEdge (n + 1)}
+    (h1 : ed.val.1 ∈ (P.block j).image Fin.succ)
+    (h2 : ed.val.2 ∈ (P.block j).image Fin.succ) :
+    hardCoreEdgeIndicator
+        (rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
+          (assembledData P D))) ed
+      = edgeIndicatorOn (blockAssign (D j))
+          (relabelFunOn (blockSuccEquiv (P.block j)).symm
+            (confineEdge ed h1 h2)) := by
+  unfold relabelFunOn confineEdge
+  rw [canonicalOrderedEdgeOn_of_lt
+    (blockSuccEquiv_symm_lt (Subtype.mk_lt_mk.mpr ed.property))]
+  unfold hardCoreEdgeIndicator edgeIndicatorOn
+  have e1 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
+      (assembledData P D)) ed.val.1
+      = (blockAssign (D j)
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.1, h1⟩)).val := by
+    rw [← blockSuccEquiv_symm_val_succ ⟨ed.val.1, h1⟩,
+      rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+  have e2 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
+      (assembledData P D)) ed.val.2
+      = (blockAssign (D j)
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.2, h2⟩)).val := by
+    rw [← blockSuccEquiv_symm_val_succ ⟨ed.val.2, h2⟩,
+      rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+  rw [e1, e2]
+
+/-- The ambient internal indicator of an assembled decomposition IS
+    the intrinsic tree indicator of the block datum. -/
+theorem orderedInternalTreeIndicator_eq_treeIndicatorOn
+    (γ₀ : Polymer N) {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) (j : Fin k) :
+    orderedInternalTreeIndicator γ₀
+        (reconstructAssignment (assembledOD P D)
+          (assembledData P D)) (assembledOD P D) j
+      = treeIndicatorOn (blockAssign (D j))
+          (intrinsicBlockTree (D j).itree (D j).sub) := by
+  unfold orderedInternalTreeIndicator treeIndicatorOn
+  show (∏ ed ∈ (D j).itree, _) = _
+  refine Finset.prod_bij
+    (i := fun ed hed => relabelFunOn (blockSuccEquiv (P.block j)).symm
+      (confineEdge ed ((D j).sub ed hed).1 ((D j).sub ed hed).2))
+    ?_ ?_ ?_ ?_
+  · intro ed hed
+    exact mem_relabelSetOn.mpr (by
+      rw [Equiv.symm_symm, relabelFunOn_symm_cancel']
+      exact confineEdge_mem_confineSet (D j).sub hed)
+  · intro ed₁ hed₁ ed₂ hed₂ h
+    dsimp only at h
+    have h2 := congrArg ambientEdge h
+    rw [relabel_confine_ambient_edge, relabel_confine_ambient_edge]
+      at h2
+    exact h2
+  · intro f hf
+    have hmem : ambientEdge f ∈ (D j).itree := by
+      rw [← ambient_intrinsicBlockTree (D j).itree (D j).sub]
+      exact Finset.mem_image_of_mem _ hf
+    refine ⟨ambientEdge f, hmem, ?_⟩
+    dsimp only
+    exact confine_relabel_ambient_edge f _ _
+  · intro ed hed
+    exact hcei_eq_edgeIndicatorOn γ₀ P D j
+      ((D j).sub ed hed).1 ((D j).sub ed hed).2
+
+/-- The ambient internal rooted weight equals the intrinsic
+    internal block weight (indicator + tail activities; the mark
+    and γ₀ carry no activity on either side). -/
+theorem oIRW_eq_internalBlockWeight (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) (j : Fin k) :
+    orderedInternalRootedWeight ρ γ₀
+        (reconstructAssignment (assembledOD P D)
+          (assembledData P D)) (assembledOD P D) j
+      = internalBlockWeight ρ (D j) := by
+  unfold orderedInternalRootedWeight internalBlockWeight
+  rw [orderedInternalTreeIndicator_eq_treeIndicatorOn γ₀ P D j]
+  exact congrArg
+    (fun z => ((treeIndicatorOn (blockAssign (D j))
+      (intrinsicBlockTree (D j).itree (D j).sub) : ℕ) : ℝ) * z)
+    (Finset.prod_congr rfl (fun v _ => congrArg ρ
+      (reconstructAssignment_tail (assembledOD P D)
+        (assembledData P D) v.property)))
+
+/-- **VI-B.0c CAPSTONE**: the VI-A profiled weight is EXACTLY the
+    product of the local block datum weights. -/
+theorem profiledWeight_eq_prod_blockDatumWeight (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n)
+    (D : ∀ j : Fin k, BlockDatum N (P.block j)) :
+    profiledWeight ρ γ₀ ⟨s, P, D⟩
+      = ∏ j : Fin k, blockDatumWeight ρ γ₀ (D j) := by
+  unfold profiledWeight blockDatumWeight
+  refine Finset.prod_congr rfl (fun j _ => ?_)
+  show (incompatibilityIndicator γ₀ ((D j).rootValue) : ℝ)
+      * ρ ((D j).rootValue)
+      * orderedInternalRootedWeight ρ γ₀
+          (reconstructAssignment (assembledOD P D)
+            (assembledData P D)) (assembledOD P D) j
+    = (incompatibilityIndicator γ₀ ((D j).rootValue) : ℝ)
+        * ρ ((D j).rootValue) * internalBlockWeight ρ (D j)
+  rw [oIRW_eq_internalBlockWeight ρ γ₀ P D j]
+
+/-! ## VI-B.1 — sum of products = product of sums -/
+
+/-- The reusable dependent distributivity (prod_univ_sum +
+    piFinset_univ, censused — no ad hoc induction). -/
+theorem sum_pi_prod {k : ℕ} {A : Fin k → Type*} [∀ j, Fintype (A j)]
+    (f : ∀ j, A j → ℝ) :
+    (∑ d : ∀ j, A j, ∏ j, f j (d j))
+      = ∏ j, ∑ x : A j, f j x := by
+  rw [← Fintype.piFinset_univ]
+  exact (Finset.prod_univ_sum _ _).symm
+
+/-- **VI-B.1 CAPSTONE**: the local data sum factorizes over the
+    labelled blocks. -/
+theorem localBlockData_sum_eq_prod_markedBlockContribution
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n) :
+    (∑ D : ∀ j : Fin k, BlockDatum N (P.block j),
+        ∏ j, blockDatumWeight ρ γ₀ (D j))
+      = ∏ j, markedBlockContribution ρ γ₀ (P.block j) := by
+  rw [sum_pi_prod]
+  exact Finset.prod_congr rfl (fun j _ =>
+    sum_blockDatumWeight_eq_markedBlockContribution ρ γ₀
+      (P.block j))
+
+/-! ## VI-B.2 — F(B) block by block -/
+
+/-- The single definition of G (the future kernel of the
+    recurrence). -/
+noncomputable def kpG (ρ : Polymer N → ℝ) (γ₀ : Polymer N)
+    (m : ℕ) : ℝ :=
+  ∑ η : Polymer N,
+    (incompatibilityIndicator γ₀ η : ℝ) * ρ η * kpTreeCoeff m ρ η
+
+/-- **VI-B.2**: the factorials of Gate IV-C separate from the G
+    product. No division. -/
+theorem localBlockData_sum_eq_factorials_mul (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) {s : SizeProfile n k}
+    (P : OrderedPartition (profileNat s) n) :
+    (∑ D : ∀ j : Fin k, BlockDatum N (P.block j),
+        ∏ j, blockDatumWeight ρ γ₀ (D j))
+      = (∏ j, ((Nat.factorial (profileNat s j + 1) : ℕ) : ℝ))
+          * ∏ j, kpG ρ γ₀ (profileNat s j) := by
+  rw [localBlockData_sum_eq_prod_markedBlockContribution,
+    ← Finset.prod_mul_distrib]
+  refine Finset.prod_congr rfl (fun j _ => ?_)
+  exact markedBlockContribution_eq_factorial_mul ρ γ₀
+    (P.card_block j)
+
+/-! ## VI-B.3/4 — sum over partitions, Gate V enters ONCE -/
+
+/-- **VI-B.3 + VI-B.4**: the partition sum is constant; Gate V
+    converts card × factorials into n! — exactly, once, with the
+    hypothesis carried by the profile itself. -/
+theorem contributionOfProfile_eq (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) (s : SizeProfile n k) :
+    (∑ P : OrderedPartition (profileNat s) n,
+      ∑ D : ∀ j : Fin k, BlockDatum N (P.block j),
+        ∏ j, blockDatumWeight ρ γ₀ (D j))
+      = ((Nat.factorial n : ℕ) : ℝ)
+          * ∏ j, kpG ρ γ₀ (profileNat s j) := by
+  calc (∑ P : OrderedPartition (profileNat s) n,
+      ∑ D : ∀ j : Fin k, BlockDatum N (P.block j),
+        ∏ j, blockDatumWeight ρ γ₀ (D j))
+      = ∑ _P : OrderedPartition (profileNat s) n,
+          (∏ j, ((Nat.factorial (profileNat s j + 1) : ℕ) : ℝ))
+            * ∏ j, kpG ρ γ₀ (profileNat s j) :=
+        Finset.sum_congr rfl (fun P _ =>
+          localBlockData_sum_eq_factorials_mul ρ γ₀ P)
+    _ = ((Fintype.card (OrderedPartition (profileNat s) n) : ℕ) : ℝ)
+          * ((∏ j, ((Nat.factorial (profileNat s j + 1) : ℕ) : ℝ))
+            * ∏ j, kpG ρ γ₀ (profileNat s j)) := by
+        rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
+    _ = (((Fintype.card (OrderedPartition (profileNat s) n)
+            : ℕ) : ℝ)
+          * ∏ j, ((Nat.factorial (profileNat s j + 1) : ℕ) : ℝ))
+          * ∏ j, kpG ρ γ₀ (profileNat s j) := by
+        rw [mul_assoc]
+    _ = ((Nat.factorial n : ℕ) : ℝ)
+          * ∏ j, kpG ρ γ₀ (profileNat s j) := by
+        rw [orderedPartitions_card_mul_factorials_real s.2]
+
+/-! ## VI-B.5 — the UNIVERSAL capstone -/
+
+/-- **VI-B CAPSTONE (universal — no hypotheses on n, k)**:
+    k! · R_{n,k} = n! · Σ_profiles Π_j G(s_j). The k! is Gate I's
+    enumeration multiplicity; the reindexation is VI-A; the weight
+    bridge is 0b/0c; each block factorial is Gate IV-C; Gate V
+    converts card × factorials into n!, once. NO division anywhere;
+    ρ arbitrary in ℝ. -/
+theorem rootDegreeContribution_factorial_identity (n k : ℕ)
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) :
+    ((Nat.factorial k : ℕ) : ℝ) * rootDegreeContribution n k ρ γ₀
+      = ((Nat.factorial n : ℕ) : ℝ)
+          * ∑ s : SizeProfile n k,
+              ∏ j : Fin k, kpG ρ γ₀ (profileNat s j) := by
+  calc ((Nat.factorial k : ℕ) : ℝ)
+        * rootDegreeContribution n k ρ γ₀
+      = ∑ X : EnumeratedRootDegreeData N n k,
+          enumeratedDataWeight ρ γ₀ X :=
+        (sum_enumeratedRootDegreeData_weight ρ γ₀).symm
+    _ = ∑ Y : ProfiledDecompositionData N n k,
+          profiledWeight ρ γ₀ Y :=
+        enumeratedData_sum_eq_profiledData_sum ρ γ₀
+    _ = ∑ s : SizeProfile n k,
+          ∑ P : OrderedPartition (profileNat s) n,
+            ∑ D : ∀ j : Fin k, BlockDatum N (P.block j),
+              ∏ j, blockDatumWeight ρ γ₀ (D j) := by
+        rw [← Finset.univ_sigma_univ, Finset.sum_sigma]
+        refine Finset.sum_congr rfl (fun s _ => ?_)
+        rw [← Finset.univ_sigma_univ, Finset.sum_sigma]
+        refine Finset.sum_congr rfl (fun P _ => ?_)
+        refine Finset.sum_congr rfl (fun D _ => ?_)
+        exact profiledWeight_eq_prod_blockDatumWeight ρ γ₀ P D
+    _ = ∑ s : SizeProfile n k,
+          ((Nat.factorial n : ℕ) : ℝ)
+            * ∏ j, kpG ρ γ₀ (profileNat s j) :=
+        Finset.sum_congr rfl (fun s _ =>
+          contributionOfProfile_eq ρ γ₀ s)
+    _ = ((Nat.factorial n : ℕ) : ℝ)
+          * ∑ s : SizeProfile n k,
+              ∏ j : Fin k, kpG ρ γ₀ (profileNat s j) := by
+        rw [Finset.mul_sum]
+
+/-! ## Sanities of the universal form -/
+
+/-- k > n: the profile type is empty (each of the k blocks needs at
+    least one vertex). -/
+theorem sizeProfile_isEmpty_of_gt (hk : n < k) :
+    IsEmpty (SizeProfile n k) := by
+  refine ⟨fun s => ?_⟩
+  have h := s.2
+  have h2 : k ≤ (∑ j : Fin k, ((s.1 j : ℕ) + 1)) := by
+    calc k = ∑ _j : Fin k, 1 := by
+          rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin,
+            smul_eq_mul, mul_one]
+      _ ≤ ∑ j : Fin k, ((s.1 j : ℕ) + 1) :=
+          Finset.sum_le_sum (fun j _ => by omega)
+  omega
+
+/-- k > n: both sides of the universal identity vanish. -/
+theorem rootDegree_identity_zero_of_gt (hk : n < k)
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) :
+    ((Nat.factorial k : ℕ) : ℝ) * rootDegreeContribution n k ρ γ₀
+      = 0 := by
+  rw [rootDegreeContribution_eq_zero_of_gt hk, mul_zero]
+
 end LatticeGauge
