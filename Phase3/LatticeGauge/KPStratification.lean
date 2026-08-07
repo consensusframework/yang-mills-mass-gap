@@ -1390,16 +1390,32 @@ theorem hcei_eq_edgeIndicatorOn (γ₀ : Polymer N)
   have h2s : ((blockSuccEquiv (P.block j)).symm
       ⟨ed.val.2, h2⟩).val.succ = ed.val.2 :=
     blockSuccEquiv_symm_val_succ ⟨ed.val.2, h2⟩
+  have hu1 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
+      (assembledData P D))
+        (((blockSuccEquiv (P.block j)).symm
+          ⟨ed.val.1, h1⟩).val.succ)
+      = (blockAssign (D j)
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.1, h1⟩)).val := by
+    rw [rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+  have hu2 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
+      (assembledData P D))
+        (((blockSuccEquiv (P.block j)).symm
+          ⟨ed.val.2, h2⟩).val.succ)
+      = (blockAssign (D j)
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.2, h2⟩)).val := by
+    rw [rootedTuple_succ, reconstruct_eq_blockAssign P D j]
   have e1 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
       (assembledData P D)) ed.val.1
       = (blockAssign (D j)
-          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.1, h1⟩)).val := by
-    rw [← h1s, rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.1, h1⟩)).val :=
+    (congrArg (rootedTuple γ₀ (reconstructAssignment
+      (assembledOD P D) (assembledData P D))) h1s).symm.trans hu1
   have e2 : rootedTuple γ₀ (reconstructAssignment (assembledOD P D)
       (assembledData P D)) ed.val.2
       = (blockAssign (D j)
-          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.2, h2⟩)).val := by
-    rw [← h2s, rootedTuple_succ, reconstruct_eq_blockAssign P D j]
+          ((blockSuccEquiv (P.block j)).symm ⟨ed.val.2, h2⟩)).val :=
+    (congrArg (rootedTuple γ₀ (reconstructAssignment
+      (assembledOD P D) (assembledData P D))) h2s).symm.trans hu2
   rw [e1, e2]
 
 /-- The ambient internal indicator of an assembled decomposition IS
