@@ -1112,6 +1112,14 @@ theorem extendTail_root {B : Finset (Fin n)} (r : {x // x ∈ B})
   intro h
   exact (Finset.mem_erase.mp h).1 rfl
 
+/-- Term-level evaluation on the tail (dif_pos, no tactics — the
+    beta-reduction vaccine). -/
+theorem extendTail_tail {B : Finset (Fin n)} (r : {x // x ∈ B})
+    (η : Polymer N) (t : {x // x ∈ B.erase r.val} → Polymer N)
+    (v : {x // x ∈ B}) (hv : v.val ∈ B.erase r.val) :
+    extendTail r η t v = t ⟨v.val, hv⟩ :=
+  dif_pos hv
+
 /-- The internal weight of a block datum: intrinsic tree indicator
     (through the VI-B.0a correspondence) times the TAIL activities —
     the mark carries no activity here. -/
@@ -1217,26 +1225,31 @@ theorem sum_tail_tree_eq_fixedRootBlockSum (ρ : Polymer N → ℝ)
     exact ⟨Finset.mem_univ _, extendTail_root r η t⟩
   case inj =>
     intro t₁ _ t₂ _ h
+    have h' : extendTail r η t₁ = extendTail r η t₂ := h
     funext v
-    have h2 := congrFun h ⟨v.val, Finset.mem_of_mem_erase v.property⟩
-    unfold extendTail at h2
-    rw [dif_pos v.property, dif_pos v.property] at h2
-    exact h2
+    have h2 := congrFun h'
+      ⟨v.val, Finset.mem_of_mem_erase v.property⟩
+    exact ((extendTail_tail r η t₁
+        ⟨v.val, Finset.mem_of_mem_erase v.property⟩
+        v.property).symm.trans h2).trans
+      (extendTail_tail r η t₂
+        ⟨v.val, Finset.mem_of_mem_erase v.property⟩ v.property)
   case surj =>
     intro δ hδ
     rw [Finset.mem_filter] at hδ
     refine ⟨fun u => δ ⟨u.val, Finset.mem_of_mem_erase u.property⟩,
       Finset.mem_univ _, ?_⟩
+    show extendTail r η
+      (fun u => δ ⟨u.val, Finset.mem_of_mem_erase u.property⟩) = δ
     funext v
-    unfold extendTail
     by_cases hv : v.val ∈ B.erase r.val
-    · rw [dif_pos hv]
-    · rw [dif_neg hv]
-      have hvr : v = r := by
+    · exact extendTail_tail r η _ v hv
+    · have hvr : v = r := by
         refine Subtype.ext ?_
         by_contra hne
         exact hv (Finset.mem_erase.mpr ⟨hne, v.property⟩)
-      rw [hvr, hδ.2]
+      rw [hvr]
+      exact (extendTail_root r η _).trans hδ.2.symm
   case wt =>
     intro t _
     refine Finset.sum_congr rfl (fun E _ => ?_)
@@ -1251,7 +1264,10 @@ theorem sum_tail_tree_eq_fixedRootBlockSum (ρ : Polymer N → ℝ)
     · intro v _
       exact Finset.mem_univ _
     · intro v₁ hv₁ v₂ hv₂ h
-      exact Subtype.ext (congrArg Subtype.val h)
+      have h2 := congrArg
+        (fun z : {x // x ∈ B.erase r.val} => z.val) h
+      have h3 : v₁.val = v₂.val := h2
+      exact Subtype.ext h3
     · intro u _
       refine ⟨⟨u.val, Finset.mem_of_mem_erase u.property⟩,
         Finset.mem_erase.mpr ⟨?_, Finset.mem_univ _⟩, ?_⟩
@@ -1260,9 +1276,10 @@ theorem sum_tail_tree_eq_fixedRootBlockSum (ρ : Polymer N → ℝ)
           (congrArg Subtype.val h)
       · exact Subtype.ext rfl
     · intro v hv
-      show ρ (extendTail r η t v) = ρ (t _)
-      unfold extendTail
-      rw [dif_pos]
+      have hvv : v.val ∈ B.erase r.val := Finset.mem_erase.mpr
+        ⟨fun h => (Finset.mem_erase.mp hv).1 (Subtype.ext h),
+          v.property⟩
+      exact congrArg ρ (extendTail_tail r η t v hvv)
 
 /-- **VI-B.0b CAPSTONE: the block sum IS the marked-block
     contribution** — summing the mark and the root value over the
