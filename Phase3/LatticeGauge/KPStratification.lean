@@ -1080,4 +1080,236 @@ theorem intrinsic_ambientBlockTree {B : Finset (Fin n)}
     rw [relabelFunOn_symm_cancel'] at h8
     exact h8
 
+/-! ## VI-B.0b — the block sum lands EXACTLY on
+    fixedRootBlockSum: local assignment extension, the (r, η) fiber
+    equivalence with EXACT weight preservation (the architect's hard
+    stop: no cardinality-only arguments), and the capstone that
+    produces markedBlockContribution by literally summing r and η.
+    NO factorial in this subgate. -/
+
+/-- The local assignment of a block datum on ↥B (mark ↦ root value,
+    tail ↦ tail values — the dif-extension). -/
+noncomputable def blockAssign {B : Finset (Fin n)}
+    (d : BlockDatum N B) : {x // x ∈ B} → Polymer N :=
+  fun v =>
+    if h : v.val ∈ B.erase d.marked then d.tailValue ⟨v.val, h⟩
+    else d.rootValue
+
+/-- The payload extension for a FIXED mark and root value. -/
+noncomputable def extendTail {B : Finset (Fin n)} (r : {x // x ∈ B})
+    (η : Polymer N)
+    (t : {x // x ∈ B.erase r.val} → Polymer N) :
+    {x // x ∈ B} → Polymer N :=
+  fun v =>
+    if h : v.val ∈ B.erase r.val then t ⟨v.val, h⟩ else η
+
+theorem extendTail_root {B : Finset (Fin n)} (r : {x // x ∈ B})
+    (η : Polymer N)
+    (t : {x // x ∈ B.erase r.val} → Polymer N) :
+    extendTail r η t r = η := by
+  unfold extendTail
+  rw [dif_neg]
+  intro h
+  exact (Finset.mem_erase.mp h).1 rfl
+
+/-- The internal weight of a block datum: intrinsic tree indicator
+    (through the VI-B.0a correspondence) times the TAIL activities —
+    the mark carries no activity here. -/
+noncomputable def internalBlockWeight (ρ : Polymer N → ℝ)
+    {B : Finset (Fin n)} (d : BlockDatum N B) : ℝ :=
+  ((treeIndicatorOn (blockAssign d)
+      (intrinsicBlockTree d.itree d.sub) : ℕ) : ℝ)
+    * ∏ v : {x // x ∈ B.erase d.marked}, ρ (d.tailValue v)
+
+/-- The full weight of a block datum: the mark's incompatibility
+    with the external root and its activity stay OUTSIDE the
+    internal weight. -/
+noncomputable def blockDatumWeight (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) {B : Finset (Fin n)}
+    (d : BlockDatum N B) : ℝ :=
+  (incompatibilityIndicator γ₀ d.rootValue : ℝ) * ρ d.rootValue
+    * internalBlockWeight ρ d
+
+/-- **VI-B.0b item 3: the fiber equivalence** — block data ≃
+    (mark, root value, tail assignment, intrinsic rooted tree); the
+    tree part consumes the VI-B.0a roundtrips, everything else is a
+    field shuffle. -/
+noncomputable def blockDatumEquivPayload (B : Finset (Fin n)) :
+    BlockDatum N B
+      ≃ Σ _r : {x // x ∈ B}, Σ _η : Polymer N,
+          ({x // x ∈ B.erase _r.val} → Polymer N)
+            × {E : Finset (OrderedEdgeOn {x // x ∈ B}) //
+                E ∈ connTreesOn {x // x ∈ B}} where
+  toFun d := ⟨⟨d.marked, d.marked_mem⟩, d.rootValue,
+    (d.tailValue,
+      ⟨intrinsicBlockTree d.itree d.sub,
+        intrinsicBlockTree_mem_connTreesOn d.marked_mem d.sub
+          d.conn d.cardEq⟩)⟩
+  invFun X :=
+    { marked := X.1.val
+      marked_mem := X.1.property
+      itree := ambientBlockTree X.2.2.2.val
+      sub := ambientBlockTree_sub X.2.2.2.val
+      conn := ambientBlockTree_conn X.1.property
+        (mem_connTreesOn.mp X.2.2.2.property).1
+      cardEq := by
+        rw [card_ambientBlockTree]
+        have h := (mem_connTreesOn.mp X.2.2.2.property).2
+        rw [Fintype.card_coe] at h
+        exact h
+      rootValue := X.2.1
+      tailValue := X.2.2.1 }
+  left_inv d := by
+    refine BlockDatum.ext_of_extended rfl ?_ rfl rfl
+    exact ambient_intrinsicBlockTree d.itree d.sub
+  right_inv X := by
+    obtain ⟨r, η, t, E⟩ := X
+    exact congrArg
+      (fun z : {E : Finset (OrderedEdgeOn {x // x ∈ B}) //
+          E ∈ connTreesOn {x // x ∈ B}} =>
+        (⟨r, η, (t, z)⟩ : Σ _r : {x // x ∈ B},
+          Σ _η : Polymer N,
+            ({x // x ∈ B.erase _r.val} → Polymer N)
+              × {E : Finset (OrderedEdgeOn {x // x ∈ B}) //
+                  E ∈ connTreesOn {x // x ∈ B}}))
+      (Subtype.ext (intrinsic_ambientBlockTree E.val))
+
+/-- The weight of an assembled payload, computed: the propositional
+    step is exactly the VI-B.0a set roundtrip. -/
+theorem blockDatumWeight_symm_payload (ρ : Polymer N → ℝ)
+    (γ₀ : Polymer N) {B : Finset (Fin n)} (r : {x // x ∈ B})
+    (η : Polymer N) (t : {x // x ∈ B.erase r.val} → Polymer N)
+    (E : {E : Finset (OrderedEdgeOn {x // x ∈ B}) //
+        E ∈ connTreesOn {x // x ∈ B}}) :
+    blockDatumWeight ρ γ₀
+        ((blockDatumEquivPayload B).symm ⟨r, η, (t, E)⟩)
+      = (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+          * (((treeIndicatorOn (extendTail r η t) E.val : ℕ) : ℝ)
+              * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v)) := by
+  show (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+      * (((treeIndicatorOn (extendTail r η t)
+            (intrinsicBlockTree (ambientBlockTree E.val)
+              (ambientBlockTree_sub E.val)) : ℕ) : ℝ)
+          * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v))
+    = (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+        * (((treeIndicatorOn (extendTail r η t) E.val : ℕ) : ℝ)
+            * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v))
+  rw [intrinsic_ambientBlockTree E.val]
+
+/-- **VI-B.0b item 4 (the hard stop): the (r, η)-fiber sum IS the
+    fixedRootBlockSum** — δ-space reindexed by tail assignments
+    (extend/restrict, both inverses inside the sum_bij), the
+    indicator carried verbatim, the activity reindexed along the
+    erase bijection. ρ(η) and γ₀ do NOT enter. -/
+theorem sum_tail_tree_eq_fixedRootBlockSum (ρ : Polymer N → ℝ)
+    {B : Finset (Fin n)} (r : {x // x ∈ B}) (η : Polymer N) :
+    (∑ t : {x // x ∈ B.erase r.val} → Polymer N,
+      ∑ E ∈ connTreesOn {x // x ∈ B},
+        ((treeIndicatorOn (extendTail r η t) E : ℕ) : ℝ)
+          * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v))
+      = fixedRootBlockSum ρ B r η := by
+  unfold fixedRootBlockSum rootedTreeSumOn
+  refine (Finset.sum_bij
+    (i := fun t _ => extendTail r η t) ?hi ?inj ?surj ?wt).symm.symm
+  case hi =>
+    intro t _
+    rw [Finset.mem_filter]
+    exact ⟨Finset.mem_univ _, extendTail_root r η t⟩
+  case inj =>
+    intro t₁ _ t₂ _ h
+    funext v
+    have h2 := congrFun h ⟨v.val, Finset.mem_of_mem_erase v.property⟩
+    unfold extendTail at h2
+    rw [dif_pos v.property, dif_pos v.property] at h2
+    exact h2
+  case surj =>
+    intro δ hδ
+    rw [Finset.mem_filter] at hδ
+    refine ⟨fun u => δ ⟨u.val, Finset.mem_of_mem_erase u.property⟩,
+      Finset.mem_univ _, ?_⟩
+    funext v
+    unfold extendTail
+    by_cases hv : v.val ∈ B.erase r.val
+    · rw [dif_pos hv]
+    · rw [dif_neg hv]
+      have hvr : v = r := by
+        refine Subtype.ext ?_
+        by_contra hne
+        exact hv (Finset.mem_erase.mpr ⟨hne, v.property⟩)
+      rw [hvr, hδ.2]
+  case wt =>
+    intro t _
+    refine Finset.sum_congr rfl (fun E _ => ?_)
+    unfold rootedTreeWeightOn rootedActivityOn
+    congr 1
+    refine (Finset.prod_bij
+      (i := fun (v : {x // x ∈ B}) (hv : v ∈ Finset.univ.erase r) =>
+        (⟨v.val, Finset.mem_erase.mpr
+          ⟨fun h => (Finset.mem_erase.mp hv).1 (Subtype.ext h),
+            v.property⟩⟩ : {x // x ∈ B.erase r.val}))
+      ?_ ?_ ?_ ?_).symm
+    · intro v _
+      exact Finset.mem_univ _
+    · intro v₁ hv₁ v₂ hv₂ h
+      exact Subtype.ext (congrArg Subtype.val h)
+    · intro u _
+      refine ⟨⟨u.val, Finset.mem_of_mem_erase u.property⟩,
+        Finset.mem_erase.mpr ⟨?_, Finset.mem_univ _⟩, ?_⟩
+      · intro h
+        exact (Finset.mem_erase.mp u.property).1
+          (congrArg Subtype.val h)
+      · exact Subtype.ext rfl
+    · intro v hv
+      show ρ (extendTail r η t v) = ρ (t _)
+      unfold extendTail
+      rw [dif_pos]
+
+/-- **VI-B.0b CAPSTONE: the block sum IS the marked-block
+    contribution** — summing the mark and the root value over the
+    fiber identity; markedBlockContribution consumed by DEFINITION
+    only. No factorial, no kpTreeCoeff, no partitions. -/
+theorem sum_blockDatumWeight_eq_markedBlockContribution
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) (B : Finset (Fin n)) :
+    (∑ d : BlockDatum N B, blockDatumWeight ρ γ₀ d)
+      = markedBlockContribution ρ γ₀ B := by
+  rw [← Equiv.sum_comp (blockDatumEquivPayload (N := N) B).symm
+    (blockDatumWeight ρ γ₀)]
+  rw [← Finset.univ_sigma_univ, Finset.sum_sigma]
+  unfold markedBlockContribution
+  refine Finset.sum_congr rfl (fun r _ => ?_)
+  rw [← Finset.univ_sigma_univ, Finset.sum_sigma]
+  refine Finset.sum_congr rfl (fun η _ => ?_)
+  rw [Fintype.sum_prod_type]
+  calc (∑ t : {x // x ∈ B.erase r.val} → Polymer N,
+        ∑ E : {E : Finset (OrderedEdgeOn {x // x ∈ B}) //
+            E ∈ connTreesOn {x // x ∈ B}},
+          blockDatumWeight ρ γ₀
+            ((blockDatumEquivPayload B).symm ⟨r, η, (t, E)⟩))
+      = ∑ t : {x // x ∈ B.erase r.val} → Polymer N,
+          ∑ E ∈ connTreesOn {x // x ∈ B},
+            (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+              * (((treeIndicatorOn (extendTail r η t) E : ℕ) : ℝ)
+                  * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v)) := by
+        refine Finset.sum_congr rfl (fun t _ => ?_)
+        rw [Finset.sum_coe_sort
+          (s := connTreesOn {x // x ∈ B})
+          (f := fun E =>
+            (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+              * (((treeIndicatorOn (extendTail r η t) E : ℕ) : ℝ)
+                  * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v)))
+          |>.symm.symm.symm]
+        exact Finset.sum_congr rfl (fun E _ =>
+          blockDatumWeight_symm_payload ρ γ₀ r η t E)
+    _ = (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+          * ∑ t : {x // x ∈ B.erase r.val} → Polymer N,
+              ∑ E ∈ connTreesOn {x // x ∈ B},
+                ((treeIndicatorOn (extendTail r η t) E : ℕ) : ℝ)
+                  * ∏ v : {x // x ∈ B.erase r.val}, ρ (t v) := by
+        rw [Finset.mul_sum]
+        refine Finset.sum_congr rfl (fun t _ => ?_)
+        rw [Finset.mul_sum]
+    _ = (incompatibilityIndicator γ₀ η : ℝ) * ρ η
+          * fixedRootBlockSum ρ B r η := by
+        rw [sum_tail_tree_eq_fixedRootBlockSum]
+
 end LatticeGauge
