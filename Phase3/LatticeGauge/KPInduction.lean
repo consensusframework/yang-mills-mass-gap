@@ -337,4 +337,57 @@ theorem kpPartialSum_succ_le_exp_kpX (M : ℕ)
     _ ≤ Real.exp (kpX M ρ γ₀) :=
         Real.sum_le_exp_of_nonneg (kpX_nonneg hρ M γ₀) (M + 2)
 
+/-! ## 47c-B — THE ABSTRACT FINITE KP INDUCTION (independent of
+    β, χ, μm, polymerWeight, incompatiblePolymers, thresholds:
+    a genuine finite Kotecký–Preiss theorem, not accidentally tied
+    to our particular activity) -/
+
+/-- **The abstract KP hypothesis** — the smallness interface,
+    fully independent of the concrete activity. -/
+def AbstractKPHypothesis (ρ : Polymer N → ℝ)
+    (a : Polymer N → ℝ) : Prop :=
+  ∀ γ₀ : Polymer N,
+    (∑ η : Polymer N,
+      (incompatibilityIndicator γ₀ η : ℝ) * ρ η * Real.exp (a η))
+      ≤ a γ₀
+
+/-- **47c-B1 (the logical heart): the IH controls X_M** — the sum
+    swap of A1, the termwise induction hypothesis, and then the
+    KP hypothesis consumed EXACTLY ONCE. -/
+theorem kpX_le_a {ρ a : Polymer N → ℝ} (hρ : ∀ η, 0 ≤ ρ η)
+    (hKP : AbstractKPHypothesis ρ a) (M : ℕ) (γ₀ : Polymer N)
+    (IH : ∀ η, kpPartialSum M ρ η ≤ Real.exp (a η)) :
+    kpX M ρ γ₀ ≤ a γ₀ := by
+  rw [kpX_eq_sum_partial]
+  refine le_trans (Finset.sum_le_sum (fun η _ => ?_)) (hKP γ₀)
+  exact mul_le_mul_of_nonneg_left (IH η)
+    (mul_nonneg (Nat.cast_nonneg _) (hρ η))
+
+/-- **47c-B CAPSTONE: THE FINITE KP INDUCTION** — proved by the
+    simultaneous induction over ALL polymers (the audited motive
+    P(M) := ∀ γ, S_M γ ≤ exp (a γ)); the combinatorics is entirely
+    encapsulated in the A3 capstone; the KP hypothesis is consumed
+    ONLY inside kpX_le_a; no property of any concrete activity is
+    used; no convergence is used; every sum is finite. -/
+theorem kpPartialSum_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) :
+    ∀ (M : ℕ) (γ : Polymer N),
+      kpPartialSum M ρ γ ≤ Real.exp (a γ) := by
+  intro M
+  induction M with
+  | zero =>
+      intro γ
+      unfold kpPartialSum
+      rw [Finset.sum_range_one, kpTreeCoeff_zero]
+      calc (1 : ℝ) = Real.exp 0 := Real.exp_zero.symm
+        _ ≤ Real.exp (a γ) := Real.exp_le_exp.mpr (ha γ)
+  | succ M IH =>
+      intro γ
+      calc kpPartialSum (M + 1) ρ γ
+          ≤ Real.exp (kpX M ρ γ) :=
+            kpPartialSum_succ_le_exp_kpX M hρ γ
+        _ ≤ Real.exp (a γ) :=
+            Real.exp_le_exp.mpr (kpX_le_a hρ hKP M γ IH)
+
 end LatticeGauge
