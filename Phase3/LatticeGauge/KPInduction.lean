@@ -52,30 +52,18 @@ noncomputable def kpX (M : ℕ) (ρ : Polymer N → ℝ)
 /-! ## 47c-A.2 — nonnegativity (hρ enters the chain for the first
     time; everything before this file is sign-free) -/
 
-theorem rootedTreeSum_nonneg {ρ : Polymer N → ℝ}
-    (hρ : ∀ γ, 0 ≤ ρ γ) (n : ℕ) (γ₀ : Polymer N) :
-    0 ≤ rootedTreeSum n ρ γ₀ :=
-  Finset.sum_nonneg fun γ _ =>
-    Finset.sum_nonneg fun ET _ =>
-      rootedTreeWeight_nonneg hρ γ₀ γ ET
-
-theorem kpTreeCoeff_nonneg {ρ : Polymer N → ℝ}
-    (hρ : ∀ γ, 0 ≤ ρ γ) (n : ℕ) (γ₀ : Polymer N) :
-    0 ≤ kpTreeCoeff n ρ γ₀ :=
-  div_nonneg (rootedTreeSum_nonneg hρ n γ₀) (Nat.cast_nonneg _)
-
 theorem kpG_nonneg {ρ : Polymer N → ℝ}
     (hρ : ∀ γ, 0 ≤ ρ γ) (m : ℕ) (γ₀ : Polymer N) :
     0 ≤ kpG ρ γ₀ m :=
   Finset.sum_nonneg fun η _ =>
     mul_nonneg
       (mul_nonneg (Nat.cast_nonneg _) (hρ η))
-      (kpTreeCoeff_nonneg hρ m η)
+      (kpTreeCoeff_nonneg m hρ η)
 
 theorem kpPartialSum_nonneg {ρ : Polymer N → ℝ}
     (hρ : ∀ γ, 0 ≤ ρ γ) (M : ℕ) (γ : Polymer N) :
     0 ≤ kpPartialSum M ρ γ :=
-  Finset.sum_nonneg fun n _ => kpTreeCoeff_nonneg hρ n γ
+  Finset.sum_nonneg fun n _ => kpTreeCoeff_nonneg n hρ γ
 
 theorem kpX_nonneg {ρ : Polymer N → ℝ}
     (hρ : ∀ γ, 0 ≤ ρ γ) (M : ℕ) (γ₀ : Polymer N) :
@@ -105,6 +93,6 @@ theorem kpPartialSum_mono {ρ : Polymer N → ℝ}
     kpPartialSum M ρ γ ≤ kpPartialSum M' ρ γ :=
   Finset.sum_le_sum_of_subset_of_nonneg
     (Finset.range_subset.mpr (by omega))
-    (fun n _ _ => kpTreeCoeff_nonneg hρ n γ)
+    (fun n _ _ => kpTreeCoeff_nonneg n hρ γ)
 
 end LatticeGauge
