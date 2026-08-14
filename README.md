@@ -113,13 +113,16 @@ potentially useful definitions or research questions.
   tree/decomposition equivalence, the exact weight factorization, the rooted
   transport between finite linear types, the block-sum identification
   fixedRootBlockSum = rootedTreeSum, the formal F(B) with its (m+1)!
-  factor audit, and GATE V: the ordered-partition count with the
-  MULTINOMIAL AS A THEOREM — card(OrderedPartition) · Π (s_j+1)! = n!
-  proved by counting both sides of a structural fiber equivalence, with
-  no division in ℕ and no stabilizers; remaining for stone 47: the exact
-  recurrence (Gate VI) and the finite KP induction (47c)).
-- **Phase 3 source files:** 59.
-- **Phase 3 declarations:** approximately 640 verified theorems and supporting
+  factor audit, GATE V (the multinomial as a theorem), and GATE VI
+  COMPLETE: root-degree stratification, finite size profiles, the
+  per-block pinch, the profiled central equivalence with EXACT weight
+  preservation, the block-to-fixedRootBlockSum bridge, the UNIVERSAL
+  identity k!·R = n!·Σ_s Π G with no division, and THE EXACT
+  RECURRENCE kpTreeCoeff_recurrence in range-n form for arbitrary real
+  activities — no sign, no KP, no analysis; remaining for stone 47:
+  the finite KP induction (47c)).
+- **Phase 3 source files:** 60.
+- **Phase 3 declarations:** approximately 700 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
