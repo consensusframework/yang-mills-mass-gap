@@ -119,10 +119,15 @@ potentially useful definitions or research questions.
   preservation, the block-to-fixedRootBlockSum bridge, the UNIVERSAL
   identity k!·R = n!·Σ_s Π G with no division, and THE EXACT
   RECURRENCE kpTreeCoeff_recurrence in range-n form for arbitrary real
-  activities — no sign, no KP, no analysis; remaining for stone 47:
-  the finite KP induction (47c)).
-- **Phase 3 source files:** 60.
-- **Phase 3 declarations:** approximately 700 verified theorems and supporting
+  activities — no sign, no KP, no analysis; STONE 47 COMPLETE — 47c: the
+  ABSTRACT FINITE KP INDUCTION (S_M(γ) ≤ exp(a γ) under an abstract
+  smallness interface, KP hypothesis consumed exactly once) and its
+  specialization: for 0 ≤ β ≤ 1/40000, EVERY finite partial sum of the
+  rooted cluster coefficients with the real polymer activity is
+  uniformly bounded by exp(card γ) — no passage M → ∞ anywhere;
+  convergence (Summable/tsum) is stone 48).
+- **Phase 3 source files:** 62.
+- **Phase 3 declarations:** approximately 730 verified theorems and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
