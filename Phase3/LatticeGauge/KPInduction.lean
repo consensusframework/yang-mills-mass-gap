@@ -174,6 +174,7 @@ theorem sum_profileSum_eq_boundedSum (M k : ℕ) (hk : 1 ≤ k)
     have h3 := Finset.mem_range.mp (Finset.mem_sigma.mp hx).1
     omega
   · intro x hx y hy h
+    dsimp only at h
     have hval : ∀ j, profileNat x.2 j = profileNat y.2 j := by
       intro j
       have h4 := congrFun h j
@@ -207,9 +208,11 @@ theorem sum_profileSum_eq_boundedSum (M k : ℕ) (hk : 1 ≤ k)
     refine ⟨⟨n, (⟨fun j => ⟨(t j : ℕ), ?_⟩, ?_⟩
         : SizeProfile (n + 1) k)⟩,
       Finset.mem_sigma.mpr ⟨Finset.mem_range.mpr (by
+        show n < M + 1
         have h5 := ht.2
         omega), Finset.mem_univ _⟩, ?_⟩
-    · have h1 : (t j : ℕ) + 1 ≤ ∑ l, ((t l : ℕ) + 1) :=
+    · rename_i j
+      have h1 : (t j : ℕ) + 1 ≤ ∑ l, ((t l : ℕ) + 1) :=
         Finset.single_le_sum
           (f := fun l => (t l : ℕ) + 1)
           (fun l _ => by omega) (Finset.mem_univ j)
