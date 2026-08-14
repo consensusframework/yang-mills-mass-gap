@@ -133,15 +133,15 @@ potentially useful definitions or research questions.
 - **`sorry` declarations in Phase 3:** 0.
 
 **Milestone of the current chapter.** The Kotecký–Preiss smallness
-hypothesis for this lattice polymer gas is now a machine-verified theorem
-with fully traced constants: for 0 ≤ β ≤ 1/40000,
+hypothesis for this lattice polymer gas is machine-verified with fully
+traced constants: for 0 ≤ β ≤ 1/40000,
 `Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C|`.
-This is the numerical key required by the Kotecký–Preiss convergence
-criterion; the abstract theorem that turns this hypothesis into convergence
-of the cluster expansion is the chapter currently under construction
-(its combinatorial proof is written and independently audited; its
-formalization is in progress). No convergence, clustering, or mass-gap
-statement is claimed.
+Stone 47 now also establishes the exact rooted-tree recurrence and the
+abstract finite Kotecký–Preiss induction, yielding a uniform bound on
+every finite partial sum of the rooted cluster coefficients. No passage
+to an infinite series is made here: `Summable`, `tsum`, and convergence
+are reserved for Stone 48. No clustering or mass-gap statement is
+claimed.
 
 The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
 state, the exact β = 0 probabilistic chapter, the exact expansion mechanics
@@ -216,9 +216,10 @@ formalizations of:
 - the finite geometric majorant (no infinite series anywhere) and the
   KOTECKÝ–PREISS SMALLNESS HYPOTHESIS, verified with fully traced constants:
   Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C| whenever
-  0 ≤ β ≤ 1/40000 (symbolic threshold β ≤ 1/(8320·e); the abstract KP
-  theorem turning this hypothesis into convergence of the cluster expansion
-  is the next chapter and is NOT claimed);
+  0 ≤ β ≤ 1/40000 (symbolic threshold β ≤ 1/(8320·e)); this hypothesis is
+  consumed by the abstract finite KP induction completed in stone 47;
+  passage from uniform finite partial-sum bounds to `Summable`/`tsum` and
+  convergence is reserved for stone 48;
 - the finite rooted cluster coefficients: Aₙ (rooted Ursell, no root
   activity) and its labelled-tree majorant Tₙ as finite sums over the real
   polymer universe, with A₀ = T₀ = 1, nonnegativity, Aₙ ≤ Tₙ from the
@@ -382,16 +383,15 @@ the physical Yang–Mills problem.
 
 The immediate Phase 3 roadmap is:
 
-1. define finite connected plaquette polymers — **done (stone 35)**;
-2. prove the correspondence between plaquette subsets and compatible polymer
-   families (forward direction done in stone 35; inverse direction in
-   progress);
-3. rewrite the finite-volume partition function as an exact polymer-gas sum;
-4. introduce connected coefficients and the combinatorics required for a genuine
-   cluster expansion;
-5. prove finite-volume convergence estimates;
-6. investigate estimates uniform in lattice volume;
-7. study the consequences for connected correlations and clustering.
+1. Stone 48 — derive `Summable`/`tsum` and the infinite-series bound from
+   nonnegativity, monotone finite partial sums, and the uniform Stone-47
+   bound;
+2. identify the convergent cluster expansion with the relevant
+   finite-volume log-partition-function representation;
+3. develop volume-uniform estimates;
+4. investigate connected correlations and exponential clustering;
+5. only thereafter study thermodynamic/continuum limits and the additional
+   structures required for any mass-gap program.
 
 Later stages would require substantially new infrastructure, including:
 
