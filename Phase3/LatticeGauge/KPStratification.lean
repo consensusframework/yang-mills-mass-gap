@@ -1657,13 +1657,14 @@ theorem scalar_transfer {a b R S : ℝ} (ha : a ≠ 0) (hb : b ≠ 0)
     exact h
   rw [h2]
   field_simp
+  ring
 
 /-- Audit identity (documentation, not a new foundation):
     Σ (s_j + 1) = n is the same as Σ s_j + k = n. `n - k` never
     becomes the kernel representation. -/
 theorem sizeProfile_sum_add_k (s : SizeProfile n k) :
     (∑ j, profileNat s j) + k = n := by
-  have h := s.2
+  have h : (∑ j : Fin k, (profileNat s j + 1)) = n := s.2
   have h2 : (∑ j : Fin k, (profileNat s j + 1))
       = (∑ j, profileNat s j) + k := by
     rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
