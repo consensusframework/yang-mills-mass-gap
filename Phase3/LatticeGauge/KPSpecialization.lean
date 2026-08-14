@@ -89,6 +89,7 @@ theorem sum_indicator_eq_sum_incompatible (γ₀ : Polymer N)
         (Finset.sum_filter _ _).symm
     _ = ∑ D ∈ incompatiblePolymers γ₀.val, F D := by
         unfold incompatiblePolymers
+        rfl
 
 /-! ## 47c-C1 — the stone-46 key delivers the abstract hypothesis
     (the threshold is NOT reproved) -/
