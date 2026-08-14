@@ -1,0 +1,30 @@
+{
+  "title": "From Conditional Formalization to an Axiom-Free Finite-Lattice Program: Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the Yang-Mills Mass Gap (Version 47: The Exact Cluster Recurrence and the Finite Kotecky-Preiss Induction)",
+  "upload_type": "software",
+  "language": "eng",
+  "creators": [
+    {
+      "name": "Carvalho, Jucelha",
+      "orcid": "0009-0004-6047-2306"
+    }
+  ],
+  "contributors": [
+    { "name": "GPT-5.6 \"Sol\" (OpenAI) - architecture and review", "type": "Other" },
+    { "name": "Claude Fable 5 (Anthropic) - Lean 4 implementation", "type": "Other" },
+    { "name": "Kimi 3 (Moonshot AI) - adversarial audit", "type": "Other" }
+  ],
+  "description": "Stone 47 release of the axiom-free finite-lattice Lean 4 program (Mathlib v4.15.0, CI-verified: 62 Phase-3 source files, ~730 theorems, 0 axioms, 0 sorry). New in this version (stones 36-47): the exact finite polymer-gas representation; finite Ursell coefficients with permutation invariance; the Penrose identity and the tree-graph bound; the hard-core polymer bound and the exponential activity bound; uniform local geometry and doubled-walk counting; the concrete Kotecky-Preiss smallness hypothesis with the explicit threshold beta <= 1/40000; the multinomial as a theorem (no division in Nat); the EXACT cluster recurrence kpTreeCoeff_recurrence; the abstract finite KP induction (S_M(gamma) <= exp(a gamma), KP hypothesis consumed exactly once); and its specialization: for 0 <= beta <= 1/40000 every finite partial sum of the rooted cluster coefficients with the real polymer activity is uniformly bounded by exp(card gamma). Honest epistemic framing: NO convergence claim (Summable/tsum are future work), no log Z identification, no thermodynamic limit, no clustering, no mass gap. This is an exploratory formalization program, not progress establishing the Millennium Problem.",
+  "keywords": [
+    "Lean 4", "formal verification", "interactive theorem proving",
+    "lattice gauge theory", "Yang-Mills", "cluster expansion",
+    "polymer expansion", "Kotecky-Preiss", "Mathlib"
+  ],
+  "related_identifiers": [
+    {
+      "relation": "isNewVersionOf",
+      "identifier": "10.5281/zenodo.21416570",
+      "resource_type": "software"
+    }
+  ],
+  "notes": "Frozen source for this version: tag zenodo-v47 on the main branch. CI: GitHub Actions, Lean 4 + Mathlib pinned at v4.15.0. LICENSE FIELD PENDING ARCHITECT/COORDINATOR DECISION."
+}

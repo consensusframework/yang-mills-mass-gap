@@ -1,0 +1,15 @@
+# NOTE (Zenodo behaviour): if both .zenodo.json and CITATION.cff are
+# present, Zenodo uses .zenodo.json and IGNORES this file for the
+# archived record's metadata. This file serves GitHub's citation
+# widget and human readers.
+cff-version: 1.2.0
+message: "Please cite this repository as an exploratory, multi-phase Lean 4 formalization project, not as progress establishing the Millennium Problem."
+title: "From Conditional Formalization to an Axiom-Free Finite-Lattice Program: Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the Yang-Mills Mass Gap"
+version: "47"
+authors:
+  - family-names: "Carvalho"
+    given-names: "Jucelha"
+    orcid: "https://orcid.org/0009-0004-6047-2306"
+doi: 10.5281/zenodo.17397622
+date-released: 2026-08-14
+repository-code: "https://github.com/consensusframework/yang-mills-mass-gap"
