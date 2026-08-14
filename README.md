@@ -102,11 +102,11 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: August 1, 2026**
+**Last updated: August 14, 2026**
 
 - **Phase 2:** 25/25 modules compile.
-- **Phase 3 / `LatticeGauge`:** 49 stone deliveries verified and integrated
-  (stones 1–46 complete; stone 47 in progress: the paper proof of the finite
+- **Phase 3 / `LatticeGauge`:** stone deliveries verified and integrated
+  (STONES 1–47 COMPLETE; for stone 47: the paper proof of the finite
   Kotecký–Preiss induction is frozen and adversarially audited, and its
   formal layers b-i, b-iiA and the six-gate A-package of b-iiB are
   integrated — the k! enumeration count, the bidirectional
@@ -413,18 +413,18 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21416570.svg)](https://doi.org/10.5281/zenodo.21416570)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21939929.svg)](https://doi.org/10.5281/zenodo.21939929)
 
 ```text
 Carvalho, J. (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang-Mills Mass Gap (Version 35). Zenodo.
-https://doi.org/10.5281/zenodo.21416570
+Yang-Mills Mass Gap (Version 47). Zenodo.
+https://doi.org/10.5281/zenodo.21939929
 ```
 
 Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
-Frozen source tag for this version: `zenodo-v35` (commit bfd8e46).
+Frozen source tag for this version: `zenodo-v47`.
 
 ## Contact
 

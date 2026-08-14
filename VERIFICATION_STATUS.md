@@ -1,6 +1,6 @@
 # Verification Status — Thorne Taxonomy
 
-**Last updated:** July 5, 2026 (Etapa 1)
+**Last updated:** August 14, 2026 (Etapa 1)
 
 ## The three boxes
 
@@ -37,7 +37,7 @@ As of Etapa 0/1 they are deleted (21 orphans) or converted into explicit
 hypotheses (`def ...Assumption : Prop`) that theorems must declare openly.
 Phase 1 still contains 61 pending conversion (see PHASE1_GEMINI_CONVERSION_MAP.md).
 
-## Current state (branch etapa0-higiene)
+## Current state (main — zenodo-v47 release candidate)
 
 | Item | Status |
 |---|---|
