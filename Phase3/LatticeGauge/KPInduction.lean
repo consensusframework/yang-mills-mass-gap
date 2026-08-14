@@ -318,4 +318,23 @@ theorem kpPartialSum_succ_le_truncated {ρ : Polymer N → ℝ}
   · rw [kpTreeCoeff_zero, pow_zero, Nat.factorial_zero,
       Nat.cast_one, div_one]
 
+/-! ## 47c-A3 — the exponential (one library inequality, zero new
+    infrastructure: no TruncatedExp theory, no KP, no a(γ), no IH,
+    no exp-monotonicity, no Summable) -/
+
+/-- **47c-A CAPSTONE**: S_{M+1}(γ₀) ≤ exp(X_M(γ₀)) under ρ ≥ 0 —
+    the A2 truncation composed with the pinned library inequality
+    `Real.sum_le_exp_of_nonneg` (censused: Data/Complex/
+    Exponential.lean:959 in v4.15.0), instantiated at n := M+2. -/
+theorem kpPartialSum_succ_le_exp_kpX (M : ℕ)
+    {ρ : Polymer N → ℝ} (hρ : ∀ η, 0 ≤ ρ η) (γ₀ : Polymer N) :
+    kpPartialSum (M + 1) ρ γ₀
+      ≤ Real.exp (kpX M ρ γ₀) := by
+  calc kpPartialSum (M + 1) ρ γ₀
+      ≤ ∑ k ∈ Finset.range (M + 2),
+          (kpX M ρ γ₀) ^ k / ((Nat.factorial k : ℕ) : ℝ) :=
+        kpPartialSum_succ_le_truncated hρ M γ₀
+    _ ≤ Real.exp (kpX M ρ γ₀) :=
+        Real.sum_le_exp_of_nonneg (kpX_nonneg hρ M γ₀) (M + 2)
+
 end LatticeGauge
