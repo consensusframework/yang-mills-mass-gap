@@ -1643,4 +1643,65 @@ theorem rootDegree_identity_zero_of_gt (hk : n < k)
       = 0 := by
   rw [rootDegreeContribution_eq_zero_of_gt hk, mul_zero]
 
+/-! ## VI-C — normalization and THE EXACT RECURRENCE (k! removed
+    once, n! normalized once; the scalar algebra confined to one
+    tiny lemma; range-n form with index i+1, no filters, no
+    membership proofs) -/
+
+/-- The ONLY scalar-algebra lemma of VI-C (the architect's ruling:
+    the combinatorial proof never enters a field_simp). -/
+theorem scalar_transfer {a b R S : ℝ} (ha : a ≠ 0) (hb : b ≠ 0)
+    (h : a * R = b * S) : R / b = (1 / a) * S := by
+  have h2 : R = b * S / a := by
+    rw [eq_div_iff ha, mul_comm]
+    exact h
+  rw [h2]
+  field_simp
+
+/-- Audit identity (documentation, not a new foundation):
+    Σ (s_j + 1) = n is the same as Σ s_j + k = n. `n - k` never
+    becomes the kernel representation. -/
+theorem sizeProfile_sum_add_k (s : SizeProfile n k) :
+    (∑ j, profileNat s j) + k = n := by
+  have h := s.2
+  have h2 : (∑ j : Fin k, (profileNat s j + 1))
+      = (∑ j, profileNat s j) + k := by
+    rw [Finset.sum_add_distrib, Finset.sum_const, Finset.card_univ,
+      Fintype.card_fin, smul_eq_mul, mul_one]
+  omega
+
+/-- **VI-C.1 (universal — factorials never vanish in ℝ)**: the
+    normalized per-stratum identity. -/
+theorem rootDegreeContribution_normalized_identity (n k : ℕ)
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) :
+    rootDegreeContribution n k ρ γ₀
+        / ((Nat.factorial n : ℕ) : ℝ)
+      = (1 / ((Nat.factorial k : ℕ) : ℝ))
+          * ∑ s : SizeProfile n k,
+              ∏ j : Fin k, kpG ρ γ₀ (profileNat s j) :=
+  scalar_transfer
+    (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero k))
+    (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n))
+    (rootDegreeContribution_factorial_identity n k ρ γ₀)
+
+/-- **THE GATE VI CAPSTONE — THE EXACT RECURRENCE** (range-n form,
+    index i+1 = the root degree k running through 1,…,n): the k!
+    multiplicity removed once, the n! normalization applied once;
+    an algebraic identity for ARBITRARY real activities — no sign,
+    no KP, no analysis. All the trees, blocks, marks, fibers and
+    factorials of Gates I–VI in a single line. -/
+theorem kpTreeCoeff_recurrence (n : ℕ) (hn : 0 < n)
+    (ρ : Polymer N → ℝ) (γ₀ : Polymer N) :
+    kpTreeCoeff n ρ γ₀
+      = ∑ i ∈ Finset.range n,
+          (1 / ((Nat.factorial (i + 1) : ℕ) : ℝ))
+            * ∑ s : SizeProfile n (i + 1),
+                ∏ j : Fin (i + 1), kpG ρ γ₀ (profileNat s j) := by
+  unfold kpTreeCoeff
+  rw [rootedTreeSum_eq_sum_rootDegreeContribution,
+    Finset.sum_div, Finset.sum_range_succ',
+    rootDegreeContribution_zero_of_pos hn, zero_div, add_zero]
+  exact Finset.sum_congr rfl (fun i _ =>
+    rootDegreeContribution_normalized_identity n (i + 1) ρ γ₀)
+
 end LatticeGauge
