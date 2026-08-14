@@ -158,8 +158,9 @@ theorem sum_profileSum_eq_boundedSum (M k : ℕ) (hk : 1 ≤ k)
       = ∑ t ∈ boundedProfilesFinset M k,
           ∏ j : Fin k, kpG ρ γ₀ ((t j : ℕ)) := by
   rw [← Finset.sum_sigma (Finset.range (M + 1))
-    (fun _ => Finset.univ)
-    (fun x => ∏ j : Fin k, kpG ρ γ₀ (profileNat x.2 j))]
+    (fun n => (Finset.univ : Finset (SizeProfile (n + 1) k)))
+    (fun x : Σ n : ℕ, SizeProfile (n + 1) k =>
+      ∏ j : Fin k, kpG ρ γ₀ (profileNat x.2 j))]
   refine Finset.sum_bij
     (i := fun x hx => profileCast M (by
       have := Finset.mem_range.mp (Finset.mem_sigma.mp hx).1
