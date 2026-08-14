@@ -178,7 +178,7 @@ theorem sum_profileSum_eq_boundedSum (M k : ℕ) (hk : 1 ≤ k)
     have hval : ∀ j, profileNat x.2 j = profileNat y.2 j := by
       intro j
       have h4 := congrFun h j
-      exact congrArg Subtype.val h4
+      exact congrArg Fin.val h4
     have hxn : (∑ j, (profileNat x.2 j + 1)) = x.1 + 1 := x.2.2
     have hyn : (∑ j, (profileNat y.2 j + 1)) = y.1 + 1 := y.2.2
     have hsum : (∑ j, (profileNat x.2 j + 1))
