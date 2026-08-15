@@ -124,8 +124,12 @@ potentially useful definitions or research questions.
   smallness interface, KP hypothesis consumed exactly once) and its
   specialization: for 0 ≤ β ≤ 1/40000, EVERY finite partial sum of the
   rooted cluster coefficients with the real polymer activity is
-  uniformly bounded by exp(card γ) — no passage M → ∞ anywhere;
-  convergence (Summable/tsum) is stone 48).
+  uniformly bounded by exp(card γ); and STONE 48 COMPLETE — the passage
+  M → ∞ through pinned library bridges: kpSignedUrsellCoeff (the signed
+  rooted coefficient), the domination |Cₙ(z)| ≤ Aₙ(|z|), and ABSOLUTE
+  CONVERGENCE of the concrete signed rooted Ursell series for
+  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); log Z and the
+  cluster-expansion identification remain stone 49, NOT claimed).
 - **Phase 3 source files:** 63.
 - **Phase 3 declarations:** approximately 740 verified theorem/lemma declarations and supporting
   definitions.
