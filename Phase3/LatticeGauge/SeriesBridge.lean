@@ -19,9 +19,10 @@ CENSUS (v4.15.0, Mathlib/Topology/Algebra/InfiniteSum/Real.lean):
 
 Both are EXACTLY the demanded signatures (nonnegativity + uniformly
 bounded range-partial sums), with no extra hypotheses; the second
-consumes the first internally. This file therefore defines NOTHING:
-it records the census and proves the two mandated sanities against
-the library lemmas directly. Everything here is analysis of a plain
+consumes the first internally. This file introduces NO domain
+definitions and NO new analytic theory: it records the census and
+proves two sanity THEOREMS exercising the library lemmas directly
+(the zero sequence; the single spike). Everything here is analysis of a plain
 nonnegative sequence ℕ → ℝ: no Polymer, no kpTreeCoeff, no
 kpPartialSum, no polymerWeight, no β, no KPSmallness, no Ursell, no
 log, no partition function, no clustering. NO axioms.

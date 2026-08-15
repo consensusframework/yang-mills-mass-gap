@@ -1,19 +1,26 @@
 /-
-LatticeGauge/KPInduction.lean — stone 47c, GATE A, increment 1:
-NONNEGATIVITY, PARTIAL SUMS AND THE SUM SWAP
+LatticeGauge/KPInduction.lean — stones 47c AND 48B/48C
 (architecture: Sol/GPT-5.6; execution: Fable).
 
-The analysis chapter opens: S_M (the finite partial sum of the
-rooted cluster coefficients) and X_M (the partial sum of the G
-kernels) are defined, every layer is proved nonnegative under
-pointwise nonnegative activities (the FIRST time hρ enters the
-stone-47 formal chain), and the exact sum swap
-X_M(γ₀) = Σ_η incompat(γ₀,η)·ρ(η)·S_M(η) is recorded — the identity
-through which the simultaneous induction motive will flow.
-NOT here: the domain extension inequality (the red-tape step),
-the truncated exponential, the KP induction, the β ≤ 1/40000
-specialization (increments 2+ / Gates B, C); no Summable, no
-limits, no log Z. NO axioms.
+HISTORICAL SCOPE (stone 47c, Gates A/B): S_M and X_M defined;
+nonnegativity of every layer (the first entry of hρ); the exact sum
+swap X_M(γ₀) = Σ_η incompat·ρ·S_M(η); the red-tape domain
+extension; the truncated exponential; and THE ABSTRACT FINITE KP
+INDUCTION kpPartialSum_le_exp (motive P(M) := ∀γ, S_M ≤ exp(a γ);
+KP hypothesis consumed exactly once) — all FINITE.
+
+CURRENT SCOPE (stone 48, Gates B and C, after external adversarial
+audit of the finite layer): the file NOW ALSO contains the
+M → ∞ passage for the abstract objects — Summable and tsum bounds
+for the tree majorant (48B), for the absolute rooted Ursell
+coefficients (48C-α), and for the SIGNED rooted Ursell coefficient
+kpSignedUrsellCoeff born here (48C-β), everything through the
+pinned library bridges (summable_of_sum_range_le,
+Real.tsum_le_of_sum_range_le, Summable.of_nonneg_of_le,
+Summable.of_norm_bounded, tsum_le_tsum).
+STILL NOT here: the concrete β ≤ 1/40000 specialization (that is
+KPSpecialization.lean), and no log Z, no realZ, no identification
+of the cluster expansion, no thermodynamic limit. NO axioms.
 -/
 import Mathlib
 import LatticeGauge.Basic

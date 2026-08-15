@@ -16,10 +16,13 @@ threshold is NOT reproved); C2, the abstract induction of 47c-B is
 consumed and every finite partial sum is bounded by exp(card),
 plus the root-activity corollary (capital for stone 48, not
 simplified further). NO new analysis: composition of existing
-theorems only. NOT here: Summable, tsum, tendsto, limits, infinite
-series, log Z, thermodynamic limit, clustering, mass gap — stone
-47 ends EXACTLY at the uniform bound on ALL FINITE partial sums.
-NO axioms.
+theorems only. The file NOW ALSO contains stone 48D (after the
+stone-47 finite layer): the concrete specialization of the 48C-β
+absolute-convergence package — Summable and tsum DO appear here,
+consumed from the abstract 48B/48C theorems with z literally the
+signed polymerWeight; the stone-46 threshold is never reproved.
+STILL NOT here: log Z, realZ, cluster-expansion identification,
+thermodynamic limit, clustering, mass gap. NO axioms.
 -/
 import Mathlib
 import LatticeGauge.Basic
