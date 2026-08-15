@@ -483,4 +483,102 @@ theorem tsum_kpUrsellCoeff_le_exp {ρ a : Polymer N → ℝ}
       (summable_kpTreeCoeff hρ ha hKP γ₀))
     (tsum_kpTreeCoeff_le_exp hρ ha hKP γ₀)
 
+/-! ## 48C-β — THE SIGNED ROOTED URSELL COEFFICIENT and its
+    absolute convergence. Two conceptually different activities,
+    kept separate: z : Polymer N → ℝ is the SIGNED real activity;
+    ρ(η) = |z(η)| is the nonnegative activity the KP machinery
+    consumes. Still fully abstract: no concrete polymerWeight, no
+    β ≤ 1/40000, no χ/μm, no realZ, no log, no identification. -/
+
+/-- **The signed rooted Ursell coefficient** (birth certificate):
+    Cₙ(z, γ₀) = (1/n!)·Σ_γ φ(rootedTuple γ₀ γ)·Π z(γᵢ), with the
+    SIGNED stone-37 coefficient (ℤ, cast to ℝ) and signed
+    activities — no natAbs anywhere. -/
+noncomputable def kpSignedUrsellCoeff (n : ℕ)
+    (z : Polymer N → ℝ) (γ₀ : Polymer N) : ℝ :=
+  (∑ γ : Fin n → Polymer N,
+      ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+        * ∏ i : Fin n, z (γ i))
+    / ((Nat.factorial n : ℕ) : ℝ)
+
+/-- n = 0: only the root, signed coefficient 1 (mirror of the
+    absolute case). -/
+theorem kpSignedUrsellCoeff_zero (z : Polymer N → ℝ)
+    (γ₀ : Polymer N) :
+    kpSignedUrsellCoeff 0 z γ₀ = 1 := by
+  unfold kpSignedUrsellCoeff
+  rw [Finset.univ_unique, Finset.sum_singleton,
+    ursellCoeff_single (rootedTuple γ₀ default)]
+  simp
+
+/-- **48C-β.2 — THE DOMINATION (the heart): |Cₙ(z)| ≤ Aₙ(|z|)** —
+    triangle inequality for the finite sum, |φ| becoming the natAbs
+    of the absolute coefficient, |Π z| = Π |z|. -/
+theorem abs_kpSignedUrsellCoeff_le (n : ℕ)
+    (z : Polymer N → ℝ) (γ₀ : Polymer N) :
+    |kpSignedUrsellCoeff n z γ₀|
+      ≤ kpUrsellCoeff n (fun η => |z η|) γ₀ := by
+  unfold kpSignedUrsellCoeff kpUrsellCoeff
+  rw [abs_div, abs_of_nonneg
+    (by positivity : (0 : ℝ) ≤ ((Nat.factorial n : ℕ) : ℝ))]
+  refine div_le_div_of_nonneg_right ?_ (by positivity)
+  calc |∑ γ : Fin n → Polymer N,
+        ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+          * ∏ i : Fin n, z (γ i)|
+      ≤ ∑ γ : Fin n → Polymer N,
+          |((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+            * ∏ i : Fin n, z (γ i)| :=
+        Finset.abs_sum_le_sum_abs _ _
+    _ = ∑ γ : Fin n → Polymer N,
+          (((ursellCoeff (rootedTuple γ₀ γ)).natAbs : ℕ) : ℝ)
+            * ∏ i : Fin n, |z (γ i)| :=
+        Finset.sum_congr rfl (fun γ _ => by
+          rw [abs_mul, Finset.abs_prod]
+          congr 1
+          rw [← Int.cast_abs, Int.abs_eq_natAbs, Int.cast_natCast])
+
+/-- **48C-β.3 — absolute summability of the signed series**: the
+    envelope of 48C-α receives the signed object. -/
+theorem summable_abs_kpSignedUrsellCoeff
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    Summable (fun n => |kpSignedUrsellCoeff n z γ₀|) :=
+  Summable.of_nonneg_of_le (fun n => abs_nonneg _)
+    (fun n => abs_kpSignedUrsellCoeff_le n z γ₀)
+    (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀)
+
+/-- **48C-β.4 — summability of the signed series itself** — through
+    the pinned `Summable.of_norm_bounded`
+    (Normed/Group/InfiniteSum.lean:103; ‖·‖ = |·| on ℝ). -/
+theorem summable_kpSignedUrsellCoeff
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    Summable (fun n => kpSignedUrsellCoeff n z γ₀) :=
+  Summable.of_norm_bounded
+    (fun n => kpUrsellCoeff n (fun η => |z η|) γ₀)
+    (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀)
+    (fun n => by
+      rw [Real.norm_eq_abs]
+      exact abs_kpSignedUrsellCoeff_le n z γ₀)
+
+/-- **48C-β CAPSTONE: THE SIGNED ROOTED URSELL SERIES IS ABSOLUTELY
+    SUMMABLE, with tsum |Cₙ| ≤ exp(a γ₀)** — the hierarchy
+    |Cₙ| ≤ Aₙ ≤ Tₙ closed at the series level:
+    Σ'|Cₙ| ≤ Σ'Aₙ ≤ Σ'Tₙ ≤ exp(a γ₀). NOT claimed: any log Z, any
+    identification of the cluster expansion — later layers. -/
+theorem tsum_abs_kpSignedUrsellCoeff_le_exp
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    (∑' n : ℕ, |kpSignedUrsellCoeff n z γ₀|)
+      ≤ Real.exp (a γ₀) :=
+  le_trans
+    (tsum_le_tsum
+      (fun n => abs_kpSignedUrsellCoeff_le n z γ₀)
+      (summable_abs_kpSignedUrsellCoeff ha hKP γ₀)
+      (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀))
+    (tsum_kpUrsellCoeff_le_exp (fun η => abs_nonneg _) ha hKP γ₀)
+
 end LatticeGauge
