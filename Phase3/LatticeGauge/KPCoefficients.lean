@@ -53,7 +53,6 @@ import LatticeGauge.PolymerActivityBound
 import LatticeGauge.LinkCovering
 import LatticeGauge.LocalGeometry
 import LatticeGauge.PolymerWalkCount
-import LatticeGauge.KPSmallness
 
 open scoped Classical
 

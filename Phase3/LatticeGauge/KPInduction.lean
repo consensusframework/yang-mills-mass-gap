@@ -1,19 +1,26 @@
 /-
-LatticeGauge/KPInduction.lean — stone 47c, GATE A, increment 1:
-NONNEGATIVITY, PARTIAL SUMS AND THE SUM SWAP
+LatticeGauge/KPInduction.lean — stones 47c AND 48B/48C
 (architecture: Sol/GPT-5.6; execution: Fable).
 
-The analysis chapter opens: S_M (the finite partial sum of the
-rooted cluster coefficients) and X_M (the partial sum of the G
-kernels) are defined, every layer is proved nonnegative under
-pointwise nonnegative activities (the FIRST time hρ enters the
-stone-47 formal chain), and the exact sum swap
-X_M(γ₀) = Σ_η incompat(γ₀,η)·ρ(η)·S_M(η) is recorded — the identity
-through which the simultaneous induction motive will flow.
-NOT here: the domain extension inequality (the red-tape step),
-the truncated exponential, the KP induction, the β ≤ 1/40000
-specialization (increments 2+ / Gates B, C); no Summable, no
-limits, no log Z. NO axioms.
+HISTORICAL SCOPE (stone 47c, Gates A/B): S_M and X_M defined;
+nonnegativity of every layer (the first entry of hρ); the exact sum
+swap X_M(γ₀) = Σ_η incompat·ρ·S_M(η); the red-tape domain
+extension; the truncated exponential; and THE ABSTRACT FINITE KP
+INDUCTION kpPartialSum_le_exp (motive P(M) := ∀γ, S_M ≤ exp(a γ);
+KP hypothesis consumed exactly once) — all FINITE.
+
+CURRENT SCOPE (stone 48, Gates B and C, after external adversarial
+audit of the finite layer): the file NOW ALSO contains the
+M → ∞ passage for the abstract objects — Summable and tsum bounds
+for the tree majorant (48B), for the absolute rooted Ursell
+coefficients (48C-α), and for the SIGNED rooted Ursell coefficient
+kpSignedUrsellCoeff born here (48C-β), everything through the
+pinned library bridges (summable_of_sum_range_le,
+Real.tsum_le_of_sum_range_le, Summable.of_nonneg_of_le,
+Summable.of_norm_bounded, tsum_le_tsum).
+STILL NOT here: the concrete β ≤ 1/40000 specialization (that is
+KPSpecialization.lean), and no log Z, no realZ, no identification
+of the cluster expansion, no thermodynamic limit. NO axioms.
 -/
 import Mathlib
 import LatticeGauge.Basic
@@ -389,5 +396,196 @@ theorem kpPartialSum_le_exp {ρ a : Polymer N → ℝ}
             kpPartialSum_succ_le_exp_kpX M hρ γ
         _ ≤ Real.exp (a γ) :=
             Real.exp_le_exp.mpr (kpX_le_a hρ hKP M γ IH)
+
+/-! ## 48B — the MAJORANT series, still fully abstract (no
+    polymerWeight, no χ, no μm, no β, no stone-46 concreteness, no
+    Ursell, no log Z). What is proved here is summability and the
+    tsum bound of the TREE-MAJORANT series kpTreeCoeff — this is
+    deliberately NOT called "convergence of the cluster expansion":
+    the transport to the dominated rooted Ursell series is 48C. -/
+
+/-- **48B.1 — the range→partial-sum bridge, with the step VISIBLE**:
+    Σ_{n < N} T_n ≤ S_N needs the nonnegativity of the term T_N
+    (S_N sums range (N+1)); the step is `sum_range_succ` plus
+    `kpTreeCoeff_nonneg`, named here, not hidden in a simp. -/
+theorem sum_range_kpTreeCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    ∀ M : ℕ, (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ Real.exp (a γ) := by
+  intro M
+  have hid : kpPartialSum M ρ γ
+      = ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := rfl
+  have hstep : (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := by
+    rw [Finset.sum_range_succ]
+    have hT : 0 ≤ kpTreeCoeff M ρ γ := kpTreeCoeff_nonneg M hρ γ
+    linarith
+  calc (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := hstep
+    _ = kpPartialSum M ρ γ := hid.symm
+    _ ≤ Real.exp (a γ) := kpPartialSum_le_exp hρ ha hKP M γ
+
+/-- **48B CAPSTONE 1: the majorant series is Summable** — the
+    pinned bridge consumed, nothing rebuilt. -/
+theorem summable_kpTreeCoeff {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    Summable (fun n => kpTreeCoeff n ρ γ) :=
+  summable_of_sum_range_le
+    (fun n => kpTreeCoeff_nonneg n hρ γ)
+    (sum_range_kpTreeCoeff_le_exp hρ ha hKP γ)
+
+/-- **48B CAPSTONE 2: the tsum of the majorant series is bounded by
+    exp(a γ)** — via the direct pinned API (no Summable/Tendsto
+    detour). NOT a cluster-expansion convergence statement. -/
+theorem tsum_kpTreeCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    (∑' n : ℕ, kpTreeCoeff n ρ γ) ≤ Real.exp (a γ) :=
+  Real.tsum_le_of_sum_range_le
+    (fun n => kpTreeCoeff_nonneg n hρ γ)
+    (sum_range_kpTreeCoeff_le_exp hρ ha hKP γ)
+
+/-! ## 48C-α — the series of ABSOLUTE rooted Ursell coefficients
+    (semantic audit recorded: `kpUrsellCoeff` carries `natAbs` BY
+    DEFINITION — it is the absolute rooted coefficient the KP proof
+    uses, NOT the signed one. Repository census at this commit: NO
+    signed rooted coefficient (1/n!)·Σ_γ φ(rootedTuple γ₀ γ)·Π ρ(γᵢ)
+    without natAbs exists as a formalized object — the only signed
+    Ursell object is the graph-level ℤ-valued `ursellCoeff` of
+    stone 37, never combined rooted-and-weighted without absolute
+    value. Therefore the statements below say exactly and only:
+    "the series of absolute rooted Ursell coefficients is summable"
+    — NOT "the signed cluster expansion converges absolutely";
+    the signed object and its domination are 48C-β, not created
+    here. Still abstract: no β, no polymerWeight, no χ/μm, no
+    log Z. -/
+
+/-- **48C-α CAPSTONE 1: the series of absolute rooted Ursell
+    coefficients is summable** — comparison 0 ≤ Aₙ ≤ Tₙ (stone
+    47b-i, termwise) against the summable majorant of 48B, through
+    the pinned `Summable.of_nonneg_of_le`. -/
+theorem summable_kpUrsellCoeff {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ₀ : Polymer N) :
+    Summable (fun n => kpUrsellCoeff n ρ γ₀) :=
+  Summable.of_nonneg_of_le
+    (fun n => kpUrsellCoeff_nonneg n hρ γ₀)
+    (fun n => kpUrsellCoeff_le_kpTreeCoeff n hρ γ₀)
+    (summable_kpTreeCoeff hρ ha hKP γ₀)
+
+/-- **48C-α CAPSTONE 2: the tsum of the absolute rooted Ursell
+    series is bounded by exp(a γ₀)** — the desired route
+    tsum A ≤ tsum T ≤ exp(a γ₀), via the pinned `tsum_le_tsum`
+    and the 48B bound. -/
+theorem tsum_kpUrsellCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ₀ : Polymer N) :
+    (∑' n : ℕ, kpUrsellCoeff n ρ γ₀) ≤ Real.exp (a γ₀) :=
+  le_trans
+    (tsum_le_tsum
+      (fun n => kpUrsellCoeff_le_kpTreeCoeff n hρ γ₀)
+      (summable_kpUrsellCoeff hρ ha hKP γ₀)
+      (summable_kpTreeCoeff hρ ha hKP γ₀))
+    (tsum_kpTreeCoeff_le_exp hρ ha hKP γ₀)
+
+/-! ## 48C-β — THE SIGNED ROOTED URSELL COEFFICIENT and its
+    absolute convergence. Two conceptually different activities,
+    kept separate: z : Polymer N → ℝ is the SIGNED real activity;
+    ρ(η) = |z(η)| is the nonnegative activity the KP machinery
+    consumes. Still fully abstract: no concrete polymerWeight, no
+    β ≤ 1/40000, no χ/μm, no realZ, no log, no identification. -/
+
+/-- **The signed rooted Ursell coefficient** (birth certificate):
+    Cₙ(z, γ₀) = (1/n!)·Σ_γ φ(rootedTuple γ₀ γ)·Π z(γᵢ), with the
+    SIGNED stone-37 coefficient (ℤ, cast to ℝ) and signed
+    activities — no natAbs anywhere. -/
+noncomputable def kpSignedUrsellCoeff (n : ℕ)
+    (z : Polymer N → ℝ) (γ₀ : Polymer N) : ℝ :=
+  (∑ γ : Fin n → Polymer N,
+      ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+        * ∏ i : Fin n, z (γ i))
+    / ((Nat.factorial n : ℕ) : ℝ)
+
+/-- n = 0: only the root, signed coefficient 1 (mirror of the
+    absolute case). -/
+theorem kpSignedUrsellCoeff_zero (z : Polymer N → ℝ)
+    (γ₀ : Polymer N) :
+    kpSignedUrsellCoeff 0 z γ₀ = 1 := by
+  unfold kpSignedUrsellCoeff
+  rw [Finset.univ_unique, Finset.sum_singleton,
+    ursellCoeff_single (rootedTuple γ₀ default)]
+  simp
+
+/-- **48C-β.2 — THE DOMINATION (the heart): |Cₙ(z)| ≤ Aₙ(|z|)** —
+    triangle inequality for the finite sum, |φ| becoming the natAbs
+    of the absolute coefficient, |Π z| = Π |z|. -/
+theorem abs_kpSignedUrsellCoeff_le (n : ℕ)
+    (z : Polymer N → ℝ) (γ₀ : Polymer N) :
+    |kpSignedUrsellCoeff n z γ₀|
+      ≤ kpUrsellCoeff n (fun η => |z η|) γ₀ := by
+  unfold kpSignedUrsellCoeff kpUrsellCoeff
+  rw [abs_div, abs_of_nonneg
+    (by positivity : (0 : ℝ) ≤ ((Nat.factorial n : ℕ) : ℝ))]
+  refine div_le_div_of_nonneg_right ?_ (by positivity)
+  calc |∑ γ : Fin n → Polymer N,
+        ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+          * ∏ i : Fin n, z (γ i)|
+      ≤ ∑ γ : Fin n → Polymer N,
+          |((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+            * ∏ i : Fin n, z (γ i)| :=
+        Finset.abs_sum_le_sum_abs _ _
+    _ = ∑ γ : Fin n → Polymer N,
+          (((ursellCoeff (rootedTuple γ₀ γ)).natAbs : ℕ) : ℝ)
+            * ∏ i : Fin n, |z (γ i)| :=
+        Finset.sum_congr rfl (fun γ _ => by
+          rw [abs_mul, Finset.abs_prod]
+          congr 1
+          rw [← Int.cast_abs, Int.abs_eq_natAbs, Int.cast_natCast])
+
+/-- **48C-β.3 — absolute summability of the signed series**: the
+    envelope of 48C-α receives the signed object. -/
+theorem summable_abs_kpSignedUrsellCoeff
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    Summable (fun n => |kpSignedUrsellCoeff n z γ₀|) :=
+  Summable.of_nonneg_of_le (fun n => abs_nonneg _)
+    (fun n => abs_kpSignedUrsellCoeff_le n z γ₀)
+    (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀)
+
+/-- **48C-β.4 — summability of the signed series itself** — through
+    the pinned `Summable.of_norm_bounded`
+    (Normed/Group/InfiniteSum.lean:103; ‖·‖ = |·| on ℝ). -/
+theorem summable_kpSignedUrsellCoeff
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    Summable (fun n => kpSignedUrsellCoeff n z γ₀) :=
+  Summable.of_norm_bounded
+    (fun n => kpUrsellCoeff n (fun η => |z η|) γ₀)
+    (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀)
+    (fun n => by
+      rw [Real.norm_eq_abs]
+      exact abs_kpSignedUrsellCoeff_le n z γ₀)
+
+/-- **48C-β CAPSTONE: THE SIGNED ROOTED URSELL SERIES IS ABSOLUTELY
+    SUMMABLE, with tsum |Cₙ| ≤ exp(a γ₀)** — the hierarchy
+    |Cₙ| ≤ Aₙ ≤ Tₙ closed at the series level:
+    Σ'|Cₙ| ≤ Σ'Aₙ ≤ Σ'Tₙ ≤ exp(a γ₀). NOT claimed: any log Z, any
+    identification of the cluster expansion — later layers. -/
+theorem tsum_abs_kpSignedUrsellCoeff_le_exp
+    {z a : Polymer N → ℝ} (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a)
+    (γ₀ : Polymer N) :
+    (∑' n : ℕ, |kpSignedUrsellCoeff n z γ₀|)
+      ≤ Real.exp (a γ₀) :=
+  le_trans
+    (tsum_le_tsum
+      (fun n => abs_kpSignedUrsellCoeff_le n z γ₀)
+      (summable_abs_kpSignedUrsellCoeff ha hKP γ₀)
+      (summable_kpUrsellCoeff (fun η => abs_nonneg _) ha hKP γ₀))
+    (tsum_kpUrsellCoeff_le_exp (fun η => abs_nonneg _) ha hKP γ₀)
 
 end LatticeGauge

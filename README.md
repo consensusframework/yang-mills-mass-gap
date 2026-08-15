@@ -124,10 +124,14 @@ potentially useful definitions or research questions.
   smallness interface, KP hypothesis consumed exactly once) and its
   specialization: for 0 ≤ β ≤ 1/40000, EVERY finite partial sum of the
   rooted cluster coefficients with the real polymer activity is
-  uniformly bounded by exp(card γ) — no passage M → ∞ anywhere;
-  convergence (Summable/tsum) is stone 48).
-- **Phase 3 source files:** 62.
-- **Phase 3 declarations:** approximately 730 verified theorems and supporting
+  uniformly bounded by exp(card γ); and STONE 48 COMPLETE — the passage
+  M → ∞ through pinned library bridges: kpSignedUrsellCoeff (the signed
+  rooted coefficient), the domination |Cₙ(z)| ≤ Aₙ(|z|), and ABSOLUTE
+  CONVERGENCE of the concrete signed rooted Ursell series for
+  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); log Z and the
+  cluster-expansion identification remain stone 49, NOT claimed).
+- **Phase 3 source files:** 63.
+- **Phase 3 declarations:** approximately 740 verified theorem/lemma declarations and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -136,11 +140,13 @@ potentially useful definitions or research questions.
 hypothesis for this lattice polymer gas is machine-verified with fully
 traced constants: for 0 ≤ β ≤ 1/40000,
 `Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C|`.
-Stone 47 now also establishes the exact rooted-tree recurrence and the
-abstract finite Kotecký–Preiss induction, yielding a uniform bound on
-every finite partial sum of the rooted cluster coefficients. No passage
-to an infinite series is made here: `Summable`, `tsum`, and convergence
-are reserved for Stone 48. No clustering or mass-gap statement is
+Stone 47 establishes the exact rooted-tree recurrence and the abstract
+finite Kotecký–Preiss induction, yielding a uniform bound on every
+finite partial sum of the rooted cluster coefficients. STONE 48 now
+completes the passage to the infinite series: for 0 ≤ β ≤ 1/40000, the
+concrete signed rooted Ursell series is absolutely convergent, with
+Σₙ |Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀). No log-Z identification, no realZ ≠ 0,
+no thermodynamic limit, no clustering, and no mass-gap statement is
 claimed.
 
 The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
@@ -217,9 +223,9 @@ formalizations of:
   KOTECKÝ–PREISS SMALLNESS HYPOTHESIS, verified with fully traced constants:
   Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C| whenever
   0 ≤ β ≤ 1/40000 (symbolic threshold β ≤ 1/(8320·e)); this hypothesis is
-  consumed by the abstract finite KP induction completed in stone 47;
-  passage from uniform finite partial-sum bounds to `Summable`/`tsum` and
-  convergence is reserved for stone 48;
+  consumed by the abstract finite KP induction completed in stone 47, and
+  by stone 48 the passage to `Summable`/`tsum` is COMPLETE: the concrete
+  signed rooted Ursell series is absolutely convergent in this regime;
 - the finite rooted cluster coefficients: Aₙ (rooted Ursell, no root
   activity) and its labelled-tree majorant Tₙ as finite sums over the real
   polymer universe, with A₀ = T₀ = 1, nonnegativity, Aₙ ≤ Tₙ from the
@@ -383,14 +389,14 @@ the physical Yang–Mills problem.
 
 The immediate Phase 3 roadmap is:
 
-1. Stone 48 — derive `Summable`/`tsum` and the infinite-series bound from
-   nonnegativity, monotone finite partial sums, and the uniform Stone-47
-   bound;
-2. identify the convergent cluster expansion with the relevant
-   finite-volume log-partition-function representation;
-3. develop volume-uniform estimates;
-4. investigate connected correlations and exponential clustering;
-5. only thereafter study thermodynamic/continuum limits and the additional
+1. Stone 49 — unroot the convergent rooted series (the exact finite
+   relation Σ_γ₀ z(γ₀)·Cₙ(z,γ₀) = (n+1)·B_{n+1}(z)), prove absolute
+   summability of the unrooted coefficients, and only then attack the
+   exp/log identification with the finite-volume polymer-gas
+   representation of stone 36;
+2. develop volume-uniform estimates;
+3. investigate connected correlations and exponential clustering;
+4. only thereafter study thermodynamic/continuum limits and the additional
    structures required for any mass-gap program.
 
 Later stages would require substantially new infrastructure, including:
