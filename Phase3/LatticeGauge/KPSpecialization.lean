@@ -166,4 +166,73 @@ theorem polymer_rooted_partialSum_bound
     (polymer_kpPartialSum_le_exp_card μm hβ mχ hχabs hsmall M γ₀)
     (abs_nonneg _)
 
+/-! ## 48D — THE CONCRETE SPECIALIZATION AND THE STONE-48 CAPSTONE.
+    The wire meets the socket: z is LITERALLY the signed
+    polymerWeight (no absolute value on the activity itself); the
+    abstract hypothesis is delivered by
+    `abstractKP_of_beta_le_one_div_40000` (stone 46 untouched, the
+    threshold not reproved); every theorem below is a literal
+    instantiation of 48C-β — no new combinatorics, no new
+    analysis. NOT claimed (next stones): log Z, realZ ≠ 0, the
+    cluster-expansion representation, thermodynamic limit,
+    clustering, mass gap. -/
+
+/-- **48D.1**: the concrete ABSOLUTE signed rooted Ursell series is
+    summable for 0 ≤ β ≤ 1/40000. -/
+theorem polymer_summable_abs_signedUrsell
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) (γ₀ : Polymer N) :
+    Summable (fun n => |kpSignedUrsellCoeff n
+      (fun η => polymerWeight (N := N) μm β χ η.val) γ₀|) :=
+  summable_abs_kpSignedUrsellCoeff
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+    γ₀
+
+/-- **48D.2**: the concrete SIGNED rooted Ursell series itself is
+    summable for 0 ≤ β ≤ 1/40000. -/
+theorem polymer_summable_signedUrsell
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) (γ₀ : Polymer N) :
+    Summable (fun n => kpSignedUrsellCoeff n
+      (fun η => polymerWeight (N := N) μm β χ η.val) γ₀) :=
+  summable_kpSignedUrsellCoeff
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+    γ₀
+
+/-- **48D.3 — THE STONE-48 CAPSTONE**: for the concrete polymer-gas
+    activity, under 0 ≤ β ≤ 1/40000, the signed rooted Ursell
+    series is absolutely convergent with
+    Σ'_n |Cₙ(w_β, γ₀)| ≤ exp(card γ₀). -/
+theorem polymer_tsum_abs_signedUrsell_le_exp_card
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) (γ₀ : Polymer N) :
+    (∑' n : ℕ, |kpSignedUrsellCoeff n
+        (fun η => polymerWeight (N := N) μm β χ η.val) γ₀|)
+      ≤ Real.exp (((γ₀.val.card : ℕ) : ℝ)) :=
+  tsum_abs_kpSignedUrsellCoeff_le_exp
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+    γ₀
+
+/-- **48D.4 — the root-activity corollary** (capital for the future
+    finite sum over roots; nothing recreated). -/
+theorem polymer_rooted_signedUrsell_bound
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) (γ₀ : Polymer N) :
+    |polymerWeight (N := N) μm β χ γ₀.val|
+        * (∑' n : ℕ, |kpSignedUrsellCoeff n
+            (fun η => polymerWeight (N := N) μm β χ η.val) γ₀|)
+      ≤ |polymerWeight (N := N) μm β χ γ₀.val|
+          * Real.exp (((γ₀.val.card : ℕ) : ℝ)) :=
+  mul_le_mul_of_nonneg_left
+    (polymer_tsum_abs_signedUrsell_le_exp_card μm hβ mχ hχabs
+      hsmall γ₀)
+    (abs_nonneg _)
+
 end LatticeGauge
