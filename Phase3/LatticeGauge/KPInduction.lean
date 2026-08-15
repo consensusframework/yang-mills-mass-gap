@@ -440,4 +440,47 @@ theorem tsum_kpTreeCoeff_le_exp {ρ a : Polymer N → ℝ}
     (fun n => kpTreeCoeff_nonneg n hρ γ)
     (sum_range_kpTreeCoeff_le_exp hρ ha hKP γ)
 
+/-! ## 48C-α — the series of ABSOLUTE rooted Ursell coefficients
+    (semantic audit recorded: `kpUrsellCoeff` carries `natAbs` BY
+    DEFINITION — it is the absolute rooted coefficient the KP proof
+    uses, NOT the signed one. Repository census at this commit: NO
+    signed rooted coefficient (1/n!)·Σ_γ φ(rootedTuple γ₀ γ)·Π ρ(γᵢ)
+    without natAbs exists as a formalized object — the only signed
+    Ursell object is the graph-level ℤ-valued `ursellCoeff` of
+    stone 37, never combined rooted-and-weighted without absolute
+    value. Therefore the statements below say exactly and only:
+    "the series of absolute rooted Ursell coefficients is summable"
+    — NOT "the signed cluster expansion converges absolutely";
+    the signed object and its domination are 48C-β, not created
+    here. Still abstract: no β, no polymerWeight, no χ/μm, no
+    log Z. -/
+
+/-- **48C-α CAPSTONE 1: the series of absolute rooted Ursell
+    coefficients is summable** — comparison 0 ≤ Aₙ ≤ Tₙ (stone
+    47b-i, termwise) against the summable majorant of 48B, through
+    the pinned `Summable.of_nonneg_of_le`. -/
+theorem summable_kpUrsellCoeff {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ₀ : Polymer N) :
+    Summable (fun n => kpUrsellCoeff n ρ γ₀) :=
+  Summable.of_nonneg_of_le
+    (fun n => kpUrsellCoeff_nonneg n hρ γ₀)
+    (fun n => kpUrsellCoeff_le_kpTreeCoeff n hρ γ₀)
+    (summable_kpTreeCoeff hρ ha hKP γ₀)
+
+/-- **48C-α CAPSTONE 2: the tsum of the absolute rooted Ursell
+    series is bounded by exp(a γ₀)** — the desired route
+    tsum A ≤ tsum T ≤ exp(a γ₀), via the pinned `tsum_le_tsum`
+    and the 48B bound. -/
+theorem tsum_kpUrsellCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ₀ : Polymer N) :
+    (∑' n : ℕ, kpUrsellCoeff n ρ γ₀) ≤ Real.exp (a γ₀) :=
+  le_trans
+    (tsum_le_tsum
+      (fun n => kpUrsellCoeff_le_kpTreeCoeff n hρ γ₀)
+      (summable_kpUrsellCoeff hρ ha hKP γ₀)
+      (summable_kpTreeCoeff hρ ha hKP γ₀))
+    (tsum_kpTreeCoeff_le_exp hρ ha hKP γ₀)
+
 end LatticeGauge
