@@ -390,4 +390,54 @@ theorem kpPartialSum_le_exp {ρ a : Polymer N → ℝ}
         _ ≤ Real.exp (a γ) :=
             Real.exp_le_exp.mpr (kpX_le_a hρ hKP M γ IH)
 
+/-! ## 48B — the MAJORANT series, still fully abstract (no
+    polymerWeight, no χ, no μm, no β, no stone-46 concreteness, no
+    Ursell, no log Z). What is proved here is summability and the
+    tsum bound of the TREE-MAJORANT series kpTreeCoeff — this is
+    deliberately NOT called "convergence of the cluster expansion":
+    the transport to the dominated rooted Ursell series is 48C. -/
+
+/-- **48B.1 — the range→partial-sum bridge, with the step VISIBLE**:
+    Σ_{n < N} T_n ≤ S_N needs the nonnegativity of the term T_N
+    (S_N sums range (N+1)); the step is `sum_range_succ` plus
+    `kpTreeCoeff_nonneg`, named here, not hidden in a simp. -/
+theorem sum_range_kpTreeCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    ∀ M : ℕ, (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ Real.exp (a γ) := by
+  intro M
+  have hid : kpPartialSum M ρ γ
+      = ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := rfl
+  have hstep : (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := by
+    rw [Finset.sum_range_succ]
+    have hT : 0 ≤ kpTreeCoeff M ρ γ := kpTreeCoeff_nonneg M hρ γ
+    linarith
+  calc (∑ n ∈ Finset.range M, kpTreeCoeff n ρ γ)
+      ≤ ∑ n ∈ Finset.range (M + 1), kpTreeCoeff n ρ γ := hstep
+    _ = kpPartialSum M ρ γ := hid.symm
+    _ ≤ Real.exp (a γ) := kpPartialSum_le_exp hρ ha hKP M γ
+
+/-- **48B CAPSTONE 1: the majorant series is Summable** — the
+    pinned bridge consumed, nothing rebuilt. -/
+theorem summable_kpTreeCoeff {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    Summable (fun n => kpTreeCoeff n ρ γ) :=
+  summable_of_sum_range_le
+    (fun n => kpTreeCoeff_nonneg n hρ γ)
+    (sum_range_kpTreeCoeff_le_exp hρ ha hKP γ)
+
+/-- **48B CAPSTONE 2: the tsum of the majorant series is bounded by
+    exp(a γ)** — via the direct pinned API (no Summable/Tendsto
+    detour). NOT a cluster-expansion convergence statement. -/
+theorem tsum_kpTreeCoeff_le_exp {ρ a : Polymer N → ℝ}
+    (hρ : ∀ η, 0 ≤ ρ η) (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis ρ a) (γ : Polymer N) :
+    (∑' n : ℕ, kpTreeCoeff n ρ γ) ≤ Real.exp (a γ) :=
+  Real.tsum_le_of_sum_range_le
+    (fun n => kpTreeCoeff_nonneg n hρ γ)
+    (sum_range_kpTreeCoeff_le_exp hρ ha hKP γ)
+
 end LatticeGauge
