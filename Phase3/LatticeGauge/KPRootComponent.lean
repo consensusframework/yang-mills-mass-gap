@@ -338,4 +338,204 @@ theorem reachable_image_iff {m k : ℕ} {f : Fin k → Fin m}
   ⟨reachable_of_reachable_image hf,
     reachable_image_of_reachable hf⟩
 
+/-! ## III-2.b — the canonical embedding of S and the certified
+    connected piece (censused: Finset.orderIsoOfFin, Sort.lean:156;
+    OrderIso.apply_symm_apply :784; Subtype.coe_lt_coe :1103).
+    Stone 38 NOT imported: the order-iso route gives the equality
+    directly, no permutation transport needed. -/
+
+noncomputable def sEmb {m : ℕ} (S : Finset (Fin m)) {k : ℕ}
+    (h : S.card = k) : Fin k → Fin m :=
+  fun i => ((S.orderIsoOfFin h) i : Fin m)
+
+theorem sEmb_strictMono {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
+    (h : S.card = k) : StrictMono (sEmb S h) :=
+  fun _ _ hab =>
+    Subtype.coe_lt_coe.mpr ((S.orderIsoOfFin h).strictMono hab)
+
+theorem sEmb_mem {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
+    (h : S.card = k) (i : Fin k) : sEmb S h i ∈ S :=
+  ((S.orderIsoOfFin h) i).property
+
+theorem sEmb_symm_apply {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
+    (h : S.card = k) {v : Fin m} (hv : v ∈ S) :
+    sEmb S h ((S.orderIsoOfFin h).symm ⟨v, hv⟩) = v := by
+  unfold sEmb
+  rw [OrderIso.apply_symm_apply]
+
+/-- Incompatibility adjacency transports exactly along any
+    injective reindexing of the tuple. -/
+theorem incompat_comp_adj {k m : ℕ}
+    (γ : Fin m → Finset (Site N × Dir × Dir))
+    {f : Fin k → Fin m} (hinj : Function.Injective f)
+    (i j : Fin k) :
+    (polymerIncompatibilityGraph (N := N)
+        (fun t => γ (f t))).Adj i j
+      ↔ (polymerIncompatibilityGraph (N := N) γ).Adj
+          (f i) (f j) := by
+  constructor
+  · rintro ⟨hne, hnc⟩
+    exact ⟨fun hfe => hne (hinj hfe), hnc⟩
+  · rintro ⟨hne, hnc⟩
+    exact ⟨fun he => hne (congrArg f he), hnc⟩
+
+/-- Available-edge correspondence across the embedding. -/
+theorem edgeUp_mem_availableEdges_iff {k m : ℕ}
+    (γ : Fin m → Finset (Site N × Dir × Dir))
+    {f : Fin k → Fin m} (hf : StrictMono f)
+    (e : OrderedEdge k) :
+    edgeUp hf e ∈ availableEdges
+        (polymerIncompatibilityGraph (N := N) γ)
+      ↔ e ∈ availableEdges (polymerIncompatibilityGraph (N := N)
+          (fun t => γ (f t))) := by
+  rw [mem_availableEdges, mem_availableEdges]
+  exact (incompat_comp_adj γ hf.injective e.val.1 e.val.2).symm
+
+/-- Down/up roundtrip: an edge with both endpoints in S is the
+    image of a unique k-side edge (uniqueness = injectivity). -/
+theorem exists_edgeUp_eq {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
+    (h : S.card = k) {e' : OrderedEdge m}
+    (h1 : e'.val.1 ∈ S) (h2 : e'.val.2 ∈ S) :
+    ∃ e : OrderedEdge k, edgeUp (sEmb_strictMono h) e = e' := by
+  have hlt : (S.orderIsoOfFin h).symm ⟨e'.val.1, h1⟩
+      < (S.orderIsoOfFin h).symm ⟨e'.val.2, h2⟩ := by
+    rw [← (S.orderIsoOfFin h).lt_iff_lt,
+      OrderIso.apply_symm_apply, OrderIso.apply_symm_apply]
+    exact Subtype.coe_lt_coe.mp e'.property
+  refine ⟨⟨((S.orderIsoOfFin h).symm ⟨e'.val.1, h1⟩,
+    (S.orderIsoOfFin h).symm ⟨e'.val.2, h2⟩), hlt⟩, ?_⟩
+  exact Subtype.ext (Prod.ext
+    (sEmb_symm_apply h h1) (sEmb_symm_apply h h2))
+
+/-- Vertices reachable from an image vertex stay in the range. -/
+theorem reachable_image_range {m k : ℕ} {f : Fin k → Fin m}
+    (hf : StrictMono f) {F : Finset (OrderedEdge k)}
+    {i : Fin k} {v : Fin m}
+    (h : (graphOfEdges (F.image (edgeUp hf))).Reachable (f i) v) :
+    ∃ t : Fin k, v = f t := by
+  obtain ⟨w⟩ := h
+  suffices haux : ∀ {u v : Fin m},
+      (graphOfEdges (F.image (edgeUp hf))).Walk u v →
+      (∃ s : Fin k, u = f s) → ∃ t : Fin k, v = f t by
+    exact haux w ⟨i, rfl⟩
+  intro u v w'
+  induction w' with
+  | nil => intro hu; exact hu
+  | @cons a b c hadj p ih =>
+    intro _
+    refine ih ?_
+    rcases hadj with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
+    · obtain ⟨e', -, heq⟩ := Finset.mem_image.mp hm
+      exact ⟨e'.val.2, (congrArg
+        (fun e : OrderedEdge m => e.val.2) heq).symm⟩
+    · obtain ⟨e', -, heq⟩ := Finset.mem_image.mp hm
+      exact ⟨e'.val.1, (congrArg
+        (fun e : OrderedEdge m => e.val.1) heq).symm⟩
+
+/-- Activity-product transport (fita item 7): the product over
+    the canonical enumeration of S is the product over S. -/
+theorem prod_sEmb {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
+    (h : S.card = k) (g : Fin m → ℝ) :
+    (∏ i : Fin k, g (sEmb S h i)) = ∏ v ∈ S, g v := by
+  refine Finset.prod_bij
+    (i := fun (i : Fin k) _ => sEmb S h i) ?_ ?_ ?_ ?_
+  · intro i _
+    exact sEmb_mem h i
+  · intro a _ b _ hab
+    exact (sEmb_strictMono h).injective hab
+  · intro v hv
+    exact ⟨(S.orderIsoOfFin h).symm ⟨v, hv⟩, Finset.mem_univ _,
+      (sEmb_symm_apply h hv).symm⟩
+  · intro i _
+    rfl
+
+/-- The root pieces on S: selected edge sets inside S whose root
+    component is EXACTLY S. -/
+noncomputable def rootPieceSets {m : ℕ} (r : Fin m)
+    (S : Finset (Fin m)) (G : SimpleGraph (Fin m)) :
+    Finset (Finset (OrderedEdge m)) :=
+  (availableEdges G).powerset.filter (fun E =>
+    (∀ e ∈ E, e.val.1 ∈ S ∧ e.val.2 ∈ S)
+      ∧ selectedRootComponent r E = S)
+
+/-- **CAPSTONE III-2b**: the signed sum over the root pieces on S
+    is EXACTLY the Ursell coefficient of the canonically
+    relabelled local tuple — the extracted piece is certified as
+    a `Fin k` object that ursellNumerator recognizes. -/
+theorem sum_rootPieceSets_eq_ursellCoeff {m k : ℕ}
+    {S : Finset (Fin m)} (h : S.card = k) {r : Fin m}
+    (hr : r ∈ S) (γ : Fin m → Finset (Site N × Dir × Dir)) :
+    (∑ E ∈ rootPieceSets r S
+        (polymerIncompatibilityGraph (N := N) γ),
+      (-1 : ℤ) ^ E.card)
+      = ursellCoeff (N := N) (fun i => γ (sEmb S h i)) := by
+  have hpos : 0 < k := h ▸ Finset.card_pos.mpr ⟨r, hr⟩
+  have hf := sEmb_strictMono h
+  have hfr0 : sEmb S h ((S.orderIsoOfFin h).symm ⟨r, hr⟩) = r :=
+    sEmb_symm_apply h hr
+  unfold ursellCoeff graphUrsellCoeff
+  refine (Finset.sum_bij
+    (i := fun F _ => F.image (edgeUp hf)) ?_ ?_ ?_ ?_).symm
+  · intro F hF
+    obtain ⟨hsub, hconn⟩ := mem_connectedSpanningEdgeSets.mp hF
+    refine Finset.mem_filter.mpr
+      ⟨Finset.mem_powerset.mpr ?_, ?_, ?_⟩
+    · intro e'' he''
+      obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he''
+      exact (edgeUp_mem_availableEdges_iff γ hf e).mpr (hsub heF)
+    · intro e'' he''
+      obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he''
+      exact ⟨sEmb_mem h e.val.1, sEmb_mem h e.val.2⟩
+    · ext v
+      rw [mem_selectedRootComponent_iff]
+      constructor
+      · intro hv
+        rw [← hfr0] at hv
+        obtain ⟨t, rfl⟩ := reachable_image_range hf hv
+        exact sEmb_mem h t
+      · intro hv
+        have hreach := hconn.preconnected
+          ((S.orderIsoOfFin h).symm ⟨r, hr⟩)
+          ((S.orderIsoOfFin h).symm ⟨v, hv⟩)
+        have hup := reachable_image_of_reachable hf hreach
+        rw [hfr0, sEmb_symm_apply h hv] at hup
+        exact hup
+  · intro F₁ _ F₂ _ hFF
+    exact Finset.image_injective (edgeUp_injective hf) hFF
+  · intro E hE
+    obtain ⟨hpow, hin, hcomp⟩ := Finset.mem_filter.mp hE
+    have hEsub := Finset.mem_powerset.mp hpow
+    have himg : ((availableEdges (polymerIncompatibilityGraph
+        (N := N) (fun t => γ (sEmb S h t)))).filter
+          (fun e => edgeUp hf e ∈ E)).image (edgeUp hf) = E := by
+      ext e'
+      constructor
+      · intro he'
+        obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he'
+        exact (Finset.mem_filter.mp heF).2
+      · intro he'
+        obtain ⟨hv1, hv2⟩ := hin e' he'
+        obtain ⟨e, rfl⟩ := exists_edgeUp_eq h hv1 hv2
+        refine Finset.mem_image_of_mem _
+          (Finset.mem_filter.mpr ⟨?_, he'⟩)
+        exact (edgeUp_mem_availableEdges_iff γ hf e).mp
+          (hEsub he')
+    refine ⟨(availableEdges (polymerIncompatibilityGraph (N := N)
+      (fun t => γ (sEmb S h t)))).filter
+        (fun e => edgeUp hf e ∈ E), ?_, himg⟩
+    refine mem_connectedSpanningEdgeSets.mpr
+      ⟨Finset.filter_subset _ _, ?_⟩
+    haveI : Nonempty (Fin k) := ⟨⟨0, hpos⟩⟩
+    refine ⟨fun i j => ?_⟩
+    have hi : sEmb S h i ∈ selectedRootComponent r E :=
+      hcomp.symm ▸ sEmb_mem h i
+    have hj : sEmb S h j ∈ selectedRootComponent r E :=
+      hcomp.symm ▸ sEmb_mem h j
+    rw [mem_selectedRootComponent_iff] at hi hj
+    have hij := hi.symm.trans hj
+    rw [← himg] at hij
+    exact reachable_of_reachable_image hf hij
+  · intro F _
+    rw [Finset.card_image_of_injective _ (edgeUp_injective hf)]
+
 end LatticeGauge
