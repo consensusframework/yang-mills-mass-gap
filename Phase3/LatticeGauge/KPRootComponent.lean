@@ -174,14 +174,6 @@ theorem card_rootEdges_add_card_restEdges {m : ℕ} (r : Fin m)
     component uses only root edges (the certificate that the
     root piece is CONNECTED on its vertex set) -/
 
-theorem graphOfEdges_mono {m : ℕ}
-    {E₁ E₂ : Finset (OrderedEdge m)} (h : E₁ ⊆ E₂) :
-    graphOfEdges E₁ ≤ graphOfEdges E₂ := by
-  intro u v hadj
-  rcases hadj with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
-  · exact Or.inl ⟨hlt, h hm⟩
-  · exact Or.inr ⟨hlt, h hm⟩
-
 private theorem walk_confined {m : ℕ} {r : Fin m}
     {E : Finset (OrderedEdge m)} :
     ∀ {u v : Fin m}, (graphOfEdges E).Walk u v →
