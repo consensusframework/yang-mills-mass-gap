@@ -848,15 +848,14 @@ theorem splitTuple_mergeTuple {m k l : ℕ} {α : Type*}
     (ht : (Sᶜ : Finset (Fin m)).card = l)
     (p : (Fin k → α) × (Fin l → α)) :
     splitTuple hs ht (mergeTuple hs ht p) = p := by
-  unfold splitTuple mergeTuple
   refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
-  · rw [dif_pos (sEmb_mem hs i)]
+  · simp only [splitTuple, mergeTuple, dif_pos (sEmb_mem hs i)]
     have h1 : (⟨sEmb S hs i, sEmb_mem hs i⟩ : ↥S)
         = (S.orderIsoOfFin hs) i := Subtype.ext rfl
     rw [h1, OrderIso.symm_apply_apply]
   · have hns : ¬ sEmb Sᶜ ht i ∈ S :=
       Finset.mem_compl.mp (sEmb_mem ht i)
-    rw [dif_neg hns]
+    simp only [splitTuple, mergeTuple, dif_neg hns]
     have h1 : (⟨sEmb Sᶜ ht i, Finset.mem_compl.mpr hns⟩ : ↥Sᶜ)
         = (Sᶜ.orderIsoOfFin ht) i := Subtype.ext rfl
     rw [h1, OrderIso.symm_apply_apply]
@@ -865,11 +864,11 @@ theorem mergeTuple_splitTuple {m k l : ℕ} {α : Type*}
     {S : Finset (Fin m)} (hs : S.card = k)
     (ht : (Sᶜ : Finset (Fin m)).card = l) (δ : Fin m → α) :
     mergeTuple hs ht (splitTuple hs ht δ) = δ := by
-  unfold splitTuple mergeTuple
   funext v
   by_cases hv : v ∈ S
-  · rw [dif_pos hv, sEmb_symm_apply hs hv]
-  · rw [dif_neg hv,
+  · simp only [splitTuple, mergeTuple, dif_pos hv,
+      sEmb_symm_apply hs hv]
+  · simp only [splitTuple, mergeTuple, dif_neg hv,
       sEmb_symm_apply ht (Finset.mem_compl.mpr hv)]
 
 theorem splitTuple_bijective {m k l : ℕ} {α : Type*}
