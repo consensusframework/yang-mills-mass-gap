@@ -52,20 +52,9 @@ noncomputable def kpSignedUnrootedCoeff (k : ℕ)
 
 /-! ## 49A.2 — the degenerate cases -/
 
-/-- φ on Fin 0 vanishes: Connected demands a nonempty vertex type,
-    so the connected-spanning filter is empty. -/
-theorem graphUrsellCoeff_fin_zero (G : SimpleGraph (Fin 0)) :
-    graphUrsellCoeff G = 0 := by
-  unfold graphUrsellCoeff
-  rw [show connectedSpanningEdgeSets G = ∅ from ?_,
-    Finset.sum_empty]
-  rw [Finset.eq_empty_iff_forall_not_mem]
-  intro E hE
-  have h := (mem_connectedSpanningEdgeSets.mp hE).2
-  obtain ⟨x⟩ := (SimpleGraph.connected_iff.mp h).2
-  exact x.elim0
-
-/-- **B₀ = 0** (the empty tuple carries no connected structure). -/
+/-- **B₀ = 0** (the empty tuple carries no connected structure —
+    the stone-42b lemma `graphUrsellCoeff_fin_zero` consumed, not
+    reproved). -/
 theorem kpSignedUnrootedCoeff_zero (z : Polymer N → ℝ) :
     kpSignedUnrootedCoeff 0 z = 0 := by
   unfold kpSignedUnrootedCoeff ursellCoeff
@@ -90,6 +79,19 @@ theorem kpSignedUnrootedCoeff_one (z : Polymer N → ℝ) :
           (fun δ => z (δ 0)) (fun η => z η) (fun δ => rfl)
 
 /-! ## 49A.3 — the root+tail lemma (rootedTuple IS Fin.cons) -/
+
+/-- The trivial cons equivalence, LOCAL and non-dependent (iota
+    only — the deep-unification vaccine). -/
+noncomputable def consTupleEquiv (n : ℕ) :
+    Polymer N × (Fin n → Polymer N) ≃ (Fin (n + 1) → Polymer N) where
+  toFun p := Fin.cons p.1 p.2
+  invFun δ := (δ 0, Fin.tail δ)
+  left_inv p := by
+    obtain ⟨a, f⟩ := p
+    refine Prod.ext ?_ ?_
+    · exact Fin.cons_zero ..
+    · exact Fin.tail_cons ..
+  right_inv δ := Fin.cons_self_tail δ
 
 /-- The rooted raw tuple is literally the valuewise Fin.cons of the
     Polymer-level cons — the canonical split, no new structure. -/
@@ -172,8 +174,7 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
           _ = ∑ δ : Fin (n + 1) → Polymer N,
                 ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
                   * ∏ j : Fin (n + 1), z (δ j) := by
-              refine Fintype.sum_equiv
-                (Fin.consEquiv (fun _ : Fin (n + 1) => Polymer N))
+              refine Fintype.sum_equiv (consTupleEquiv (N := N) n)
                 _ _ ?_
               rintro ⟨γ₀, γ⟩
               show ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
