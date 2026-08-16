@@ -191,7 +191,10 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
           _ = ∑ p : Polymer N × (Fin n → Polymer N),
                 ((ursellCoeff (rootedTuple p.1 p.2) : ℤ) : ℝ)
                   * (z p.1 * ∏ i : Fin n, z (p.2 i)) :=
-              (Fintype.sum_prod_type _).symm
+              (Fintype.sum_prod_type
+                (fun p : Polymer N × (Fin n → Polymer N) =>
+                  ((ursellCoeff (rootedTuple p.1 p.2) : ℤ) : ℝ)
+                    * (z p.1 * ∏ i : Fin n, z (p.2 i)))).symm
           _ = ∑ p : Polymer N × (Fin n → Polymer N),
                 ((ursellCoeff (fun i =>
                     ((Fin.cons p.1 p.2
