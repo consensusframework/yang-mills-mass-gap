@@ -133,7 +133,10 @@ theorem typedPolymerGas_eq_raw
       obtain ⟨D, _, rfl⟩ := Finset.mem_image.mp hθ
       exact hcomp.2 C.val C.property D.val D.property
         (fun h => hne (Subtype.ext h))
-    · unfold rawFamily
+    · show Finset.image Subtype.val
+        (Γraw.attach.image (fun C =>
+          (⟨C.val, mem_all_of_isPolymer
+            (hcomp.1 C.val C.property)⟩ : Polymer N))) = Γraw
       rw [Finset.image_image]
       exact Finset.attach_image_val
   · intro Γ hΓ
