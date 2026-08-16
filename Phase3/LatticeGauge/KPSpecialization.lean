@@ -257,8 +257,9 @@ theorem polymer_summable_abs_signedUnrootedUrsell
     (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
 
 /-- **49B CONCRETE CAPSTONE: the finite-root bound** —
-    Σ'_k |B_k(w)| ≤ Σ_γ₀ |w(γ₀)|·exp(card γ₀): the 48D.4 envelope,
-    finally consumed. -/
+    Σ'_k |B_k(w)| ≤ Σ_γ₀ |w(γ₀)|·exp(card γ₀) — the finite-root
+    envelope anticipated by 48D.4, recovered through the abstract
+    specialization. -/
 theorem polymer_tsum_abs_signedUnrootedUrsell_le
     {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
     (hχabs : ∀ g : G, |χ g| ≤ 1)
@@ -269,6 +270,18 @@ theorem polymer_tsum_abs_signedUnrootedUrsell_le
           |polymerWeight (N := N) μm β χ γ₀.val|
             * Real.exp (((γ₀.val.card : ℕ) : ℝ)) :=
   tsum_abs_kpSignedUnrootedCoeff_le
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+
+/-- **The concrete signed corollary**: the unrooted signed series
+    with the real polymer activity is Summable. -/
+theorem polymer_summable_signedUnrootedUrsell
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) :
+    Summable (fun k => kpSignedUnrootedCoeff k
+      (fun η => polymerWeight (N := N) μm β χ η.val)) :=
+  summable_kpSignedUnrootedCoeff
     (fun _ => Nat.cast_nonneg _)
     (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
 

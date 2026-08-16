@@ -1,34 +1,36 @@
 /-
-LatticeGauge/KPUnrooted.lean — stone 49A: THE FINITE UNROOTING OF
-THE SIGNED URSELL SERIES (architecture: Sol/GPT-5.6; execution:
-Fable).
+LatticeGauge/KPUnrooted.lean — stones 49A AND 49B
+(architecture: Sol/GPT-5.6; execution: Fable; 49A adversarially
+audited by Kimi 3 at 06c4d1928e4ff1b694e16c5f4746b80a125480c3 —
+APPROVED, no substantive correction).
 
-Pure finite combinatorics/algebra: the UNROOTED signed Ursell
-coefficient B_k(z) is born, and the exact root-removal identity
-  Σ_{γ₀} z(γ₀)·Cₙ(z, γ₀) = (n+1)·B_{n+1}(z)
-is proved by canonical reindexation ONLY: every tuple
-δ : Fin (n+1) → Polymer splits canonically as (δ 0, tail), and
-rootedTuple was BUILT as Fin.cons — so the identity is
-`Fin.consEquiv` + `Fin.prod_univ_succ` + (n+1)! = (n+1)·n!.
-NO orbits, NO quotients, NO permutation machinery (stone 38 not
-needed), NO hidden multiplicity: the root is canonically index 0,
-and tuples with repeated polymers remain distinct tuples by
-occurrence, exactly as in stones 37/38/47 — audit target, stated
-here openly. The (n+1) factor is born EXCLUSIVELY from the
-normalization mismatch between 1/n! (rooted) and 1/(n+1)!
-(unrooted).
-NOT here (49B/49C, not authorized): Summable, tsum, concrete
-polymerWeight, β ≤ 1/40000, Real.exp, Real.log, logPartition,
-realZ, the finite polymer-gas identity, thermodynamic limit,
-clustering, mass gap. NOT claimed: convergence of the unrooted
-series, any cluster-expansion/log Z statement. NO axioms.
+49A — THE FINITE UNROOTING: the unrooted signed Ursell coefficient
+B_k(z) and the exact root-removal identity
+Σ_{γ₀} z(γ₀)·Cₙ(z,γ₀) = (n+1)·B_{n+1}(z), by canonical
+reindexation only (the LOCAL non-dependent `consTupleEquiv`, an
+opaque-weight sum reindexer, and Fin.prod_univ_succ). No orbits,
+no quotients, no permutation machinery, no hidden multiplicity:
+the root is canonically index 0 and tuples with repeated polymers
+stay distinct by occurrence. The (n+1) factor is born EXCLUSIVELY
+from the 1/n! vs 1/(n+1)! normalization mismatch, isolated in
+`succ_mul_div_factorial_succ`.
+
+49B — ABSOLUTE SUMMABILITY OF THE UNROOTED SERIES: Summable and
+tsum bounds ARE present in this file now — the termwise
+finite-root majorant (the 1/(n+1) factor discarded via (n+1) ≥ 1),
+everything kept finite until the two trusted 48A bridges
+(summable_of_sum_range_le / Real.tsum_le_of_sum_range_le), plus
+the signed corollaries. The finite-root envelope anticipated by
+48D.4 is recovered through the abstract specialization.
+
+STILL ABSENT (49C, not started): Real.log, logPartition, realZ,
+exp identities, the finite polymer-gas representation,
+thermodynamic limits, clustering, mass gap. NO axioms.
 -/
 import Mathlib
 import LatticeGauge.Basic
 import LatticeGauge.UrsellCoefficients
-import LatticeGauge.PolymerTreeBound
 import LatticeGauge.KPCoefficients
-import LatticeGauge.KPStratification
 import LatticeGauge.KPInduction
 
 open scoped Classical
@@ -324,5 +326,16 @@ theorem tsum_abs_kpSignedUnrootedCoeff_le {z a : Polymer N → ℝ}
       ≤ ∑ γ₀ : Polymer N, |z γ₀| * Real.exp (a γ₀) :=
   Real.tsum_le_of_sum_range_le (fun k => abs_nonneg _)
     (sum_range_abs_unrooted_le ha hKP)
+
+/-- **The signed corollary (certified, as in 48C-β)**: the unrooted
+    signed series itself is Summable. -/
+theorem summable_kpSignedUnrootedCoeff {z a : Polymer N → ℝ}
+    (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a) :
+    Summable (fun k => kpSignedUnrootedCoeff k z) :=
+  Summable.of_norm_bounded
+    (fun k => |kpSignedUnrootedCoeff k z|)
+    (summable_abs_kpSignedUnrootedCoeff ha hKP)
+    (fun k => le_of_eq (Real.norm_eq_abs _))
 
 end LatticeGauge
