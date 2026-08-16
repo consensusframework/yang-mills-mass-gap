@@ -751,4 +751,202 @@ theorem sum_globalEdgeFiber_eq_ursell_mul {m k : ℕ}
   rw [sum_globalEdgeFiber_eq_mul,
     sum_rootPieceSets_eq_ursellCoeff h hr γ]
 
+/-! ## III-3.b — the complement, the tuple split, and the fixed-S
+    contribution B_|S|·A_|T| (numerators only — no factorial, no
+    choose; l = 0 works with NO positivity hypothesis) -/
+
+theorem mem_compl_iff_not_mem {m : ℕ} {S : Finset (Fin m)}
+    {v : Fin m} : v ∈ Sᶜ ↔ ¬ v ∈ S := Finset.mem_compl
+
+/-- Rest signed sum = the ALL-edge coefficient of the canonically
+    relabelled complement tuple (mirror of III-2b, easier: no
+    connectivity filter on either side). -/
+theorem sum_restPieceSets_eq_graphAllEdgeCoeff {m l : ℕ}
+    {S : Finset (Fin m)} (ht : (Sᶜ : Finset (Fin m)).card = l)
+    (γ : Fin m → Finset (Site N × Dir × Dir)) :
+    (∑ E ∈ restPieceSets S
+        (polymerIncompatibilityGraph (N := N) γ),
+      (-1 : ℤ) ^ E.card)
+      = graphAllEdgeCoeff (polymerIncompatibilityGraph (N := N)
+          (fun i => γ (sEmb Sᶜ ht i))) := by
+  have hf := sEmb_strictMono ht
+  unfold graphAllEdgeCoeff
+  refine (Finset.sum_bij
+    (i := fun F _ => F.image (edgeUp hf)) ?_ ?_ ?_ ?_).symm
+  · intro F hF
+    have hsub := Finset.mem_powerset.mp hF
+    refine Finset.mem_filter.mpr
+      ⟨Finset.mem_powerset.mpr ?_, ?_⟩
+    · intro e'' he''
+      obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he''
+      exact (edgeUp_mem_availableEdges_iff γ hf e).mpr (hsub heF)
+    · intro e'' he''
+      obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he''
+      exact ⟨Finset.mem_compl.mp (sEmb_mem ht e.val.1),
+        Finset.mem_compl.mp (sEmb_mem ht e.val.2)⟩
+  · intro F₁ _ F₂ _ hFF
+    exact Finset.image_injective (edgeUp_injective hf) hFF
+  · intro E hE
+    obtain ⟨hpow, hin⟩ := Finset.mem_filter.mp hE
+    have hEsub := Finset.mem_powerset.mp hpow
+    have himg : ((availableEdges (polymerIncompatibilityGraph
+        (N := N) (fun t => γ (sEmb Sᶜ ht t)))).filter
+          (fun e => edgeUp hf e ∈ E)).image (edgeUp hf) = E := by
+      ext e'
+      constructor
+      · intro he'
+        obtain ⟨e, heF, rfl⟩ := Finset.mem_image.mp he'
+        exact (Finset.mem_filter.mp heF).2
+      · intro he'
+        obtain ⟨hv1, hv2⟩ := hin e' he'
+        obtain ⟨e, rfl⟩ := exists_edgeUp_eq ht
+          (Finset.mem_compl.mpr hv1) (Finset.mem_compl.mpr hv2)
+        refine Finset.mem_image_of_mem _
+          (Finset.mem_filter.mpr ⟨?_, he'⟩)
+        exact (edgeUp_mem_availableEdges_iff γ hf e).mp
+          (hEsub he')
+    exact ⟨_, Finset.mem_powerset.mpr
+      (Finset.filter_subset _ _), himg⟩
+  · intro F _
+    rw [Finset.card_image_of_injective _ (edgeUp_injective hf)]
+
+/-- Fixed-S FULL edge factorization: Ursell(S) × allEdge(Sᶜ). -/
+theorem sum_globalEdgeFiber_eq_ursell_mul_allEdge {m k l : ℕ}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l) {r : Fin m}
+    (hr : r ∈ S) (γ : Fin m → Finset (Site N × Dir × Dir)) :
+    (∑ E ∈ globalEdgeFiber r S
+        (polymerIncompatibilityGraph (N := N) γ),
+      (-1 : ℤ) ^ E.card)
+      = ursellCoeff (N := N) (fun i => γ (sEmb S hs i))
+        * graphAllEdgeCoeff (polymerIncompatibilityGraph
+            (N := N) (fun i => γ (sEmb Sᶜ ht i))) := by
+  rw [sum_globalEdgeFiber_eq_ursell_mul hs hr γ,
+    sum_restPieceSets_eq_graphAllEdgeCoeff ht γ]
+
+/-! ### the tuple split (canonical inverses from the order-isos) -/
+
+noncomputable def splitTuple {m k l : ℕ} {α : Type*}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l) (δ : Fin m → α) :
+    (Fin k → α) × (Fin l → α) :=
+  (fun i => δ (sEmb S hs i), fun i => δ (sEmb Sᶜ ht i))
+
+noncomputable def mergeTuple {m k l : ℕ} {α : Type*}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l)
+    (p : (Fin k → α) × (Fin l → α)) : Fin m → α :=
+  fun v =>
+    if hv : v ∈ S then
+      p.1 ((S.orderIsoOfFin hs).symm ⟨v, hv⟩)
+    else
+      p.2 ((Sᶜ.orderIsoOfFin ht).symm
+        ⟨v, Finset.mem_compl.mpr hv⟩)
+
+theorem splitTuple_mergeTuple {m k l : ℕ} {α : Type*}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l)
+    (p : (Fin k → α) × (Fin l → α)) :
+    splitTuple hs ht (mergeTuple hs ht p) = p := by
+  unfold splitTuple mergeTuple
+  refine Prod.ext (funext fun i => ?_) (funext fun i => ?_)
+  · rw [dif_pos (sEmb_mem hs i)]
+    have h1 : (⟨sEmb S hs i, sEmb_mem hs i⟩ : ↥S)
+        = (S.orderIsoOfFin hs) i := Subtype.ext rfl
+    rw [h1, OrderIso.symm_apply_apply]
+  · have hns : ¬ sEmb Sᶜ ht i ∈ S :=
+      Finset.mem_compl.mp (sEmb_mem ht i)
+    rw [dif_neg hns]
+    have h1 : (⟨sEmb Sᶜ ht i, Finset.mem_compl.mpr hns⟩ : ↥Sᶜ)
+        = (Sᶜ.orderIsoOfFin ht) i := Subtype.ext rfl
+    rw [h1, OrderIso.symm_apply_apply]
+
+theorem mergeTuple_splitTuple {m k l : ℕ} {α : Type*}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l) (δ : Fin m → α) :
+    mergeTuple hs ht (splitTuple hs ht δ) = δ := by
+  unfold splitTuple mergeTuple
+  funext v
+  by_cases hv : v ∈ S
+  · rw [dif_pos hv, sEmb_symm_apply hs hv]
+  · rw [dif_neg hv,
+      sEmb_symm_apply ht (Finset.mem_compl.mpr hv)]
+
+theorem splitTuple_bijective {m k l : ℕ} {α : Type*}
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l) :
+    Function.Bijective (splitTuple (α := α) hs ht) :=
+  Function.bijective_iff_has_inverse.mpr
+    ⟨mergeTuple hs ht,
+      fun δ => mergeTuple_splitTuple hs ht δ,
+      fun p => splitTuple_mergeTuple hs ht p⟩
+
+/-- Global activity product factorization (no manual index
+    juggling: `prod_mul_prod_compl` + the two `prod_sEmb`). -/
+theorem prod_split_global {m k l : ℕ} {S : Finset (Fin m)}
+    (hs : S.card = k) (ht : (Sᶜ : Finset (Fin m)).card = l)
+    (g : Fin m → ℝ) :
+    (∏ v : Fin m, g v)
+      = (∏ i : Fin k, g (sEmb S hs i))
+        * (∏ i : Fin l, g (sEmb Sᶜ ht i)) := by
+  rw [prod_sEmb hs g, prod_sEmb ht g,
+    Finset.prod_mul_prod_compl S g]
+
+/-- **CAPSTONE III-3b — the fixed-S tuple contribution**: for
+    0 ∈ S, |S| = k, |Sᶜ| = l, the tuple sum of the fixed-S edge
+    fiber weighted by activities is EXACTLY B-numerator(k) times
+    A-numerator(l). No factorial; l = 0 allowed (this is j = n:
+    the empty rest carries gasNumerator 0 = A₀-numerator = 1
+    through empty sums/products with no positivity hypothesis). -/
+theorem fixedS_tuple_contribution {m k l : ℕ} [NeZero m]
+    {S : Finset (Fin m)} (hs : S.card = k)
+    (ht : (Sᶜ : Finset (Fin m)).card = l)
+    (h0 : (0 : Fin m) ∈ S) (z : Polymer N → ℝ) :
+    (∑ δ : Fin m → Polymer N,
+      ((∑ E ∈ globalEdgeFiber 0 S
+          (polymerIncompatibilityGraph (N := N)
+            (fun t => (δ t).val)),
+        (-1 : ℤ) ^ E.card : ℤ) : ℝ)
+        * ∏ i : Fin m, z (δ i))
+      = ursellNumerator k z * gasNumerator l z := by
+  have hstep : ∀ δ : Fin m → Polymer N,
+      ((∑ E ∈ globalEdgeFiber 0 S
+          (polymerIncompatibilityGraph (N := N)
+            (fun t => (δ t).val)),
+        (-1 : ℤ) ^ E.card : ℤ) : ℝ)
+        * ∏ i : Fin m, z (δ i)
+      = (((ursellCoeff (N := N)
+            (fun i => (δ (sEmb S hs i)).val) : ℤ) : ℝ)
+          * ∏ i : Fin k, z (δ (sEmb S hs i)))
+        * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
+            (N := N) (fun i => (δ (sEmb Sᶜ ht i)).val)) : ℤ) : ℝ)
+          * ∏ i : Fin l, z (δ (sEmb Sᶜ ht i))) := by
+    intro δ
+    rw [sum_globalEdgeFiber_eq_ursell_mul_allEdge hs ht h0
+      (fun t => (δ t).val),
+      prod_split_global hs ht (fun v => z (δ v))]
+    push_cast
+    ring
+  rw [Finset.sum_congr rfl (fun δ _ => hstep δ)]
+  rw [Fintype.sum_bijective (splitTuple hs ht)
+    (splitTuple_bijective hs ht) _
+    (fun p : (Fin k → Polymer N) × (Fin l → Polymer N) =>
+      (((ursellCoeff (N := N)
+          (fun i => (p.1 i).val) : ℤ) : ℝ)
+        * ∏ i : Fin k, z (p.1 i))
+      * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
+          (N := N) (fun i => (p.2 i).val)) : ℤ) : ℝ)
+        * ∏ i : Fin l, z (p.2 i)))
+    (fun δ => rfl)]
+  rw [Fintype.sum_prod_type
+    (f := fun p : (Fin k → Polymer N) × (Fin l → Polymer N) =>
+      (((ursellCoeff (N := N)
+          (fun i => (p.1 i).val) : ℤ) : ℝ)
+        * ∏ i : Fin k, z (p.1 i))
+      * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
+          (N := N) (fun i => (p.2 i).val)) : ℤ) : ℝ)
+        * ∏ i : Fin l, z (p.2 i)))]
+  rw [← Finset.sum_mul_sum]
+  rfl
+
 end LatticeGauge
