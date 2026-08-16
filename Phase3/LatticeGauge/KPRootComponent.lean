@@ -956,4 +956,146 @@ theorem fixedS_tuple_contribution {m k l : ℕ} [NeZero m]
   rw [← Finset.sum_mul_sum]
   rfl
 
+/-! ## III-3.c — counting the root sets and THE NUMERATOR
+    RECURRENCE (no (j+1) here: that factor is born only from the
+    factorials in III-4 — a (j+1) in THIS recurrence would mean
+    the root was counted twice) -/
+
+/-- All-edge fibration by root component: the powerset sum
+    regroups over the possible components of the root. -/
+theorem graphAllEdgeCoeff_fiber_rootComponent {n : ℕ}
+    (γ : Fin (n + 1) → Finset (Site N × Dir × Dir)) :
+    graphAllEdgeCoeff (polymerIncompatibilityGraph (N := N) γ)
+      = ∑ S ∈ Finset.univ.filter
+          (fun S : Finset (Fin (n + 1)) =>
+            (0 : Fin (n + 1)) ∈ S),
+          ∑ E ∈ globalEdgeFiber 0 S
+            (polymerIncompatibilityGraph (N := N) γ),
+            (-1 : ℤ) ^ E.card := by
+  unfold graphAllEdgeCoeff globalEdgeFiber
+  refine (Finset.sum_fiberwise_of_maps_to ?_
+    (fun E => (-1 : ℤ) ^ E.card)).symm
+  intro E _
+  exact Finset.mem_filter.mpr
+    ⟨Finset.mem_univ _, root_mem_selectedRootComponent 0 E⟩
+
+/-- Count of the root sets: subsets of Fin (n+1) of cardinality
+    j+1 containing the root are counted by choose n j — the
+    binomial counts only the OTHER vertices (audit A4). -/
+theorem card_rootSets_eq_choose {n j : ℕ} :
+    ((Finset.univ.filter (fun S : Finset (Fin (n + 1)) =>
+        (0 : Fin (n + 1)) ∈ S)).filter
+          (fun S => S.card - 1 = j)).card
+      = Nat.choose n j := by
+  have hbij : ((Finset.univ.filter
+      (fun S : Finset (Fin (n + 1)) =>
+        (0 : Fin (n + 1)) ∈ S)).filter
+          (fun S => S.card - 1 = j)).card
+      = (Finset.powersetCard j
+          ((Finset.univ : Finset (Fin (n + 1))).erase 0)).card := by
+    refine Finset.card_bij (i := fun S _ => S.erase 0) ?_ ?_ ?_
+    · intro S hS
+      obtain ⟨hSm, hcard1⟩ := Finset.mem_filter.mp hS
+      have h0S := (Finset.mem_filter.mp hSm).2
+      refine Finset.mem_powersetCard.mpr
+        ⟨Finset.erase_subset_erase 0 (Finset.subset_univ S), ?_⟩
+      rw [Finset.card_erase_of_mem h0S]
+      exact hcard1
+    · intro S₁ h₁ S₂ h₂ heq
+      have h01 := (Finset.mem_filter.mp
+        (Finset.mem_filter.mp h₁).1).2
+      have h02 := (Finset.mem_filter.mp
+        (Finset.mem_filter.mp h₂).1).2
+      rw [← Finset.insert_erase h01, ← Finset.insert_erase h02,
+        heq]
+    · intro T hT
+      obtain ⟨hTsub, hTcard⟩ := Finset.mem_powersetCard.mp hT
+      have h0T : (0 : Fin (n + 1)) ∉ T :=
+        fun h => (Finset.mem_erase.mp (hTsub h)).1 rfl
+      refine ⟨insert 0 T, Finset.mem_filter.mpr
+        ⟨Finset.mem_filter.mpr
+          ⟨Finset.mem_univ _, Finset.mem_insert_self 0 T⟩, ?_⟩,
+        Finset.erase_insert h0T⟩
+      rw [Finset.card_insert_of_not_mem h0T, hTcard]
+      omega
+  rw [hbij, Finset.card_powersetCard,
+    Finset.card_erase_of_mem (Finset.mem_univ 0),
+    Finset.card_univ, Fintype.card_fin, Nat.add_sub_cancel]
+
+/-- **CAPSTONE III-3c — THE NUMERATOR RECURRENCE** (audited: j
+    runs 0..n; j = n carries the Fin 0 rest; choose n j appears
+    ONCE; NO (j+1) factor — that is factorial business, III-4). -/
+theorem gasNumerator_succ_recurrence (n : ℕ)
+    (z : Polymer N → ℝ) :
+    gasNumerator (N := N) (n + 1) z
+      = ∑ j ∈ Finset.range (n + 1),
+          ((Nat.choose n j : ℕ) : ℝ)
+            * ursellNumerator (j + 1) z
+            * gasNumerator (n - j) z := by
+  have hmain : gasNumerator (N := N) (n + 1) z
+      = ∑ S ∈ Finset.univ.filter
+          (fun S : Finset (Fin (n + 1)) =>
+            (0 : Fin (n + 1)) ∈ S),
+          ursellNumerator S.card z * gasNumerator Sᶜ.card z := by
+    have h1 : gasNumerator (N := N) (n + 1) z
+        = ∑ δ : Fin (n + 1) → Polymer N,
+            ∑ S ∈ Finset.univ.filter
+              (fun S : Finset (Fin (n + 1)) =>
+                (0 : Fin (n + 1)) ∈ S),
+              ((∑ E ∈ globalEdgeFiber 0 S
+                  (polymerIncompatibilityGraph (N := N)
+                    (fun t => (δ t).val)),
+                (-1 : ℤ) ^ E.card : ℤ) : ℝ)
+                * ∏ i : Fin (n + 1), z (δ i) := by
+      unfold gasNumerator
+      refine Finset.sum_congr rfl (fun δ _ => ?_)
+      rw [graphAllEdgeCoeff_fiber_rootComponent
+        (fun t => (δ t).val), Int.cast_sum, Finset.sum_mul]
+    rw [h1, Finset.sum_comm]
+    refine Finset.sum_congr rfl (fun S hSmem => ?_)
+    exact fixedS_tuple_contribution rfl rfl
+      (Finset.mem_filter.mp hSmem).2 z
+  rw [hmain]
+  have hmapsJ : ∀ S ∈ Finset.univ.filter
+      (fun S : Finset (Fin (n + 1)) =>
+        (0 : Fin (n + 1)) ∈ S),
+      S.card - 1 ∈ Finset.range (n + 1) := by
+    intro S hSmem
+    have hle : S.card ≤ n + 1 := by
+      have h := Finset.card_le_univ S
+      rwa [Finset.card_univ, Fintype.card_fin] at h
+    rw [Finset.mem_range]
+    omega
+  rw [← Finset.sum_fiberwise_of_maps_to hmapsJ
+    (fun S => ursellNumerator S.card z
+      * gasNumerator Sᶜ.card z)]
+  refine Finset.sum_congr rfl (fun j hj => ?_)
+  have hconst : ∀ S ∈ (Finset.univ.filter
+      (fun S : Finset (Fin (n + 1)) =>
+        (0 : Fin (n + 1)) ∈ S)).filter
+          (fun S => S.card - 1 = j),
+      ursellNumerator (N := N) S.card z
+        * gasNumerator Sᶜ.card z
+      = ursellNumerator (j + 1) z * gasNumerator (n - j) z := by
+    intro S hSf
+    obtain ⟨hSm, hcard1⟩ := Finset.mem_filter.mp hSf
+    have h0S := (Finset.mem_filter.mp hSm).2
+    have hpos : 0 < S.card := Finset.card_pos.mpr ⟨0, h0S⟩
+    have hcard : S.card = j + 1 := by omega
+    have hcompl : (Sᶜ : Finset (Fin (n + 1))).card = n - j := by
+      rw [Finset.card_compl, Fintype.card_fin, hcard]
+      omega
+    rw [hcard, hcompl]
+  rw [Finset.sum_congr rfl hconst, Finset.sum_const,
+    card_rootSets_eq_choose, nsmul_eq_mul]
+  ring
+
+/-- Sanity n = 0: the singleton universe — the whole graph IS the
+    root component, the rest is Fin 0. -/
+theorem gasNumerator_one_eq (z : Polymer N → ℝ) :
+    gasNumerator (N := N) 1 z
+      = ursellNumerator 1 z * gasNumerator 0 z := by
+  rw [gasNumerator_succ_recurrence 0 z]
+  simp [Finset.sum_range_one]
+
 end LatticeGauge
