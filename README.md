@@ -102,7 +102,7 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: August 14, 2026**
+**Last updated: August 16, 2026**
 
 - **Phase 2:** 25/25 modules compile.
 - **Phase 3 / `LatticeGauge`:** stone deliveries verified and integrated
@@ -419,18 +419,18 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21939929.svg)](https://doi.org/10.5281/zenodo.21939929)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21966286.svg)](https://doi.org/10.5281/zenodo.21966286)
 
 ```text
 Carvalho, J. (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang-Mills Mass Gap (Version 47). Zenodo.
-https://doi.org/10.5281/zenodo.21939929
+Yang-Mills Mass Gap (Version 48). Zenodo.
+https://doi.org/10.5281/zenodo.21966286
 ```
 
 Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
-Frozen source tag for this version: `zenodo-v47`.
+Frozen source tag for this version: `zenodo-v48`.
 
 ## Contact
 
@@ -466,10 +466,17 @@ Frozen source tag for this version: `zenodo-v47`.
   verification of the recurrence, the factorial cancellations, the 1/k!
   multiplicity under repetitions, and the non-circularity of the KP
   hypothesis, with corrections incorporated before any formalization.
+  External adversarial mathematical review of Stone 48: independent audit
+  of the frozen mathematical core (`c9dda043`), including the signed
+  Ursell coefficient, domination, summability bridge, non-circularity,
+  and concrete specialization.
 - **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
   numerical and physical hypothesis exploration, and historical architecture.
 - **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
-  project operations.
+  project operations. External reproducibility and release review of
+  Stone 48: independent clone/build reproduction, kernel-dependency
+  audit, release-scope review, documentation audit, and release
+  validation.
 
 The roles above describe contributions made at different stages of the project.
 They are not rankings. The present repository exists because those contributions
