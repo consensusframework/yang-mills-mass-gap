@@ -214,4 +214,115 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
                 (fun δ =>
                   ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
                     * ∏ j : Fin (n + 1), z (δ j))
+/-! ## 49B — ABSOLUTE SUMMABILITY OF THE UNROOTED SIGNED SERIES
+    (abstract level). The 49A identity plus the triangle inequality
+    give the termwise finite-root majorant; the 1/(n+1) factor is
+    DISCARDED via (n+1) ≥ 1 (architect's ruling: it buys nothing
+    here); both capstones flow through the SAME trusted 48A bridges
+    (summable_of_sum_range_le / Real.tsum_le_of_sum_range_le) —
+    everything else is finite. NOT here: realZ, logPartition,
+    Real.log, exp identities, the polymer-gas representation,
+    limits, clustering, mass gap. -/
+
+/-- **49B termwise majorant**: |B_{n+1}(z)| ≤ Σ_γ₀ |z(γ₀)|·|Cₙ(z,γ₀)|
+    — 49A + triangle; the (n+1) discarded by (n+1) ≥ 1. -/
+theorem abs_unrooted_succ_le (n : ℕ) (z : Polymer N → ℝ) :
+    |kpSignedUnrootedCoeff (n + 1) z|
+      ≤ ∑ γ₀ : Polymer N,
+          |z γ₀| * |kpSignedUrsellCoeff n z γ₀| := by
+  have h1 : |kpSignedUnrootedCoeff (n + 1) z|
+      ≤ ((n + 1 : ℕ) : ℝ) * |kpSignedUnrootedCoeff (n + 1) z| :=
+    le_mul_of_one_le_left (abs_nonneg _)
+      (by exact_mod_cast Nat.succ_le_succ (Nat.zero_le n))
+  calc |kpSignedUnrootedCoeff (n + 1) z|
+      ≤ ((n + 1 : ℕ) : ℝ)
+          * |kpSignedUnrootedCoeff (n + 1) z| := h1
+    _ = |((n + 1 : ℕ) : ℝ)
+          * kpSignedUnrootedCoeff (n + 1) z| := by
+        rw [abs_mul, abs_of_nonneg
+          (by positivity : (0 : ℝ) ≤ ((n + 1 : ℕ) : ℝ))]
+    _ = |∑ γ₀ : Polymer N,
+          z γ₀ * kpSignedUrsellCoeff n z γ₀| := by
+        rw [sum_root_activity_eq_succ_mul_unrooted]
+    _ ≤ ∑ γ₀ : Polymer N,
+          |z γ₀ * kpSignedUrsellCoeff n z γ₀| :=
+        Finset.abs_sum_le_sum_abs _ _
+    _ = ∑ γ₀ : Polymer N,
+          |z γ₀| * |kpSignedUrsellCoeff n z γ₀| :=
+        Finset.sum_congr rfl (fun γ₀ _ => abs_mul _ _)
+
+/-- **49B: the finite-root majorant is Summable** (finite sum of
+    the 48C-β summable series, scaled). -/
+theorem summable_rootMajorant {z a : Polymer N → ℝ}
+    (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a) :
+    Summable (fun n => ∑ γ₀ : Polymer N,
+      |z γ₀| * |kpSignedUrsellCoeff n z γ₀|) :=
+  summable_sum (fun γ₀ _ =>
+    Summable.mul_left _
+      (summable_abs_kpSignedUrsellCoeff ha hKP γ₀))
+
+/-- **49B range bound**: every finite partial sum of |B_k| is
+    bounded by the finite-root envelope Σ_γ₀ |z(γ₀)|·exp(a γ₀) —
+    B₀ = 0 splits off; sum_comm is rectangular; per root the 48C-β
+    tsum bound absorbs the range sum via sum_le_tsum. -/
+theorem sum_range_abs_unrooted_le {z a : Polymer N → ℝ}
+    (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a) :
+    ∀ K : ℕ, (∑ k ∈ Finset.range K, |kpSignedUnrootedCoeff k z|)
+      ≤ ∑ γ₀ : Polymer N, |z γ₀| * Real.exp (a γ₀) := by
+  have hRHS : (0 : ℝ)
+      ≤ ∑ γ₀ : Polymer N, |z γ₀| * Real.exp (a γ₀) :=
+    Finset.sum_nonneg (fun γ₀ _ =>
+      mul_nonneg (abs_nonneg _) (Real.exp_pos _).le)
+  intro K
+  rcases K with _ | M
+  · rw [Finset.range_zero, Finset.sum_empty]
+    exact hRHS
+  · rw [Finset.sum_range_succ'
+      (fun k => |kpSignedUnrootedCoeff k z|) M,
+      kpSignedUnrootedCoeff_zero, abs_zero, add_zero]
+    calc (∑ n ∈ Finset.range M,
+        |kpSignedUnrootedCoeff (n + 1) z|)
+        ≤ ∑ n ∈ Finset.range M, ∑ γ₀ : Polymer N,
+            |z γ₀| * |kpSignedUrsellCoeff n z γ₀| :=
+          Finset.sum_le_sum (fun n _ => abs_unrooted_succ_le n z)
+      _ = ∑ γ₀ : Polymer N, ∑ n ∈ Finset.range M,
+            |z γ₀| * |kpSignedUrsellCoeff n z γ₀| :=
+          Finset.sum_comm
+      _ = ∑ γ₀ : Polymer N,
+            |z γ₀| * ∑ n ∈ Finset.range M,
+              |kpSignedUrsellCoeff n z γ₀| :=
+          Finset.sum_congr rfl (fun γ₀ _ => by
+            rw [Finset.mul_sum])
+      _ ≤ ∑ γ₀ : Polymer N, |z γ₀| * Real.exp (a γ₀) := by
+          refine Finset.sum_le_sum (fun γ₀ _ => ?_)
+          refine mul_le_mul_of_nonneg_left ?_ (abs_nonneg _)
+          calc (∑ n ∈ Finset.range M,
+              |kpSignedUrsellCoeff n z γ₀|)
+              ≤ ∑' n : ℕ, |kpSignedUrsellCoeff n z γ₀| :=
+                sum_le_tsum (Finset.range M)
+                  (fun n _ => abs_nonneg _)
+                  (summable_abs_kpSignedUrsellCoeff ha hKP γ₀)
+            _ ≤ Real.exp (a γ₀) :=
+                tsum_abs_kpSignedUrsellCoeff_le_exp ha hKP γ₀
+
+/-- **49B CAPSTONE 1 (abstract)**: the unrooted signed Ursell
+    series is absolutely Summable. -/
+theorem summable_abs_kpSignedUnrootedCoeff {z a : Polymer N → ℝ}
+    (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a) :
+    Summable (fun k => |kpSignedUnrootedCoeff k z|) :=
+  summable_of_sum_range_le (fun k => abs_nonneg _)
+    (sum_range_abs_unrooted_le ha hKP)
+
+/-- **49B CAPSTONE 2 (abstract)**: the finite-root tsum bound. -/
+theorem tsum_abs_kpSignedUnrootedCoeff_le {z a : Polymer N → ℝ}
+    (ha : ∀ γ, 0 ≤ a γ)
+    (hKP : AbstractKPHypothesis (fun η => |z η|) a) :
+    (∑' k : ℕ, |kpSignedUnrootedCoeff k z|)
+      ≤ ∑ γ₀ : Polymer N, |z γ₀| * Real.exp (a γ₀) :=
+  Real.tsum_le_of_sum_range_le (fun k => abs_nonneg _)
+    (sum_range_abs_unrooted_le ha hKP)
+
 end LatticeGauge
