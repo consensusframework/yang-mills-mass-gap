@@ -538,4 +538,216 @@ theorem sum_rootPieceSets_eq_ursellCoeff {m k : ℕ}
   · intro F _
     rw [Finset.card_image_of_injective _ (edgeUp_injective hf)]
 
+/-! ## III-3.a — THE SEAM: converse reconstruction and the
+    fixed-S edge-sum factorization (A3 closed both ways) -/
+
+noncomputable def restPieceSets {m : ℕ} (S : Finset (Fin m))
+    (G : SimpleGraph (Fin m)) : Finset (Finset (OrderedEdge m)) :=
+  (availableEdges G).powerset.filter (fun E =>
+    ∀ e ∈ E, ¬ e.val.1 ∈ S ∧ ¬ e.val.2 ∈ S)
+
+noncomputable def globalEdgeFiber {m : ℕ} (r : Fin m)
+    (S : Finset (Fin m)) (G : SimpleGraph (Fin m)) :
+    Finset (Finset (OrderedEdge m)) :=
+  (availableEdges G).powerset.filter (fun E =>
+    selectedRootComponent r E = S)
+
+private theorem union_walk_stays {m : ℕ} {S : Finset (Fin m)}
+    {E₁ E₂ : Finset (OrderedEdge m)}
+    (h1 : ∀ e ∈ E₁, e.val.1 ∈ S ∧ e.val.2 ∈ S)
+    (h2 : ∀ e ∈ E₂, ¬ e.val.1 ∈ S ∧ ¬ e.val.2 ∈ S) :
+    ∀ {u v : Fin m}, (graphOfEdges (E₁ ∪ E₂)).Walk u v →
+      u ∈ S → v ∈ S ∧ (graphOfEdges E₁).Reachable u v := by
+  intro u v w
+  induction w with
+  | nil =>
+    intro hu
+    exact ⟨hu, SimpleGraph.Reachable.refl _⟩
+  | @cons a b c hadj p ih =>
+    intro ha
+    have hstep : b ∈ S ∧ (graphOfEdges E₁).Adj a b := by
+      rcases hadj with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
+      · rcases Finset.mem_union.mp hm with hm1 | hm2
+        · exact ⟨(h1 _ hm1).2, Or.inl ⟨hlt, hm1⟩⟩
+        · exact absurd ha (h2 _ hm2).1
+      · rcases Finset.mem_union.mp hm with hm1 | hm2
+        · exact ⟨(h1 _ hm1).1, Or.inr ⟨hlt, hm1⟩⟩
+        · exact absurd ha (h2 _ hm2).2
+    obtain ⟨hres, hreach⟩ := ih hstep.1
+    exact ⟨hres, hstep.2.reachable.trans hreach⟩
+
+/-- **THE A3 CONVERSE**: a valid pair (connected root piece on S,
+    arbitrary rest piece off S) reunites with root component
+    EXACTLY S. -/
+theorem selectedRootComponent_union {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {Eroot Erest : Finset (OrderedEdge m)}
+    (hroot : Eroot ∈ rootPieceSets r S G)
+    (hrest : Erest ∈ restPieceSets S G) :
+    selectedRootComponent r (Eroot ∪ Erest) = S := by
+  obtain ⟨-, hinR, hcompR⟩ := Finset.mem_filter.mp hroot
+  obtain ⟨-, hinT⟩ := Finset.mem_filter.mp hrest
+  have hrS : r ∈ S := hcompR ▸ root_mem_selectedRootComponent r Eroot
+  ext v
+  rw [mem_selectedRootComponent_iff]
+  constructor
+  · intro hv
+    obtain ⟨w⟩ := hv
+    exact (union_walk_stays hinR hinT w hrS).1
+  · intro hv
+    have hv' : v ∈ selectedRootComponent r Eroot :=
+      hcompR.symm ▸ hv
+    rw [mem_selectedRootComponent_iff] at hv'
+    exact SimpleGraph.Reachable.mono
+      (graphOfEdges_mono (fun e he => Finset.mem_union.mpr
+        (Or.inl he))) hv'
+
+/-- Roundtrip 1a: the split recovers the root piece. -/
+theorem rootEdges_union_pieces {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {Eroot Erest : Finset (OrderedEdge m)}
+    (hroot : Eroot ∈ rootPieceSets r S G)
+    (hrest : Erest ∈ restPieceSets S G) :
+    rootEdges r (Eroot ∪ Erest) = Eroot := by
+  have hS := selectedRootComponent_union hroot hrest
+  obtain ⟨-, hinR, -⟩ := Finset.mem_filter.mp hroot
+  obtain ⟨-, hinT⟩ := Finset.mem_filter.mp hrest
+  unfold rootEdges
+  ext e
+  rw [Finset.mem_filter, Finset.mem_union, hS]
+  constructor
+  · rintro ⟨hor | hor, h1⟩
+    · exact hor
+    · exact absurd h1 (hinT e hor).1
+  · intro he
+    exact ⟨Or.inl he, (hinR e he).1⟩
+
+/-- Roundtrip 1b: the split recovers the rest piece. -/
+theorem restEdges_union_pieces {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {Eroot Erest : Finset (OrderedEdge m)}
+    (hroot : Eroot ∈ rootPieceSets r S G)
+    (hrest : Erest ∈ restPieceSets S G) :
+    restEdges r (Eroot ∪ Erest) = Erest := by
+  have hS := selectedRootComponent_union hroot hrest
+  obtain ⟨-, hinR, -⟩ := Finset.mem_filter.mp hroot
+  obtain ⟨-, hinT⟩ := Finset.mem_filter.mp hrest
+  unfold restEdges
+  ext e
+  rw [Finset.mem_filter, Finset.mem_union, hS]
+  constructor
+  · rintro ⟨hor | hor, h1⟩
+    · exact absurd (hinR e hor).1 h1
+    · exact hor
+  · intro he
+    exact ⟨Or.inr he, (hinT e he).1⟩
+
+/-- Extraction membership (root side; roundtrip 2 is
+    `rootEdges_union_restEdges`, Gate III-1). -/
+theorem rootEdges_mem_rootPieceSets {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {E : Finset (OrderedEdge m)}
+    (hE : E ∈ globalEdgeFiber r S G) :
+    rootEdges r E ∈ rootPieceSets r S G := by
+  obtain ⟨hpow, hcomp⟩ := Finset.mem_filter.mp hE
+  refine Finset.mem_filter.mpr
+    ⟨Finset.mem_powerset.mpr (fun e he =>
+      Finset.mem_powerset.mp hpow (rootEdges_subset r E he)),
+      ?_, ?_⟩
+  · intro e he
+    have hb := mem_rootEdges_both he
+    rw [hcomp] at hb
+    exact hb
+  · rw [selectedRootComponent_rootEdges, hcomp]
+
+theorem restEdges_mem_restPieceSets {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {E : Finset (OrderedEdge m)}
+    (hE : E ∈ globalEdgeFiber r S G) :
+    restEdges r E ∈ restPieceSets S G := by
+  obtain ⟨hpow, hcomp⟩ := Finset.mem_filter.mp hE
+  refine Finset.mem_filter.mpr
+    ⟨Finset.mem_powerset.mpr (fun e he =>
+      Finset.mem_powerset.mp hpow (restEdges_subset r E he)),
+      ?_⟩
+  intro e he
+  have hb := mem_restEdges_both he
+  rw [hcomp] at hb
+  exact hb
+
+/-- Sign factorization (named, in ℤ, as ordered). -/
+theorem neg_one_pow_card_union {α : Type*} [DecidableEq α]
+    {s t : Finset α} (hd : Disjoint s t) :
+    (-1 : ℤ) ^ (s ∪ t).card
+      = (-1 : ℤ) ^ s.card * (-1 : ℤ) ^ t.card := by
+  rw [Finset.card_union_of_disjoint hd, pow_add]
+
+theorem disjoint_pieceSets {m : ℕ} {r : Fin m}
+    {S : Finset (Fin m)} {G : SimpleGraph (Fin m)}
+    {Eroot Erest : Finset (OrderedEdge m)}
+    (hroot : Eroot ∈ rootPieceSets r S G)
+    (hrest : Erest ∈ restPieceSets S G) :
+    Disjoint Eroot Erest := by
+  obtain ⟨-, hinR, -⟩ := Finset.mem_filter.mp hroot
+  obtain ⟨-, hinT⟩ := Finset.mem_filter.mp hrest
+  exact Finset.disjoint_left.mpr
+    (fun e he1 he2 => (hinT e he2).1 (hinR e he1).1)
+
+/-- **Fixed-S edge-sum factorization**: the global fiber is the
+    product of the two piece sums (the fibering sum_bij, both
+    roundtrips consumed). -/
+theorem sum_globalEdgeFiber_eq_mul {m : ℕ} (r : Fin m)
+    (S : Finset (Fin m)) (G : SimpleGraph (Fin m)) :
+    (∑ E ∈ globalEdgeFiber r S G, (-1 : ℤ) ^ E.card)
+      = (∑ E1 ∈ rootPieceSets r S G, (-1 : ℤ) ^ E1.card)
+        * (∑ E2 ∈ restPieceSets S G, (-1 : ℤ) ^ E2.card) := by
+  rw [Finset.sum_mul_sum, ← Finset.sum_product'
+    (f := fun E1 E2 : Finset (OrderedEdge m) =>
+      (-1 : ℤ) ^ E1.card * (-1 : ℤ) ^ E2.card)]
+  refine (Finset.sum_bij
+    (i := fun p _ => p.1 ∪ p.2) ?_ ?_ ?_ ?_).symm
+  · intro p hp
+    obtain ⟨h1, h2⟩ := Finset.mem_product.mp hp
+    refine Finset.mem_filter.mpr
+      ⟨Finset.mem_powerset.mpr (Finset.union_subset
+        (Finset.mem_powerset.mp (Finset.mem_filter.mp h1).1)
+        (Finset.mem_powerset.mp (Finset.mem_filter.mp h2).1)),
+        selectedRootComponent_union h1 h2⟩
+  · intro p₁ hp₁ p₂ hp₂ heq
+    obtain ⟨h11, h12⟩ := Finset.mem_product.mp hp₁
+    obtain ⟨h21, h22⟩ := Finset.mem_product.mp hp₂
+    have e1 : p₁.1 = p₂.1 := by
+      rw [← rootEdges_union_pieces h11 h12,
+        ← rootEdges_union_pieces h21 h22, heq]
+    have e2 : p₁.2 = p₂.2 := by
+      rw [← restEdges_union_pieces h11 h12,
+        ← restEdges_union_pieces h21 h22, heq]
+    exact Prod.ext e1 e2
+  · intro E hE
+    exact ⟨(rootEdges r E, restEdges r E),
+      Finset.mem_product.mpr
+        ⟨rootEdges_mem_rootPieceSets hE,
+          restEdges_mem_restPieceSets hE⟩,
+      rootEdges_union_restEdges r E⟩
+  · intro p hp
+    obtain ⟨h1, h2⟩ := Finset.mem_product.mp hp
+    exact (neg_one_pow_card_union (disjoint_pieceSets h1 h2)).symm
+
+/-- **Root factor identified (III-2b consumed)**: for a tuple γ
+    and S ∋ r with the canonical enumeration, the fixed-S global
+    fiber factorizes as Ursell(local tuple) × rest signed sum.
+    The rest is NOT relabelled — deliberately (architect order). -/
+theorem sum_globalEdgeFiber_eq_ursell_mul {m k : ℕ}
+    {S : Finset (Fin m)} (h : S.card = k) {r : Fin m}
+    (hr : r ∈ S) (γ : Fin m → Finset (Site N × Dir × Dir)) :
+    (∑ E ∈ globalEdgeFiber r S
+        (polymerIncompatibilityGraph (N := N) γ),
+      (-1 : ℤ) ^ E.card)
+      = ursellCoeff (N := N) (fun i => γ (sEmb S h i))
+        * (∑ E2 ∈ restPieceSets S
+            (polymerIncompatibilityGraph (N := N) γ),
+          (-1 : ℤ) ^ E2.card) := by
+  rw [sum_globalEdgeFiber_eq_mul,
+    sum_rootPieceSets_eq_ursellCoeff h hr γ]
+
 end LatticeGauge
