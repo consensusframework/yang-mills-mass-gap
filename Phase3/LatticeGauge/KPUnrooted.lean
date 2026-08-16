@@ -88,11 +88,7 @@ noncomputable def consTupleEquiv (n : ℕ) :
   invFun δ := (δ 0, Fin.tail δ)
   left_inv p := by
     obtain ⟨a, f⟩ := p
-    refine Prod.ext ?_ ?_
-    · show Fin.cons a f 0 = a
-      exact Fin.cons_zero ..
-    · show Fin.tail (Fin.cons a f) = f
-      exact Fin.tail_cons ..
+    simp only [Fin.cons_zero, Fin.tail_cons]
   right_inv δ := Fin.cons_self_tail δ
 
 /-- The rooted raw tuple is literally the valuewise Fin.cons of the
@@ -192,12 +188,15 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
               (Fintype.sum_prod_type _).symm
           _ = ∑ p : Polymer N × (Fin n → Polymer N),
                 ((ursellCoeff (fun i =>
-                    ((consTupleEquiv (N := N) n p) i).val)
+                    ((Fin.cons p.1 p.2
+                      : Fin (n + 1) → Polymer N) i).val)
                       : ℤ) : ℝ)
                   * ∏ j : Fin (n + 1),
-                      z ((consTupleEquiv (N := N) n p) j) := by
+                      z ((Fin.cons p.1 p.2
+                        : Fin (n + 1) → Polymer N) j) := by
               refine Finset.sum_congr rfl ?_
               rintro ⟨γ₀, γ⟩ -
+              dsimp only
               exact rooted_summand_eq n z γ₀ γ
           _ = ∑ δ : Fin (n + 1) → Polymer N,
                 ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
