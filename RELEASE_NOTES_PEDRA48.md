@@ -2,6 +2,8 @@
 
 **Frozen mathematical core:** commit `c9dda043da48ec8127250197132522857695f314` (branch `pedra48-sol`, CI run 31886396666, green). Documentation/hygiene closure applied on top with no mathematical change.
 
+**Tag history (registered):** `zenodo-v48` initially froze `7f54f7eaeee43467c44c5c4d6aa978eaa026d6b8` (pre-publication freeze, CI run 31892700123, green); that target was superseded by the DOI/citation/authorship micro-closure and the tag was retargeted ONCE, before publication, to the final release commit on `main` (this snapshot). The mathematical core is unchanged across all targets.
+
 **The central result.** *For 0 ≤ β ≤ 1/40000, the concrete signed **rooted** Ursell series is absolutely convergent, with Σₙ |Cₙ(w_{β,χ}, γ₀)| ≤ exp(card γ₀)* (`polymer_tsum_abs_signedUrsell_le_exp_card`), together with the summability of the signed series itself and the root-activity corollary.
 
 **The chain (all kernel-checked, Lean 4 + Mathlib v4.15.0):** Stone 46 (|w_β| satisfies the concrete Kotecký–Preiss smallness hypothesis, threshold 1/40000) ⟹ Stone 47 (uniform finite bound S_M ≤ exp|γ₀|) ⟹ 48A (order→series bridge, consumed from the pinned library, nothing duplicated) ⟹ 48B (tree-majorant series: Summable, tsum ≤ exp) ⟹ 48C-α (absolute rooted Ursell series) ⟹ 48C-β (the SIGNED rooted coefficient `kpSignedUrsellCoeff` is born; domination |Cₙ(z)| ≤ Aₙ(|z|); absolute convergence) ⟹ 48D (z literally the signed `polymerWeight`).

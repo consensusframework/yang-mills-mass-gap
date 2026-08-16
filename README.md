@@ -422,7 +422,10 @@ project, not as progress establishing the Millennium Problem.
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21966286.svg)](https://doi.org/10.5281/zenodo.21966286)
 
 ```text
-Carvalho, J. (2026).
+Carvalho, J.; Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
+Kimi 3 (Moonshot AI); Claude Opus 4.7 (Anthropic); Claude Opus 4.6
+(Anthropic); Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI);
+Gemini 3 Pro (Google); Manus AI 1.6 (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
 Yang-Mills Mass Gap (Version 48). Zenodo.
