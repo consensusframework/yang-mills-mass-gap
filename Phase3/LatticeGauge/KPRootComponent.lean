@@ -974,7 +974,8 @@ theorem graphAllEdgeCoeff_fiber_rootComponent {n : ℕ}
             (-1 : ℤ) ^ E.card := by
   unfold graphAllEdgeCoeff globalEdgeFiber
   refine (Finset.sum_fiberwise_of_maps_to ?_
-    (fun E => (-1 : ℤ) ^ E.card)).symm
+    (fun E : Finset (OrderedEdge (n + 1)) =>
+      (-1 : ℤ) ^ E.card)).symm
   intro E _
   exact Finset.mem_filter.mpr
     ⟨Finset.mem_univ _, root_mem_selectedRootComponent 0 E⟩
@@ -1006,8 +1007,9 @@ theorem card_rootSets_eq_choose {n j : ℕ} :
         (Finset.mem_filter.mp h₁).1).2
       have h02 := (Finset.mem_filter.mp
         (Finset.mem_filter.mp h₂).1).2
+      have heq' : S₁.erase 0 = S₂.erase 0 := heq
       rw [← Finset.insert_erase h01, ← Finset.insert_erase h02,
-        heq]
+        heq']
     · intro T hT
       obtain ⟨hTsub, hTcard⟩ := Finset.mem_powersetCard.mp hT
       have h0T : (0 : Fin (n + 1)) ∉ T :=
