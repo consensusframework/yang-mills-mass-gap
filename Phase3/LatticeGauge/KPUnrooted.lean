@@ -122,11 +122,12 @@ theorem rooted_summand_eq (n : ℕ) (z : Polymer N → ℝ)
             : ℤ) : ℝ)
           * ∏ j : Fin (n + 1),
               z ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) j) := by
-  rw [← rootedTuple_eq_cons_val]
-  congr 1
-  rw [Fin.prod_univ_succ, Fin.cons_zero]
-  congr 1
-  exact Finset.prod_congr rfl (fun i _ => by rw [Fin.cons_succ])
+  have hact : (∏ j : Fin (n + 1),
+      z ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) j))
+      = z γ₀ * ∏ i : Fin n, z (γ i) := by
+    rw [Fin.prod_univ_succ]
+    simp only [Fin.cons_zero, Fin.cons_succ]
+  rw [← rootedTuple_eq_cons_val, hact]
 
 /-- The ONLY scalar step: (n+1)·(x/(n+1)!) = x/n! — the birthplace
     of the (n+1) factor, isolated. -/
