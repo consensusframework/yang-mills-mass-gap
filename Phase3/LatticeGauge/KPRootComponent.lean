@@ -73,27 +73,27 @@ theorem kpSignedUnrootedCoeff_eq_ursellNumerator_div (k : ℕ)
     (audit A1: taken in graphOfEdges E, not in the base graph) -/
 
 /-- The vertices reachable from the root through SELECTED edges. -/
-noncomputable def rootComponent {m : ℕ} (r : Fin m)
+noncomputable def selectedRootComponent {m : ℕ} (r : Fin m)
     (E : Finset (OrderedEdge m)) : Finset (Fin m) :=
   Finset.univ.filter (fun v => (graphOfEdges E).Reachable r v)
 
-theorem mem_rootComponent_iff {m : ℕ} {r v : Fin m}
+theorem mem_selectedRootComponent_iff {m : ℕ} {r v : Fin m}
     {E : Finset (OrderedEdge m)} :
-    v ∈ rootComponent r E ↔ (graphOfEdges E).Reachable r v := by
-  unfold rootComponent
+    v ∈ selectedRootComponent r E ↔ (graphOfEdges E).Reachable r v := by
+  unfold selectedRootComponent
   simp [Finset.mem_filter]
 
-theorem root_mem_rootComponent {m : ℕ} (r : Fin m)
-    (E : Finset (OrderedEdge m)) : r ∈ rootComponent r E :=
-  mem_rootComponent_iff.mpr (SimpleGraph.Reachable.refl r)
+theorem root_mem_selectedRootComponent {m : ℕ} (r : Fin m)
+    (E : Finset (OrderedEdge m)) : r ∈ selectedRootComponent r E :=
+  mem_selectedRootComponent_iff.mpr (SimpleGraph.Reachable.refl r)
 
 /-- Closure: a selected step never leaves the component. -/
-theorem rootComponent_closed {m : ℕ} {r v w : Fin m}
+theorem selectedRootComponent_closed {m : ℕ} {r v w : Fin m}
     {E : Finset (OrderedEdge m)}
-    (hv : v ∈ rootComponent r E)
+    (hv : v ∈ selectedRootComponent r E)
     (hadj : (graphOfEdges E).Adj v w) :
-    w ∈ rootComponent r E := by
-  rw [mem_rootComponent_iff] at hv ⊢
+    w ∈ selectedRootComponent r E := by
+  rw [mem_selectedRootComponent_iff] at hv ⊢
   exact hv.trans hadj.reachable
 
 /-- **No-crossing (audit A2)**: a SELECTED edge has either both
@@ -102,15 +102,15 @@ theorem rootComponent_closed {m : ℕ} {r v w : Fin m}
 theorem selected_edge_mem_iff {m : ℕ} {r : Fin m}
     {E : Finset (OrderedEdge m)} {e : OrderedEdge m}
     (he : e ∈ E) :
-    e.val.1 ∈ rootComponent r E
-      ↔ e.val.2 ∈ rootComponent r E := by
+    e.val.1 ∈ selectedRootComponent r E
+      ↔ e.val.2 ∈ selectedRootComponent r E := by
   have hadj : (graphOfEdges E).Adj e.val.1 e.val.2 :=
     Or.inl ⟨e.property, he⟩
   constructor
   · intro h1
-    exact rootComponent_closed h1 hadj
+    exact selectedRootComponent_closed h1 hadj
   · intro h2
-    exact rootComponent_closed h2 hadj.symm
+    exact selectedRootComponent_closed h2 hadj.symm
 
 /-! ## III-1.c — the split and its reconstruction (audit A3,
     forward half: the split is exact and disjoint) -/
@@ -118,12 +118,12 @@ theorem selected_edge_mem_iff {m : ℕ} {r : Fin m}
 /-- Selected edges inside the root component. -/
 noncomputable def rootEdges {m : ℕ} (r : Fin m)
     (E : Finset (OrderedEdge m)) : Finset (OrderedEdge m) :=
-  E.filter (fun e => e.val.1 ∈ rootComponent r E)
+  E.filter (fun e => e.val.1 ∈ selectedRootComponent r E)
 
 /-- Selected edges outside the root component. -/
 noncomputable def restEdges {m : ℕ} (r : Fin m)
     (E : Finset (OrderedEdge m)) : Finset (OrderedEdge m) :=
-  E.filter (fun e => ¬ e.val.1 ∈ rootComponent r E)
+  E.filter (fun e => ¬ e.val.1 ∈ selectedRootComponent r E)
 
 theorem rootEdges_subset {m : ℕ} (r : Fin m)
     (E : Finset (OrderedEdge m)) : rootEdges r E ⊆ E :=
@@ -136,16 +136,16 @@ theorem restEdges_subset {m : ℕ} (r : Fin m)
 theorem mem_rootEdges_both {m : ℕ} {r : Fin m}
     {E : Finset (OrderedEdge m)} {e : OrderedEdge m}
     (he : e ∈ rootEdges r E) :
-    e.val.1 ∈ rootComponent r E
-      ∧ e.val.2 ∈ rootComponent r E := by
+    e.val.1 ∈ selectedRootComponent r E
+      ∧ e.val.2 ∈ selectedRootComponent r E := by
   obtain ⟨heE, h1⟩ := Finset.mem_filter.mp he
   exact ⟨h1, (selected_edge_mem_iff heE).mp h1⟩
 
 theorem mem_restEdges_both {m : ℕ} {r : Fin m}
     {E : Finset (OrderedEdge m)} {e : OrderedEdge m}
     (he : e ∈ restEdges r E) :
-    ¬ e.val.1 ∈ rootComponent r E
-      ∧ ¬ e.val.2 ∈ rootComponent r E := by
+    ¬ e.val.1 ∈ selectedRootComponent r E
+      ∧ ¬ e.val.2 ∈ selectedRootComponent r E := by
   obtain ⟨heE, h1⟩ := Finset.mem_filter.mp he
   exact ⟨h1, fun h2 => h1 ((selected_edge_mem_iff heE).mpr h2)⟩
 
@@ -185,7 +185,7 @@ theorem graphOfEdges_mono {m : ℕ}
 private theorem walk_confined {m : ℕ} {r : Fin m}
     {E : Finset (OrderedEdge m)} :
     ∀ {u v : Fin m}, (graphOfEdges E).Walk u v →
-      u ∈ rootComponent r E →
+      u ∈ selectedRootComponent r E →
       (graphOfEdges (rootEdges r E)).Reachable u v := by
   intro u v w
   induction w with
@@ -194,7 +194,7 @@ private theorem walk_confined {m : ℕ} {r : Fin m}
     exact SimpleGraph.Reachable.refl _
   | @cons a b c hadj p ih =>
     intro ha
-    have hb : b ∈ rootComponent r E := rootComponent_closed ha hadj
+    have hb : b ∈ selectedRootComponent r E := selectedRootComponent_closed ha hadj
     have hadj' : (graphOfEdges (rootEdges r E)).Adj a b := by
       rcases hadj with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
       · exact Or.inl ⟨hlt, Finset.mem_filter.mpr ⟨hm, ha⟩⟩
@@ -207,22 +207,22 @@ private theorem walk_confined {m : ℕ} {r : Fin m}
 theorem reachable_rootEdges_iff {m : ℕ} {r v : Fin m}
     {E : Finset (OrderedEdge m)} :
     (graphOfEdges (rootEdges r E)).Reachable r v
-      ↔ v ∈ rootComponent r E := by
+      ↔ v ∈ selectedRootComponent r E := by
   constructor
   · intro h
-    exact mem_rootComponent_iff.mpr
+    exact mem_selectedRootComponent_iff.mpr
       (SimpleGraph.Reachable.mono
         (graphOfEdges_mono (rootEdges_subset r E)) h)
   · intro hv
-    obtain ⟨w⟩ := mem_rootComponent_iff.mp hv
-    exact walk_confined w (root_mem_rootComponent r E)
+    obtain ⟨w⟩ := mem_selectedRootComponent_iff.mp hv
+    exact walk_confined w (root_mem_selectedRootComponent r E)
 
 /-- The root component of the root edges is the root component
     itself (idempotence — the fibering will need it). -/
-theorem rootComponent_rootEdges {m : ℕ} (r : Fin m)
+theorem selectedRootComponent_rootEdges {m : ℕ} (r : Fin m)
     (E : Finset (OrderedEdge m)) :
-    rootComponent r (rootEdges r E) = rootComponent r E := by
+    selectedRootComponent r (rootEdges r E) = selectedRootComponent r E := by
   ext v
-  rw [mem_rootComponent_iff, ← reachable_rootEdges_iff (E := E)]
+  rw [mem_selectedRootComponent_iff, ← reachable_rootEdges_iff (E := E)]
 
 end LatticeGauge
