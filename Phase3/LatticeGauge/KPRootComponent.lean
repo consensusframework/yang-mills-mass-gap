@@ -927,7 +927,7 @@ theorem fixedS_tuple_contribution {m k l : ℕ} [NeZero m]
     push_cast
     ring
   rw [Finset.sum_congr rfl (fun δ _ => hstep δ)]
-  rw [Fintype.sum_bijective (splitTuple hs ht)
+  refine Eq.trans (Fintype.sum_bijective (splitTuple hs ht)
     (splitTuple_bijective hs ht) _
     (fun p : (Fin k → Polymer N) × (Fin l → Polymer N) =>
       (((ursellCoeff (N := N)
@@ -936,15 +936,15 @@ theorem fixedS_tuple_contribution {m k l : ℕ} [NeZero m]
       * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
           (N := N) (fun i => (p.2 i).val)) : ℤ) : ℝ)
         * ∏ i : Fin l, z (p.2 i)))
-    (fun δ => rfl)]
-  rw [Fintype.sum_prod_type
+    (fun δ => rfl)) ?_
+  refine Eq.trans (Fintype.sum_prod_type
     (f := fun p : (Fin k → Polymer N) × (Fin l → Polymer N) =>
       (((ursellCoeff (N := N)
           (fun i => (p.1 i).val) : ℤ) : ℝ)
         * ∏ i : Fin k, z (p.1 i))
       * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
           (N := N) (fun i => (p.2 i).val)) : ℤ) : ℝ)
-        * ∏ i : Fin l, z (p.2 i)))]
+        * ∏ i : Fin l, z (p.2 i)))) ?_
   rw [← Finset.sum_mul_sum]
   rfl
 
