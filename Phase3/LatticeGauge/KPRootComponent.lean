@@ -445,7 +445,7 @@ theorem prod_sEmb {m : ℕ} {S : Finset (Fin m)} {k : ℕ}
     exact (sEmb_strictMono h).injective hab
   · intro v hv
     exact ⟨(S.orderIsoOfFin h).symm ⟨v, hv⟩, Finset.mem_univ _,
-      (sEmb_symm_apply h hv).symm⟩
+      sEmb_symm_apply h hv⟩
   · intro i _
     rfl
 
