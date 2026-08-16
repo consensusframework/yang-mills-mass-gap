@@ -217,4 +217,125 @@ theorem selectedRootComponent_rootEdges {m : ℕ} (r : Fin m)
   ext v
   rw [mem_selectedRootComponent_iff, ← reachable_rootEdges_iff (E := E)]
 
+/-! ## III-2.a — strictly monotone edge transport (the local
+    order-iso route: ONE strictMono application per lt proof, no
+    casts, no dependent transport — the architect's trava
+    respected) -/
+
+/-- Transport of an ordered edge along a strictly monotone map:
+    order is preserved, so no Sym2 and no canonicalization. -/
+def edgeUp {m k : ℕ} {f : Fin k → Fin m} (hf : StrictMono f) :
+    OrderedEdge k → OrderedEdge m :=
+  fun e => ⟨(f e.val.1, f e.val.2), hf e.property⟩
+
+theorem edgeUp_injective {m k : ℕ} {f : Fin k → Fin m}
+    (hf : StrictMono f) :
+    Function.Injective (edgeUp hf) := by
+  intro e₁ e₂ h
+  have h1 : f e₁.val.1 = f e₂.val.1 :=
+    congrArg (fun e : OrderedEdge m => e.val.1) h
+  have h2 : f e₁.val.2 = f e₂.val.2 :=
+    congrArg (fun e : OrderedEdge m => e.val.2) h
+  exact Subtype.ext
+    (Prod.ext (hf.injective h1) (hf.injective h2))
+
+/-- **Adjacency transports exactly** along the edge image. -/
+theorem graphOfEdges_image_adj {m k : ℕ} {f : Fin k → Fin m}
+    (hf : StrictMono f) (F : Finset (OrderedEdge k))
+    (i j : Fin k) :
+    (graphOfEdges (F.image (edgeUp hf))).Adj (f i) (f j)
+      ↔ (graphOfEdges F).Adj i j := by
+  constructor
+  · intro h
+    rcases h with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
+    · obtain ⟨e', he'F, heq⟩ := Finset.mem_image.mp hm
+      have hi : e'.val.1 = i := hf.injective
+        (congrArg (fun e : OrderedEdge m => e.val.1) heq)
+      have hj : e'.val.2 = j := hf.injective
+        (congrArg (fun e : OrderedEdge m => e.val.2) heq)
+      have hij : i < j := by
+        have hp := e'.property
+        rw [hi, hj] at hp
+        exact hp
+      have he : e' = (⟨(i, j), hij⟩ : OrderedEdge k) :=
+        Subtype.ext (Prod.ext hi hj)
+      exact Or.inl ⟨hij, he ▸ he'F⟩
+    · obtain ⟨e', he'F, heq⟩ := Finset.mem_image.mp hm
+      have hi : e'.val.1 = j := hf.injective
+        (congrArg (fun e : OrderedEdge m => e.val.1) heq)
+      have hj : e'.val.2 = i := hf.injective
+        (congrArg (fun e : OrderedEdge m => e.val.2) heq)
+      have hij : j < i := by
+        have hp := e'.property
+        rw [hi, hj] at hp
+        exact hp
+      have he : e' = (⟨(j, i), hij⟩ : OrderedEdge k) :=
+        Subtype.ext (Prod.ext hi hj)
+      exact Or.inr ⟨hij, he ▸ he'F⟩
+  · intro h
+    rcases h with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
+    · exact Or.inl ⟨hf hlt, Finset.mem_image_of_mem _ hm⟩
+    · exact Or.inr ⟨hf hlt, Finset.mem_image_of_mem _ hm⟩
+
+/-- Walk transport UP: reachability pushes along the image. -/
+theorem reachable_image_of_reachable {m k : ℕ}
+    {f : Fin k → Fin m} (hf : StrictMono f)
+    {F : Finset (OrderedEdge k)} {i j : Fin k}
+    (h : (graphOfEdges F).Reachable i j) :
+    (graphOfEdges (F.image (edgeUp hf))).Reachable (f i) (f j) := by
+  obtain ⟨w⟩ := h
+  induction w with
+  | nil => exact SimpleGraph.Reachable.refl _
+  | @cons a b c hadj p ih =>
+    exact (((graphOfEdges_image_adj hf F a b).mpr
+      hadj).reachable).trans ih
+
+/-- Walk transport DOWN: a walk in the image graph never leaves
+    the range of `f` (every image edge has both endpoints there),
+    so it pulls back step by step. -/
+theorem reachable_of_reachable_image {m k : ℕ}
+    {f : Fin k → Fin m} (hf : StrictMono f)
+    {F : Finset (OrderedEdge k)} {i j : Fin k}
+    (h : (graphOfEdges (F.image (edgeUp hf))).Reachable
+      (f i) (f j)) :
+    (graphOfEdges F).Reachable i j := by
+  obtain ⟨w⟩ := h
+  suffices haux : ∀ {u v : Fin m},
+      (graphOfEdges (F.image (edgeUp hf))).Walk u v →
+      ∀ {i j : Fin k}, u = f i → v = f j →
+      (graphOfEdges F).Reachable i j by
+    exact haux w rfl rfl
+  intro u v w'
+  induction w' with
+  | nil =>
+    intro i j hu hv
+    have hij : i = j := hf.injective (hu.symm.trans hv)
+    subst hij
+    exact SimpleGraph.Reachable.refl _
+  | @cons a b c hadj p ih =>
+    intro i j ha hc
+    have hb : ∃ t : Fin k, b = f t := by
+      rcases hadj with ⟨hlt, hm⟩ | ⟨hlt, hm⟩
+      · obtain ⟨e', -, heq⟩ := Finset.mem_image.mp hm
+        exact ⟨e'.val.2, (congrArg
+          (fun e : OrderedEdge m => e.val.2) heq).symm⟩
+      · obtain ⟨e', -, heq⟩ := Finset.mem_image.mp hm
+        exact ⟨e'.val.1, (congrArg
+          (fun e : OrderedEdge m => e.val.1) heq).symm⟩
+    obtain ⟨t, rfl⟩ := hb
+    have hstep : (graphOfEdges F).Adj i t := by
+      have hadj' : (graphOfEdges
+          (F.image (edgeUp hf))).Adj (f i) (f t) := ha ▸ hadj
+      exact (graphOfEdges_image_adj hf F i t).mp hadj'
+    exact hstep.reachable.trans (ih rfl hc)
+
+/-- **Reachability transports exactly** (both walk lemmas glued). -/
+theorem reachable_image_iff {m k : ℕ} {f : Fin k → Fin m}
+    (hf : StrictMono f) (F : Finset (OrderedEdge k))
+    (i j : Fin k) :
+    (graphOfEdges (F.image (edgeUp hf))).Reachable (f i) (f j)
+      ↔ (graphOfEdges F).Reachable i j :=
+  ⟨reachable_of_reachable_image hf,
+    reachable_image_of_reachable hf⟩
+
 end LatticeGauge
