@@ -89,8 +89,10 @@ noncomputable def consTupleEquiv (n : ℕ) :
   left_inv p := by
     obtain ⟨a, f⟩ := p
     refine Prod.ext ?_ ?_
-    · exact Fin.cons_zero ..
-    · exact Fin.tail_cons ..
+    · show Fin.cons a f 0 = a
+      exact Fin.cons_zero ..
+    · show Fin.tail (Fin.cons a f) = f
+      exact Fin.tail_cons ..
   right_inv δ := Fin.cons_self_tail δ
 
 /-- The rooted raw tuple is literally the valuewise Fin.cons of the
@@ -107,6 +109,23 @@ theorem rootedTuple_eq_cons_val (γ₀ : Polymer N)
   · show rootedTuple γ₀ γ j.succ
       = ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) j.succ).val
     rw [rootedTuple_succ, Fin.cons_succ]
+
+/-- The pointwise repackaging of one rooted summand (named, so the
+    sum step below is first-order). -/
+theorem rooted_summand_eq (n : ℕ) (z : Polymer N → ℝ)
+    (γ₀ : Polymer N) (γ : Fin n → Polymer N) :
+    ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
+        * (z γ₀ * ∏ i : Fin n, z (γ i))
+      = ((ursellCoeff (fun i =>
+          ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) i).val)
+            : ℤ) : ℝ)
+          * ∏ j : Fin (n + 1),
+              z ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) j) := by
+  rw [← rootedTuple_eq_cons_val]
+  congr 1
+  rw [Fin.prod_univ_succ, Fin.cons_zero]
+  congr 1
+  exact Finset.prod_congr rfl (fun i _ => by rw [Fin.cons_succ])
 
 /-- The ONLY scalar step: (n+1)·(x/(n+1)!) = x/n! — the birthplace
     of the (n+1) factor, isolated. -/
@@ -171,24 +190,20 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
                 ((ursellCoeff (rootedTuple p.1 p.2) : ℤ) : ℝ)
                   * (z p.1 * ∏ i : Fin n, z (p.2 i)) :=
               (Fintype.sum_prod_type _).symm
+          _ = ∑ p : Polymer N × (Fin n → Polymer N),
+                ((ursellCoeff (fun i =>
+                    ((consTupleEquiv (N := N) n p) i).val)
+                      : ℤ) : ℝ)
+                  * ∏ j : Fin (n + 1),
+                      z ((consTupleEquiv (N := N) n p) j) := by
+              refine Finset.sum_congr rfl ?_
+              rintro ⟨γ₀, γ⟩ -
+              exact rooted_summand_eq n z γ₀ γ
           _ = ∑ δ : Fin (n + 1) → Polymer N,
                 ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
-                  * ∏ j : Fin (n + 1), z (δ j) := by
-              refine Fintype.sum_equiv (consTupleEquiv (N := N) n)
-                _ _ ?_
-              rintro ⟨γ₀, γ⟩
-              show ((ursellCoeff (rootedTuple γ₀ γ) : ℤ) : ℝ)
-                  * (z γ₀ * ∏ i : Fin n, z (γ i))
-                = ((ursellCoeff (fun i =>
-                    ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N)
-                      i).val) : ℤ) : ℝ)
-                  * ∏ j : Fin (n + 1),
-                      z ((Fin.cons γ₀ γ
-                        : Fin (n + 1) → Polymer N) j)
-              rw [← rootedTuple_eq_cons_val]
-              congr 1
-              rw [Fin.prod_univ_succ, Fin.cons_zero]
-              congr 1
-              exact Finset.prod_congr rfl (fun i _ => by
-                rw [Fin.cons_succ])
+                  * ∏ j : Fin (n + 1), z (δ j) :=
+              Equiv.sum_comp (consTupleEquiv (N := N) n)
+                (fun δ =>
+                  ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
+                    * ∏ j : Fin (n + 1), z (δ j))
 end LatticeGauge
