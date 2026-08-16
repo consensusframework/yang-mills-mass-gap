@@ -91,6 +91,17 @@ noncomputable def consTupleEquiv (n : ℕ) :
     simp only [Fin.cons_zero, Fin.tail_cons]
   right_inv δ := Fin.cons_self_tail δ
 
+/-- The generic pair↔tuple reindexation with an OPAQUE weight — the
+    unifier never touches the concrete summand (whnf vaccine). -/
+theorem sum_pairs_eq_sum_tuples (n : ℕ)
+    (F : (Fin (n + 1) → Polymer N) → ℝ) :
+    (∑ p : Polymer N × (Fin n → Polymer N),
+        F (Fin.cons p.1 p.2))
+      = ∑ δ : Fin (n + 1) → Polymer N, F δ :=
+  Fintype.sum_equiv (consTupleEquiv (N := N) n)
+    (fun p => F (Fin.cons p.1 p.2)) (fun δ => F δ)
+    (fun p => rfl)
+
 /-- The rooted raw tuple is literally the valuewise Fin.cons of the
     Polymer-level cons — the canonical split, no new structure. -/
 theorem rootedTuple_eq_cons_val (γ₀ : Polymer N)
@@ -98,13 +109,7 @@ theorem rootedTuple_eq_cons_val (γ₀ : Polymer N)
     rootedTuple γ₀ γ
       = fun i => ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) i).val := by
   funext i
-  refine Fin.cases ?_ (fun j => ?_) i
-  · show rootedTuple γ₀ γ 0
-      = ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) 0).val
-    rw [rootedTuple_zero, Fin.cons_zero]
-  · show rootedTuple γ₀ γ j.succ
-      = ((Fin.cons γ₀ γ : Fin (n + 1) → Polymer N) j.succ).val
-    rw [rootedTuple_succ, Fin.cons_succ]
+  refine Fin.cases rfl (fun j => rfl) i
 
 /-- The pointwise repackaging of one rooted summand (named, so the
     sum step below is first-order). -/
@@ -201,7 +206,7 @@ theorem sum_root_activity_eq_succ_mul_unrooted (n : ℕ)
           _ = ∑ δ : Fin (n + 1) → Polymer N,
                 ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
                   * ∏ j : Fin (n + 1), z (δ j) :=
-              Equiv.sum_comp (consTupleEquiv (N := N) n)
+              sum_pairs_eq_sum_tuples n
                 (fun δ =>
                   ((ursellCoeff (fun i => (δ i).val) : ℤ) : ℝ)
                     * ∏ j : Fin (n + 1), z (δ j))
