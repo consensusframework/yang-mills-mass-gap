@@ -945,6 +945,14 @@ theorem fixedS_tuple_contribution {m k l : ℕ} [NeZero m]
       * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
           (N := N) (fun i => (p.2 i).val)) : ℤ) : ℝ)
         * ∏ i : Fin l, z (p.2 i)))) ?_
+  show (∑ x : Fin k → Polymer N, ∑ y : Fin l → Polymer N,
+      (((ursellCoeff (N := N)
+          (fun i => (x i).val) : ℤ) : ℝ)
+        * ∏ i : Fin k, z (x i))
+      * (((graphAllEdgeCoeff (polymerIncompatibilityGraph
+          (N := N) (fun i => (y i).val)) : ℤ) : ℝ)
+        * ∏ i : Fin l, z (y i)))
+    = ursellNumerator k z * gasNumerator l z
   rw [← Finset.sum_mul_sum]
   rfl
 
