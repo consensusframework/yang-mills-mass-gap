@@ -1065,7 +1065,7 @@ theorem gasNumerator_succ_recurrence (n : ℕ)
     intro S hSmem
     have hle : S.card ≤ n + 1 := by
       have h := Finset.card_le_univ S
-      rwa [Finset.card_univ, Fintype.card_fin] at h
+      rwa [Fintype.card_fin] at h
     rw [Finset.mem_range]
     omega
   rw [← Finset.sum_fiberwise_of_maps_to hmapsJ
