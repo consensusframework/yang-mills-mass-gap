@@ -676,7 +676,7 @@ theorem restEdges_mem_restPieceSets {m : ℕ} {r : Fin m}
   exact hb
 
 /-- Sign factorization (named, in ℤ, as ordered). -/
-theorem neg_one_pow_card_union {α : Type*} [DecidableEq α]
+theorem neg_one_pow_card_disjUnion {α : Type*} [DecidableEq α]
     {s t : Finset α} (hd : Disjoint s t) :
     (-1 : ℤ) ^ (s ∪ t).card
       = (-1 : ℤ) ^ s.card * (-1 : ℤ) ^ t.card := by
@@ -716,12 +716,13 @@ theorem sum_globalEdgeFiber_eq_mul {m : ℕ} (r : Fin m)
   · intro p₁ hp₁ p₂ hp₂ heq
     obtain ⟨h11, h12⟩ := Finset.mem_product.mp hp₁
     obtain ⟨h21, h22⟩ := Finset.mem_product.mp hp₂
+    have heq' : p₁.1 ∪ p₁.2 = p₂.1 ∪ p₂.2 := heq
     have e1 : p₁.1 = p₂.1 := by
       rw [← rootEdges_union_pieces h11 h12,
-        ← rootEdges_union_pieces h21 h22, heq]
+        ← rootEdges_union_pieces h21 h22, heq']
     have e2 : p₁.2 = p₂.2 := by
       rw [← restEdges_union_pieces h11 h12,
-        ← restEdges_union_pieces h21 h22, heq]
+        ← restEdges_union_pieces h21 h22, heq']
     exact Prod.ext e1 e2
   · intro E hE
     exact ⟨(rootEdges r E, restEdges r E),
@@ -731,7 +732,7 @@ theorem sum_globalEdgeFiber_eq_mul {m : ℕ} (r : Fin m)
       rootEdges_union_restEdges r E⟩
   · intro p hp
     obtain ⟨h1, h2⟩ := Finset.mem_product.mp hp
-    exact (neg_one_pow_card_union (disjoint_pieceSets h1 h2)).symm
+    exact (neg_one_pow_card_disjUnion (disjoint_pieceSets h1 h2)).symm
 
 /-- **Root factor identified (III-2b consumed)**: for a tuple γ
     and S ∋ r with the canonical enumeration, the fixed-S global
