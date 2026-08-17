@@ -1100,4 +1100,120 @@ theorem gasNumerator_one_eq (z : Polymer N → ℝ) :
   rw [gasNumerator_succ_recurrence 0 z]
   simp [Finset.sum_range_one]
 
+/-! ## III-4 — FACTORIAL NORMALIZATION (the suits finally enter:
+    the (j+1) is born HERE, from C(n,j)·(j+1)!·(n−j)! = n!·(j+1),
+    and nowhere else — no root-choice multiplicity anywhere).
+    Censused: Nat.choose_mul_factorial_mul_factorial,
+    Nat.factorial_succ, mul_left_cancel₀, div_mul_cancel₀. -/
+
+/-- Multiplicative bridge (gas side). -/
+theorem gasNumerator_eq_factorial_mul (m : ℕ)
+    (z : Polymer N → ℝ) :
+    gasNumerator (N := N) m z
+      = ((Nat.factorial m : ℕ) : ℝ) * kpGasCoeff m z := by
+  rw [kpGasCoeff_eq_gasNumerator_div, mul_comm,
+    div_mul_cancel₀ _
+      (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero m))]
+
+/-- Multiplicative bridge (Ursell side). -/
+theorem ursellNumerator_eq_factorial_mul (m : ℕ)
+    (z : Polymer N → ℝ) :
+    ursellNumerator (N := N) m z
+      = ((Nat.factorial m : ℕ) : ℝ)
+        * kpSignedUnrootedCoeff m z := by
+  rw [kpSignedUnrootedCoeff_eq_ursellNumerator_div, mul_comm,
+    div_mul_cancel₀ _
+      (Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero m))]
+
+/-- The natural choose/factorial identity — where (j+1) is born. -/
+theorem choose_mul_factorials (n j : ℕ) (hj : j ≤ n) :
+    Nat.choose n j
+        * (Nat.factorial (j + 1) * Nat.factorial (n - j))
+      = Nat.factorial n * (j + 1) := by
+  rw [Nat.factorial_succ]
+  calc Nat.choose n j
+      * ((j + 1) * Nat.factorial j * Nat.factorial (n - j))
+      = (j + 1) * (Nat.choose n j * Nat.factorial j
+          * Nat.factorial (n - j)) := by ring
+    _ = (j + 1) * Nat.factorial n := by
+        rw [Nat.choose_mul_factorial_mul_factorial hj]
+    _ = Nat.factorial n * (j + 1) := by ring
+
+/-- Cast version in ℝ. -/
+theorem choose_mul_factorials_real (n j : ℕ) (hj : j ≤ n) :
+    ((Nat.choose n j : ℕ) : ℝ)
+        * (((Nat.factorial (j + 1) : ℕ) : ℝ)
+          * ((Nat.factorial (n - j) : ℕ) : ℝ))
+      = ((Nat.factorial n : ℕ) : ℝ) * ((j : ℝ) + 1) := by
+  exact_mod_cast choose_mul_factorials n j hj
+
+/-- **CAPSTONE OF STONE 49C-III — the exact root-component
+    recurrence**: (n+1)·A_{n+1} = Σ_{j≤n} (j+1)·B_{j+1}·A_{n−j}.
+    The all-graph coefficients and the connected Ursell
+    coefficients satisfy the exact root-component recurrence; the
+    factor (j+1) arises SOLELY from factorial normalization.
+    NOT claimed: A = exp B, gas = exp(clusterSum),
+    realZ = exp(clusterSum), log realZ = Σ B. -/
+theorem kpGasCoeff_succ_recurrence (n : ℕ)
+    (z : Polymer N → ℝ) :
+    ((n : ℝ) + 1) * kpGasCoeff (N := N) (n + 1) z
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * kpSignedUnrootedCoeff (j + 1) z
+            * kpGasCoeff (n - j) z := by
+  have hnum := gasNumerator_succ_recurrence (N := N) n z
+  rw [gasNumerator_eq_factorial_mul (n + 1) z] at hnum
+  have hterm : ∀ j ∈ Finset.range (n + 1),
+      ((Nat.choose n j : ℕ) : ℝ)
+          * ursellNumerator (N := N) (j + 1) z
+          * gasNumerator (n - j) z
+        = ((Nat.factorial n : ℕ) : ℝ)
+          * (((j : ℝ) + 1) * kpSignedUnrootedCoeff (j + 1) z
+            * kpGasCoeff (n - j) z) := by
+    intro j hj
+    have hjle : j ≤ n := Nat.lt_succ_iff.mp
+      (Finset.mem_range.mp hj)
+    rw [ursellNumerator_eq_factorial_mul,
+      gasNumerator_eq_factorial_mul]
+    have hcf := choose_mul_factorials_real n j hjle
+    calc ((Nat.choose n j : ℕ) : ℝ)
+        * (((Nat.factorial (j + 1) : ℕ) : ℝ)
+          * kpSignedUnrootedCoeff (N := N) (j + 1) z)
+        * (((Nat.factorial (n - j) : ℕ) : ℝ)
+          * kpGasCoeff (n - j) z)
+        = (((Nat.choose n j : ℕ) : ℝ)
+            * (((Nat.factorial (j + 1) : ℕ) : ℝ)
+              * ((Nat.factorial (n - j) : ℕ) : ℝ)))
+          * (kpSignedUnrootedCoeff (j + 1) z
+            * kpGasCoeff (n - j) z) := by ring
+      _ = (((Nat.factorial n : ℕ) : ℝ) * ((j : ℝ) + 1))
+          * (kpSignedUnrootedCoeff (j + 1) z
+            * kpGasCoeff (n - j) z) := by rw [hcf]
+      _ = ((Nat.factorial n : ℕ) : ℝ)
+          * (((j : ℝ) + 1) * kpSignedUnrootedCoeff (j + 1) z
+            * kpGasCoeff (n - j) z) := by ring
+  rw [Finset.sum_congr rfl hterm, ← Finset.mul_sum] at hnum
+  have hfact : ((Nat.factorial (n + 1) : ℕ) : ℝ)
+      = ((Nat.factorial n : ℕ) : ℝ) * ((n : ℝ) + 1) := by
+    rw [Nat.factorial_succ]
+    push_cast
+    ring
+  rw [hfact] at hnum
+  have hne : ((Nat.factorial n : ℕ) : ℝ) ≠ 0 :=
+    Nat.cast_ne_zero.mpr (Nat.factorial_ne_zero n)
+  refine mul_left_cancel₀ hne ?_
+  calc ((Nat.factorial n : ℕ) : ℝ)
+      * (((n : ℝ) + 1) * kpGasCoeff (N := N) (n + 1) z)
+      = ((Nat.factorial n : ℕ) : ℝ) * ((n : ℝ) + 1)
+        * kpGasCoeff (n + 1) z := by ring
+    _ = _ := hnum
+
+/-- Sanity n = 0, from the recurrence itself: A₁ = B₁·A₀. -/
+theorem kpGasCoeff_one_eq_mul (z : Polymer N → ℝ) :
+    kpGasCoeff (N := N) 1 z
+      = kpSignedUnrootedCoeff 1 z * kpGasCoeff 0 z := by
+  have h := kpGasCoeff_succ_recurrence (N := N) 0 z
+  rw [Finset.sum_range_one] at h
+  norm_num at h
+  linarith
+
 end LatticeGauge
