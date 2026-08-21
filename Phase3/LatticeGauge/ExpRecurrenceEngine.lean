@@ -44,7 +44,7 @@ noncomputable def Gser (b : ℕ → ℝ) (t : ℝ) : ℝ :=
 /-- The SHIFTED derivative series: coefficients (n+1)·b_{n+1},
     exponent n. Users never see n·t^(n−1). -/
 noncomputable def Gderiv (b : ℕ → ℝ) (t : ℝ) : ℝ :=
-  ∑' n, ((n : ℝ) + 1) * b (n + 1) * t ^ n
+  ∑' n : ℕ, ((n : ℝ) + 1) * b (n + 1) * t ^ n
 
 /-! ## IV-1.2 — the explicit derivative-majorant lemma (route (a):
     the single-term bound |bₙ| ≤ Σ'|b| via le_tsum, then
@@ -53,7 +53,7 @@ noncomputable def Gderiv (b : ℕ → ℝ) (t : ℝ) : ℝ :=
 theorem summable_deriv_majorant (b : ℕ → ℝ)
     (habs : Summable (fun n => |b n|)) {r : ℝ}
     (hr0 : 0 ≤ r) (hr1 : r < 1) :
-    Summable (fun n => ((n : ℝ) + 1) * |b (n + 1)| * r ^ n) := by
+    Summable (fun n : ℕ => ((n : ℝ) + 1) * |b (n + 1)| * r ^ n) := by
   have hC : ∀ n, |b n| ≤ ∑' m, |b m| :=
     fun n => le_tsum habs n (fun j _ => abs_nonneg _)
   have h1 : Summable (fun n : ℕ => (n : ℝ) * r ^ n) := by
@@ -128,16 +128,16 @@ theorem hasDerivAt_Gser (b : ℕ → ℝ)
           refine mul_le_mul_of_nonneg_left ?_ (abs_nonneg _)
           exact pow_le_one₀ le_rfl zero_le_one
       _ = |b n| := mul_one _
-  have hkey := hasDerivAt_tsum_of_isPreconnected
-    (u := fun n : ℕ => (n : ℝ) * |b n| * r ^ (n - 1))
-    (g := fun (n : ℕ) (y : ℝ) => b n * y ^ n)
-    (g' := fun (n : ℕ) (y : ℝ) => b n * ((n : ℝ) * y ^ (n - 1)))
-    hu isOpen_Ioo (convex_Ioo (-r) r).isPreconnected
-    (fun n y _ => (hasDerivAt_pow n y).const_mul (b n))
-    hbound
-    (Set.mem_Ioo.mpr ⟨by linarith, hr0⟩)
-    hg0
-    (Set.mem_Ioo.mpr ⟨by linarith, htr⟩)
+  have hkey : HasDerivAt (fun z : ℝ => ∑' n : ℕ, b n * z ^ n)
+      (∑' n : ℕ, b n * ((n : ℝ) * t ^ (n - 1))) t :=
+    hasDerivAt_tsum_of_isPreconnected
+      (u := fun n : ℕ => (n : ℝ) * |b n| * r ^ (n - 1))
+      hu isOpen_Ioo (convex_Ioo (-r) r).isPreconnected
+      (fun n y _ => (hasDerivAt_pow n y).const_mul (b n))
+      hbound
+      (Set.mem_Ioo.mpr ⟨by linarith, hr0⟩)
+      hg0
+      (Set.mem_Ioo.mpr ⟨by linarith, htr⟩)
   have hsum_deriv : Summable
       (fun n : ℕ => b n * ((n : ℝ) * t ^ (n - 1))) :=
     Summable.of_norm_bounded _ hu
@@ -150,6 +150,7 @@ theorem hasDerivAt_Gser (b : ℕ → ℝ)
     refine tsum_congr (fun n => ?_)
     push_cast [Nat.add_sub_cancel]
     ring
+  unfold Gser
   rw [← hshift]
   exact hkey
 
