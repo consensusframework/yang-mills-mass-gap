@@ -7,7 +7,7 @@ ABSTRACT BY DESIGN: a small standalone result about real
 sequences and their power series. This file does not know that
 polymers exist. Zero Polymer, zero Ursell, zero kpGasCoeff, zero
 KP, zero β, zero realZ, zero Real.log, zero FormalPowerSeries —
-and Real.exp is not needed yet (it enters only at IV-3).
+Real.exp enters only at the IV-3 section, through the front door.
 
 Content: the series Gser b t = Σ' bₙtⁿ; its SHIFTED derivative
 Gderiv b t = Σ' (n+1)·b_{n+1}·tⁿ (no future user of these lemmas
@@ -405,5 +405,132 @@ theorem hasDerivAt_Fpoly_mul (a b : ℕ → ℝ) (M : ℕ)
     HasDerivAt (Fpoly a M) (Gderiv b t * Fpoly a M t) t := by
   rw [gderiv_mul_fpoly_eq_fderiv a b M hfin habs hrec ht0 ht1]
   exact hasDerivAt_Fpoly a M t
+
+/-! ## IV-3 — THE EXP ENGINE CLOSES: H := F·exp(−G) is constant
+    on [0,1], and the recurrence proves Σ aₙ = exp(Σ' bₙ).
+
+    AUDIT (architect's list): H is never divided; F is never
+    assumed nonzero; exp is never assumed nonzero (no
+    Real.exp_ne_zero, no field_simp, no inv anywhere — the
+    extraction is a multiplicative calc through
+    exp(−g)·exp(g) = exp((−g)+g) = exp 0 = 1);
+    constant_of_has_deriv_right_zero reaches t = 1 directly —
+    zero Tendsto, zero Abel; hrec is consumed only through the
+    IV-2 interface (hasDerivAt_Fpoly_mul), never reproved; habs
+    enters only through the IV-1/IV-2 interfaces; zero polymer
+    specialization; zero partition-function semantics. -/
+
+theorem Fpoly_zero (a : ℕ → ℝ) (M : ℕ) (ha0 : a 0 = 1) :
+    Fpoly a M 0 = 1 := by
+  unfold Fpoly
+  rw [Finset.sum_eq_single_of_mem 0
+    (Finset.mem_range.mpr (Nat.succ_pos M))
+    (fun n _ hn => by rw [zero_pow hn, mul_zero])]
+  rw [pow_zero, mul_one, ha0]
+
+theorem Fpoly_one (a : ℕ → ℝ) (M : ℕ) :
+    Fpoly a M 1 = ∑ n ∈ Finset.range (M + 1), a n := by
+  unfold Fpoly
+  exact Finset.sum_congr rfl (fun n _ => by rw [one_pow, mul_one])
+
+theorem continuous_Fpoly (a : ℕ → ℝ) (M : ℕ) :
+    Continuous (Fpoly a M) := by
+  unfold Fpoly
+  exact continuous_finset_sum _
+    (fun i _ => continuous_const.mul (continuous_pow i))
+
+/-- The engine function: never divided, never inverted. -/
+noncomputable def Hfn (a b : ℕ → ℝ) (M : ℕ) (t : ℝ) : ℝ :=
+  Fpoly a M t * Real.exp (- Gser b t)
+
+theorem continuousOn_Hfn (a b : ℕ → ℝ) (M : ℕ)
+    (habs : Summable (fun n => |b n|)) :
+    ContinuousOn (Hfn a b M) (Set.Icc (0 : ℝ) 1) := by
+  unfold Hfn
+  exact (continuous_Fpoly a M).continuousOn.mul
+    (Real.continuous_exp.comp_continuousOn
+      (continuousOn_Gser b habs).neg)
+
+/-- **The offensively elegant heart**: H′ = F′e^{−G} + F·(−G′)e^{−G}
+    = (G′F)e^{−G} − FG′e^{−G} = 0 — one `ring` after the IV-1/IV-2
+    interfaces. -/
+theorem hasDerivAt_Hfn (a b : ℕ → ℝ) (M : ℕ)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j))
+    {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t < 1) :
+    HasDerivAt (Hfn a b M) 0 t := by
+  have hF := hasDerivAt_Fpoly_mul a b M hfin habs hrec ht0 ht1
+  have hG := hasDerivAt_Gser b habs ht0 ht1
+  have hE : HasDerivAt (fun s => Real.exp (- Gser b s))
+      (Real.exp (- Gser b t) * - Gderiv b t) t := hG.neg.exp
+  have hH := hF.mul hE
+  have hzero : Gderiv b t * Fpoly a M t * Real.exp (- Gser b t)
+      + Fpoly a M t * (Real.exp (- Gser b t) * - Gderiv b t)
+      = 0 := by ring
+  unfold Hfn
+  exact hzero ▸ hH
+
+/-- H is constantly 1 on [0,1]: continuity + right derivative
+    zero + the endpoint theorem (t = 1 reached DIRECTLY — no
+    Tendsto, no Abel). -/
+theorem Hfn_eq_one (a b : ℕ → ℝ) (M : ℕ)
+    (ha0 : a 0 = 1) (hb0 : b 0 = 0)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j)) :
+    ∀ x ∈ Set.Icc (0 : ℝ) 1, Hfn a b M x = 1 := by
+  have hconst := constant_of_has_deriv_right_zero
+    (continuousOn_Hfn a b M habs)
+    (fun x hx => (hasDerivAt_Hfn a b M hfin habs hrec
+      hx.1 hx.2).hasDerivWithinAt)
+  intro x hx
+  rw [hconst x hx]
+  unfold Hfn
+  rw [Fpoly_zero a M ha0, Gser_zero b hb0, neg_zero,
+    Real.exp_zero, one_mul]
+
+/-- Multiplicative extraction — NO division, NO exp_ne_zero, NO
+    inv: the explicit calc through exp(−g)·exp(g) = exp 0 = 1. -/
+theorem Fpoly_one_eq_exp (a b : ℕ → ℝ) (M : ℕ)
+    (ha0 : a 0 = 1) (hb0 : b 0 = 0)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j)) :
+    Fpoly a M 1 = Real.exp (Gser b 1) := by
+  have h1 : Fpoly a M 1 * Real.exp (- Gser b 1) = 1 :=
+    Hfn_eq_one a b M ha0 hb0 hfin habs hrec 1
+      (Set.mem_Icc.mpr ⟨zero_le_one, le_refl 1⟩)
+  calc Fpoly a M 1
+      = Fpoly a M 1 * 1 := (mul_one _).symm
+    _ = Fpoly a M 1
+        * (Real.exp (- Gser b 1) * Real.exp (Gser b 1)) := by
+          rw [← Real.exp_add, neg_add_cancel, Real.exp_zero]
+    _ = (Fpoly a M 1 * Real.exp (- Gser b 1))
+        * Real.exp (Gser b 1) := by ring
+    _ = 1 * Real.exp (Gser b 1) := by rw [h1]
+    _ = Real.exp (Gser b 1) := one_mul _
+
+/-- **CAPSTONE OF THE ABSTRACT ENGINE (49C-IV)**: the recurrence
+    proves that the finite sum of a IS the exponential of the
+    series of b — with no log, no division, and no nonvanishing
+    hypothesis anywhere in the chain. -/
+theorem sum_a_eq_exp_tsum_b (a b : ℕ → ℝ) (M : ℕ)
+    (ha0 : a 0 = 1) (hb0 : b 0 = 0)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j)) :
+    (∑ n ∈ Finset.range (M + 1), a n)
+      = Real.exp (∑' n, b n) := by
+  rw [← Fpoly_one a M, ← Gser_one b]
+  exact Fpoly_one_eq_exp a b M ha0 hb0 hfin habs hrec
 
 end LatticeGauge
