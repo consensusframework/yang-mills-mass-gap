@@ -5,10 +5,12 @@
 > Yang–Mills Existence and Mass Gap Millennium Problem.
 
 🏆 **Consensus Framework** — the multi-agent human–AI collaboration
-methodology behind this repository — was a **winner of the UN Tourism
-AI Global Challenge 2025** (United Nations). The award recognizes the
-collaboration framework; it is not an endorsement of any mathematical
-claim, which rests solely on the Lean 4 kernel and CI.
+methodology behind this repository — was the **winner of the UN Tourism
+Global Artificial Intelligence Challenge 2025**. UN Tourism is the
+United Nations specialized agency for tourism. This recognition
+concerns the Consensus Framework project and does not constitute review
+or endorsement of the mathematical claims in this repository, which
+rest solely on the Lean 4 kernel and CI.
 
 ## Repository history and reconstruction
 

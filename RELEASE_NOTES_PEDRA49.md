@@ -51,6 +51,12 @@ verification is the kernel + CI.
   examined). This release integrates that object plus documentation only.
 - Roles: Arquitetura — GPT-5.6 "Sol" (OpenAI); Execução — Claude Fable 5
   (Anthropic); Coordenação — Jucelha Carvalho; Juiz — GitHub Actions CI.
+- Pre-release tag custody note: the initial `zenodo-v49` tag pointed to
+  `a2ff76557f9061644757d8d9f63fad1051bc1500`. Before Zenodo publication,
+  the release documentation was amended to include the UN Tourism award
+  provenance. Because no Zenodo v49 record had yet been published, the
+  tag was transparently recreated once at the final documentation SHA.
+  No scientific Lean source was changed by this custody adjustment.
 - Concept DOI (all versions): 10.5281/zenodo.17397622.
 - Version DOI: **10.5281/zenodo.22050763**. Frozen tag: `zenodo-v49`.
 - Integration merge to main: `12f597bc1eb0cd0c3e566d272766f608f9fab1db`
