@@ -247,12 +247,12 @@ noncomputable def diagCoeff (a b : ℕ → ℝ) (M n : ℕ) : ℝ :=
       (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k
     else 0
 
+set_option maxHeartbeats 1600000 in
 /-- **FINITE CAUCHY, BEFORE the recurrence**: G′(t)·F(t) equals
     the diagonal series — no hypothesis on a beyond none, no
     hrec, no hfin. The product is finite×infinite (F is a
     polynomial), so each row is a scalar multiple of the G′
     series, shifted by k through the injection (· + k). -/
-set_option maxHeartbeats 1600000 in
 theorem gderiv_mul_fpoly_eq_tsum_diag (a b : ℕ → ℝ) (M : ℕ)
     (habs : Summable (fun n => |b n|)) {t : ℝ}
     (ht0 : 0 ≤ t) (ht1 : t < 1) :
@@ -326,7 +326,7 @@ theorem gderiv_mul_fpoly_eq_tsum_diag (a b : ℕ → ℝ) (M : ℕ)
     mismatch when n > M. -/
 theorem diagCoeff_eq (a b : ℕ → ℝ) (M : ℕ)
     (hfin : ∀ n, M < n → a n = 0)
-    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
       = ∑ j ∈ Finset.range (n + 1),
           ((j : ℝ) + 1) * b (j + 1) * a (n - j)) (n : ℕ) :
     diagCoeff a b M n = ((n : ℝ) + 1) * a (n + 1) := by
@@ -383,7 +383,7 @@ theorem tsum_shifted_eq_Fderiv (a : ℕ → ℝ) (M : ℕ)
 theorem gderiv_mul_fpoly_eq_fderiv (a b : ℕ → ℝ) (M : ℕ)
     (hfin : ∀ n, M < n → a n = 0)
     (habs : Summable (fun n => |b n|))
-    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
       = ∑ j ∈ Finset.range (n + 1),
           ((j : ℝ) + 1) * b (j + 1) * a (n - j))
     {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t < 1) :
@@ -398,7 +398,7 @@ theorem gderiv_mul_fpoly_eq_fderiv (a b : ℕ → ℝ) (M : ℕ)
 theorem hasDerivAt_Fpoly_mul (a b : ℕ → ℝ) (M : ℕ)
     (hfin : ∀ n, M < n → a n = 0)
     (habs : Summable (fun n => |b n|))
-    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+    (hrec : ∀ n : ℕ, ((n : ℝ) + 1) * a (n + 1)
       = ∑ j ∈ Finset.range (n + 1),
           ((j : ℝ) + 1) * b (j + 1) * a (n - j))
     {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t < 1) :
