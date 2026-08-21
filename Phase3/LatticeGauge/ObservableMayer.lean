@@ -28,6 +28,7 @@ import Mathlib
 import LatticeGauge.Basic
 import LatticeGauge.PlaquetteActivity
 import LatticeGauge.ComponentFactorization
+import LatticeGauge.ThirdConnectedBeta0
 import LatticeGauge.ObservableBlockFactorization
 
 open MeasureTheory
