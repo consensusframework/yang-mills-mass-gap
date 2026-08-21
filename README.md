@@ -110,7 +110,7 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: August 16, 2026**
+**Last updated: August 21, 2026**
 
 - **Phase 2:** 25/25 modules compile.
 - **Phase 3 / `LatticeGauge`:** stone deliveries verified and integrated
@@ -157,12 +157,13 @@ traced constants: for 0 ≤ β ≤ 1/40000,
 `Σ_{D incompatible with C} |w_β(D)|·e^{|D|} ≤ |C|`.
 Stone 47 establishes the exact rooted-tree recurrence and the abstract
 finite Kotecký–Preiss induction, yielding a uniform bound on every
-finite partial sum of the rooted cluster coefficients. STONE 48 now
-completes the passage to the infinite series: for 0 ≤ β ≤ 1/40000, the
-concrete signed rooted Ursell series is absolutely convergent, with
-Σₙ |Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀). No log-Z identification, no realZ ≠ 0,
-no thermodynamic limit, no clustering, and no mass-gap statement is
-claimed.
+finite partial sum of the rooted cluster coefficients. STONE 48
+completed the passage to the infinite series (absolute convergence of
+the signed rooted Ursell series, Σₙ |Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀)),
+and STONE 49 completes the finite-volume identification:
+log Z_β = Σ'ₙ Bₙ(w_β) for 0 ≤ β ≤ 1/40000, with Z_β > 0 obtained as a
+corollary of the expansion. No thermodynamic limit, no volume-uniform
+estimate, no clustering, and no mass-gap statement is claimed.
 
 The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
 state, the exact β = 0 probabilistic chapter, the exact expansion mechanics
@@ -265,10 +266,10 @@ formalizations of:
   summing over the m+1 possible marks turns m! into (m+1)!, with the origin
   of every factor recorded in the kernel.
 
-The latest results establish the **finite algebraic and probabilistic foundations**
-needed for a future cluster-expansion development.
-
-They do not yet establish convergence of a cluster expansion.
+The cluster expansion of the log-partition function is now established
+in **finite volume at small β** (stones 46–49). The results do not yet
+establish volume-uniform estimates, clustering, or any infinite-volume
+statement.
 
 ---
 
@@ -404,11 +405,11 @@ the physical Yang–Mills problem.
 
 The immediate Phase 3 roadmap is:
 
-1. Stone 49 — unroot the convergent rooted series (the exact finite
-   relation Σ_γ₀ z(γ₀)·Cₙ(z,γ₀) = (n+1)·B_{n+1}(z)), prove absolute
-   summability of the unrooted coefficients, and only then attack the
-   exp/log identification with the finite-volume polymer-gas
-   representation of stone 36;
+1. Stone 50 — connected correlations at strong coupling: the
+   marked/inserted Mayer expansion, the observable×block factorization
+   at β = 0 (first gate already verified), and the structural
+   cancellation identifying which clusters connect two observable
+   supports;
 2. develop volume-uniform estimates;
 3. investigate connected correlations and exponential clustering;
 4. only thereafter study thermodynamic/continuum limits and the additional
@@ -493,13 +494,23 @@ Frozen source tag for this version: `zenodo-v49`.
   of the frozen mathematical core (`c9dda043`), including the signed
   Ursell coefficient, domination, summability bridge, non-circularity,
   and concrete specialization.
+  External adversarial mathematical review of Stone 49: eight audits
+  across the unrooting, the typed gas, the gas coefficients, the
+  root-component recurrence, the analytic exp engine and the final
+  semantic chain, all green with no substantive finding.
 - **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
   numerical and physical hypothesis exploration, and historical architecture.
 - **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
   project operations. External reproducibility and release review of
   Stone 48: independent clone/build reproduction, kernel-dependency
   audit, release-scope review, documentation audit, and release
-  validation.
+  validation. External reproducibility review of Stone 49, with the
+  GREEN classification explicitly delimited to the finite-volume
+  identity.
+- **Grok 4.5 (xAI)** — additional independent external audit of the
+  stone-49 chain and scope (the finite-volume cluster-expansion identity
+  for the log-partition function), complementing the adversarial
+  mathematical and reproducibility reviews.
 
 The roles above describe contributions made at different stages of the project.
 They are not rankings. The present repository exists because those contributions
