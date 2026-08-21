@@ -4,6 +4,12 @@
 > This repository is **not a proof, partial proof, or claimed solution** of the
 > Yang–Mills Existence and Mass Gap Millennium Problem.
 
+🏆 **Consensus Framework** — the multi-agent human–AI collaboration
+methodology behind this repository — was a **winner of the UN Tourism
+AI Global Challenge 2025** (United Nations). The award recognizes the
+collaboration framework; it is not an endorsement of any mathematical
+claim, which rests solely on the Lean 4 kernel and CI.
+
 ## Repository history and reconstruction
 
 This is the **second public repository** of the project.
