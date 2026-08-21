@@ -177,4 +177,233 @@ theorem Gser_one (b : ℕ → ℝ) : Gser b 1 = ∑' n, b n := by
   unfold Gser
   exact tsum_congr (fun n => by rw [one_pow, mul_one])
 
+/-! ## IV-2 — the polynomial side and the FINITE CAUCHY:
+    G′(t)·F(t) = F′(t) on 0 ≤ t < 1.
+
+    CONCEPTUAL RECORD (architect's order): G′F is born as a
+    potentially INFINITE series — it does NOT have finite support
+    a priori. The finite-Cauchy theorem reorganizes it along the
+    diagonal n = j + k with NO hypothesis on the coefficients;
+    the recurrence then identifies the n-th coefficient as
+    (n+1)·a_{n+1} (hrec enters at exactly ONE point:
+    diagCoeff_eq); and only then, because a has finite support,
+    the whole tail vanishes (hfin enters at exactly TWO points:
+    inside diagCoeff_eq for n > M, and in the final truncation
+    tsum_shifted_eq_Fderiv). The equation does the work.
+
+    Edge cases audited: M = 0 gives Fderiv = empty sum = 0
+    automatically; t = 0 needs no division (powers only, shifts
+    by exact index arithmetic); b may have infinite support; a
+    may have internal zeros (degree exactly M never assumed).
+    Purity: still zero Real.exp/Real.log/Polymer/Ursell/KP/
+    realZ/FormalPowerSeries; no hypothesis Fpoly t ≠ 0; no
+    division anywhere. -/
+
+/-- The polynomial side: finite sum, suporte in range (M+1). -/
+noncomputable def Fpoly (a : ℕ → ℝ) (M : ℕ) (t : ℝ) : ℝ :=
+  ∑ n ∈ Finset.range (M + 1), a n * t ^ n
+
+/-- Its derivative, SHIFTED like Gderiv (range M — the true
+    derivative needs no support hypothesis). -/
+noncomputable def Fderiv (a : ℕ → ℝ) (M : ℕ) (t : ℝ) : ℝ :=
+  ∑ n ∈ Finset.range M, ((n : ℝ) + 1) * a (n + 1) * t ^ n
+
+theorem hasDerivAt_Fpoly (a : ℕ → ℝ) (M : ℕ) (t : ℝ) :
+    HasDerivAt (Fpoly a M) (Fderiv a M t) t := by
+  have h : HasDerivAt (Fpoly a M)
+      (∑ n ∈ Finset.range (M + 1),
+        a n * ((n : ℝ) * t ^ (n - 1))) t := by
+    unfold Fpoly
+    exact HasDerivAt.sum
+      (A := fun (n : ℕ) (y : ℝ) => a n * y ^ n)
+      (A' := fun n : ℕ => a n * ((n : ℝ) * t ^ (n - 1)))
+      (fun n _ => (hasDerivAt_pow n t).const_mul (a n))
+  convert h using 1
+  rw [Finset.sum_range_succ']
+  simp only [Nat.cast_zero, zero_mul, mul_zero, add_zero]
+  unfold Fderiv
+  refine Finset.sum_congr rfl (fun n _ => ?_)
+  push_cast [Nat.add_sub_cancel]
+  ring
+
+/-- Summability of the Gderiv terms at 0 ≤ t < 1 (the majorant
+    lemma applied at r := t itself). -/
+theorem summable_Gderiv_terms (b : ℕ → ℝ)
+    (habs : Summable (fun n => |b n|)) {t : ℝ}
+    (ht0 : 0 ≤ t) (ht1 : t < 1) :
+    Summable (fun n : ℕ => ((n : ℝ) + 1) * b (n + 1) * t ^ n) := by
+  refine Summable.of_norm_bounded _
+    (summable_deriv_majorant b habs ht0 ht1) (fun n => ?_)
+  have h1 : |((n : ℝ) + 1)| = (n : ℝ) + 1 :=
+    abs_of_nonneg (by positivity)
+  rw [Real.norm_eq_abs, abs_mul, abs_mul, abs_pow,
+    abs_of_nonneg ht0, h1]
+
+/-- The diagonal coefficient of G′F (the reindexation n = j + k
+    made explicit: row k contributes iff k ≤ n, with j := n − k). -/
+noncomputable def diagCoeff (a b : ℕ → ℝ) (M n : ℕ) : ℝ :=
+  ∑ k ∈ Finset.range (M + 1),
+    if k ≤ n then
+      (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k
+    else 0
+
+/-- **FINITE CAUCHY, BEFORE the recurrence**: G′(t)·F(t) equals
+    the diagonal series — no hypothesis on a beyond none, no
+    hrec, no hfin. The product is finite×infinite (F is a
+    polynomial), so each row is a scalar multiple of the G′
+    series, shifted by k through the injection (· + k). -/
+set_option maxHeartbeats 1600000 in
+theorem gderiv_mul_fpoly_eq_tsum_diag (a b : ℕ → ℝ) (M : ℕ)
+    (habs : Summable (fun n => |b n|)) {t : ℝ}
+    (ht0 : 0 ≤ t) (ht1 : t < 1) :
+    Gderiv b t * Fpoly a M t
+      = ∑' n : ℕ, diagCoeff a b M n * t ^ n := by
+  have hsumG := summable_Gderiv_terms b habs ht0 ht1
+  have hrow : ∀ k : ℕ, Summable (fun j : ℕ =>
+      ((j : ℝ) + 1) * b (j + 1) * a k * t ^ (j + k)) := by
+    intro k
+    refine (hsumG.mul_right (a k * t ^ k)).congr (fun j => ?_)
+    rw [pow_add]
+    ring
+  have hpoint : ∀ k j : ℕ,
+      (fun n : ℕ => if k ≤ n then
+        (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k * t ^ n
+      else 0) (j + k)
+      = ((j : ℝ) + 1) * b (j + 1) * a k * t ^ (j + k) := by
+    intro k j
+    simp only [if_pos (Nat.le_add_left k j), Nat.add_sub_cancel]
+  have hvanish : ∀ (k n : ℕ), n ∉ Set.range (· + k) →
+      (if k ≤ n then
+        (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k * t ^ n
+      else 0) = 0 := by
+    intro k n hn
+    exact if_neg (fun hkn => hn ⟨n - k, Nat.sub_add_cancel hkn⟩)
+  have hesummable : ∀ k ∈ Finset.range (M + 1),
+      Summable (fun n : ℕ => if k ≤ n then
+        (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k * t ^ n
+      else 0) := by
+    intro k _
+    refine (Function.Injective.summable_iff
+      (add_left_injective k) (hvanish k)).mp ?_
+    exact (hrow k).congr (fun j => (hpoint k j).symm)
+  have hrow_eq : ∀ k ∈ Finset.range (M + 1),
+      Gderiv b t * (a k * t ^ k)
+      = ∑' n : ℕ, (if k ≤ n then
+          (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k * t ^ n
+        else 0) := by
+    intro k _
+    calc Gderiv b t * (a k * t ^ k)
+        = ∑' j : ℕ,
+            ((j : ℝ) + 1) * b (j + 1) * t ^ j * (a k * t ^ k) := by
+          unfold Gderiv
+          rw [← tsum_mul_right]
+      _ = ∑' j : ℕ,
+            ((j : ℝ) + 1) * b (j + 1) * a k * t ^ (j + k) := by
+          refine tsum_congr (fun j => ?_)
+          rw [pow_add]
+          ring
+      _ = ∑' n : ℕ, (if k ≤ n then
+            (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k * t ^ n
+          else 0) := by
+          refine Eq.trans
+            (tsum_congr (fun j => (hpoint k j).symm)) ?_
+          exact Function.Injective.tsum_eq
+            (add_left_injective k)
+            (Function.support_subset_iff'.mpr (hvanish k))
+  unfold Fpoly
+  rw [Finset.mul_sum, Finset.sum_congr rfl hrow_eq,
+    ← tsum_sum hesummable]
+  refine tsum_congr (fun n => ?_)
+  unfold diagCoeff
+  rw [Finset.sum_mul]
+  refine Finset.sum_congr rfl (fun k _ => ?_)
+  split_ifs with h
+  · rfl
+  · rw [zero_mul]
+
+/-- **The recurrence identifies the coefficient** — hrec enters
+    HERE and only here; hfin covers the rows k > n vs k > M
+    mismatch when n > M. -/
+theorem diagCoeff_eq (a b : ℕ → ℝ) (M : ℕ)
+    (hfin : ∀ n, M < n → a n = 0)
+    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j)) (n : ℕ) :
+    diagCoeff a b M n = ((n : ℝ) + 1) * a (n + 1) := by
+  have key : diagCoeff a b M n
+      = ∑ k ∈ Finset.range (n + 1),
+          (((n - k : ℕ) : ℝ) + 1) * b ((n - k) + 1) * a k := by
+    unfold diagCoeff
+    rw [← Finset.sum_filter]
+    rcases le_or_lt n M with hnM | hMn
+    · congr 1
+      ext k
+      simp only [Finset.mem_filter, Finset.mem_range]
+      omega
+    · have hfe : (Finset.range (M + 1)).filter (fun k => k ≤ n)
+          = Finset.range (M + 1) := by
+        refine Finset.filter_true_of_mem ?_
+        intro k hk
+        rw [Finset.mem_range] at hk
+        omega
+      rw [hfe]
+      refine Finset.sum_subset ?_ ?_
+      · intro k hk
+        rw [Finset.mem_range] at hk ⊢
+        omega
+      · intro k _ hknot
+        rw [Finset.mem_range, not_lt] at hknot
+        rw [hfin k (by omega), mul_zero]
+  rw [key, hrec n, ← Finset.sum_range_reflect
+    (fun j => ((j : ℝ) + 1) * b (j + 1) * a (n - j)) (n + 1)]
+  refine Finset.sum_congr rfl (fun i hi => ?_)
+  rw [Finset.mem_range] at hi
+  have e1 : n + 1 - 1 - i = n - i := by omega
+  have e2 : n - (n - i) = i := by omega
+  rw [e1]
+  simp only [e2]
+
+/-- **The tail vanishes by finite support** (hfin's second and
+    last entrance): the identified series IS the polynomial
+    derivative. -/
+theorem tsum_shifted_eq_Fderiv (a : ℕ → ℝ) (M : ℕ)
+    (hfin : ∀ n, M < n → a n = 0) (t : ℝ) :
+    (∑' n : ℕ, ((n : ℝ) + 1) * a (n + 1) * t ^ n)
+      = Fderiv a M t := by
+  have hz : ∀ n ∉ Finset.range M,
+      ((n : ℝ) + 1) * a (n + 1) * t ^ n = 0 := by
+    intro n hn
+    rw [Finset.mem_range, not_lt] at hn
+    rw [hfin (n + 1) (by omega), mul_zero, zero_mul]
+  rw [tsum_eq_sum hz]
+  rfl
+
+/-- **CAPSTONE IV-2**: F′(t) = G′(t)·F(t) on 0 ≤ t < 1 — no
+    division, no nonvanishing, no exp. -/
+theorem gderiv_mul_fpoly_eq_fderiv (a b : ℕ → ℝ) (M : ℕ)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j))
+    {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t < 1) :
+    Gderiv b t * Fpoly a M t = Fderiv a M t := by
+  have h1 : (∑' n : ℕ, diagCoeff a b M n * t ^ n)
+      = ∑' n : ℕ, ((n : ℝ) + 1) * a (n + 1) * t ^ n :=
+    tsum_congr (fun n => by rw [diagCoeff_eq a b M hfin hrec n])
+  rw [gderiv_mul_fpoly_eq_tsum_diag a b M habs ht0 ht1, h1]
+  exact tsum_shifted_eq_Fderiv a M hfin t
+
+/-- Semantic form: the polynomial satisfies F′ = G′·F. -/
+theorem hasDerivAt_Fpoly_mul (a b : ℕ → ℝ) (M : ℕ)
+    (hfin : ∀ n, M < n → a n = 0)
+    (habs : Summable (fun n => |b n|))
+    (hrec : ∀ n, ((n : ℝ) + 1) * a (n + 1)
+      = ∑ j ∈ Finset.range (n + 1),
+          ((j : ℝ) + 1) * b (j + 1) * a (n - j))
+    {t : ℝ} (ht0 : 0 ≤ t) (ht1 : t < 1) :
+    HasDerivAt (Fpoly a M) (Gderiv b t * Fpoly a M t) t := by
+  rw [gderiv_mul_fpoly_eq_fderiv a b M hfin habs hrec ht0 ht1]
+  exact hasDerivAt_Fpoly a M t
+
 end LatticeGauge
