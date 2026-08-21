@@ -94,6 +94,7 @@ theorem continuousOn_Gser (b : ℕ → ℝ)
 /-! ## IV-1.4 — the derivative on 0 ≤ t < 1 (ball of radius
     r := (1+t)/2, bounds only on the open set — SmoothSeries:87) -/
 
+set_option maxHeartbeats 800000 in
 theorem hasDerivAt_Gser (b : ℕ → ℝ)
     (habs : Summable (fun n => |b n|)) {t : ℝ}
     (ht0 : 0 ≤ t) (ht1 : t < 1) :
@@ -132,6 +133,8 @@ theorem hasDerivAt_Gser (b : ℕ → ℝ)
       (∑' n : ℕ, b n * ((n : ℝ) * t ^ (n - 1))) t :=
     hasDerivAt_tsum_of_isPreconnected
       (u := fun n : ℕ => (n : ℝ) * |b n| * r ^ (n - 1))
+      (g := fun (n : ℕ) (y : ℝ) => b n * y ^ n)
+      (g' := fun (n : ℕ) (y : ℝ) => b n * ((n : ℝ) * y ^ (n - 1)))
       hu isOpen_Ioo (convex_Ioo (-r) r).isPreconnected
       (fun n y _ => (hasDerivAt_pow n y).const_mul (b n))
       hbound
