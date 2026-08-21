@@ -51,5 +51,12 @@ verification is the kernel + CI.
   examined). This release integrates that object plus documentation only.
 - Roles: Arquitetura — GPT-5.6 "Sol" (OpenAI); Execução — Claude Fable 5
   (Anthropic); Coordenação — Jucelha Carvalho; Juiz — GitHub Actions CI.
-- Concept DOI (all versions): 10.5281/zenodo.17397622. Version DOI and frozen
-  tag `zenodo-v49`: recorded in the final release commit.
+- Concept DOI (all versions): 10.5281/zenodo.17397622.
+- Version DOI: **10.5281/zenodo.22050763**. Frozen tag: `zenodo-v49`.
+- Integration merge to main: `12f597bc1eb0cd0c3e566d272766f608f9fab1db`
+  (CI run 32523047009, success).
+- Authors (v49): the v48 ten in historical order, plus Grok 4.5 (xAI)
+  appended (no retrospective reordering). Roles: formal verification =
+  Lean 4 + CI; Kimi 3 = adversarial mathematical audit; Manus AI 1.6 =
+  independent reproducibility/build review; Grok 4.5 = additional
+  independent audit of chain and scope.

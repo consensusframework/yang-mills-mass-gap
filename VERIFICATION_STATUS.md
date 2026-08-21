@@ -37,7 +37,7 @@ As of Etapa 0/1 they are deleted (21 orphans) or converted into explicit
 hypotheses (`def ...Assumption : Prop`) that theorems must declare openly.
 Phase 1 still contains 61 pending conversion (see PHASE1_GEMINI_CONVERSION_MAP.md).
 
-## Current state (main — zenodo-v48 release; integration merge 6f1ff645e0d2)
+## Current state (main — zenodo-v49 release; integration merge 12f597bc1eb0)
 
 | Item | Status |
 |---|---|

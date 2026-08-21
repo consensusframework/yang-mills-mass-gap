@@ -426,21 +426,26 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21966286.svg)](https://doi.org/10.5281/zenodo.21966286)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22050763.svg)](https://doi.org/10.5281/zenodo.22050763)
 
 ```text
 Carvalho, J.; Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
 Kimi 3 (Moonshot AI); Claude Opus 4.7 (Anthropic); Claude Opus 4.6
 (Anthropic); Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI);
-Gemini 3 Pro (Google); Manus AI 1.6 (2026).
+Gemini 3 Pro (Google); Manus AI 1.6; Grok 4.5 (xAI) (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang-Mills Mass Gap (Version 48). Zenodo.
-https://doi.org/10.5281/zenodo.21966286
+Yang-Mills Mass Gap (Version 49). Zenodo.
+https://doi.org/10.5281/zenodo.22050763
 ```
 
+Contribution roles (v49): formal verification is Lean 4 + CI; Kimi 3 —
+adversarial mathematical audit; Manus AI 1.6 — independent
+reproducibility/build review; Grok 4.5 — additional independent audit of
+the chain and scope.
+
 Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
-Frozen source tag for this version: `zenodo-v48`.
+Frozen source tag for this version: `zenodo-v49`.
 
 ## Contact
 
