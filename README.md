@@ -128,10 +128,17 @@ potentially useful definitions or research questions.
   M → ∞ through pinned library bridges: kpSignedUrsellCoeff (the signed
   rooted coefficient), the domination |Cₙ(z)| ≤ Aₙ(|z|), and ABSOLUTE
   CONVERGENCE of the concrete signed rooted Ursell series for
-  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); log Z and the
-  cluster-expansion identification remain stone 49, NOT claimed).
-- **Phase 3 source files:** 63.
-- **Phase 3 declarations:** approximately 740 verified theorem/lemma declarations and supporting
+  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); and STONE 49
+  COMPLETE — the finite-volume, small-β CLUSTER-EXPANSION IDENTITY FOR
+  THE LOG-PARTITION FUNCTION: log Z_β = Σ'ₙ Bₙ(w_β) for 0 ≤ β ≤ 1/40000,
+  through the machine-checked chain realZ = typed polymer gas = Σ Aₙ =
+  exp(Σ' Bₙ), with the signed unrooted Ursell series absolutely
+  convergent and the positivity Z_β > 0 obtained as a COROLLARY of the
+  expansion (the log never divides, never assumes nonvanishing);
+  thermodynamic limit, infinite-volume pressure, clustering, continuum
+  limit and mass gap remain NOT claimed).
+- **Phase 3 source files:** 72.
+- **Phase 3 declarations:** approximately 1110 verified theorem/lemma declarations and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
