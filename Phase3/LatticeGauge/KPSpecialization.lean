@@ -34,6 +34,7 @@ import LatticeGauge.KPCoefficients
 import LatticeGauge.KPWeightFactorization
 import LatticeGauge.KPStratification
 import LatticeGauge.KPInduction
+import LatticeGauge.KPUnrooted
 
 open MeasureTheory
 open scoped Classical
@@ -237,5 +238,51 @@ theorem polymer_rooted_signedUrsell_bound
     (polymer_tsum_abs_signedUrsell_le_exp_card μm hβ mχ hχabs
       hsmall γ₀)
     (abs_nonneg _)
+
+/-! ## 49B — concrete specialization: the UNROOTED series for the
+    real polymer activity (z literally polymerWeight; the abstract
+    hypothesis delivered by the stone-46 key, nothing reproved). -/
+
+/-- **49B concrete Summable**: for 0 ≤ β ≤ 1/40000, the concrete
+    signed UNROOTED Ursell coefficient series is absolutely
+    summable. -/
+theorem polymer_summable_abs_signedUnrootedUrsell
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) :
+    Summable (fun k => |kpSignedUnrootedCoeff k
+      (fun η => polymerWeight (N := N) μm β χ η.val)|) :=
+  summable_abs_kpSignedUnrootedCoeff
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+
+/-- **49B CONCRETE CAPSTONE: the finite-root bound** —
+    Σ'_k |B_k(w)| ≤ Σ_γ₀ |w(γ₀)|·exp(card γ₀) — the finite-root
+    envelope anticipated by 48D.4, recovered through the abstract
+    specialization. -/
+theorem polymer_tsum_abs_signedUnrootedUrsell_le
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) :
+    (∑' k : ℕ, |kpSignedUnrootedCoeff k
+        (fun η => polymerWeight (N := N) μm β χ η.val)|)
+      ≤ ∑ γ₀ : Polymer N,
+          |polymerWeight (N := N) μm β χ γ₀.val|
+            * Real.exp (((γ₀.val.card : ℕ) : ℝ)) :=
+  tsum_abs_kpSignedUnrootedCoeff_le
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
+
+/-- **The concrete signed corollary**: the unrooted signed series
+    with the real polymer activity is Summable. -/
+theorem polymer_summable_signedUnrootedUrsell
+    {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
+    (hχabs : ∀ g : G, |χ g| ≤ 1)
+    (hsmall : β ≤ (1 : ℝ) / 40000) :
+    Summable (fun k => kpSignedUnrootedCoeff k
+      (fun η => polymerWeight (N := N) μm β χ η.val)) :=
+  summable_kpSignedUnrootedCoeff
+    (fun _ => Nat.cast_nonneg _)
+    (abstractKP_of_beta_le_one_div_40000 μm hβ mχ hχabs hsmall)
 
 end LatticeGauge

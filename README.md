@@ -4,6 +4,14 @@
 > This repository is **not a proof, partial proof, or claimed solution** of the
 > Yang–Mills Existence and Mass Gap Millennium Problem.
 
+🏆 **Consensus Framework** — the multi-agent human–AI collaboration
+methodology behind this repository — was the **winner of the UN Tourism
+Global Artificial Intelligence Challenge 2025**. UN Tourism is the
+United Nations specialized agency for tourism. This recognition
+concerns the Consensus Framework project and does not constitute review
+or endorsement of the mathematical claims in this repository, which
+rest solely on the Lean 4 kernel and CI.
+
 ## Repository history and reconstruction
 
 This is the **second public repository** of the project.
@@ -128,10 +136,17 @@ potentially useful definitions or research questions.
   M → ∞ through pinned library bridges: kpSignedUrsellCoeff (the signed
   rooted coefficient), the domination |Cₙ(z)| ≤ Aₙ(|z|), and ABSOLUTE
   CONVERGENCE of the concrete signed rooted Ursell series for
-  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); log Z and the
-  cluster-expansion identification remain stone 49, NOT claimed).
-- **Phase 3 source files:** 63.
-- **Phase 3 declarations:** approximately 740 verified theorem/lemma declarations and supporting
+  0 ≤ β ≤ 1/40000, with Σₙ|Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀); and STONE 49
+  COMPLETE — the finite-volume, small-β CLUSTER-EXPANSION IDENTITY FOR
+  THE LOG-PARTITION FUNCTION: log Z_β = Σ'ₙ Bₙ(w_β) for 0 ≤ β ≤ 1/40000,
+  through the machine-checked chain realZ = typed polymer gas = Σ Aₙ =
+  exp(Σ' Bₙ), with the signed unrooted Ursell series absolutely
+  convergent and the positivity Z_β > 0 obtained as a COROLLARY of the
+  expansion (the log never divides, never assumes nonvanishing);
+  thermodynamic limit, infinite-volume pressure, clustering, continuum
+  limit and mass gap remain NOT claimed).
+- **Phase 3 source files:** 72.
+- **Phase 3 declarations:** approximately 1110 verified theorem/lemma declarations and supporting
   definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
@@ -419,21 +434,26 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21966286.svg)](https://doi.org/10.5281/zenodo.21966286)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22050763.svg)](https://doi.org/10.5281/zenodo.22050763)
 
 ```text
 Carvalho, J.; Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
 Kimi 3 (Moonshot AI); Claude Opus 4.7 (Anthropic); Claude Opus 4.6
 (Anthropic); Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI);
-Gemini 3 Pro (Google); Manus AI 1.6 (2026).
+Gemini 3 Pro (Google); Manus AI 1.6; Grok 4.5 (xAI) (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang-Mills Mass Gap (Version 48). Zenodo.
-https://doi.org/10.5281/zenodo.21966286
+Yang-Mills Mass Gap (Version 49). Zenodo.
+https://doi.org/10.5281/zenodo.22050763
 ```
 
+Contribution roles (v49): formal verification is Lean 4 + CI; Kimi 3 —
+adversarial mathematical audit; Manus AI 1.6 — independent
+reproducibility/build review; Grok 4.5 — additional independent audit of
+the chain and scope.
+
 Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
-Frozen source tag for this version: `zenodo-v48`.
+Frozen source tag for this version: `zenodo-v49`.
 
 ## Contact
 
