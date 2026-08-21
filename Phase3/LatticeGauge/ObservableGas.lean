@@ -75,7 +75,7 @@ theorem polymerWeight_eq_integral (β : ℝ) (χ : G → ℝ)
       = ∫ U : Config N G, blockActivity β χ C U
           ∂(configMeasure μm N) := by
   unfold polymerWeight
-  exact gibbsExpectation_zero (N := N) μm χ
+  exact gibbsExpectation_zero (N := N) μm χ _
 
 /-! ## A2b — the marked family weight and the raw capstone -/
 
