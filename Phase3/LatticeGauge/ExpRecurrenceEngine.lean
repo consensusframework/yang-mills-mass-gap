@@ -147,7 +147,9 @@ theorem hasDerivAt_Gser (b : ℕ → ℝ)
       (fun n => hbound n t (Set.mem_Ioo.mpr ⟨by linarith, htr⟩))
   have hshift : (∑' n, b n * ((n : ℝ) * t ^ (n - 1)))
       = Gderiv b t := by
-    rw [tsum_eq_zero_add' ((summable_nat_add_iff 1).mpr hsum_deriv)]
+    rw [tsum_eq_zero_add'
+      (f := fun n : ℕ => b n * ((n : ℝ) * t ^ (n - 1)))
+      ((summable_nat_add_iff 1).mpr hsum_deriv)]
     simp only [Nat.cast_zero, zero_mul, mul_zero, zero_add]
     unfold Gderiv
     refine tsum_congr (fun n => ?_)
@@ -167,7 +169,8 @@ theorem Gser_zero (b : ℕ → ℝ) (hb0 : b 0 = 0) :
   have hs : Summable (fun n : ℕ => b (n + 1) * (0 : ℝ) ^ (n + 1)) := by
     refine summable_zero.congr (fun n => ?_)
     rw [hz n]
-  rw [tsum_eq_zero_add' hs, pow_zero, mul_one, hb0, zero_add]
+  rw [tsum_eq_zero_add' (f := fun n : ℕ => b n * (0 : ℝ) ^ n) hs,
+    pow_zero, mul_one, hb0, zero_add]
   rw [tsum_congr hz, tsum_zero]
 
 theorem Gser_one (b : ℕ → ℝ) : Gser b 1 = ∑' n, b n := by
