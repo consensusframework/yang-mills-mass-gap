@@ -216,7 +216,17 @@ theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
             polymerWeight (N := N) μm β χ η.val := by
   unfold markedRawFamilyWeight touchingFamily remoteFamily
     rawFamily typedTouchesSupport
-  rw [Finset.filter_image, Finset.filter_image]
+  have h1 : (Finset.image Subtype.val Γ).filter
+      (fun C => blockTouchesSupport (N := N) C s)
+      = (Γ.filter (fun η =>
+          blockTouchesSupport (N := N) η.val s)).image
+          Subtype.val := Finset.filter_image
+  have h2 : (Finset.image Subtype.val Γ).filter
+      (fun C => ¬ blockTouchesSupport (N := N) C s)
+      = (Γ.filter (fun η =>
+          ¬ blockTouchesSupport (N := N) η.val s)).image
+          Subtype.val := Finset.filter_image
+  rw [h1, h2]
   congr 1
   · congr 1
     funext U
@@ -301,12 +311,13 @@ theorem typedMarkedPolymerGas_eq_sum_core_mul_restricted
       obtain ⟨hηΓ, hηnot⟩ := Finset.mem_filter.mp hη
       refine ⟨hηnot, ?_⟩
       intro t ht
-      have htΓ : t ∈ Γ := by
-        have := hΓfib ▸ ht
-        exact (Finset.mem_filter.mp this).1
+      have htfil : t ∈ Γ.filter
+          (fun η => typedTouchesSupport (N := N) η s) :=
+        hΓfib.symm ▸ ht
+      have htΓ : t ∈ Γ := (Finset.mem_filter.mp htfil).1
       have hne : η ≠ t := by
         rintro rfl
-        exact hηnot (Finset.mem_filter.mp (hΓfib ▸ ht)).2
+        exact hηnot (Finset.mem_filter.mp htfil).2
       exact mem_typedCompatiblePolymerFamilies.mp hΓtyped
         η hηΓ t htΓ hne
   · intro Γ₁ h₁ Γ₂ h₂ heq
@@ -360,9 +371,13 @@ theorem typedMarkedPolymerGas_eq_sum_core_mul_restricted
         · exact (hRallowed η hηR).2 θ hθT
         · exact mem_typedCompatiblePolymerFamilies.mp hRtyped
             η hηR θ hθR hne
-    · rw [Finset.filter_union, hTfilter, hRfilter,
+    · show (T ∪ R).filter
+          (fun η => typedTouchesSupport (N := N) η s) = T
+      rw [Finset.filter_union, hTfilter, hRfilter,
         Finset.union_empty]
-    · rw [Finset.filter_union, hTnot, hRnot,
+    · show (T ∪ R).filter
+          (fun η => ¬ typedTouchesSupport (N := N) η s) = R
+      rw [Finset.filter_union, hTnot, hRnot,
         Finset.empty_union]
   · intro Γ _
     rfl
