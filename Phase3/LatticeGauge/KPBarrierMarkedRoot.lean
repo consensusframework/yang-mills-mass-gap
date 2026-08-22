@@ -95,9 +95,15 @@ theorem kpAbsConnectorUnrootedCoeff_symm (k : ℕ)
     (ρ : Polymer N → ℝ) (P Q : Polymer N → Prop) :
     kpAbsConnectorUnrootedCoeff k ρ P Q
       = kpAbsConnectorUnrootedCoeff k ρ Q P := by
-  unfold kpAbsConnectorUnrootedCoeff TupleHitsBothForbidden
+  unfold kpAbsConnectorUnrootedCoeff
   congr 1
-  exact Finset.sum_congr rfl (fun δ _ => if_congr and_comm rfl rfl)
+  refine Finset.sum_congr rfl (fun δ _ => ?_)
+  by_cases h : TupleHitsBothForbidden P Q δ
+  · rw [if_pos h,
+      if_pos (show TupleHitsBothForbidden Q P δ from ⟨h.2, h.1⟩)]
+  · rw [if_neg h,
+      if_neg (fun h' : TupleHitsBothForbidden Q P δ =>
+        h ⟨h'.2, h'.1⟩)]
 
 /-- **Filtered domination**: the signed connector is dominated
     coefficient-wise WITH the barrier information preserved. -/
@@ -199,10 +205,13 @@ theorem connector_summand_le_marked_sum {k : ℕ}
   · rw [if_pos h]
     have h1 : ¬ ∀ i : Fin k, P (δ i) := h.1
     obtain ⟨i₀, hi₀⟩ := not_forall.mp h1
-    have hsingle := Finset.single_le_sum
-      (f := fun i : Fin k =>
-        if ¬ P (δ i) then kpAbsSummand ρ δ else 0)
-      (fun i _ => hterm i) (Finset.mem_univ i₀)
+    have hsingle : (if ¬ P (δ i₀) then kpAbsSummand ρ δ else 0)
+        ≤ ∑ i : Fin k,
+            if ¬ P (δ i) then kpAbsSummand ρ δ else 0 :=
+      Finset.single_le_sum
+        (f := fun i : Fin k =>
+          if ¬ P (δ i) then kpAbsSummand ρ δ else 0)
+        (fun i _ => hterm i) (Finset.mem_univ i₀)
     rwa [if_pos hi₀] at hsingle
   · rw [if_neg h]
     exact Finset.sum_nonneg (fun i _ => hterm i)
