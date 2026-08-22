@@ -245,17 +245,39 @@ theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
             polymerWeight (N := N) μm β χ η.val := by
   unfold markedRawFamilyWeight
   rw [touchingFamily_rawFamily, remoteFamily_rawFamily]
-  congr 1
-  · congr 1
-    funext U
+  have hprodU : ∀ U : Config N G,
+      (∏ η ∈ rawFamily (N := N) (Γ.filter
+        (fun η => typedTouchesSupport (N := N) η s)),
+        blockActivity β χ η U)
+      = ∏ η ∈ Γ.filter
+          (fun η => typedTouchesSupport (N := N) η s),
+          blockActivity β χ η.val U := by
+    intro U
     unfold rawFamily
     refine Finset.prod_image ?_
     intro a _ b _ h
     exact Subtype.val_injective h
-  · unfold rawFamily
+  have hprodW :
+      (∏ η ∈ rawFamily (N := N) (Γ.filter
+        (fun η => ¬ typedTouchesSupport (N := N) η s)),
+        polymerWeight (N := N) μm β χ η)
+      = ∏ η ∈ Γ.filter
+          (fun η => ¬ typedTouchesSupport (N := N) η s),
+          polymerWeight (N := N) μm β χ η.val := by
+    unfold rawFamily
     refine Finset.prod_image ?_
     intro a _ b _ h
     exact Subtype.val_injective h
+  have hint : (fun U : Config N G =>
+      f U * ∏ η ∈ rawFamily (N := N) (Γ.filter
+        (fun η => typedTouchesSupport (N := N) η s)),
+        blockActivity β χ η U)
+      = fun U : Config N G =>
+          f U * ∏ η ∈ Γ.filter
+            (fun η => typedTouchesSupport (N := N) η s),
+            blockActivity β χ η.val U :=
+    funext (fun U => by rw [hprodU U])
+  rw [hint, hprodW]
 
 /-- **CAPSTONE A3a — THE FINITE REGROUPING**: the typed marked
     gas fibers over its touching cores; each fiber contributes
