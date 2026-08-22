@@ -220,12 +220,16 @@ theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
       (fun C => blockTouchesSupport (N := N) C s)
       = (Γ.filter (fun η =>
           blockTouchesSupport (N := N) η.val s)).image
-          Subtype.val := Finset.filter_image
+          Subtype.val := by
+    classical
+    exact Finset.filter_image
   have h2 : (Finset.image Subtype.val Γ).filter
       (fun C => ¬ blockTouchesSupport (N := N) C s)
       = (Γ.filter (fun η =>
           ¬ blockTouchesSupport (N := N) η.val s)).image
-          Subtype.val := Finset.filter_image
+          Subtype.val := by
+    classical
+    exact Finset.filter_image
   rw [h1, h2]
   congr 1
   · congr 1
