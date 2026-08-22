@@ -172,9 +172,9 @@ theorem kpAbsConnector_le_exp_neg_mul_tilt {lam : ℝ}
       * Real.exp (lam * (n : ℝ)) = 1 := by
     have h0 : -lam * (n : ℝ) + lam * (n : ℝ) = 0 := by ring
     rw [← Real.exp_add, h0, Real.exp_zero]
-  calc kpAbsConnectorUnrootedCoeff k ρ
-      (remoteAllowed (N := N) T s)
-      (remoteAllowed (N := N) T' s')
+  calc (kpAbsConnectorUnrootedCoeff k ρ
+        (remoteAllowed (N := N) T s)
+        (remoteAllowed (N := N) T' s'))
       = (Real.exp (-lam * (n : ℝ)) * Real.exp (lam * (n : ℝ)))
           * kpAbsConnectorUnrootedCoeff k ρ
               (remoteAllowed (N := N) T s)
