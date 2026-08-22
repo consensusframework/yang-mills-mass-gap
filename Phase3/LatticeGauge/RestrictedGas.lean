@@ -201,8 +201,37 @@ theorem typedPolymerGas_restricted_eq_sum_allowed
     exact if_pos ((Finset.mem_filter.mp hΓ).2 η hη)
   rw [Finset.sum_congr rfl h1, h2, add_zero]
 
-/-- The A2 marked weight in typed-native form (filter/image
-    commutation + injective products). -/
+/-- filter commutes with the raw shadow (membership chase — no
+    image machinery). -/
+theorem touchingFamily_rawFamily (Γ : Finset (Polymer N))
+    (s : Set (Link N)) :
+    touchingFamily (N := N) (rawFamily Γ) s
+      = rawFamily (Γ.filter
+          (fun η => typedTouchesSupport (N := N) η s)) := by
+  unfold touchingFamily rawFamily typedTouchesSupport
+  ext C
+  simp only [Finset.mem_filter, Finset.mem_image]
+  constructor
+  · rintro ⟨⟨η, hη, rfl⟩, htouch⟩
+    exact ⟨η, ⟨hη, htouch⟩, rfl⟩
+  · rintro ⟨η, ⟨hη, htouch⟩, rfl⟩
+    exact ⟨⟨η, hη, rfl⟩, htouch⟩
+
+theorem remoteFamily_rawFamily (Γ : Finset (Polymer N))
+    (s : Set (Link N)) :
+    remoteFamily (N := N) (rawFamily Γ) s
+      = rawFamily (Γ.filter
+          (fun η => ¬ typedTouchesSupport (N := N) η s)) := by
+  unfold remoteFamily rawFamily typedTouchesSupport
+  ext C
+  simp only [Finset.mem_filter, Finset.mem_image]
+  constructor
+  · rintro ⟨⟨η, hη, rfl⟩, htouch⟩
+    exact ⟨η, ⟨hη, htouch⟩, rfl⟩
+  · rintro ⟨η, ⟨hη, htouch⟩, rfl⟩
+    exact ⟨⟨η, hη, rfl⟩, htouch⟩
+
+/-- The A2 marked weight in typed-native form. -/
 theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
     (f : Config N G → ℝ) (s : Set (Link N))
     (Γ : Finset (Polymer N)) :
@@ -214,29 +243,16 @@ theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
         * ∏ η ∈ Γ.filter
             (fun η => ¬ typedTouchesSupport (N := N) η s),
             polymerWeight (N := N) μm β χ η.val := by
-  unfold markedRawFamilyWeight touchingFamily remoteFamily
-    rawFamily typedTouchesSupport
-  have h1 : (Finset.image Subtype.val Γ).filter
-      (fun C => blockTouchesSupport (N := N) C s)
-      = (Γ.filter (fun η =>
-          blockTouchesSupport (N := N) η.val s)).image
-          Subtype.val := by
-    classical
-    exact Finset.filter_image
-  have h2 : (Finset.image Subtype.val Γ).filter
-      (fun C => ¬ blockTouchesSupport (N := N) C s)
-      = (Γ.filter (fun η =>
-          ¬ blockTouchesSupport (N := N) η.val s)).image
-          Subtype.val := by
-    classical
-    exact Finset.filter_image
-  rw [h1, h2]
+  unfold markedRawFamilyWeight
+  rw [touchingFamily_rawFamily, remoteFamily_rawFamily]
   congr 1
   · congr 1
     funext U
+    unfold rawFamily
     exact Finset.prod_image
       (fun a _ b _ h => Subtype.val_injective h)
-  · exact Finset.prod_image
+  · unfold rawFamily
+    exact Finset.prod_image
       (fun a _ b _ h => Subtype.val_injective h)
 
 /-- **CAPSTONE A3a — THE FINITE REGROUPING**: the typed marked
