@@ -249,11 +249,13 @@ theorem markedRawFamilyWeight_rawFamily (β : ℝ) (χ : G → ℝ)
   · congr 1
     funext U
     unfold rawFamily
-    exact Finset.prod_image
-      (fun a _ b _ h => Subtype.val_injective h)
+    refine Finset.prod_image ?_
+    intro a _ b _ h
+    exact Subtype.val_injective h
   · unfold rawFamily
-    exact Finset.prod_image
-      (fun a _ b _ h => Subtype.val_injective h)
+    refine Finset.prod_image ?_
+    intro a _ b _ h
+    exact Subtype.val_injective h
 
 /-- **CAPSTONE A3a — THE FINITE REGROUPING**: the typed marked
     gas fibers over its touching cores; each fiber contributes
