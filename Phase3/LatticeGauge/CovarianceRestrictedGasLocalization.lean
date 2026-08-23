@@ -177,7 +177,6 @@ theorem restrictedGas_div_fullGas_le_exp_barrier
   rw [tsum_restricted_sub_full ha hKP
     (remoteAllowed (N := N) T s)]
   refine le_trans (neg_le_abs _) ?_
-  rw [abs_neg]
   exact abs_tsum_kpForbidden_polymerWeight_le_barrier
     μm hβ mχ hχabs hsmall T s
 
