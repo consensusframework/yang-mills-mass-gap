@@ -226,7 +226,8 @@ theorem tsum_abs_kpConnector_polymerWeight_le_exp_neg_half
   have h := tsum_abs_kpConnector_le_exp_neg_mul_tiltedEnvelope
     (by norm_num : (0 : ℝ) ≤ 1/2)
     kpHalfCardPenalty_nonneg hKP hwsep
-  rw [kpForbiddenRootEnvelope_massTilt_half] at h
+  rw [kpForbiddenRootEnvelope_massTilt_half (N := N) μm
+    (β := β) χ (remoteAllowed (N := N) T s)] at h
   rw [show (-(1/2 : ℝ) * (n : ℝ)) = (-(n : ℝ)/2) from by ring]
     at h
   exact h
@@ -254,7 +255,8 @@ theorem tsum_abs_kpConnector_polymerWeight_le_exp_neg_half_Q
   have h := tsum_abs_kpConnector_le_exp_neg_mul_tiltedEnvelope_Q
     (by norm_num : (0 : ℝ) ≤ 1/2)
     kpHalfCardPenalty_nonneg hKP hwsep
-  rw [kpForbiddenRootEnvelope_massTilt_half] at h
+  rw [kpForbiddenRootEnvelope_massTilt_half (N := N) μm
+    (β := β) χ (remoteAllowed (N := N) T' s')] at h
   rw [show (-(1/2 : ℝ) * (n : ℝ)) = (-(n : ℝ)/2) from by ring]
     at h
   exact h
