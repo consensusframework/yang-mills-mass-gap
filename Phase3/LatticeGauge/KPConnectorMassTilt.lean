@@ -210,7 +210,7 @@ theorem summable_kpAbsConnector_of_massTilt {lam : ℝ}
       (remoteAllowed (N := N) T' s')) :=
   Summable.of_nonneg_of_le
     (fun k => kpAbsConnectorUnrootedCoeff_nonneg k hρ _ _)
-    (fun k => kpAbsConnector_le_exp_neg_mul_tilt hlam hρ hwsep)
+    (fun _ => kpAbsConnector_le_exp_neg_mul_tilt hlam hρ hwsep)
     (Summable.mul_left _
       (summable_kpAbsConnectorUnrootedCoeff
         (massTiltActivity_nonneg hρ) ha hKP _ _))
