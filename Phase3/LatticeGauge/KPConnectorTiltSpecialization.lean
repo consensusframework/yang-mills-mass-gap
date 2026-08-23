@@ -222,7 +222,7 @@ theorem tsum_abs_kpConnector_polymerWeight_le_exp_neg_half
               else |polymerWeight (N := N) μm β χ γ₀.val|
                 * Real.exp ((γ₀.val.card : ℕ) : ℝ) := by
   have hKP := abstractKP_massTilt_half_polymerWeight
-    μm hβ mχ hχabs hsmall
+    (N := N) μm hβ mχ hχabs hsmall
   have h := tsum_abs_kpConnector_le_exp_neg_mul_tiltedEnvelope
     (by norm_num : (0 : ℝ) ≤ 1/2)
     kpHalfCardPenalty_nonneg hKP hwsep
@@ -251,7 +251,7 @@ theorem tsum_abs_kpConnector_polymerWeight_le_exp_neg_half_Q
               else |polymerWeight (N := N) μm β χ γ₀.val|
                 * Real.exp ((γ₀.val.card : ℕ) : ℝ) := by
   have hKP := abstractKP_massTilt_half_polymerWeight
-    μm hβ mχ hχabs hsmall
+    (N := N) μm hβ mχ hχabs hsmall
   have h := tsum_abs_kpConnector_le_exp_neg_mul_tiltedEnvelope_Q
     (by norm_num : (0 : ℝ) ≤ 1/2)
     kpHalfCardPenalty_nonneg hKP hwsep
