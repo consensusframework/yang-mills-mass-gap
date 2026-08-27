@@ -115,19 +115,18 @@ theorem mayer_slice_norm (β : ℝ) (m : ℕ) :
     ((16 * 64 ^ (2*m) : ℕ) : ℝ)
         * ((2*β) ^ (m+1) * Real.exp (((m+1 : ℕ)) : ℝ))
       = 16 * kpQ β 1 * kpR β 1 ^ m := by
-  have hcast : ((16 * 64 ^ (2*m) : ℕ) : ℝ) = 16 * 64 ^ (2*m) := by
-    push_cast
-    ring
   have hexp : Real.exp (((m+1 : ℕ)) : ℝ) = Real.exp 1 ^ (m+1) := by
     rw [← Real.exp_nat_mul, mul_one]
-  have h1 : (64:ℝ) ^ (2*m) = 4096 ^ m := by
+  have hmerge : (2*β) ^ (m+1) * Real.exp 1 ^ (m+1)
+      = (2*β*Real.exp 1) ^ (m+1) := (mul_pow _ _ _).symm
+  have hcast : ((16 * 64 ^ (2*m) : ℕ) : ℝ) = 16 * (4096:ℝ) ^ m := by
+    push_cast
     rw [pow_mul]
     norm_num
   unfold kpR kpQ
-  rw [hcast, hexp, h1,
-    show (2*β) ^ (m+1) * Real.exp 1 ^ (m+1)
-      = (2*β*Real.exp 1) ^ (m+1) from (mul_pow _ _ _).symm,
-    pow_succ, mul_pow]
+  rw [hcast, hexp, hmerge]
+  generalize (2*β*Real.exp 1 : ℝ) = q
+  rw [pow_succ, mul_pow]
   ring
 
 /-- The pure-Mayer slice bound (the weight is CONSTANT on the
@@ -346,7 +345,7 @@ theorem coreLocalBudget {lam κ : ℝ} (hlam : 0 ≤ lam)
     rw [prod_family_massTiltActivity lam (mayerCoreMajorant β) T,
       prod_family_massTiltActivity 1 (mayerCoreMajorant β) T]
     have hM : (0:ℝ) ≤ (familyTotalCard T : ℝ) := Nat.cast_nonneg _
-    have hΠ : (0:ℝ) ≤ ∏ η ∈ T, mayerCoreMajorant β η :=
+    have hprod : (0:ℝ) ≤ ∏ η ∈ T, mayerCoreMajorant β η :=
       Finset.prod_nonneg
         (fun η _ => mayerCoreMajorant_nonneg hβ η)
     have hB : ((barrierLinkFinset T s).card : ℝ)
@@ -376,7 +375,7 @@ theorem coreLocalBudget {lam κ : ℝ} (hlam : 0 ≤ lam)
             * (2/113))
           * Real.exp (1 * (familyTotalCard T : ℝ))
           * ∏ η ∈ T, mayerCoreMajorant β η :=
-          mul_le_mul_of_nonneg_right hexp hΠ
+          mul_le_mul_of_nonneg_right hexp hprod
       _ = Real.exp (κ * ((supportLinkFinset s).card : ℝ)
             * (2/113))
           * (Real.exp (1 * (familyTotalCard T : ℝ))
