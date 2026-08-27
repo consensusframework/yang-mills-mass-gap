@@ -271,6 +271,8 @@ theorem sum_bridgeFree_eq_sum_goodPairs {M : Type*}
   · intro p hp
     refine ⟨p.1 ∪ p.2,
       union_mem_bridgeFreeTouchingFamilies hp, ?_⟩
+    show (leftOnlyCore (p.1 ∪ p.2) s s',
+        rightOnlyCore (p.1 ∪ p.2) s s') = p
     rw [leftOnlyCore_union_eq hp, rightOnlyCore_union_eq hp]
   · intro Γ hΓ
     obtain ⟨hΓt, hb⟩ := mem_bridgeFreeTouchingFamilies.mp hΓ
