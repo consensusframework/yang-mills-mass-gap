@@ -126,8 +126,8 @@ theorem goodPair_coreWeight_factorizes
   have hΓc : TypedCompatible (p.1 ∪ p.2) :=
     mem_typedCompatiblePolymerFamilies.mp
       (Finset.mem_filter.mp ht).1
-  have hfact := twoMarkedFamilyIntegral_factorizes μm mχ hss'
-    hf mf hg mg hΓc hb
+  have hfact := twoMarkedFamilyIntegral_factorizes (β := β)
+    μm mχ hss' hf mf hg mg hΓc hb
   rw [leftOnlyCore_union_eq hp, rightOnlyCore_union_eq hp,
     remoteBothCore_eq_empty_of_touching ht,
     Finset.prod_empty, mul_one] at hfact
