@@ -86,8 +86,15 @@ theorem badCorePair_iff {T T' : Finset (Polymer N)}
 theorem good_union_bad (s s' : Set (Link N)) :
     goodCorePairs (N := N) s s' ∪ badCorePairs s s'
       = typedTouchingFamilyPairs s s' := by
-  unfold goodCorePairs badCorePairs BadCorePair
-  exact Finset.filter_union_filter_neg_eq _ _
+  unfold goodCorePairs badCorePairs
+  ext p
+  rw [Finset.mem_union, Finset.mem_filter, Finset.mem_filter]
+  constructor
+  · rintro (h | h) <;> exact h.1
+  · intro h
+    by_cases hg : GoodCorePair p.1 p.2 s s'
+    · exact Or.inl ⟨h, hg⟩
+    · exact Or.inr ⟨h, hg⟩
 
 theorem good_disjoint_bad (s s' : Set (Link N)) :
     Disjoint (goodCorePairs (N := N) s s')
