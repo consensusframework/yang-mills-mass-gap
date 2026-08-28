@@ -74,6 +74,18 @@ theorem halfTiltCoreBudgetTerm_eq (β κ : ℝ)
         + κ * ((barrierLinkFinset T s).card : ℝ) * (2/113)
       from by ring]
 
+/-- Opaque scalar helper for the Z²-division (field_simp runs on
+    free variables only — never on gas terms). -/
+theorem div_sq_split (a b c Z : ℝ) (hZ : Z ≠ 0) :
+    a * b * c / Z ^ 2 = a / Z * (b / Z) * c := by
+  field_simp
+  ring
+
+theorem mul_div_sq_cancel (a Z : ℝ) (hZ : Z ≠ 0) :
+    a * Z / Z ^ 2 = a / Z := by
+  field_simp
+  ring
+
 variable {G : Type*} [Group G]
 variable [MeasurableSpace G] [MeasurableMul₂ G] [MeasurableInv G]
 variable (μm : Measure G) [SigmaFinite μm] [IsProbabilityMeasure μm]
@@ -287,8 +299,8 @@ theorem abs_normalizedBridgeCore_le
     μm hβ mχ hχabs mf mg hCf0 hCg0 hCf hCg hne hsep
   have h := abs_normalizedMarkedCoreTerm_le_of_abs_le
     μm hβ mχ hχabs hsmall (s := s ∪ s') hW
-  calc |normalizedMarkedCoreTerm μm β χ (fun U => f U * g U)
-      (s ∪ s') Γ|
+  calc abs (normalizedMarkedCoreTerm μm β χ
+        (fun U => f U * g U) (s ∪ s') Γ)
       ≤ (Real.exp (-(n : ℝ) / 2)
           * ((Cf * Cg) * ∏ η ∈ Γ,
               massTiltActivity (1/2) (mayerCoreMajorant β) η))
@@ -449,16 +461,13 @@ theorem covariance_normalized_connector_ledger
   · congr 1
     · refine Finset.sum_congr rfl (fun p _ => ?_)
       unfold normalizedMarkedCoreTerm
-      field_simp
-      ring
+      exact div_sq_split _ _ _ _ hZne
     · refine Finset.sum_congr rfl (fun Γ _ => ?_)
       unfold normalizedMarkedCoreTerm
-      field_simp
-      ring
+      exact mul_div_sq_cancel _ _ hZne
   · refine Finset.sum_congr rfl (fun p _ => ?_)
     unfold normalizedMarkedCoreTerm
-    field_simp
-    ring
+    exact div_sq_split _ _ _ _ hZne
 
 #print axioms abs_normalizedCorePair_connector_le
 #print axioms abs_normalizedBridgeCore_le
