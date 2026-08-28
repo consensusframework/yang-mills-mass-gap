@@ -34,6 +34,7 @@ variable {N : ℕ} [NeZero N] [Fintype (Site N)]
 /-! ## A18e.1 — the short walk, extracted from the A7 machine
     (the walk is now RETURNED, not consumed) -/
 
+omit [Fintype (Site N)] in
 theorem exists_walk_of_connectedWithin
     {A : Finset (Site N × Dir × Dir)}
     {p q : Site N × Dir × Dir}
@@ -56,6 +57,7 @@ theorem exists_walk_of_connectedWithin
 
 /-! ## A18e.2 — coupling through the shared link -/
 
+omit [Fintype (Site N)] in
 theorem plaquetteGraph_adj_of_shared_link
     {p q : Site N × Dir × Dir} {ℓ : Link N}
     (hne : p ≠ q)
