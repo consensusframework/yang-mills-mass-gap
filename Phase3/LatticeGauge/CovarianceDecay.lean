@@ -337,7 +337,7 @@ theorem gibbsCovariance_eq_normalized_connector_ledger
     (hf : DependsOnlyOn f s) (mf : Measurable f)
     (hg : DependsOnlyOn g s') (mg : Measurable g)
     {Cf Cg : ℝ} (hCf : ∀ U, |f U| ≤ Cf) (hCg : ∀ U, |g U| ≤ Cg)
-    (hCf0 : 0 ≤ Cf) (hCg0 : 0 ≤ Cg) :
+    (hCf0 : 0 ≤ Cf) (_hCg0 : 0 ≤ Cg) :
     gibbsCovariance (N := N) μm β χ f g
       = (∑ p ∈ goodCorePairs (N := N) s s',
           normalizedMarkedCoreTerm μm β χ f s p.1
