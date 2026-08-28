@@ -149,9 +149,7 @@ theorem abs_goodColumn_sum_le
         rw [show typedTouchingFamilyPairs (N := N) s s'
             = typedTouchingFamilies (N := N) s
               ×ˢ typedTouchingFamilies (N := N) s' from rfl,
-          Finset.sum_mul_sum]
-        congr 1
-        exact Finset.sum_product
+          Finset.sum_mul_sum, Finset.sum_product]
     _ ≤ Real.exp (-(n : ℝ)/2) * (Cf * Cg)
         * (Real.exp (3
               * ((supportLinkFinset (N := N) s).card : ℝ)
@@ -304,9 +302,7 @@ theorem abs_badColumn_sum_le
         rw [show typedTouchingFamilyPairs (N := N) s s'
             = typedTouchingFamilies (N := N) s
               ×ˢ typedTouchingFamilies (N := N) s' from rfl,
-          Finset.sum_mul_sum]
-        congr 1
-        exact Finset.sum_product
+          Finset.sum_mul_sum, Finset.sum_product]
     _ ≤ Real.exp (-(n : ℝ)/2) * (Cf * Cg)
         * (Real.exp (2
               * ((supportLinkFinset (N := N) s).card : ℝ)
