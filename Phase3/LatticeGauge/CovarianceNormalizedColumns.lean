@@ -76,10 +76,9 @@ theorem halfTiltCoreBudgetTerm_eq (β κ : ℝ)
 
 /-- Opaque scalar helper for the Z²-division (field_simp runs on
     free variables only — never on gas terms). -/
-theorem div_sq_split (a b c Z : ℝ) (hZ : Z ≠ 0) :
+theorem div_sq_split (a b c Z : ℝ) (_hZ : Z ≠ 0) :
     a * b * c / Z ^ 2 = a / Z * (b / Z) * c := by
-  field_simp
-  ring
+  rw [div_mul_div_comm, div_mul_eq_mul_div, sq]
 
 theorem mul_div_sq_cancel (a Z : ℝ) (hZ : Z ≠ 0) :
     a * Z / Z ^ 2 = a / Z := by
@@ -100,6 +99,8 @@ noncomputable def normalizedMarkedCoreTerm (β : ℝ) (χ : G → ℝ)
         (fun η => polymerWeight (N := N) μm β χ η.val)
 
 /-- The definitional bridge N_f(s,T) = W_f(T)·(R_T(s)/Z). -/
+omit [MeasurableMul₂ G] [MeasurableInv G] [SigmaFinite μm]
+  [IsProbabilityMeasure μm] in
 theorem normalizedMarkedCoreTerm_eq (β : ℝ) (χ : G → ℝ)
     (f : Config N G → ℝ) (s : Set (Link N))
     (T : Finset (Polymer N)) :
@@ -418,6 +419,7 @@ theorem abs_normalizedBadCorePair_le
 
 /-- **CAPSTONE 50-A19b (exact part)**: the connector ledger
     normalized by Z², with Z > 0 an output of concrete KP. -/
+set_option maxHeartbeats 1600000 in
 theorem covariance_normalized_connector_ledger
     {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
     (hχabs : ∀ g : G, |χ g| ≤ 1)
