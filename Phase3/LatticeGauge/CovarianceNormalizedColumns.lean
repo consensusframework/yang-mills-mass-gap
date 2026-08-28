@@ -85,6 +85,10 @@ theorem mul_div_sq_cancel (a Z : ℝ) (hZ : Z ≠ 0) :
   field_simp
   ring
 
+theorem div_sq_split2 (a b Z : ℝ) (_hZ : Z ≠ 0) :
+    a * b / Z ^ 2 = a / Z * (b / Z) := by
+  rw [div_mul_div_comm, sq]
+
 variable {G : Type*} [Group G]
 variable [MeasurableSpace G] [MeasurableMul₂ G] [MeasurableInv G]
 variable (μm : Measure G) [SigmaFinite μm] [IsProbabilityMeasure μm]
@@ -98,9 +102,9 @@ noncomputable def normalizedMarkedCoreTerm (β : ℝ) (χ : G → ℝ)
     / typedPolymerGas (N := N)
         (fun η => polymerWeight (N := N) μm β χ η.val)
 
-/-- The definitional bridge N_f(s,T) = W_f(T)·(R_T(s)/Z). -/
 omit [MeasurableMul₂ G] [MeasurableInv G] [SigmaFinite μm]
   [IsProbabilityMeasure μm] in
+/-- The definitional bridge N_f(s,T) = W_f(T)·(R_T(s)/Z). -/
 theorem normalizedMarkedCoreTerm_eq (β : ℝ) (χ : G → ℝ)
     (f : Config N G → ℝ) (s : Set (Link N))
     (T : Finset (Polymer N)) :
@@ -417,9 +421,9 @@ theorem abs_normalizedBadCorePair_le
 
 /-! ## A19b.6 — the exact ledger divided by Z² -/
 
+set_option maxHeartbeats 1600000 in
 /-- **CAPSTONE 50-A19b (exact part)**: the connector ledger
     normalized by Z², with Z > 0 an output of concrete KP. -/
-set_option maxHeartbeats 1600000 in
 theorem covariance_normalized_connector_ledger
     {β : ℝ} (hβ : 0 ≤ β) {χ : G → ℝ} (mχ : Measurable χ)
     (hχabs : ∀ g : G, |χ g| ≤ 1)
@@ -469,7 +473,7 @@ theorem covariance_normalized_connector_ledger
       exact mul_div_sq_cancel _ _ hZne
   · refine Finset.sum_congr rfl (fun p _ => ?_)
     unfold normalizedMarkedCoreTerm
-    exact div_sq_split _ _ _ _ hZne
+    exact div_sq_split2 _ _ _ hZne
 
 #print axioms abs_normalizedCorePair_connector_le
 #print axioms abs_normalizedBridgeCore_le
