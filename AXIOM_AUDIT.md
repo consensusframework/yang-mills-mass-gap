@@ -107,3 +107,26 @@ Todos os `gemini_*` (ex.: `gemini_validation_15_success_rate`, `gemini_Delta0_at
 | Estruturais | restante | Converter de `axiom` para `def`/`structure` | Semanas |
 
 **Critério de sucesso da nova Fase 3:** cada teorema principal passa `#print axioms` mostrando apenas `propext`, `Classical.choice`, `Quot.sound` — nada mais.
+
+
+---
+
+## Adendo — Pedra 50 (2026-08-29)
+
+A Pedra 50 (28 módulos novos em `Phase3/LatticeGauge/`, candidato congelado
+`ced893efe2a25995d1961e527842f68489f4fc2f`) não introduz NENHUM `axiom`
+project-local. Os cinco capstones do módulo final `CovarianceDecay.lean`
+passam `#print axioms` (comandos presentes nas próprias fontes, inalterados)
+exibindo exatamente `[propext, Classical.choice, Quot.sound]`:
+
+- `LatticeGauge.abs_goodColumn_sum_le`
+- `LatticeGauge.abs_bridgeColumn_sum_le`
+- `LatticeGauge.abs_badColumn_sum_le`
+- `LatticeGauge.gibbsCovariance_eq_normalized_connector_ledger`
+- `LatticeGauge.abs_gibbsCovariance_le_local_exp_decay`
+
+Certidões conferidas no CI (runs 33195194820 e 33253642393) e nas duas
+reproduções locais com artefatos (Manus/Linux, GPT-5.6·Codex/Windows), com
+reprodução adicional reportada (Grok/Linux). Zero `sorry` científico na
+Pedra 50. O critério de sucesso da Fase 3 (apenas os três axiomas de
+fundação) permanece satisfeito.

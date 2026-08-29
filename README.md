@@ -144,10 +144,23 @@ potentially useful definitions or research questions.
   convergent and the positivity Z_β > 0 obtained as a COROLLARY of the
   expansion (the log never divides, never assumes nonvanishing);
   thermodynamic limit, infinite-volume pressure, clustering, continuum
-  limit and mass gap remain NOT claimed).
-- **Phase 3 source files:** 72.
-- **Phase 3 declarations:** approximately 1110 verified theorem/lemma declarations and supporting
-  definitions.
+  limit and mass gap were NOT claimed at stone 49); and STONE 50
+  COMPLETE — FINITE-VOLUME EXPONENTIAL COVARIANCE DECAY: for
+  0 ≤ β ≤ 1/40000, bounded observables with disjoint finite link
+  supports separated by walks satisfy
+  |Cov_β(f,g)| ≤ 3·Cf·Cg·exp(6D/113)·exp(−n/2), where D is the sum of
+  the local support-link cardinalities and n is the walk-barrier
+  separation parameter (principal declaration:
+  `LatticeGauge.abs_gibbsCovariance_le_local_exp_decay`); the prefactor
+  depends only on the local supports, not on the ambient volume, the
+  exponential rate is 1/2, and no external nonvanishing hypothesis on Z
+  is used anywhere — positivity and nonvanishing are outputs of the
+  cluster expansion; thermodynamic limit, infinite-volume results,
+  volume-uniform estimates, continuum limit and mass gap remain NOT
+  claimed.
+- **Phase 3 source files:** 100.
+- **Phase 3 declarations:** approximately 1100 verified theorem/lemma
+  declarations plus approximately 310 supporting definitions.
 - **Scientific axioms introduced in Phase 3:** 0.
 - **`sorry` declarations in Phase 3:** 0.
 
@@ -162,8 +175,13 @@ completed the passage to the infinite series (absolute convergence of
 the signed rooted Ursell series, Σₙ |Cₙ(w_β,χ, γ₀)| ≤ exp(card γ₀)),
 and STONE 49 completes the finite-volume identification:
 log Z_β = Σ'ₙ Bₙ(w_β) for 0 ≤ β ≤ 1/40000, with Z_β > 0 obtained as a
-corollary of the expansion. No thermodynamic limit, no volume-uniform
-estimate, no clustering, and no mass-gap statement is claimed.
+corollary of the expansion. STONE 50 turns the expansion into the first
+decay estimate of the project: exponential clustering of the covariance
+in finite volume, |Cov_β(f,g)| ≤ 3·Cf·Cg·exp(6D/113)·exp(−n/2) for
+0 ≤ β ≤ 1/40000, with a prefactor depending only on the local supports
+of the two observables. No thermodynamic limit, no volume-uniform
+estimate, no infinite-volume clustering, and no mass-gap statement is
+claimed.
 
 The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
 state, the exact β = 0 probabilistic chapter, the exact expansion mechanics
@@ -266,10 +284,13 @@ formalizations of:
   summing over the m+1 possible marks turns m! into (m+1)!, with the origin
   of every factor recorded in the kernel.
 
-The cluster expansion of the log-partition function is now established
-in **finite volume at small β** (stones 46–49). The results do not yet
-establish volume-uniform estimates, clustering, or any infinite-volume
-statement.
+The cluster expansion of the log-partition function is established in
+**finite volume at small β** (stones 46–49), and stone 50 extracts from
+it **finite-volume exponential clustering of the covariance** (the
+marked/doubly-marked gas machinery, the connector clusters, the
+walk-barrier geometry, the tilted Kotecký–Preiss envelope and the
+normalized column ledger). The results do not yet establish
+volume-uniform estimates or any infinite-volume statement.
 
 ---
 
@@ -288,7 +309,9 @@ At the present stage, the project does **not**:
 - prove reflection positivity for the required continuum construction;
 - establish a thermodynamic or continuum limit;
 - establish bounds uniform in lattice volume;
-- prove exponential clustering in the required setting;
+- prove exponential clustering uniformly in the volume or in any
+  infinite-volume setting (stone 50 is a finite-volume clustering bound
+  with a local prefactor, at small coupling only);
 - prove the Yang–Mills mass gap.
 
 A formal statement of a lattice mass-gap target may appear in the library, but the
@@ -405,15 +428,16 @@ the physical Yang–Mills problem.
 
 The immediate Phase 3 roadmap is:
 
-1. Stone 50 — connected correlations at strong coupling: the
-   marked/inserted Mayer expansion, the observable×block factorization
-   at β = 0 (first gate already verified), and the structural
-   cancellation identifying which clusters connect two observable
-   supports;
-2. develop volume-uniform estimates;
-3. investigate connected correlations and exponential clustering;
-4. only thereafter study thermodynamic/continuum limits and the additional
-   structures required for any mass-gap program.
+1. Stone 50 — COMPLETE: finite-volume exponential covariance decay at
+   small β (the marked Mayer expansion, the connector-cluster
+   cancellation, the walk-barrier geometry and the tilted
+   Kotecký–Preiss envelope, closed by the normalized column ledger);
+2. the next scientific milestone is deliberately **to be architected**
+   (candidate directions only: volume-uniform estimates,
+   thermodynamic-limit statements, correlation-length language) — no
+   Stone 51 statement is asserted here;
+3. only thereafter study thermodynamic/continuum limits and the
+   additional structures required for any mass-gap program.
 
 Later stages would require substantially new infrastructure, including:
 
@@ -455,6 +479,10 @@ the chain and scope.
 
 Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
 Frozen source tag for this version: `zenodo-v49`.
+
+The Stone 50 release (v50) is prepared on branch `release-v50`
+(Draft PR #12); its version DOI will be assigned only at Zenodo
+publication and registered here afterwards.
 
 ## Contact
 
@@ -498,6 +526,10 @@ Frozen source tag for this version: `zenodo-v49`.
   across the unrooting, the typed gas, the gas coefficients, the
   root-component recurrence, the analytic exp engine and the final
   semantic chain, all green with no substantive finding.
+  External adversarial mathematical review of Stone 50: line-by-line
+  audit of the critical covariance path on the frozen candidate
+  (`ced893ef`), approved in the audited scope with no mathematical
+  error demonstrated (a mathematical audit, not a build reproduction).
 - **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
   numerical and physical hypothesis exploration, and historical architecture.
 - **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
@@ -506,11 +538,19 @@ Frozen source tag for this version: `zenodo-v49`.
   audit, release-scope review, documentation audit, and release
   validation. External reproducibility review of Stone 49, with the
   GREEN classification explicitly delimited to the finite-volume
-  identity.
+  identity. Artifact-verified Linux reproduction of the frozen Stone 50
+  candidate (build, five kernel certificates, custody package and
+  hashes).
 - **Grok 4.5 (xAI)** — additional independent external audit of the
   stone-49 chain and scope (the finite-volume cluster-expansion identity
   for the log-partition function), complementing the adversarial
-  mathematical and reproducibility reviews.
+  mathematical and reproducibility reviews. An additional Linux
+  reproduction of the frozen Stone 50 candidate was reported by Grok
+  (same SHA, toolchain and certificates; counted as corroboration, not
+  as an artifact-verified reproduction).
+- **GPT-5.6 / Codex (OpenAI)** — artifact-verified Windows reproduction
+  of the frozen Stone 50 candidate (build, five kernel certificates,
+  manifest byte-identical to the Manus manifest, custody supplement).
 
 The roles above describe contributions made at different stages of the project.
 They are not rankings. The present repository exists because those contributions
