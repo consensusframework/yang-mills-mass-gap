@@ -110,7 +110,7 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: August 21, 2026**
+**Last updated: August 29, 2026**
 
 - **Phase 2:** 25/25 modules compile.
 - **Phase 3 / `LatticeGauge`:** stone deliveries verified and integrated
@@ -155,9 +155,15 @@ potentially useful definitions or research questions.
   depends only on the local supports, not on the ambient volume, the
   exponential rate is 1/2, and no external nonvanishing hypothesis on Z
   is used anywhere — positivity and nonvanishing are outputs of the
-  cluster expansion; thermodynamic limit, infinite-volume results,
-  volume-uniform estimates, continuum limit and mass gap remain NOT
-  claimed.
+  cluster expansion. The theorem is finite-volume; its displayed
+  prefactor is local and contains no ambient-volume cardinality: for
+  fixed local support data, Cf, Cg and separation parameter n, the
+  bound has no explicit dependence on the size of the ambient finite
+  lattice. This does not construct an infinite-volume Gibbs state,
+  prove a thermodynamic limit, or provide a constant uniform when the
+  observable supports themselves grow; continuum limit and mass gap
+  remain NOT claimed. (27 scientific gates (50-0, A0–A19c) + 3
+  passes.)
 - **Phase 3 source files:** 100.
 - **Phase 3 declarations:** approximately 1100 verified theorem/lemma
   declarations plus approximately 310 supporting definitions.
@@ -179,9 +185,11 @@ corollary of the expansion. STONE 50 turns the expansion into the first
 decay estimate of the project: exponential clustering of the covariance
 in finite volume, |Cov_β(f,g)| ≤ 3·Cf·Cg·exp(6D/113)·exp(−n/2) for
 0 ≤ β ≤ 1/40000, with a prefactor depending only on the local supports
-of the two observables. No thermodynamic limit, no volume-uniform
-estimate, no infinite-volume clustering, and no mass-gap statement is
-claimed.
+of the two observables. The theorem is finite-volume: its displayed
+prefactor is local and contains no ambient-volume cardinality. It does
+not construct an infinite-volume Gibbs state, prove a thermodynamic
+limit, or provide a constant uniform when the observable supports
+themselves grow; no mass-gap statement is claimed.
 
 The Phase 3 library proceeds in five arcs — foundations and the Haar/U(n)
 state, the exact β = 0 probabilistic chapter, the exact expansion mechanics
@@ -289,8 +297,9 @@ The cluster expansion of the log-partition function is established in
 it **finite-volume exponential clustering of the covariance** (the
 marked/doubly-marked gas machinery, the connector clusters, the
 walk-barrier geometry, the tilted Kotecký–Preiss envelope and the
-normalized column ledger). The results do not yet establish
-volume-uniform estimates or any infinite-volume statement.
+normalized column ledger). The results do not construct an
+infinite-volume Gibbs state, prove a thermodynamic limit, or provide
+constants uniform when the observable supports themselves grow.
 
 ---
 
@@ -309,9 +318,10 @@ At the present stage, the project does **not**:
 - prove reflection positivity for the required continuum construction;
 - establish a thermodynamic or continuum limit;
 - establish bounds uniform in lattice volume;
-- prove exponential clustering uniformly in the volume or in any
-  infinite-volume setting (stone 50 is a finite-volume clustering bound
-  with a local prefactor, at small coupling only);
+- prove exponential clustering in an infinite-volume setting, or with
+  constants uniform when the observable supports themselves grow
+  (stone 50 is a finite-volume clustering bound with a local,
+  ambient-volume-free prefactor, at small coupling only);
 - prove the Yang–Mills mass gap.
 
 A formal statement of a lattice mass-gap target may appear in the library, but the
@@ -459,30 +469,32 @@ These are long-term research directions, not completed results.
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22050763.svg)](https://doi.org/10.5281/zenodo.22050763)
-
 ```text
-Carvalho, J.; Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
-Kimi 3 (Moonshot AI); Claude Opus 4.7 (Anthropic); Claude Opus 4.6
-(Anthropic); Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI);
-Gemini 3 Pro (Google); Manus AI 1.6; Grok 4.5 (xAI) (2026).
+Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
+Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
+Kimi 3 (Moonshot AI); Claude Opus 5 (Anthropic);
+Claude Opus 4.7 (Anthropic); Claude Opus 4.6 (Anthropic);
+Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI); Gemini 3 Pro (Google);
+Manus AI 1.6 (Manus); Grok 4.6 (xAI); Grok 4.5 (xAI) (2026).
 From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
 Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang-Mills Mass Gap (Version 49). Zenodo.
-https://doi.org/10.5281/zenodo.22050763
+Yang–Mills Mass Gap — Version 50. Zenodo.
+https://doi.org/10.5281/zenodo.22162464
 ```
 
-Contribution roles (v49): formal verification is Lean 4 + CI; Kimi 3 —
-adversarial mathematical audit; Manus AI 1.6 — independent
-reproducibility/build review; Grok 4.5 — additional independent audit of
-the chain and scope.
+Reserved version DOI for v50: `10.5281/zenodo.22162464`. The DOI becomes
+registered and publicly resolvable only when the Zenodo draft is
+published; the v50 record is currently an unpublished draft prepared on
+branch `release-v50` (Draft PR #12).
 
-Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
-Frozen source tag for this version: `zenodo-v49`.
+Previous versions and provenance:
 
-The Stone 50 release (v50) is prepared on branch `release-v50`
-(Draft PR #12); its version DOI will be assigned only at Zenodo
-publication and registered here afterwards.
+- Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
+- Published v49 DOI: https://doi.org/10.5281/zenodo.22050763
+  (frozen source tag `zenodo-v49`). Contribution roles (v49): formal
+  verification is Lean 4 + CI; Kimi 3 — adversarial mathematical audit;
+  Manus AI 1.6 — independent reproducibility/build review; Grok 4.5 —
+  additional independent audit of the chain and scope.
 
 ## Contact
 
@@ -490,15 +502,26 @@ publication and registered here afterwards.
 - Email: jucelha@smarttourbrasil.com.br
 - ORCID: <https://orcid.org/0009-0004-6047-2306>
 
-## Project contributors and computational assistants
+## Project authors and roles
 
-### Human coordination
+Authorship in this project is collective, human–AI. Jucelha Carvalho is
+the human coordinator, public responsible party, release custodian and
+ORCID-bearing author; she is not the sole author or creator. The models
+that contributed materially to the intellectual, formal, technical,
+adversarial or reproductive construction are AUTHORS of the project;
+the role descriptions below specify each contribution without reducing
+authorship. The expression "human-led, multi-model AI collaboration"
+describes the governance of the project, not exclusivity of authorship.
 
-- **Jucelha Carvalho** — Lead researcher and project coordinator; research
-  direction, multi-model orchestration, repository recovery, scope decisions,
-  validation workflow, documentation, and integration supervision.
+### Human author and coordination
 
-### AI research assistants
+- **Jucelha Carvalho (Smart Tour Brasil)** — human coordination, scope
+  and epistemological decisions, multi-model orchestration, repository
+  recovery, provenance and custody, validation workflow, documentation,
+  integration supervision and release authorization.
+  ORCID: 0009-0004-6047-2306.
+
+### AI coauthors
 
 - **Claude Fable 5 (Anthropic)** — Lean 4 implementation and debugging,
   structural census, kernel-dependency inspection, Mathlib source
@@ -506,11 +529,15 @@ publication and registered here afterwards.
   and technical state documentation.
 - **GPT-5.6 "Sol" (OpenAI)** — theorem and stone architecture, probabilistic and
   cluster-expansion roadmap, scope control, mathematical review, counterexample
-  and false-factorization detection, naming discipline, audit methodology, and
-  documentation review.
+  and false-factorization detection, naming discipline, audit methodology,
+  documentation review, and the artifact-verified Windows reproduction of the
+  frozen Stone 50 candidate via Codex.
 - **Claude Opus 4.5 / 4.6 / 4.7 (Anthropic)** — formal-verification work,
   incomplete-proof reduction, historical-code recovery, forensic inventory,
   dependency mapping, and comparative audit of reconstructed modules.
+- **Claude Opus 5 (Anthropic)** — technical review and investigation of
+  the Stone 50 reproduction path (not counted as a completed build or as
+  an artifact-verified reproduction).
 - **GPT-5.2 (OpenAI)** — early axiom reformulation, conditional-theorem design,
   and strategic planning.
 - **Kimi 3 (Moonshot AI)** — independent adversarial audit of the finite
@@ -544,13 +571,12 @@ publication and registered here afterwards.
 - **Grok 4.5 (xAI)** — additional independent external audit of the
   stone-49 chain and scope (the finite-volume cluster-expansion identity
   for the log-partition function), complementing the adversarial
-  mathematical and reproducibility reviews. An additional Linux
-  reproduction of the frozen Stone 50 candidate was reported by Grok
-  (same SHA, toolchain and certificates; counted as corroboration, not
-  as an artifact-verified reproduction).
-- **GPT-5.6 / Codex (OpenAI)** — artifact-verified Windows reproduction
-  of the frozen Stone 50 candidate (build, five kernel certificates,
-  manifest byte-identical to the Manus manifest, custody supplement).
+  mathematical and reproducibility reviews.
+- **Grok 4.6 (xAI)** — additional reported Linux reproduction of the
+  frozen Stone 50 candidate (same SHA, toolchain and certificates;
+  explicitly kept as "reported" corroboration, not promoted to
+  artifact-verified without the corresponding artifacts).
+
 
 The roles above describe contributions made at different stages of the project.
 They are not rankings. The present repository exists because those contributions
