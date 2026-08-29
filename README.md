@@ -482,16 +482,24 @@ Yang–Mills Mass Gap — Version 50. Zenodo.
 https://doi.org/10.5281/zenodo.22162464
 ```
 
-Reserved version DOI for v50: `10.5281/zenodo.22162464`. Stone 50 was
-integrated into `main` through PR #12 at merge commit
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22162464.svg)](https://doi.org/10.5281/zenodo.22162464)
+
+Version 50 was published on Zenodo on 29 August 2026.
+DOI: https://doi.org/10.5281/zenodo.22162464
+
+Stone 50 was integrated into `main` through PR #12 at merge commit
 `726711c6eb88743809d979bfc2e049c7e7d54400` (post-merge CI run
-33264222563, success, attempt 1, three phases green). The Version 50 DOI
-was reserved for this release; registration occurs through the Zenodo
-publication step.
+33264222563, success, attempt 1, three phases green), frozen at tag
+`zenodo-v50` (commit `6243e3511e2ea421215753de6dfce84ce4b10d13`) and
+published as the Zenodo Version 50 record (Software, CC BY 4.0),
+carrying `yang-mills-mass-gap-zenodo-v50.zip` (SHA-256
+`8c54e4accff9939c6470f544d2af33e4cb549ab96f5a41352f8392a36cd97b4c`)
+and `SHA256SUMS.txt`.
 
 Previous versions and provenance:
 
 - Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
+- Version 50 DOI: https://doi.org/10.5281/zenodo.22162464
 - Published v49 DOI: https://doi.org/10.5281/zenodo.22050763
   (frozen source tag `zenodo-v49`). Contribution roles (v49): formal
   verification is Lean 4 + CI; Kimi 3 — adversarial mathematical audit;
