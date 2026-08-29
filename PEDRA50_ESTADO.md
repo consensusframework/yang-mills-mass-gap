@@ -1,7 +1,7 @@
 # PEDRA 50 — ESTADO FINAL
 
 **Autoria coletiva humano–IA** (lista canônica no RELEASE_NOTES_PEDRA50.md). **De:** Fable (Claude Fable 5, Anthropic). **Arquiteto:** Sol (GPT-5.6, OpenAI). **Coordenação humana, custódia e autorização de release:** Jucelha Carvalho (Smart Tour Brasil, ORCID 0009-0004-6047-2306). **Juiz:** GitHub Actions CI (Lean 4 + Mathlib v4.15.0). As funções especificam contribuições; não reduzem autoria.
-**Status: COMPLETA (integração em curso via PR #12).** Núcleo matemático congelado e auditado no commit `ced893efe2a25995d1961e527842f68489f4fc2f` (branch `pedra50-sol`; CI run 33195194820, verde, attempt 1). Integração preparada em `release-v50` (merge `8b81936bea6e4cc29c8e52d6de70b1b87aa7c1ea`, CI do PR 33253642393 verde) SEM alterar nenhuma fonte Lean.
+**Status: COMPLETA E INTEGRADA À MAIN.** Núcleo matemático congelado e auditado no commit `ced893efe2a25995d1961e527842f68489f4fc2f` (branch `pedra50-sol`; CI run 33195194820, verde, attempt 1). Integração via `release-v50` (merge I1 `8b81936b…` + documentação I2/I2-H) SEM alterar nenhuma fonte Lean; PR #12 MESCLADO na `main` no merge commit `726711c6eb88743809d979bfc2e049c7e7d54400`, com árvore idêntica à da `release-v50`, zero alteração científica durante a integração, e CI da `main` run 33264222563 (`success`, attempt 1, três fases verdes). Distinção preservada: `ced893ef…` é o objeto científico auditado e reproduzido; `726711c6…` é o estado integrado (ciência + documentação + configuração de release); nenhuma revisão matemática nova é atribuída ao merge.
 
 ## Evidências externas (taxonomia)
 
@@ -9,7 +9,7 @@
 - **Duas reproduções locais com artefatos conferidos:** Manus AI 1.6 (Linux) e GPT-5.6/Codex (Windows) — mesmo SHA, Lean 4.15.0, mesma revisão da Mathlib, 100 módulos, cinco certidões `[propext, Classical.choice, Quot.sound]`; manifestos resolvidos byte-idênticos, SHA-256 `c376bbe93b56fd85fde0a790889f721c578e2a710c300de77b9de8a0c8dc1227`.
 - **Uma reprodução local adicional reportada:** Grok 4.6 (Linux) — mesmo SHA, código 0, mesmas certidões; mantida explicitamente como "reportada" (logs brutos não anexados).
 - **Claude Opus 5 (Anthropic):** revisão técnica e investigação do caminho de reprodução; não contabilizado entre as reproduções concluídas.
-- **Três CIs verdes (attempt 1):** candidato congelado (run 33195194820, `ced893ef…`), integração I1 (run 33253642393, `8b81936b…`), documental I2 (run 33255562368, `04904e0f…`).
+- **Cinco CIs verdes (attempt 1):** candidato congelado (run 33195194820, `ced893ef…`), integração I1 (run 33253642393, `8b81936b…`), documental I2 (run 33255562368, `04904e0f…`), higiene I2-H (run 33263246326, `5dda9d33…`), e main pós-merge (run 33264222563, `726711c6…`, evento push).
 
 ## O que a Pedra 50 provou (tudo no kernel)
 

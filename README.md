@@ -482,10 +482,12 @@ Yang–Mills Mass Gap — Version 50. Zenodo.
 https://doi.org/10.5281/zenodo.22162464
 ```
 
-Reserved version DOI for v50: `10.5281/zenodo.22162464`. The DOI becomes
-registered and publicly resolvable only when the Zenodo draft is
-published; the v50 record is currently an unpublished draft prepared on
-branch `release-v50` (Draft PR #12).
+Reserved version DOI for v50: `10.5281/zenodo.22162464`. Stone 50 was
+integrated into `main` through PR #12 at merge commit
+`726711c6eb88743809d979bfc2e049c7e7d54400` (post-merge CI run
+33264222563, success, attempt 1, three phases green). The Version 50 DOI
+was reserved for this release; registration occurs through the Zenodo
+publication step.
 
 Previous versions and provenance:
 

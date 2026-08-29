@@ -81,7 +81,13 @@ The categories below are deliberately kept distinct:
    `8b81936bea6e4cc29c8e52d6de70b1b87aa7c1ea`.
 3. **Documentation/configuration CI (I2):** run `33255562368` (`success`,
    `run_attempt 1`), three phases green, on
-   `04904e0f2242cee4f4cf78fd2e88f931607b1f57`.
+   `04904e0f2242cee4f4cf78fd2e88f931607b1f57`; **documentation-hygiene CI
+   (I2-H):** run `33263246326` (`success`, `run_attempt 1`), three phases
+   green, on the pre-merge head
+   `5dda9d338ceb0581eedce74afdb73045b2ea66ff`; **post-merge CI on
+   `main`:** run `33264222563` (`success`, `run_attempt 1`, event
+   `push`), three phases green, on the merge commit
+   `726711c6eb88743809d979bfc2e049c7e7d54400`.
 4. **Two artifact-verified local reproductions** of the frozen candidate:
    Manus AI 1.6 (Linux) and GPT-5.6/Codex (Windows) — same SHA, Lean 4.15.0,
    same Mathlib revision (`9837ca9d65d9de6fad1ef4381750ca688774e608`), 100
@@ -110,9 +116,16 @@ reviews are adversarial/reproducibility review, not the verification itself.
   `ced893efe2a25995d1961e527842f68489f4fc2f` (the object all audits and
   reproductions examined). This release integrates that object plus
   documentation and CI-trigger restoration only.
-- Integration path: branch `release-v50`, merge commit
+- Integration path: branch `release-v50`, I1 merge commit
   `8b81936bea6e4cc29c8e52d6de70b1b87aa7c1ea` (first parent: the audited
-  candidate; second parent: post-v49 `main` documentation), Draft PR #12.
+  candidate; second parent: post-v49 `main` documentation), followed by
+  the documentation stages I2 and I2-H; PR #12 was merged into `main` at
+  merge commit `726711c6eb88743809d979bfc2e049c7e7d54400` (first parent:
+  pre-merge `main` `0b080d0a…`; second parent: `5dda9d33…`), with the
+  tree of `main` identical to the tree of `release-v50` and no new
+  mathematical review attributed to the merge: `ced893ef…` remains the
+  audited and reproduced scientific object, `726711c6…` is the
+  integrated state (science + documentation + release configuration).
 - Roles: Coordenação humana, escopo, decisões epistemológicas,
   orquestração multi-IA, proveniência, custódia e autorização de release —
   Jucelha Carvalho (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
@@ -134,9 +147,9 @@ reviews are adversarial/reproducibility review, not the verification itself.
 - Published v49 DOI: 10.5281/zenodo.22050763.
 - Reserved version DOI for v50: **10.5281/zenodo.22162464**. The DOI becomes
   registered and publicly resolvable only when the Zenodo draft is
-  published; the v50 record is currently an unpublished draft (Zenodo
-  upload 22162464), reserved by the coordinator. Frozen tag: to be created
-  only after integration and a further explicit authorization.
+  published; the v50 DOI was reserved by the coordinator (Zenodo upload
+  22162464), and registration occurs through the Zenodo publication step.
+  Release tag name: `zenodo-v50`.
 
 ## Authors (v50, canonical order)
 

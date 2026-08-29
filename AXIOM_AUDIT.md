@@ -126,8 +126,9 @@ exibindo exatamente `[propext, Classical.choice, Quot.sound]`:
 - `LatticeGauge.abs_gibbsCovariance_le_local_exp_decay`
 
 Certidões conferidas no CI (runs 33195194820 — candidato congelado,
-33253642393 — integração I1, e 33255562368 — etapa documental I2, todos
-`success` em attempt 1) e nas duas reproduções locais com artefatos
+33253642393 — integração I1, 33255562368 — etapa documental I2,
+33263246326 — higiene documental I2-H, e 33264222563 — main pós-merge no
+merge commit 726711c6eb88, todos `success` em attempt 1) e nas duas reproduções locais com artefatos
 conferidos (Manus AI 1.6/Linux, GPT-5.6·Codex/Windows), com reprodução
 adicional REPORTADA (Grok 4.6/Linux) e auditoria matemática adversarial
 separada (Kimi 3/Moonshot AI — não é reprodução de build; revisões e
