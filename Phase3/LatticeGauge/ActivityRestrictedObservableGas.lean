@@ -185,6 +185,7 @@ theorem activityRestrictedExpectation_one_empty
     restricted by the CONJUNCTION (remote-allowed for T at s) ∧
     (r-allowed). The A3a method is redone with the filter; the
     old theorem is not cited as if it carried the filter. -/
+set_option maxHeartbeats 800000 in
 theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
     (β : ℝ) (χ : G → ℝ) (f : Config N G → ℝ)
     (s : Set (Link N)) (r : Set (Link N)) :
