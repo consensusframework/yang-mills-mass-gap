@@ -301,6 +301,27 @@ normalized column ledger). The results do not construct an
 infinite-volume Gibbs state, prove a thermodynamic limit, or provide
 constants uniform when the observable supports themselves grow.
 
+### Scientific context and qualified novelty
+
+Exponential clustering in lattice gauge theory is a classical
+mathematical phenomenon, and earlier public formal developments have
+established related machine-checked results for more specialized classes
+of plaquette observables.
+
+In a documented search of public sources completed on 29 August 2026, we
+found no earlier Lean 4 development matching the full Stone 50
+statement: finite-volume exponential covariance decay for two arbitrary
+bounded measurable observables with general finite link supports,
+together with an explicit coupling window, decay rate and local
+prefactor.
+
+The potentially novel contribution is therefore the specific combination
+of observable generality, explicit quantitative constants and end-to-end
+formal proof architecture—not the discovery of exponential clustering
+itself and not the first formal lattice-gauge clustering theorem. This
+is a qualified related-work conclusion based on the documented public
+search, not a claim of universal or absolute priority.
+
 ---
 
 ## Scientific scope and limitations
