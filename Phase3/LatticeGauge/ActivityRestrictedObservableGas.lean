@@ -198,57 +198,46 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
                   (fun η => remoteAllowed T s η
                     ∧ regionAllowed (N := N) r η)) := by
   classical
-  unfold activityRestrictedMarkedGas regionAllowedFamilies
-  rw [Finset.sum_congr rfl
-    (fun Γ _ => markedRawFamilyWeight_rawFamily μm β χ f s Γ)]
-  have hmaps : ∀ Γ ∈ (typedCompatiblePolymerFamilies N).filter
-      (fun Γ => ∀ η ∈ Γ, regionAllowed (N := N) r η),
+  -- fiber FIRST with the opaque summand (small motive), open later
+  unfold activityRestrictedMarkedGas
+  have hmaps : ∀ Γ ∈ regionAllowedFamilies (N := N) r,
       Γ.filter (fun η => typedTouchesSupport (N := N) η s)
         ∈ (typedTouchingFamilies (N := N) s).filter
             (fun T => ∀ η ∈ T, regionAllowed (N := N) r η) := by
     intro Γ hΓ
-    obtain ⟨hΓcompat, hΓregion⟩ := Finset.mem_filter.mp hΓ
+    obtain ⟨hΓcompat, hΓregion⟩ :=
+      mem_regionAllowedFamilies.mp hΓ
     refine Finset.mem_filter.mpr ⟨Finset.mem_filter.mpr
       ⟨?_, ?_⟩, ?_⟩
     · exact mem_typedCompatiblePolymerFamilies.mpr
         (typedCompatible_mono (Finset.filter_subset _ _)
-          (mem_typedCompatiblePolymerFamilies.mp hΓcompat))
+          hΓcompat)
     · intro η hη
       exact (Finset.mem_filter.mp hη).2
     · intro η hη
       exact hΓregion η (Finset.mem_filter.mp hη).1
   rw [← Finset.sum_fiberwise_of_maps_to hmaps
-    (fun Γ : Finset (Polymer N) =>
-      (∫ U : Config N G,
-        f U * ∏ η ∈ Γ.filter
-          (fun η => typedTouchesSupport (N := N) η s),
-          blockActivity β χ η.val U ∂(configMeasure μm N))
-        * ∏ η ∈ Γ.filter
-            (fun η => ¬ typedTouchesSupport (N := N) η s),
-            polymerWeight (N := N) μm β χ η.val)]
+    (fun Γ => markedRawFamilyWeight μm β χ f s (rawFamily Γ))]
   refine Finset.sum_congr rfl (fun T hT => ?_)
   obtain ⟨hTtouchfam, hTregion⟩ := Finset.mem_filter.mp hT
-  obtain ⟨hTtyped, hTtouch⟩ := Finset.mem_filter.mp hTtouchfam
-  -- inside the fiber the core is constant
-  have hfib : ∀ Γ ∈ ((typedCompatiblePolymerFamilies N).filter
-      (fun Γ => ∀ η ∈ Γ, regionAllowed (N := N) r η)).filter
+  obtain ⟨hTcompatmem, hTtouch⟩ :=
+    Finset.mem_filter.mp hTtouchfam
+  have hTtyped : TypedCompatible (N := N) T :=
+    mem_typedCompatiblePolymerFamilies.mp hTcompatmem
+  -- open the summand only inside the fiber, where the core is T
+  have hsummand : ∀ Γ ∈ (regionAllowedFamilies (N := N) r).filter
       (fun Γ => Γ.filter
         (fun η => typedTouchesSupport (N := N) η s) = T),
-      ((∫ U : Config N G,
-        f U * ∏ η ∈ Γ.filter
-          (fun η => typedTouchesSupport (N := N) η s),
-          blockActivity β χ η.val U ∂(configMeasure μm N))
-        * ∏ η ∈ Γ.filter
-            (fun η => ¬ typedTouchesSupport (N := N) η s),
-            polymerWeight (N := N) μm β χ η.val)
-      = typedMarkedCoreWeight μm β χ f T
-          * ∏ η ∈ Γ.filter
-              (fun η => ¬ typedTouchesSupport (N := N) η s),
-              polymerWeight (N := N) μm β χ η.val := by
+      markedRawFamilyWeight μm β χ f s (rawFamily Γ)
+        = typedMarkedCoreWeight μm β χ f T
+            * ∏ η ∈ Γ.filter
+                (fun η => ¬ typedTouchesSupport (N := N) η s),
+                polymerWeight (N := N) μm β χ η.val := by
     intro Γ hΓ
-    rw [(Finset.mem_filter.mp hΓ).2]
+    rw [markedRawFamilyWeight_rawFamily,
+      (Finset.mem_filter.mp hΓ).2]
     rfl
-  rw [Finset.sum_congr rfl hfib, ← Finset.mul_sum]
+  rw [Finset.sum_congr rfl hsummand, ← Finset.mul_sum]
   congr 1
   -- fiber ↔ allowed remote families (allowed for T AND for r)
   rw [typedPolymerGas_restricted_eq_sum_allowed]
@@ -258,11 +247,12 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
     ?_ ?_ ?_ ?_
   · intro Γ hΓ
     obtain ⟨hΓdom, hΓfib⟩ := Finset.mem_filter.mp hΓ
-    obtain ⟨hΓcompat, hΓregion⟩ := Finset.mem_filter.mp hΓdom
+    obtain ⟨hΓcompat, hΓregion⟩ :=
+      mem_regionAllowedFamilies.mp hΓdom
     refine Finset.mem_filter.mpr ⟨?_, ?_⟩
     · exact mem_typedCompatiblePolymerFamilies.mpr
         (typedCompatible_mono (Finset.filter_subset _ _)
-          (mem_typedCompatiblePolymerFamilies.mp hΓcompat))
+          hΓcompat)
     · intro η hη
       obtain ⟨hηΓ, hηnot⟩ := Finset.mem_filter.mp hη
       refine ⟨⟨hηnot, ?_⟩, hΓregion η hηΓ⟩
@@ -274,8 +264,7 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
       have hne : η ≠ t := by
         rintro rfl
         exact hηnot (Finset.mem_filter.mp htfil).2
-      exact mem_typedCompatiblePolymerFamilies.mp hΓcompat
-        η hηΓ t htΓ hne
+      exact hΓcompat η hηΓ t htΓ hne
   · intro Γ₁ h₁ Γ₂ h₂ heq
     have heq' : Γ₁.filter
         (fun η => ¬ typedTouchesSupport (N := N) η s)
@@ -298,7 +287,9 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
           rw [hf₂]
       _ = Γ₂ := Finset.filter_union_filter_neg_eq _ _
   · intro R hR
-    obtain ⟨hRtyped, hRallowed⟩ := Finset.mem_filter.mp hR
+    obtain ⟨hRtypedmem, hRallowed⟩ := Finset.mem_filter.mp hR
+    have hRtyped : TypedCompatible (N := N) R :=
+      mem_typedCompatiblePolymerFamilies.mp hRtypedmem
     have hTfilter : T.filter
         (fun η => typedTouchesSupport (N := N) η s) = T :=
       Finset.filter_true_of_mem hTtouch
@@ -315,19 +306,16 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
       Finset.filter_true_of_mem
         (fun η hη => (hRallowed η hη).1.1)
     refine ⟨T ∪ R, Finset.mem_filter.mpr
-      ⟨Finset.mem_filter.mpr ⟨?_, ?_⟩, ?_⟩, ?_⟩
-    · refine mem_typedCompatiblePolymerFamilies.mpr ?_
-      intro η hη θ hθ hne
+      ⟨mem_regionAllowedFamilies.mpr ⟨?_, ?_⟩, ?_⟩, ?_⟩
+    · intro η hη θ hθ hne
       rcases Finset.mem_union.mp hη with hηT | hηR
       · rcases Finset.mem_union.mp hθ with hθT | hθR
-        · exact mem_typedCompatiblePolymerFamilies.mp hTtyped
-            η hηT θ hθT hne
+        · exact hTtyped η hηT θ hθT hne
         · exact plaquetteCompatible_symm
             ((hRallowed θ hθR).1.2 η hηT)
       · rcases Finset.mem_union.mp hθ with hθT | hθR
         · exact (hRallowed η hηR).1.2 θ hθT
-        · exact mem_typedCompatiblePolymerFamilies.mp hRtyped
-            η hηR θ hθR hne
+        · exact hRtyped η hηR θ hθR hne
     · intro η hη
       rcases Finset.mem_union.mp hη with hηT | hηR
       · exact hTregion η hηT
