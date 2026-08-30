@@ -185,7 +185,6 @@ theorem activityRestrictedExpectation_one_empty
     restricted by the CONJUNCTION (remote-allowed for T at s) ∧
     (r-allowed). The A3a method is redone with the filter; the
     old theorem is not cited as if it carried the filter. -/
-set_option maxHeartbeats 800000 in
 theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
     (β : ℝ) (χ : G → ℝ) (f : Config N G → ℝ)
     (s : Set (Link N)) (r : Set (Link N)) :
@@ -235,8 +234,8 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
                 (fun η => ¬ typedTouchesSupport (N := N) η s),
                 polymerWeight (N := N) μm β χ η.val := by
     intro Γ hΓ
-    rw [markedRawFamilyWeight_rawFamily,
-      (Finset.mem_filter.mp hΓ).2]
+    simp only [Finset.mem_filter] at hΓ
+    rw [markedRawFamilyWeight_rawFamily, hΓ.2]
     rfl
   rw [Finset.sum_congr rfl hsummand, ← Finset.mul_sum]
   congr 1
@@ -247,7 +246,8 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
       (fun η => ¬ typedTouchesSupport (N := N) η s))
     ?_ ?_ ?_ ?_
   · intro Γ hΓ
-    obtain ⟨hΓdom, hΓfib⟩ := Finset.mem_filter.mp hΓ
+    simp only [Finset.mem_filter] at hΓ
+    obtain ⟨hΓdom, hΓfib⟩ := hΓ
     obtain ⟨hΓcompat, hΓregion⟩ :=
       mem_regionAllowedFamilies.mp hΓdom
     refine Finset.mem_filter.mpr ⟨?_, ?_⟩
@@ -271,8 +271,9 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
         (fun η => ¬ typedTouchesSupport (N := N) η s)
       = Γ₂.filter
         (fun η => ¬ typedTouchesSupport (N := N) η s) := heq
-    have hf₁ := (Finset.mem_filter.mp h₁).2
-    have hf₂ := (Finset.mem_filter.mp h₂).2
+    simp only [Finset.mem_filter] at h₁ h₂
+    have hf₁ := h₁.2
+    have hf₂ := h₂.2
     calc Γ₁ = Γ₁.filter
           (fun η => typedTouchesSupport (N := N) η s)
         ∪ Γ₁.filter
@@ -306,25 +307,26 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
         (fun η => ¬ typedTouchesSupport (N := N) η s) = R :=
       Finset.filter_true_of_mem
         (fun η hη => (hRallowed η hη).1.1)
-    refine ⟨T ∪ R, Finset.mem_filter.mpr
-      ⟨mem_regionAllowedFamilies.mpr ⟨?_, ?_⟩, ?_⟩, ?_⟩
-    · intro η hη θ hθ hne
-      rcases Finset.mem_union.mp hη with hηT | hηR
-      · rcases Finset.mem_union.mp hθ with hθT | hθR
-        · exact hTtyped η hηT θ hθT hne
-        · exact plaquetteCompatible_symm
-            ((hRallowed θ hθR).1.2 η hηT)
-      · rcases Finset.mem_union.mp hθ with hθT | hθR
-        · exact (hRallowed η hηR).1.2 θ hθT
-        · exact hRtyped η hηR θ hθR hne
-    · intro η hη
-      rcases Finset.mem_union.mp hη with hηT | hηR
-      · exact hTregion η hηT
-      · exact (hRallowed η hηR).2
-    · show (T ∪ R).filter
-          (fun η => typedTouchesSupport (N := N) η s) = T
-      rw [Finset.filter_union, hTfilter, hRfilter,
-        Finset.union_empty]
+    refine ⟨T ∪ R, ?_, ?_⟩
+    · simp only [Finset.mem_filter]
+      refine ⟨mem_regionAllowedFamilies.mpr ⟨?_, ?_⟩, ?_⟩
+      · intro η hη θ hθ hne
+        rcases Finset.mem_union.mp hη with hηT | hηR
+        · rcases Finset.mem_union.mp hθ with hθT | hθR
+          · exact hTtyped η hηT θ hθT hne
+          · exact plaquetteCompatible_symm
+              ((hRallowed θ hθR).1.2 η hηT)
+        · rcases Finset.mem_union.mp hθ with hθT | hθR
+          · exact (hRallowed η hηR).1.2 θ hθT
+          · exact hRtyped η hηR θ hθR hne
+      · intro η hη
+        rcases Finset.mem_union.mp hη with hηT | hηR
+        · exact hTregion η hηT
+        · exact (hRallowed η hηR).2
+      · show (T ∪ R).filter
+            (fun η => typedTouchesSupport (N := N) η s) = T
+        rw [Finset.filter_union, hTfilter, hRfilter,
+          Finset.union_empty]
     · show (T ∪ R).filter
           (fun η => ¬ typedTouchesSupport (N := N) η s) = R
       rw [Finset.filter_union, hTnot, hRnot,
