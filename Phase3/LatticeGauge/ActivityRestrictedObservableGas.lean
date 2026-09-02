@@ -207,8 +207,8 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
     intro Γ hΓ
     obtain ⟨hΓcompat, hΓregion⟩ :=
       mem_regionAllowedFamilies.mp hΓ
-    refine Finset.mem_filter.mpr ⟨Finset.mem_filter.mpr
-      ⟨?_, ?_⟩, ?_⟩
+    simp only [Finset.mem_filter]
+    refine ⟨⟨?_, ?_⟩, ?_⟩
     · exact mem_typedCompatiblePolymerFamilies.mpr
         (typedCompatible_mono (Finset.filter_subset _ _)
           hΓcompat)
@@ -250,7 +250,8 @@ theorem activityRestrictedMarkedGas_eq_sum_core_mul_restricted
     obtain ⟨hΓdom, hΓfib⟩ := hΓ
     obtain ⟨hΓcompat, hΓregion⟩ :=
       mem_regionAllowedFamilies.mp hΓdom
-    refine Finset.mem_filter.mpr ⟨?_, ?_⟩
+    simp only [Finset.mem_filter]
+    refine ⟨?_, ?_⟩
     · exact mem_typedCompatiblePolymerFamilies.mpr
         (typedCompatible_mono (Finset.filter_subset _ _)
           hΓcompat)
