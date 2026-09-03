@@ -81,6 +81,7 @@ noncomputable def activityRestrictionConnector
 
 /-! ## 51-C.3 — the empty-core form -/
 
+omit [MeasurableMul₂ G] [MeasurableInv G] [SigmaFinite μm] [IsProbabilityMeasure μm] in
 /-- The connector in the two-barrier dress demanded by the
     double-barrier machinery: the regional barrier is the empty
     core's barrier. Coefficients are not opened. -/
