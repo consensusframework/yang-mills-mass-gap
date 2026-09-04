@@ -487,6 +487,14 @@ the physical Yang–Mills problem.
 
 ---
 
+## Community feedback and acknowledgments
+
+We thank Michael R Douglas, Colin Bundschu, Jack McCarthy, and Ron Nissim for the comments, critical feedback, and references shared during the public discussion of Version 49 in the Lean community.
+
+The feedback contributed to the terminology correction and to the repository-reorganization roadmap adopted for Version 51 and subsequent work.
+
+These acknowledgments recognize public feedback and pointers to related work. They do not imply coauthorship, endorsement of the present results, or participation in the Lean proofs. The formal verification record is determined by the Lean 4 kernel and the project’s continuous-integration builds.
+
 ## Current roadmap
 
 The immediate Phase 3 roadmap is:
