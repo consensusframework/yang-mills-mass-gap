@@ -1,6 +1,6 @@
 # Verification Status — Thorne Taxonomy
 
-**Last updated:** August 29, 2026 (Etapa 1 — Stone 50 integrated into `main`; Version 50 release preparation)
+**Last updated:** September 4, 2026 (Stone 51 integrated into main)
 
 ## The three boxes
 
@@ -37,7 +37,7 @@ As of Etapa 0/1 they are deleted (21 orphans) or converted into explicit
 hypotheses (`def ...Assumption : Prop`) that theorems must declare openly.
 Phase 1 still contains 61 pending conversion (see PHASE1_GEMINI_CONVERSION_MAP.md).
 
-## Current state (Stone 51 integrated into main at merge 807900449c70b2130fb18544a628c118b8f9fb1c; Version 51 release preparation; last published release zenodo-v50)
+## Current state (Stone 51 integrated into main at merge 807900449c70b2130fb18544a628c118b8f9fb1c)
 
 | Item | Status |
 |---|---|
