@@ -110,7 +110,7 @@ potentially useful definitions or research questions.
 
 ## Current verified status
 
-**Last updated: August 29, 2026**
+**Last updated: September 2026 (Version 51 documentation)**
 
 - **Phase 2:** 25/25 modules compile.
 - **Phase 3 / `LatticeGauge`:** stone deliveries verified and integrated
@@ -275,7 +275,7 @@ formalizations of:
   rooted summand invariant under index permutations) — the first formal
   layer beneath the Kotecký–Preiss induction, whose complete paper proof
   (`PEDRA47A_PROOF.md`, frozen at commit `ede2ba63d2`) survived independent
-  adversarial audit by a fourth model (Kimi/Moonshot) before any
+  adversarial audit by a fourth model, Kimi 3 (AI model), before any
   formalization began;
 - the root-removal partition of spanning trees: the root neighbours (typed
   to exclude the root), the child forest with the root isolated, exactly one
@@ -300,6 +300,38 @@ walk-barrier geometry, the tilted Kotecký–Preiss envelope and the
 normalized column ledger). The results do not construct an
 infinite-volume Gibbs state, prove a thermodynamic limit, or provide
 constants uniform when the observable supports themselves grow.
+
+**Stone 51 — COMPLETE** (integrated in `main` at merge commit
+`807900449c70b2130fb18544a628c118b8f9fb1c` through PR #13; post-merge
+CI run 33794800321, three phases green). Finite-volume exponential
+stability of a local observable functional under remote hard
+restriction of polymer activities, in the small-β (strong-coupling)
+regime. For `0 ≤ β ≤ 1/40000`, a bounded measurable observable `f`
+depending only on the links of `s` with `|f| ≤ Cf`, and a remote
+region `r` walk-barrier-separated from `s` at scale `n`
+(`WalkBarrierSeparated s r n`):
+
+    |gibbsExpectation f − activityRestrictedExpectation f s r|
+        ≤ 2 · Cf · exp(8 · D_s / 113) · exp(−n / 2),
+    D_s = card(supportLinkFinset s).
+
+Capstone theorem
+`LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay`
+(`Phase3/LatticeGauge/ActivityRestrictionStability.lean`), kernel
+certificate `[propext, Classical.choice, Quot.sound]`. Five new modules
+(`ActivityRestrictedObservableGas`, `ActivityRestrictionLedger`,
+`ActivityRestrictionConnectorGeometry`, `ActivityRestrictionColumnBounds`,
+`ActivityRestrictionStability`; 1,579 new Lean lines; 0 `sorry`,
+0 scientific `axiom`, 0 `native_decide`, 0 attributable warnings).
+`activityRestrictedExpectation` is a normalized polymer functional
+obtained by suppressing the activities of the polymers touching `r`;
+`n` is walk separation in the plaquette graph, not Euclidean distance;
+the bound is volume-free with the local support size and the
+walk-separation scale controlled, and `r` enters only through the
+separation hypothesis. This is not a statement about two Gibbs
+measures, boundary conditions, spatial mixing, the thermodynamic limit
+or a mass gap, and it does not prove any continuum statement required
+by the Clay Millennium Problem. Phase 3 now has 105 modules.
 
 ### Scientific context and qualified novelty
 
@@ -459,15 +491,19 @@ the physical Yang–Mills problem.
 
 The immediate Phase 3 roadmap is:
 
-1. Stone 50 — COMPLETE: finite-volume exponential covariance decay at
-   small β (the marked Mayer expansion, the connector-cluster
-   cancellation, the walk-barrier geometry and the tilted
-   Kotecký–Preiss envelope, closed by the normalized column ledger);
-2. the next scientific milestone is deliberately **to be architected**
+1. Stone 50 — COMPLETE: finite-volume exponential covariance decay in
+   the small-β (strong-coupling) regime (the marked Mayer expansion, the
+   connector-cluster cancellation, the walk-barrier geometry and the
+   tilted Kotecký–Preiss envelope, closed by the normalized column
+   ledger);
+2. Stone 51 — COMPLETE: finite-volume local exponential stability under
+   remote hard restriction of polymer activities (see "Current verified
+   status");
+3. the next scientific milestone is deliberately **to be architected**
    (candidate directions only: volume-uniform estimates,
    thermodynamic-limit statements, correlation-length language) — no
-   Stone 51 statement is asserted here;
-3. only thereafter study thermodynamic/continuum limits and the
+   Stone 52 statement is asserted here;
+4. only thereafter study thermodynamic/continuum limits and the
    additional structures required for any mass-gap program.
 
 Later stages would require substantially new infrastructure, including:
@@ -485,28 +521,49 @@ These are long-term research directions, not completed results.
 
 ---
 
+## License
+
+Code and configuration files (Lean sources, scripts, lakefiles,
+toolchain pins, workflows and other configuration) are licensed under
+the Apache License 2.0 — see `LICENSE`. Documentation and textual
+materials (README, release notes, reports, audit documents, Markdown
+files and PDFs) are licensed under the Creative Commons Attribution 4.0
+International license — see `LICENSE-DOCUMENTATION`. Comments inside
+`.lean` files follow the license of the code. Version 50 remains
+licensed as published on Zenodo (CC BY 4.0).
+
 ## Citation
 
 Please cite this repository as an exploratory, multi-phase Lean 4 formalization
 project, not as progress establishing the Millennium Problem.
 
+Version 51 DOI: https://doi.org/10.5281/zenodo.22305341
+
 ```text
 Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
-Claude Fable 5 (Anthropic); GPT-5.6 "Sol" (OpenAI);
-Kimi 3 (Moonshot AI); Claude Opus 5 (Anthropic);
-Claude Opus 4.7 (Anthropic); Claude Opus 4.6 (Anthropic);
-Claude Opus 4.5 (Anthropic); GPT-5.2 (OpenAI); Gemini 3 Pro (Google);
-Manus AI 1.6 (Manus); Grok 4.6 (xAI); Grok 4.5 (xAI) (2026).
-From Conditional Formalization to an Axiom-Free Finite-Lattice Program:
-Reassessment and Continuation of a Multi-Phase Lean 4 Project Around the
-Yang–Mills Mass Gap — Version 50. Zenodo.
-https://doi.org/10.5281/zenodo.22162464
+GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model);
+Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model);
+Codex v2 (AI model); Claude Opus 4.5 (AI model);
+Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model);
+Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model);
+Grok 4.5 (AI model); Grok 4.6 (AI model) (2026).
+Finite-Volume Lattice Gauge Theory in Lean 4 — Version 51: Exponential
+Stability Under Remote Polymer-Activity Restriction. Zenodo.
+https://doi.org/10.5281/zenodo.22305341
 ```
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22162464.svg)](https://doi.org/10.5281/zenodo.22162464)
+Stone 51 was integrated into `main` through PR #13 at merge commit
+`807900449c70b2130fb18544a628c118b8f9fb1c` (post-merge CI run
+33794800321, success, attempt 1, three phases green), followed by the
+terminology correction of PR #14 (merge commit
+`624af23a879e134729503f5877f1524855aa2829`, CI run 33873967291, three
+phases green). Source snapshot for Version 51: tag `zenodo-v51`.
+Release notes: `RELEASE_NOTES_PEDRA51.md`.
 
-Version 50 was published on Zenodo on 29 August 2026.
+Version 50 (previous version) was published on Zenodo on 29 August 2026.
 DOI: https://doi.org/10.5281/zenodo.22162464
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22162464.svg)](https://doi.org/10.5281/zenodo.22162464)
 
 Stone 50 was integrated into `main` through PR #12 at merge commit
 `726711c6eb88743809d979bfc2e049c7e7d54400` (post-merge CI run
@@ -520,6 +577,7 @@ and `SHA256SUMS.txt`.
 Previous versions and provenance:
 
 - Concept DOI (all versions): https://doi.org/10.5281/zenodo.17397622
+- Version 51 DOI: https://doi.org/10.5281/zenodo.22305341
 - Version 50 DOI: https://doi.org/10.5281/zenodo.22162464
 - Published v49 DOI: https://doi.org/10.5281/zenodo.22050763
   (frozen source tag `zenodo-v49`). Contribution roles (v49): formal
@@ -554,24 +612,30 @@ describes the governance of the project, not exclusivity of authorship.
 
 ### AI coauthors
 
-- **Claude Fable 5 (Anthropic)** — Lean 4 implementation and debugging,
+- **Claude Fable 5 (AI model)** — Lean 4 implementation and debugging,
   structural census, kernel-dependency inspection, Mathlib source
   reconnaissance, Phase 3 stone execution, build verification, CI integration,
   and technical state documentation.
-- **GPT-5.6 "Sol" (OpenAI)** — theorem and stone architecture, probabilistic and
+- **Claude Fable 5.1 (AI model)** — Lean implementation and proof
+  development of Stone 51 (gates 51-A final through 51-E, five modules,
+  1,579 lines), publication and integration operations for Stone 51,
+  the repository hygiene audit (RH-0) and the terminology correction
+  (RH-1A).
+- **GPT-5.6 "Sol" (AI model)** — theorem and stone architecture, probabilistic and
   cluster-expansion roadmap, scope control, mathematical review, counterexample
   and false-factorization detection, naming discipline, audit methodology,
   documentation review, and the artifact-verified Windows reproduction of the
   frozen Stone 50 candidate via Codex.
-- **Claude Opus 4.5 / 4.6 / 4.7 (Anthropic)** — formal-verification work,
+- **Claude Opus 4.5 (AI model)**, **Claude Opus 4.6 (AI model)** and
+  **Claude Opus 4.7 (AI model)** — formal-verification work,
   incomplete-proof reduction, historical-code recovery, forensic inventory,
   dependency mapping, and comparative audit of reconstructed modules.
-- **Claude Opus 5 (Anthropic)** — technical review and investigation of
+- **Claude Opus 5 (AI model)** — technical review and investigation of
   the Stone 50 reproduction path (not counted as a completed build or as
   an artifact-verified reproduction).
-- **GPT-5.2 (OpenAI)** — early axiom reformulation, conditional-theorem design,
+- **GPT-5.2 (AI model)** — early axiom reformulation, conditional-theorem design,
   and strategic planning.
-- **Kimi 3 (Moonshot AI)** — independent adversarial audit of the finite
+- **Kimi 3 (AI model)** — independent adversarial audit of the finite
   Kotecký–Preiss induction manuscript (stone 47a-P, frozen at `ede2ba63d2`):
   verification of the recurrence, the factorial cancellations, the 1/k!
   multiplicity under repetitions, and the non-circularity of the KP
@@ -588,9 +652,11 @@ describes the governance of the project, not exclusivity of authorship.
   audit of the critical covariance path on the frozen candidate
   (`ced893ef`), approved in the audited scope with no mathematical
   error demonstrated (a mathematical audit, not a build reproduction).
-- **Gemini 3 Pro (Google)** — early conceptual exploration, draft generation,
+  External adversarial mathematical review of Stone 51: no
+  mathematical, logical or semantic defect found.
+- **Gemini 3 Pro (AI model)** — early conceptual exploration, draft generation,
   numerical and physical hypothesis exploration, and historical architecture.
-- **Manus AI 1.6** — DevOps, repository integration, workflow coordination, and
+- **Manus AI 1.6 (AI model)** — DevOps, repository integration, workflow coordination, and
   project operations. External reproducibility and release review of
   Stone 48: independent clone/build reproduction, kernel-dependency
   audit, release-scope review, documentation audit, and release
@@ -598,15 +664,36 @@ describes the governance of the project, not exclusivity of authorship.
   GREEN classification explicitly delimited to the finite-volume
   identity. Artifact-verified Linux reproduction of the frozen Stone 50
   candidate (build, five kernel certificates, custody package and
-  hashes).
-- **Grok 4.5 (xAI)** — additional independent external audit of the
+  hashes). Stone 51: experiments and reproduction of gate 51-A
+  (D1-R, D2); the later gates were reproduced by a second Claude
+  Fable 5.1 instance.
+- **Grok 4.5 (AI model)** — additional independent external audit of the
   stone-49 chain and scope (the finite-volume cluster-expansion identity
   for the log-partition function), complementing the adversarial
   mathematical and reproducibility reviews.
-- **Grok 4.6 (xAI)** — additional reported Linux reproduction of the
+- **Grok 4.6 (AI model)** — additional reported Linux reproduction of the
   frozen Stone 50 candidate (same SHA, toolchain and certificates;
   explicitly kept as "reported" corroboration, not promoted to
   artifact-verified without the corresponding artifacts).
+- **Codex v2 (AI model)** — independent custody, reproduction and
+  reading audit of the Stone 51 integration (`807900449…`): Windows
+  reproduction of the 105 Phase 3 modules, kernel certificate,
+  non-vacuity witnesses; GREEN WITH CAVEATS. Independent of the
+  executor; same developer family as the architect.
+
+### Direct participation in Stone 51
+
+GPT-5.6 "Sol" (scientific architecture and formal specification of the
+five gates); Claude Fable 5.1 (Lean implementation of 51-A final through
+51-E, publication and integration); Claude Fable 5 (initial 51-A and
+iterations); Kimi 3 (adversarial mathematical review); Manus AI 1.6
+(51-A experiments and reproduction, D1-R/D2); a second Claude Fable 5.1
+instance (bench reproduction of 51-B through 51-E — a reproduction, not
+an independent audit); Codex v2 (custody, reproduction and reading
+audit); Jucelha Carvalho (coordination, custody, integration and
+release). Formal verification: Lean 4 kernel and GitHub Actions
+(verification instances, not authors). Scientific coauthorship and
+legal copyright ownership are distinct records.
 
 
 The roles above describe contributions made at different stages of the project.
