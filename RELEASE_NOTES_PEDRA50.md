@@ -12,7 +12,7 @@
 
 Principal declaration: `LatticeGauge.abs_gibbsCovariance_le_local_exp_decay`.
 
-Explicitly: finite volume; small coupling (β ≤ 1/40000); exponential rate 1/2
+Explicitly: finite volume; small β (strong coupling), with β ≤ 1/40000; exponential rate 1/2
 in the separation parameter; no external nonvanishing hypothesis on `Z`
 anywhere in the chain — positivity and nonvanishing of the partition function
 and of the restricted gases are **outputs** of the cluster expansion.
@@ -24,7 +24,7 @@ the ambient finite lattice. This does not construct an infinite-volume Gibbs
 state, prove a thermodynamic limit, or provide a constant uniform when the
 observable supports themselves grow.
 
-This is a finite-volume lattice result under small coupling. It is NOT a
+This is a finite-volume lattice result in the small-β (strong-coupling) regime. It is NOT a
 thermodynamic-limit statement, NOT an infinite-volume result, NOT a
 continuum result, NOT a Yang–Mills mass-gap claim, and NOT a solution of the
 Clay Millennium Problem.
