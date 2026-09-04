@@ -5,7 +5,7 @@ Previous version: Version 50 — https://doi.org/10.5281/zenodo.22162464
 
 ## Summary
 
-Stone 51 proves, in Lean 4 and without any project-level axiom, that a local lattice observable is exponentially insensitive to a *remote hard restriction of polymer activities*. Take the Gibbs expectation ⟨f⟩ of a bounded observable f supported on a set of links s, and compare it with the **normalized polymer functional** obtained by suppressing the activities of every polymer touching a remote region r. If s and r are walk-barrier-separated at scale n in the plaquette graph, the two numbers differ by at most
+Stone 51 proves, in Lean 4 and without any project-specific axiom, that a local lattice observable is exponentially insensitive to a *remote hard restriction of polymer activities*. Take the Gibbs expectation ⟨f⟩ of a bounded observable f supported on a set of links s, and compare it with the **normalized polymer functional** obtained by suppressing the activities of every polymer touching a remote region r. If s and r are walk-barrier-separated at scale n in the plaquette graph, the two numbers differ by at most
 
 ```
 |gibbsExpectation f − activityRestrictedExpectation f s r|
@@ -37,7 +37,7 @@ Phase 3 grows to 105 modules and more than 30,000 Lean source lines. No pre-exis
 - Hygiene in the five modules: 0 `sorry`, 0 `admit`, 0 scientific `axiom`, 0 `native_decide`, 0 `maxHeartbeats`, 0 `set_option`, 0 attributable warnings (114 inherited warnings, unchanged since v50).
 - Reproductions: Manus AI 1.6 — Stone 51-A experiments and reproduction (D1-R, D2); a second Claude Fable 5.1 instance — 51-B through 51-E (same model as the executor; a reproduction, not an independent audit).
 - Adversarial mathematical review: Kimi 3 — no mathematical, logical or semantic defect found (three caveats: no recompilation by the reviewer; public wording of the functional; the bridge column admits a sharper bound than the common majorant used).
-- Independent custody, reproduction and reading audit: Codex v2 — GREEN WITH CAVEATS (Windows reproduction of the 105 modules; certificate; non-vacuity witnesses; raw CI logs not public; semantic scope). Independent of the executor; same developer family as the architect.
+- Independent custody, reproduction and reading audit: Codex v2 — GREEN WITH CAVEATS (Windows reproduction of the 105 modules; certificate; non-vacuity witnesses; raw CI logs were not included in the independent audit package; semantic scope). Independent of the executor; same developer family as the architect.
 - Post-v50 documentation: terminology corrected to "small-β (strong-coupling) regime" (PR #14, merge `624af23a…`, CI run 33873967291 green).
 
 ## Limits
@@ -52,7 +52,7 @@ Stone 49 established the finite-volume, small-β cluster-expansion identity for 
 
 Version 51 is a human–AI collaborative work. Human author, coordinator and responsible party: Jucelha Carvalho (Smart Tour Brasil; ORCID 0009-0004-6047-2306). All AI models that contributed to the project are coauthors, identified as AI models; developer companies are not authors, participants or affiliations.
 
-Coauthors (cumulative): Jucelha Carvalho (Smart Tour Brasil); GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model); Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model); Codex v2 (AI model); Claude Opus 4.5 / 4.6 / 4.7 (AI model); Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model); Grok 4.5 (AI model); Grok 4.6 (AI model).
+Coauthors (cumulative): Jucelha Carvalho (Smart Tour Brasil); GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model); Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model); Codex v2 (AI model); Claude Opus 4.5 (AI model); Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model); Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model); Grok 4.5 (AI model); Grok 4.6 (AI model).
 
 Direct participation in Stone 51: GPT-5.6 "Sol" — architecture and formal specification of the five gates; Claude Fable 5.1 — Lean implementation of 51-A (final) through 51-E, publication and integration; Claude Fable 5 — initial 51-A and iterations; Kimi 3 — adversarial review; Manus AI 1.6 — 51-A experiments and reproduction (D1-R, D2); a second Claude Fable 5.1 instance — bench reproduction of 51-B through 51-E (not an independent audit); Codex v2 — custody, reproduction and reading audit; Jucelha Carvalho — coordination, custody, integration and release. Formal verification: Lean 4 kernel and GitHub Actions (verification instances, not authors). Scientific coauthorship and legal copyright ownership are distinct records.
 
@@ -62,4 +62,4 @@ Code and configuration: Apache License 2.0 (`LICENSE`). Documentation and textua
 
 ## Citation
 
-Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306); GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model); Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model); Codex v2 (AI model); Claude Opus 4.5 / 4.6 / 4.7 (AI model); Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model); Grok 4.5 (AI model); Grok 4.6 (AI model) (2026). *Finite-Volume Lattice Gauge Theory in Lean 4 — Version 51: Exponential Stability Under Remote Polymer-Activity Restriction.* Zenodo. https://doi.org/10.5281/zenodo.22305341
+Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306); GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model); Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model); Codex v2 (AI model); Claude Opus 4.5 (AI model); Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model); Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model); Grok 4.5 (AI model); Grok 4.6 (AI model) (2026). *Finite-Volume Lattice Gauge Theory in Lean 4 — Version 51: Exponential Stability Under Remote Polymer-Activity Restriction.* Zenodo. https://doi.org/10.5281/zenodo.22305341

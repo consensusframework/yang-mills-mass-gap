@@ -275,7 +275,7 @@ formalizations of:
   rooted summand invariant under index permutations) — the first formal
   layer beneath the Kotecký–Preiss induction, whose complete paper proof
   (`PEDRA47A_PROOF.md`, frozen at commit `ede2ba63d2`) survived independent
-  adversarial audit by a fourth model (Kimi/Moonshot) before any
+  adversarial audit by a fourth model, Kimi 3 (AI model), before any
   formalization began;
 - the root-removal partition of spanning trees: the root neighbours (typed
   to exclude the root), the child forest with the root isolated, exactly one
@@ -543,7 +543,8 @@ Version 51 DOI: https://doi.org/10.5281/zenodo.22305341
 Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
 GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model);
 Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model);
-Codex v2 (AI model); Claude Opus 4.5 / 4.6 / 4.7 (AI model);
+Codex v2 (AI model); Claude Opus 4.5 (AI model);
+Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model);
 Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model);
 Grok 4.5 (AI model); Grok 4.6 (AI model) (2026).
 Finite-Volume Lattice Gauge Theory in Lean 4 — Version 51: Exponential
@@ -625,7 +626,8 @@ describes the governance of the project, not exclusivity of authorship.
   and false-factorization detection, naming discipline, audit methodology,
   documentation review, and the artifact-verified Windows reproduction of the
   frozen Stone 50 candidate via Codex.
-- **Claude Opus 4.5 / 4.6 / 4.7 (AI model)** — formal-verification work,
+- **Claude Opus 4.5 (AI model)**, **Claude Opus 4.6 (AI model)** and
+  **Claude Opus 4.7 (AI model)** — formal-verification work,
   incomplete-proof reduction, historical-code recovery, forensic inventory,
   dependency mapping, and comparative audit of reconstructed modules.
 - **Claude Opus 5 (AI model)** — technical review and investigation of
