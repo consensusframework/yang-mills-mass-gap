@@ -6,7 +6,7 @@
 > **log Z_β = Σ'ₙ Bₙ(w_β)** for **0 ≤ β ≤ 1/40000**, with the signed unrooted
 > Ursell series absolutely convergent.
 
-This is a finite-volume lattice identity under small coupling. It is NOT a
+This is a finite-volume lattice identity in the small-β (strong-coupling) regime. It is NOT a
 thermodynamic-limit statement, NOT clustering/exponential decay, NOT a
 continuum result, NOT a mass-gap or Clay-problem claim.
 

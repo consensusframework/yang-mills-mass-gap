@@ -342,7 +342,7 @@ At the present stage, the project does **not**:
 - prove exponential clustering in an infinite-volume setting, or with
   constants uniform when the observable supports themselves grow
   (stone 50 is a finite-volume clustering bound with a local,
-  ambient-volume-free prefactor, at small coupling only);
+  ambient-volume-free prefactor, in the small-β (strong-coupling) regime only);
 - prove the Yang–Mills mass gap.
 
 A formal statement of a lattice mass-gap target may appear in the library, but the
