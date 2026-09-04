@@ -1,0 +1,276 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
+# formalization.yaml (v0.4) — Finite-Volume Lattice Gauge Theory in Lean 4.
+# Toolchain, dependency pins and build status are not repeated here: see
+# Phase3/lean-toolchain, Phase3/lakefile.toml and the GitHub Actions workflow.
+
+version: "v0.4"
+
+project:
+  name: "Finite-Volume Lattice Gauge Theory in Lean 4 — A Formalization Program Around the Yang–Mills Mass Gap"
+  description: >
+    Exploratory, multi-phase Lean 4 / Mathlib formalization of finite-volume
+    lattice gauge theory. The active library is Phase 3, namespace
+    `LatticeGauge` (Phase3/LatticeGauge): Wilson action, Gibbs
+    measure, gauge invariance of the Gibbs expectation, Haar probability
+    measure on U(n), translation invariance, the β = 0 product state and its
+    factorization, and a polymer / cluster expansion of Kotecký–Preiss type in
+    the small-β (strong-coupling, Wilson convention) regime. Principal results:
+    Version 49 — finite-volume cluster-expansion identity for the log partition
+    function; Version 50 — finite-volume exponential covariance decay of two
+    local observables; Version 51 — finite-volume exponential stability of a
+    local observable functional under remote hard restriction of polymer
+    activities, |gibbsExpectation f − activityRestrictedExpectation f s r| ≤
+    2·Cf·exp(8·D_s/113)·exp(−n/2) for 0 ≤ β ≤ 1/40000 and walk separation n.
+    Every result in the verified Phase 3 library is a finite-lattice statement:
+    no thermodynamic or continuum
+    limit and no mass-gap theorem is claimed, and the project does not prove
+    the continuum Yang–Mills existence or mass-gap statement required by the
+    Clay Millennium Problem. Phases 1 and 2 are exploratory legacy material with
+    explicit named hypotheses and are not part of the verified Phase 3 library.
+  authors:
+    # Coordinator's rule: AI models are coauthors, identified as AI models;
+    # developer companies are not authors or affiliations.
+    - "Jucelha Carvalho (Smart Tour Brasil; ORCID 0009-0004-6047-2306)"
+    - "GPT-5.6 \"Sol\" (AI model)"
+    - "Claude Fable 5 (AI model)"
+    - "Claude Fable 5.1 (AI model)"
+    - "Kimi 3 (AI model)"
+    - "Manus AI 1.6 (AI model)"
+    - "Codex v2 (AI model)"
+    - "Claude Opus 4.5 (AI model)"
+    - "Claude Opus 4.6 (AI model)"
+    - "Claude Opus 4.7 (AI model)"
+    - "Claude Opus 5 (AI model)"
+    - "GPT-5.2 (AI model)"
+    - "Gemini 3 Pro (AI model)"
+    - "Grok 4.5 (AI model)"
+    - "Grok 4.6 (AI model)"
+  responsible_maintainers:
+    - "Jucelha Carvalho (Smart Tour Brasil; ORCID 0009-0004-6047-2306)"
+  # Documentation is separately licensed CC-BY-4.0; see LICENSE-DOCUMENTATION.
+  license: "Apache-2.0"
+
+sources:
+  - title: "Finite-Volume Lattice Gauge Theory in Lean 4 — the complete project through Version 51 (Phases 1–3; verified Phase 3 library LatticeGauge)"
+    authors:
+      - "Jucelha Carvalho (Smart Tour Brasil; ORCID 0009-0004-6047-2306)"
+      - "GPT-5.6 \"Sol\" (AI model)"
+      - "Claude Fable 5 (AI model)"
+      - "Claude Fable 5.1 (AI model)"
+      - "Kimi 3 (AI model)"
+      - "Manus AI 1.6 (AI model)"
+      - "Codex v2 (AI model)"
+      - "Claude Opus 4.5 (AI model)"
+      - "Claude Opus 4.6 (AI model)"
+      - "Claude Opus 4.7 (AI model)"
+      - "Claude Opus 5 (AI model)"
+      - "GPT-5.2 (AI model)"
+      - "Gemini 3 Pro (AI model)"
+      - "Grok 4.5 (AI model)"
+      - "Grok 4.6 (AI model)"
+    id: "https://doi.org/10.5281/zenodo.17397622"
+    type: "formalization"
+    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean"
+    relationship: "other"
+    note: >
+      This entry records the project itself as the source of its Lean
+      statements. The Lean declarations and the explicit constants of Versions
+      49–51 (2/113 per link, exponential rate 1/2, β ≤ 1/40000, walk separation
+      in the plaquette graph, the normalized polymer functional
+      activityRestrictedExpectation) were developed within the project; they
+      adapt the cluster-expansion method of Kotecký–Preiss (see that source
+      entry, relationship `adapts`) to a finite lattice gauge setting with
+      explicit constants and do not correspond to the transcription of a single
+      external theorem. No claim of priority over the informal literature on
+      strong-coupling expansions is made.
+    license: "CC-BY-4.0 (documentation) / Apache-2.0 (code)"
+    author_endorsement: "participated"
+
+  - title: "Confinement of quarks"
+    authors: ["Kenneth G. Wilson"]
+    id: "https://doi.org/10.1103/PhysRevD.10.2445"
+    type: "article"
+    location: "Phys. Rev. D 10 (1974) 2445–2459; Wilson action, plaquette variables, strong-coupling expansion"
+    relationship: "background"
+    note: "Definitions of the lattice gauge setting (Wilson action, links, plaquettes, Wilson loops, β convention). Not the source of the Stone 49–51 theorems."
+    author_endorsement: "n/a"
+
+  - title: "Cluster expansion for abstract polymer models"
+    authors: ["Roman Kotecký", "David Preiss"]
+    id: "https://doi.org/10.1007/BF01211762"
+    type: "article"
+    location: "Comm. Math. Phys. 103 (1986) 491–498"
+    relationship: "adapts"
+    note: "The Phase 3 development adapts the Kotecký–Preiss cluster-expansion method (KPInduction, KPClusterExpansion, KPLogPartition and the covariance / activity-restriction modules) to a finite lattice gauge setting, producing its own finite versions with explicit constants. It does not formalize the abstract theorem of the paper as stated, and the specific Version 49–51 statements are not transcriptions of results in this paper."
+    author_endorsement: "not-contacted"
+
+  - title: "Statistical Mechanics of Lattice Systems: A Concrete Mathematical Introduction"
+    authors: ["Sacha Friedli", "Yvan Velenik"]
+    id: "ISBN 978-1-107-18482-4"
+    type: "book"
+    location: "Chapter 5 (cluster expansion) and Chapter 7 (lattice gauge theory background)"
+    relationship: "background"
+    note: "Textbook reference for the polymer / cluster-expansion method (Mayer expansion, Ursell coefficients, Penrose tree bound) used as informal background for the Phase 3 development."
+    author_endorsement: "not-contacted"
+
+  - title: "Quantum Yang–Mills Theory (Clay Mathematics Institute Millennium Problem description)"
+    authors: ["Arthur Jaffe", "Edward Witten"]
+    id: "https://www.claymath.org/millennium/yang-mills-the-maths-gap/"
+    type: "web post"
+    location: "Official problem description"
+    relationship: "background"
+    note: "Cited only to delimit scope: this project formalizes finite-volume lattice statements and makes no claim about the continuum problem described there."
+    author_endorsement: "n/a"
+
+related_formalizations: []
+
+classification:
+  arxiv: ["math-ph", "hep-lat"]
+  msc2020: ["81T13", "81T25", "82B20", "03B35"]
+
+status:
+  scope: >
+    Verified scope (Phase 3, Phase3/LatticeGauge): finite periodic 4-dimensional
+    lattice, compact gauge group with a probability base measure and a bounded
+    measurable character χ with |χ| ≤ 1; Gibbs measure and expectation; gauge
+    and translation invariance; Haar probability on U(n) with unconditional
+    capstones |⟨W⟩| ≤ 1; β = 0 factorization; polymer gas and Kotecký–Preiss
+    type cluster expansion with explicit constants in the small-β
+    (strong-coupling) regime; exponential covariance decay (Version 50) and
+    exponential stability under remote polymer-activity restriction (Version
+    51). Out of scope: thermodynamic limit, continuum limit, second Gibbs
+    measures or boundary conditions, spatial-mixing theorems, mass gap
+    (HasLatticeMassGap is stated, not proved), and the Clay Millennium Problem.
+    Phases 1 and 2 (namespaces YangMills, RGFlow_Work) are exploratory legacy
+    developments with explicit named hypotheses; they are not part of the
+    verified scope and are preserved at tag zenodo-v51 and branch
+    archive/zenodo-v51-full-tree.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+  main_results:
+    - declaration: "LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay"
+      file: "Phase3/LatticeGauge/ActivityRestrictionStability.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
+    - declaration: "LatticeGauge.abs_gibbsCovariance_le_local_exp_decay"
+      file: "Phase3/LatticeGauge/CovarianceDecay.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
+    - declaration: "LatticeGauge.logPartition_eq_tsum_unrooted"
+      file: "Phase3/LatticeGauge/KPLogPartition.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["GPT-5.6 \"Sol\""]
+      framework: "ChatGPT"
+      tool_setup: "Scientific architecture and formal specification: gate-by-gate written specifications (\"tapes\") for each module, mathematical review of every delivered module, release engineering procedures. No direct file access; all instructions relayed by the human coordinator."
+      prompting_notes: "Specifications state the exact Lean declarations, hypotheses and constants to be proved, the forbidden constructs (sorry, axiom, native_decide, maxHeartbeats) and the acceptance evidence (#print axioms, clean full Phase 3 build)."
+    - method: "agent"
+      models: ["Claude Fable 5", "Claude Fable 5.1"]
+      framework: "Claude (Cowork / Claude Code)"
+      tool_setup: "Lean implementation of Stones 49–51 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); publication, integration and release operations executed through the coordinator's machine; repository hygiene audits."
+      prompting_notes: "Each gate is a written tape with hard stop points; nothing is declared verified without a build log; the coordinator holds all credentials."
+    - method: "agent"
+      models: ["Codex v2"]
+      framework: "Codex"
+      tool_setup: "Custody, reproduction (Windows) and reading audit of the Stone 51 integration, independent from the Lean implementer but not independent from the architect's model family; not a human peer review. Non-vacuity witnesses; verdict GREEN WITH CAVEATS."
+    - method: "agent"
+      models: ["Kimi 3"]
+      tool_setup: "External adversarial mathematical review of Stone 51 (no recompilation by the reviewer); no mathematical, logical or semantic defect found."
+    - method: "agent"
+      models: ["Manus AI 1.6"]
+      tool_setup: "Experiments and reproduction of gate 51-A (D1-R, D2)."
+    - method: "agent"
+      models: ["Claude Opus 4.5", "Claude Opus 4.6", "Claude Opus 4.7", "Claude Opus 5", "GPT-5.2", "Gemini 3 Pro", "Grok 4.5", "Grok 4.6"]
+      tool_setup: "Earlier phases and versions (≤ 48): formal-verification work, incomplete-proof reduction, historical-code recovery, forensic inventory, axiom reformulation, conditional-theorem design, technical review. Roles per model are recorded in README.md (\"Project authors and roles\")."
+    - method: "manual"
+      tool_setup: "Human coordination, custody of credentials, integration by merge commit, tagging, GitHub Release and Zenodo publication by Jucelha Carvalho."
+  spend_usd: "subscription-based usage across several model providers; not itemised"
+  notes: >
+    Human–AI collaborative development coordinated by the human coordinator
+    under the Consensus Framework, a multi-agent coordination method in which
+    distinct AI models take separate roles (architecture and specification,
+    implementation, reproduction, adversarial review, custody audit) and the
+    human coordinator holds custody, integration and release; products and
+    interfaces named under `framework` are technical environments only, never
+    authorship or affiliation. For Versions 49–51, every accepted gate went
+    through:
+    written specification → Lean implementation → verifiable git bundle →
+    reproduction on a pinned bench → official GitHub Actions CI → integration
+    by merge commit → post-merge CI on main. Version records are frozen at
+    annotated tags (zenodo-v49, zenodo-v50, zenodo-v51) and deposited on Zenodo.
+
+fidelity:
+  divergences: >
+    The Lean statements were developed within the project (see the project
+    source entry), so there is no single source text to diverge from.
+    Relative to the informal cluster-expansion literature: everything is finite
+    volume; the polymer gas, Ursell coefficients, Penrose tree bound and
+    Kotecký–Preiss induction are formalized in a finite, explicit-constant form
+    (2/113 per link, exponential rate 1/2, β ≤ 1/40000) rather than in the
+    general abstract-polymer-model generality; "distance" is walk separation in
+    the plaquette graph, not Euclidean distance; activityRestrictedExpectation
+    is a normalized polymer functional obtained by suppressing activities, not a
+    second Gibbs measure or a boundary condition. Earlier project texts used the
+    phrase "small coupling"; in Wilson's convention small β is strong coupling,
+    and the wording was corrected in the repository from commit 624af23a on.
+
+review:
+  status: "agent-reviewed"
+  reviewers:
+    - "GPT-5.6 \"Sol\" (AI model) — architect's review of every module"
+    - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51)"
+    - "Codex v2 (AI model) — custody, reproduction and reading audit (Stone 51), independent from the Lean implementer but not independent from the architect's model family; not a human peer review"
+    - "Manus AI 1.6 (AI model) — reproduction of gate 51-A"
+  notes: >
+    Machine verification: Lean 4 kernel and GitHub Actions CI, green on main
+    for the integrated Versions 49–51. Human review: coordinator's process audit. No
+    peer review by human mathematicians has taken place; public discussions of
+    the project in the Lean community produced comments acknowledged in
+    README.md, without endorsement of the results.
+
+alignment:
+  namespace: "LatticeGauge"
+  statements:
+    - source: "Version 51 — exponential stability under remote polymer-activity restriction (project source entry)"
+      lean: "LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay"
+      module: "Phase3/LatticeGauge/ActivityRestrictionStability.lean"
+      status: "proved"
+      note: "|gibbsExpectation f − activityRestrictedExpectation f s r| ≤ 2·Cf·exp(8·D_s/113)·exp(−n/2), 0 ≤ β ≤ 1/40000, WalkBarrierSeparated s r n."
+    - source: "Version 50 — exponential covariance decay of two local observables (project source entry)"
+      lean: "LatticeGauge.abs_gibbsCovariance_le_local_exp_decay"
+      module: "Phase3/LatticeGauge/CovarianceDecay.lean"
+      status: "proved"
+    - source: "Version 49 — cluster-expansion identity for the log partition function (project source entry)"
+      lean: "LatticeGauge.logPartition_eq_tsum_unrooted"
+      module: "Phase3/LatticeGauge/KPLogPartition.lean"
+      status: "proved"
+    - source: "Wilson (1974) — Wilson action, plaquettes, Wilson loops (background)"
+      lean: "LatticeGauge.Basic, LatticeGauge.WilsonLoop, LatticeGauge.Gibbs"
+      module: "Phase3/LatticeGauge/Basic.lean, WilsonLoop.lean, Gibbs.lean"
+      status: "adapted"
+      note: "Definitions and basic invariance results; capstone |⟨W⟩| ≤ 1 with proved uniform action bound."
+    - source: "Kotecký–Preiss (1986) — cluster-expansion method (adapts)"
+      lean: "LatticeGauge.KPInduction, LatticeGauge.KPClusterExpansion"
+      module: "Phase3/LatticeGauge/KPInduction.lean, KPClusterExpansion.lean"
+      status: "adapted"
+      note: "Finite explicit-constant analogue, not a formalization of the paper's abstract theorem."
+    - source: "Lattice mass gap (definition only)"
+      lean: "HasLatticeMassGap"
+      module: "Phase3/LatticeGauge"
+      status: "not-formalized"
+      note: "Stated as a definition; no proof is claimed."
+
+acknowledgements: >
+  Lean 4 and Mathlib communities. Michael R Douglas, Colin Bundschu, Jack
+  McCarthy and Ron Nissim for comments, critical feedback and references during
+  public discussions of the project in the Lean community (no coauthorship or
+  endorsement implied). Formal verification by the Lean 4 kernel and GitHub
+  Actions, which are verification instances, not authors.
