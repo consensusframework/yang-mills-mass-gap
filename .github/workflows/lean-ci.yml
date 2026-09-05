@@ -1,4 +1,4 @@
-name: Lean CI (all phases)
+name: Lean CI (Phase 3)
 
 on:
   push:
@@ -7,68 +7,6 @@ on:
   workflow_dispatch:
 
 jobs:
-  build-phase2:
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install elan
-        run: |
-          curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-
-      - name: Resolve dependencies (pinned Mathlib)
-        working-directory: Phase2
-        run: lake update
-
-      - name: Fetch Mathlib build cache
-        working-directory: Phase2
-        run: lake exe cache get
-
-      - name: Build Phase 2
-        working-directory: Phase2
-        run: lake build 2>&1 | tee ../kernel_raw.log
-
-      - name: Kernel X-ray report
-        run: python3 scripts/kernel_xray.py kernel_raw.log docs/audit
-
-      - name: Upload kernel X-ray artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: kernel-xray-raw-log
-          path: |
-            kernel_raw.log
-            docs/audit/KERNEL_XRAY.md
-            docs/audit/KERNEL_XRAY.json
-            docs/audit/KERNEL_XRAY.csv
-
-      - name: Axiom report (phase2)
-        if: success()
-        working-directory: Phase2
-        run: |
-          echo "Build OK. Axiom inventory:"
-          grep -rn "^axiom\|^\s*axiom" RGFlow_Work --include="*.lean" | wc -l
-
-  build-phase1:
-    runs-on: ubuntu-latest
-    timeout-minutes: 120
-    steps:
-      - uses: actions/checkout@v4
-      - name: Install elan
-        run: |
-          curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Resolve dependencies
-        working-directory: Phase1
-        run: lake update
-      - name: Fetch Mathlib cache
-        working-directory: Phase1
-        run: lake exe cache get
-      - name: Build Phase 1 (whitelist)
-        working-directory: Phase1
-        run: lake build
-
   build-phase3:
     runs-on: ubuntu-latest
     timeout-minutes: 120
@@ -87,3 +25,31 @@ jobs:
       - name: Build Phase 3
         working-directory: Phase3
         run: lake build
+
+      - name: Kernel certificates (#print axioms of the v49/v50/v51 capstones)
+        working-directory: Phase3
+        run: |
+          set -euo pipefail
+          CERT="$(mktemp -d)/Certs.lean"
+          cat > "$CERT" <<'EOF'
+          import LatticeGauge.KPLogPartition
+          import LatticeGauge.CovarianceDecay
+          import LatticeGauge.ActivityRestrictionStability
+          #print axioms LatticeGauge.logPartition_eq_tsum_unrooted
+          #print axioms LatticeGauge.abs_gibbsCovariance_le_local_exp_decay
+          #print axioms LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay
+          EOF
+          lake env lean "$CERT" | tee "$RUNNER_TEMP/certs.log"
+          # normalise whitespace: Lean may wrap long axiom lists across lines
+          NORM="$(tr -d ' \n' < "$RUNNER_TEMP/certs.log")"
+          if grep -q sorryAx "$RUNNER_TEMP/certs.log"; then echo "::error::sorryAx present"; exit 1; fi
+          EXPECTED="[propext,Classical.choice,Quot.sound]"
+          for D in \
+            LatticeGauge.logPartition_eq_tsum_unrooted \
+            LatticeGauge.abs_gibbsCovariance_le_local_exp_decay \
+            LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay; do
+            if ! printf '%s' "$NORM" | grep -qF "'$D'dependsonaxioms:$EXPECTED"; then
+              echo "::error::certificate of $D differs from $EXPECTED"; exit 1
+            fi
+          done
+          echo "All three capstone certificates equal $EXPECTED; no sorryAx."

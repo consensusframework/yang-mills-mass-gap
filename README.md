@@ -36,7 +36,12 @@ stages of the project:
 
 Historical files are preserved as research provenance. They document the
 evolution of the ideas, definitions, attempted architectures, and human–AI
-collaboration that preceded the current verified development path.
+collaboration that preceded the current verified development path. After
+Version 51 they were moved out of the active tree: the complete historical
+tree is preserved, byte for byte, at the tag [`zenodo-v51`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v51)
+(commit `27dde3ffdfd63b052a63680ad85232512959456b`) and at the branch
+[`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree). The active tree of `main` now contains only the verified
+Phase 3 library and its documentation.
 
 No claim is made that the reconstructed historical tree is byte-for-byte
 identical to the inaccessible original repository.
@@ -45,39 +50,34 @@ identical to the inaccessible original repository.
 
 ## Project structure
 
-### Phase 1 — Early exploratory formalization
+### Active tree
 
-Phase 1 contains the earliest Lean experiments, conceptual decompositions, draft
-definitions, and preliminary attempts to express parts of the Yang–Mills program.
+```
+Phase3/LatticeGauge/        the verified Lean 4 library (namespace LatticeGauge)
+Phase3/lakefile.toml        Lake project, pinned Mathlib
+Phase3/lean-toolchain       Lean toolchain pin
+formalization.yaml          mathlib-initiative formalization.yaml (v0.4)
+README.md                   this file
+VERIFICATION_STATUS.md      verification record (Thorne taxonomy)
+RELEASE_NOTES_PEDRA51.md    release notes of Version 51
+LICENSE, LICENSE-DOCUMENTATION
+.github/workflows/lean-ci.yml   CI: clean build of Phase 3 + #print axioms of the capstones
+```
 
-This phase was created with the models, libraries, tooling, and project knowledge
-available at the time. Its value is primarily historical and architectural: it
-records the first formal vocabulary and the initial decomposition of a very large
-research problem into smaller formalization targets.
+### Phases 1 and 2 — legacy (archived)
 
-Phase 1 does not currently have a complete working Lake project and is not covered
-by continuous integration.
+Phase 1 contained the earliest Lean experiments, conceptual decompositions and
+draft definitions; Phase 2 contained conditional Lean formalizations in which
+substantial physical or mathematical content was represented by explicit
+assumptions, hypotheses or axioms ("if the stated assumptions hold, then the
+formal conclusion follows"). Neither establishes its assumptions, and neither
+constitutes progress toward solving the Clay problem. Their value is
+historical and architectural.
 
-### Phase 2 — Conditional formalization
-
-Phase 2 contains conditional Lean formalizations in which substantial physical or
-mathematical content is represented by explicit assumptions, hypotheses, or
-axioms.
-
-The resulting theorems should be read in the form:
-
-> **If the stated assumptions hold, then the formal conclusion follows.**
-
-These modules do not establish the assumptions themselves and therefore do not
-constitute progress toward solving the Clay problem. They remain useful as:
-
-- dependency maps;
-- formal statement experiments;
-- records of earlier research directions;
-- organizational scaffolding for possible future formalizations;
-- documentation of the project's methodological evolution.
-
-Phase 2 currently compiles as a 25-module Lake project.
+Both phases, together with the historical archive, the session diaries and
+the Phase 1/2 audit artifacts, were removed from the active tree after
+Version 51 and are preserved in full at the tag [`zenodo-v51`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v51) and the
+branch [`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree). Phase 3 does not import anything from them.
 
 ### Phase 3 — Finite-lattice gauge theory
 
@@ -99,12 +99,12 @@ axiom-free development.
 
 ### Historical archive
 
-Recovered, superseded, incomplete, or alternative modules are retained in the
-historical archive and audit directories.
-
-The archive is not part of the trusted Phase 3 proof path. Its purpose is to
-preserve provenance, document earlier approaches, and prevent the loss of
-potentially useful definitions or research questions.
+Recovered, superseded, incomplete or alternative modules (`archive_peneira/`,
+`docs/audit/`, `docs/legacy/`, `PEDRA*_ESTADO.md`) are retained in the
+archived tree ([`zenodo-v51`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v51), [`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree)), not in `main`. The archive
+is not part of the trusted Phase 3 proof path. Its purpose is to preserve
+provenance, document earlier approaches, and prevent the loss of potentially
+useful definitions or research questions.
 
 ---
 
@@ -274,7 +274,7 @@ formalizations of:
   hard-core tree bound, and named relabeling lemmas (tree universe and
   rooted summand invariant under index permutations) — the first formal
   layer beneath the Kotecký–Preiss induction, whose complete paper proof
-  (`PEDRA47A_PROOF.md`, frozen at commit `ede2ba63d2`) survived independent
+  (frozen at commit `ede2ba63d2` in the archived tree) survived independent
   adversarial audit by a fourth model, Kimi 3 (AI model), before any
   formalization began;
 - the root-removal partition of spanning trees: the root neighbours (typed
@@ -415,15 +415,17 @@ Names and documentation are chosen conservatively. For example:
 Detailed verification and structural-audit artifacts are available in:
 
 - [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md)
-- [`docs/audit/`](docs/audit/)
-- [`PHASE3_ROADMAP.md`](PHASE3_ROADMAP.md)
+- [`formalization.yaml`](formalization.yaml)
+- the Phase 1/2 audit artifacts (`docs/audit/`) and the historical roadmap
+  (`PHASE3_ROADMAP.md`) in the archived tree: [`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree)
 
 ---
 
 ## Historical assumptions and audit
 
-The earlier phases contain explicit assumptions, conditional results, unfinished
-proofs, alternative drafts, and exploratory model-generated estimates.
+The earlier phases (now archived at [`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree)) contain explicit
+assumptions, conditional results, unfinished proofs, alternative drafts, and
+exploratory model-generated estimates.
 
 These materials were produced during different stages of the project, with
 different generations of AI models, different Mathlib knowledge, different
@@ -547,6 +549,8 @@ project, not as progress establishing the Millennium Problem.
 
 Version 51 DOI: https://doi.org/10.5281/zenodo.22305341
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22305341.svg)](https://doi.org/10.5281/zenodo.22305341)
+
 ```text
 Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
 GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model);
@@ -570,8 +574,6 @@ Release notes: `RELEASE_NOTES_PEDRA51.md`.
 
 Version 50 (previous version) was published on Zenodo on 29 August 2026.
 DOI: https://doi.org/10.5281/zenodo.22162464
-
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22162464.svg)](https://doi.org/10.5281/zenodo.22162464)
 
 Stone 50 was integrated into `main` through PR #12 at merge commit
 `726711c6eb88743809d979bfc2e049c7e7d54400` (post-merge CI run
