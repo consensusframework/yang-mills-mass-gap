@@ -20,7 +20,12 @@ project:
     local observables; Version 51 — finite-volume exponential stability of a
     local observable functional under remote hard restriction of polymer
     activities, |gibbsExpectation f − activityRestrictedExpectation f s r| ≤
-    2·Cf·exp(8·D_s/113)·exp(−n/2) for 0 ≤ β ≤ 1/40000 and walk separation n.
+    2·Cf·exp(8·D_s/113)·exp(−n/2) for 0 ≤ β ≤ 1/40000 and walk separation n;
+    Stone 52 (integrated on main at commit 6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c,
+    not yet deposited) — finite-volume exponential stability under continuous
+    remote polymer-activity damping, |gibbsExpectation f −
+    activityDampedExpectation f s r θ| ≤ (1 − θ)·2·Cf·exp(8·D_s/113)·exp(−n/2)
+    for 0 ≤ θ ≤ 1, with θ = 0 recovering the Version 51 estimate.
     Every result in the verified Phase 3 library is a finite-lattice statement:
     no thermodynamic or continuum
     limit and no mass-gap theorem is claimed, and the project does not prove
@@ -70,14 +75,15 @@ sources:
       - "Grok 4.6 (AI model)"
     id: "https://doi.org/10.5281/zenodo.17397622"
     type: "formalization"
-    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean"
+    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean; Stone 52 (no deposited version yet) in Phase3/LatticeGauge/ActivityDampingStability.lean at commit 6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c"
     relationship: "other"
     note: >
       This entry records the project itself as the source of its Lean
       statements. The Lean declarations and the explicit constants of Versions
-      49–51 (2/113 per link, exponential rate 1/2, β ≤ 1/40000, walk separation
-      in the plaquette graph, the normalized polymer functional
-      activityRestrictedExpectation) were developed within the project; they
+      49–51 and of Stone 52 (2/113 per link, exponential rate 1/2, β ≤ 1/40000,
+      walk separation in the plaquette graph, the normalized polymer functionals
+      activityRestrictedExpectation and activityDampedExpectation) were
+      developed within the project; they
       adapt the cluster-expansion method of Kotecký–Preiss (see that source
       entry, relationship `adapts`) to a finite lattice gauge setting with
       explicit constants and do not correspond to the transcription of a single
@@ -136,11 +142,15 @@ status:
     and translation invariance; Haar probability on U(n) with unconditional
     capstones |⟨W⟩| ≤ 1; β = 0 factorization; polymer gas and Kotecký–Preiss
     type cluster expansion with explicit constants in the small-β
-    (strong-coupling) regime; exponential covariance decay (Version 50) and
+    (strong-coupling) regime; exponential covariance decay (Version 50);
     exponential stability under remote polymer-activity restriction (Version
-    51). Out of scope: thermodynamic limit, continuum limit, second Gibbs
-    measures or boundary conditions, spatial-mixing theorems, mass gap
-    (HasLatticeMassGap is stated, not proved), and the Clay Millennium Problem.
+    51); and exponential stability under continuous remote polymer-activity
+    damping with the factor (1 − θ) (Stone 52, integrated on main, not
+    deposited). Out of scope: thermodynamic limit, continuum limit, second
+    Gibbs measures or boundary conditions, spatial-mixing theorems,
+    monotonicity of the damped deviation in θ or estimates between two damping
+    parameters, mass gap (HasLatticeMassGap is stated, not proved), and the
+    Clay Millennium Problem.
     Phases 1 and 2 (namespaces YangMills, RGFlow_Work) are exploratory legacy
     developments with explicit named hypotheses; they are not part of the
     verified scope and are preserved at tag zenodo-v51 and branch
@@ -149,6 +159,11 @@ status:
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
   main_results:
+    - declaration: "LatticeGauge.abs_gibbsExpectation_sub_activityDampedExpectation_le_local_exp_decay"
+      file: "Phase3/LatticeGauge/ActivityDampingStability.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
     - declaration: "LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay"
       file: "Phase3/LatticeGauge/ActivityRestrictionStability.lean"
       sorry_count: 0
@@ -175,8 +190,8 @@ automation:
     - method: "agent"
       models: ["Claude Fable 5", "Claude Fable 5.1"]
       framework: "Claude (Cowork / Claude Code)"
-      tool_setup: "Lean implementation of Stones 49–51 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); publication, integration and release operations executed through the coordinator's machine; repository hygiene audits."
-      prompting_notes: "Each gate is a written tape with hard stop points; nothing is declared verified without a build log; the coordinator holds all credentials."
+      tool_setup: "Lean implementation of Stones 49–52 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); for Stones 49–51, publication, integration and release operations executed through the coordinator's machine; for Stone 52, stage audits of every gate by a separate Claude Fable 5.1 instance on its own bench (seven reports, docs/audits/stone52/), and publication operations (push of the audited bundle, pull request, merge after green CI) executed by a Claude Fable 5.1 instance in Claude Code under written per-gate authorization with repository access granted by the coordinator; repository hygiene audits."
+      prompting_notes: "Each gate is a written tape with hard stop points; nothing is declared verified without a build log; the coordinator holds the credentials, the branch ruleset and the release decisions."
     - method: "agent"
       models: ["Codex v2"]
       framework: "Codex"
@@ -204,8 +219,14 @@ automation:
     through:
     written specification → Lean implementation → verifiable git bundle →
     reproduction on a pinned bench → official GitHub Actions CI → integration
-    by merge commit → post-merge CI on main. Version records are frozen at
-    annotated tags (zenodo-v49, zenodo-v50, zenodo-v51) and deposited on Zenodo.
+    by merge commit → post-merge CI on main. For Stone 52 the chain was:
+    written specification → Lean implementation → verifiable git bundle →
+    stage audit by a separate instance on a pinned bench → publication by an
+    authorized Claude Code instance (push, pull request) → GitHub Actions CI on
+    the pull request → normal merge → post-merge CI on main. Version records
+    are frozen at annotated tags (zenodo-v49, zenodo-v50, zenodo-v51) and
+    deposited on Zenodo; Stone 52 is integrated on main and has no tag,
+    release or deposit yet.
 
 fidelity:
   divergences: >
@@ -229,9 +250,11 @@ review:
     - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51)"
     - "Codex v2 (AI model) — custody, reproduction and reading audit (Stone 51), independent from the Lean implementer but not independent from the architect's model family; not a human peer review"
     - "Manus AI 1.6 (AI model) — reproduction of gate 51-A"
+    - "Claude Fable 5.1 (AI model), separate auditing instance — seven stage audits of Stone 52 (gates A0, A, A/C1, B, C, D, E) on its own pinned bench; same model as the implementer, prior exposure declared from 52-B on, explicitly not blind for 52-E; reports and evidence in docs/audits/stone52/"
   notes: >
     Machine verification: Lean 4 kernel and GitHub Actions CI, green on main
-    for the integrated Versions 49–51. Human review: coordinator's process audit. No
+    for the integrated Versions 49–51 and for Stone 52 (merge commit 6231d5cb…,
+    run 478). Human review: coordinator's process audit. No
     peer review by human mathematicians has taken place; public discussions of
     the project in the Lean community produced comments acknowledged in
     README.md, without endorsement of the results.
@@ -239,6 +262,11 @@ review:
 alignment:
   namespace: "LatticeGauge"
   statements:
+    - source: "Stone 52 — exponential stability under continuous remote polymer-activity damping (project source entry; integrated on main, not deposited)"
+      lean: "LatticeGauge.abs_gibbsExpectation_sub_activityDampedExpectation_le_local_exp_decay"
+      module: "Phase3/LatticeGauge/ActivityDampingStability.lean"
+      status: "proved"
+      note: "|gibbsExpectation f − activityDampedExpectation f s r θ| ≤ (1 − θ)·(2·Cf)·exp(8·D_s/113)·exp(−n/2), 0 ≤ β ≤ 1/40000, 0 ≤ θ ≤ 1, WalkBarrierSeparated s r n; 0 ≤ Cf derived; θ = 0 recovers the Version 51 statement with the same constant."
     - source: "Version 51 — exponential stability under remote polymer-activity restriction (project source entry)"
       lean: "LatticeGauge.abs_gibbsExpectation_sub_activityRestrictedExpectation_le_local_exp_decay"
       module: "Phase3/LatticeGauge/ActivityRestrictionStability.lean"
