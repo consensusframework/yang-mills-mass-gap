@@ -191,7 +191,7 @@ automation:
     - method: "agent"
       models: ["GPT Astra"]
       framework: "ChatGPT"
-      tool_setup: "Review of the Stone 52 integration, custody checks on GitHub (pull requests, merge commits, provisional merge of run 477), architecture and review of the Stone 52 documentary consolidation. No direct file access; instructions relayed by the human coordinator."
+      tool_setup: "Review of the Stone 52 integration, custody checks on GitHub (pull requests, merge commits, provisional merge of run 477), architecture and review of the Stone 52 documentary consolidation; direct reading of repository files, import of the delivered git bundles and verification of Git objects, without running a new Lean build."
     - method: "agent"
       models: ["Claude Fable 5", "Claude Fable 5.1"]
       framework: "Claude (Cowork / Claude Code)"
@@ -203,7 +203,7 @@ automation:
       tool_setup: "Custody, reproduction (Windows) and reading audit of the Stone 51 integration, independent from the Lean implementer but not independent from the architect's model family; not a human peer review. Non-vacuity witnesses; verdict GREEN WITH CAVEATS."
     - method: "agent"
       models: ["Kimi 3"]
-      tool_setup: "External adversarial mathematical review of Stone 51 (no recompilation by the reviewer); no mathematical, logical or semantic defect found."
+      tool_setup: "External adversarial mathematical review of Stone 51 (no recompilation by the reviewer); no mathematical, logical or semantic defect found. For Stone 52: final adversarial mathematical and code review of the integrated state 00600e03e36f5fdfdfda1983a17929c3efa6b44f by reading (no Lean execution or reproduction by the reviewer), verdict PASS NO ESCOPO maintained after two corrective addenda (docs/audits/stone52/kimi/)."
     - method: "agent"
       models: ["Manus AI 1.6"]
       tool_setup: "Experiments and reproduction of gate 51-A (D1-R, D2)."
@@ -252,7 +252,7 @@ review:
   status: "agent-reviewed"
   reviewers:
     - "GPT-5.6 \"Sol\" (AI model) — architect's review of every module"
-    - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51)"
+    - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51); final adversarial mathematical and code review of the integrated Stone 52 at 00600e03e36f5fdfdfda1983a17929c3efa6b44f, with errata C1 and addendum C2, reading only, no Lean execution by the reviewer"
     - "Codex v2 (AI model) — custody, reproduction and reading audit (Stone 51), independent from the Lean implementer but not independent from the architect's model family; not a human peer review"
     - "Manus AI 1.6 (AI model) — reproduction of gate 51-A"
     - "GPT Astra (AI model) — review of the Stone 52 integration and custody checks on GitHub; architecture and review of the documentary consolidation"
