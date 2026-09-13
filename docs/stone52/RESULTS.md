@@ -51,7 +51,7 @@ Haar or invariance assumption on `χ` appears in the capstone's signature.
 | Hypothesis | Meaning |
 |---|---|
 | `hβ : 0 ≤ β`, `hsmall : β ≤ 1/40000` | small-β (strong-coupling) regime; the Kotecký–Preiss smallness of Stone 46 |
-| `mχ : Measurable χ`, `hχabs : ∀ g, \|χ g\| ≤ 1` | bounded measurable character |
+| `mχ : Measurable χ`, `hχabs : ∀ g, \|χ g\| ≤ 1` | bounded measurable function `χ : G → ℝ`; the capstone does not require `χ` to be a representation character |
 | `hf : DependsOnlyOn f s` | local observable, depending only on the links of `s` |
 | `mf : Measurable f` | measurability |
 | `hCf : ∀ U, \|f U\| ≤ Cf` | absolute majorant of `f` |
@@ -107,11 +107,13 @@ not construct an infinite-volume object.
 
 ## 4. The chain of gates
 
-Six new modules (3,319 Lean lines, 158 top-level declarations counted as
-lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`,
-`noncomputable def`, `instance`, `inductive` or `class`; 76 in-file
-`#print axioms` certificates), each a leaf over the previous one; no
-pre-existing module was modified at any gate.
+Six new modules (3,319 Lean lines; 158 top-level declaration lines, a
+textual count by `grep -cE` of lines beginning with `theorem`, `lemma`,
+`def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or
+`class` at commit `6231d5c…`, not an exhaustive inventory of the
+declarations elaborated by Lean; 76 in-file `#print axioms` certificates),
+each a leaf over the previous one; no pre-existing module was modified at
+any gate.
 
 | Gate | Module | Lines / decls / certs | Content |
 |---|---|---|---|
@@ -132,9 +134,10 @@ gibbsExpectation f − activityDampedExpectation f s r θ
 ```
 
 Constants: `2/113` per link (Stone 50 envelope), exponential rate `1/2`,
-`β ≤ 1/40000`. The factor `8/(3e)` of 52-A0 is absorbed inside the first-moment
-lemmas and does not appear in any Stone 52 conclusion; the budget `(7/8, 3)` is
-inadmissible and is not used.
+`β ≤ 1/40000`. The factor `8/(3e)` of 52-A0 appears in the auxiliary
+absorption and first-moment statements of that gate; it is absorbed there
+(`8/(3e) ≤ 1`) and does not appear in the final column bounds of 52-D or in
+the 52-E capstone. The budget `(7/8, 3)` is inadmissible and is not used.
 
 ## 5. Kernel certificates and CI
 
@@ -161,14 +164,18 @@ inadmissible and is not used.
 | 52-E | `8b638c94a7db54eb8b5780f962e0e79d522db6ad` | [#25](https://github.com/consensusframework/yang-mills-mass-gap/pull/25) | [477](https://github.com/consensusframework/yang-mills-mass-gap/actions/runs/34718082173) | `6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c` | [478](https://github.com/consensusframework/yang-mills-mass-gap/actions/runs/34719046299) |
 
 Custody note for 52-E: the pull-request run 477 is associated with the head
-`8b638c9…`, but, as for every `pull_request` event, its checkout was the
-provisional merge commit `0f29e1fa0423b45f923e3418690a185bcd681c14` ("Merge
-8b638c9… into 2a39194…"), whose tree and parents coincide with those of the
-definitive merge `6231d5c…`. Run 478 compiled `6231d5c…` itself. The merge
-commit `6231d5c…` has tree `343a69ded589e607f3ad2863047ef049a8763c4f`, which
-is also the tree of the candidate `8b638c9…`. The candidate commit carries an
-SSH signature that GitHub reports as `unknown_key`; the merge commit's
-signature is verified by GitHub.
+`8b638c9…`, but its checkout was the provisional merge commit
+`0f29e1fa0423b45f923e3418690a185bcd681c14` ("Merge 8b638c9… into
+2a39194…"); the job log records `HEAD is now at 0f29e1f` (checked by the
+publishing instance from the run log). That the tree and the parents of this
+provisional merge coincide with those of the definitive merge `6231d5c…` was
+checked directly by the coordinating GPT instance (GPT Astra) during the
+review of the 52-E publication; the provisional ref is no longer served by
+GitHub and was not re-checked here. Run 478 compiled `6231d5c…` itself. The
+merge commit `6231d5c…` has tree `343a69ded589e607f3ad2863047ef049a8763c4f`,
+which is also the tree of the candidate `8b638c9…`. The candidate commit
+carries an SSH signature that GitHub reports as `unknown_key`; the merge
+commit's signature is verified by GitHub.
 
 Toolchain at `6231d5c…`: Lean `4.15.0`, Mathlib `v4.15.0` (pinned in
 `Phase3/lakefile.toml`); the library has 111 modules and 33,381 Lean source

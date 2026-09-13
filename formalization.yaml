@@ -37,6 +37,7 @@ project:
     # developer companies are not authors or affiliations.
     - "Jucelha Carvalho (Smart Tour Brasil; ORCID 0009-0004-6047-2306)"
     - "GPT-5.6 \"Sol\" (AI model)"
+    - "GPT Astra (AI model)"
     - "Claude Fable 5 (AI model)"
     - "Claude Fable 5.1 (AI model)"
     - "Kimi 3 (AI model)"
@@ -188,6 +189,10 @@ automation:
       tool_setup: "Scientific architecture and formal specification: gate-by-gate written specifications (\"tapes\") for each module, mathematical review of every delivered module, release engineering procedures. No direct file access; all instructions relayed by the human coordinator."
       prompting_notes: "Specifications state the exact Lean declarations, hypotheses and constants to be proved, the forbidden constructs (sorry, axiom, native_decide, maxHeartbeats) and the acceptance evidence (#print axioms, clean full Phase 3 build)."
     - method: "agent"
+      models: ["GPT Astra"]
+      framework: "ChatGPT"
+      tool_setup: "Review of the Stone 52 integration, custody checks on GitHub (pull requests, merge commits, provisional merge of run 477), architecture and review of the Stone 52 documentary consolidation. No direct file access; instructions relayed by the human coordinator."
+    - method: "agent"
       models: ["Claude Fable 5", "Claude Fable 5.1"]
       framework: "Claude (Cowork / Claude Code)"
       tool_setup: "Lean implementation of Stones 49–52 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); for Stones 49–51, publication, integration and release operations executed through the coordinator's machine; for Stone 52, stage audits of every gate by a separate Claude Fable 5.1 instance on its own bench (seven reports, docs/audits/stone52/), and publication operations (push of the audited bundle, pull request, merge after green CI) executed by a Claude Fable 5.1 instance in Claude Code under written per-gate authorization with repository access granted by the coordinator; repository hygiene audits."
@@ -250,6 +255,7 @@ review:
     - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51)"
     - "Codex v2 (AI model) — custody, reproduction and reading audit (Stone 51), independent from the Lean implementer but not independent from the architect's model family; not a human peer review"
     - "Manus AI 1.6 (AI model) — reproduction of gate 51-A"
+    - "GPT Astra (AI model) — review of the Stone 52 integration and custody checks on GitHub; architecture and review of the documentary consolidation"
     - "Claude Fable 5.1 (AI model), separate auditing instance — seven stage audits of Stone 52 (gates A0, A, A/C1, B, C, D, E) on its own pinned bench; same model as the implementer, prior exposure declared from 52-B on, explicitly not blind for 52-E; reports and evidence in docs/audits/stone52/"
   notes: >
     Machine verification: Lean 4 kernel and GitHub Actions CI, green on main
