@@ -201,3 +201,13 @@ literal: `PASS WITH RESERVATIONS` (A0, A), `PASS — C1 READY FOR PUBLICATION`
 (A/C1 QA2), `PASS` (B, C, D, E). These are audits by an AI model of the same
 family as the implementer, with declared prior exposure from 52-B on and
 explicitly non-blind for 52-E; they are not human peer review.
+
+After integration, the state `00600e03e36f5fdfdfda1983a17929c3efa6b44f` (merge
+of PR #26; `Phase3/` tree `bf2fae8c…`, identical to the 52-E candidate) was
+reviewed adversarially by Kimi 3 (AI model; "Luan" in the review), a
+different model family: verdict `PASS NO ESCOPO`, maintained after its errata
+C1 and addendum C2, which correct only the review's own wording. It is a
+mathematical and code review by reading, with declared prior exposure and
+**no Lean execution or reproduction by the reviewer**; the clean reproduction
+of the 111 modules remains the one of the 52-E stage audit. Files and
+classification: [`docs/audits/stone52/`](../audits/stone52/README.md#final-adversarial-review-kimi-3).

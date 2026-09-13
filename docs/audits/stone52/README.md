@@ -1,9 +1,11 @@
-# Stone 52 — stage audits (52-A0 … 52-E)
+# Stone 52 — stage audits (52-A0 … 52-E) and final adversarial review
 
 This directory preserves, byte for byte, the seven audit evidence packages
 produced for the six gates of Stone 52 (see
 [`docs/stone52/RESULTS.md`](../../stone52/RESULTS.md)), together with the
-audit reports extracted from them. The packages are the primary record; the
+audit reports extracted from them, and, under [`kimi/`](kimi/), the final
+adversarial review of the integrated Stone 52 by Kimi 3 with its two
+corrective addenda (see "Final adversarial review" below). The packages are the primary record; the
 reports are extracted here only for reading convenience and are byte-identical
 to the copies inside the packages. Nothing in this directory is a Lean module:
 the packages contain the auditors' own disposable test files (including tests
@@ -53,8 +55,60 @@ over the previously integrated `main`, so each presupposes the integration of
 the earlier gates without re-auditing them. 52-D does not certify the
 combination of the two columns; 52-E certifies exactly that combination.
 
-SHA-256 of every package, report and index file: [`SHA256SUMS.txt`](SHA256SUMS.txt).
-Machine-readable provenance: [`PROVENANCE.tsv`](PROVENANCE.tsv).
+SHA-256 of every package, report, review file and index file: [`SHA256SUMS.txt`](SHA256SUMS.txt).
+Machine-readable provenance of the seven packages: [`PROVENANCE.tsv`](PROVENANCE.tsv).
+
+## Final adversarial review (Kimi 3)
+
+After the six gates and their seven stage audits, the integrated Stone 52 was
+reviewed adversarially by **Kimi 3 (AI model)**, identified in the review as
+"Luan", a model of a different family from the implementer and the stage
+auditor. This is **one review with two corrective addenda**, not three
+approvals and not a new audit of the code.
+
+| File | SHA-256 | Content |
+|---|---|---|
+| [`kimi/RELATORIO_52-K-ADV.md`](kimi/RELATORIO_52-K-ADV.md) | `668dccd744ebdc1fdceda2feb44308313948132e4805dccb43618c586fda9992` | the review, 2026-09-13 |
+| [`kimi/ERRATA_52-K-ADV-C1.md`](kimi/ERRATA_52-K-ADV-C1.md) | `6c2d7fc39bf041cfd16e5b4a2ce780e5c820453d866d91abf283437dab805bf2` | errata C1: six precisions to the review's own wording, counts and method statements |
+| [`kimi/ADENDO_52-K-ADV-C2.md`](kimi/ADENDO_52-K-ADV-C2.md) | `f8a6ba344e499ba8644c31ee52b5f2e9ceec51c07f39c7f4055549929e2bc058` | addendum C2: one further precision on `touchCount` in errata C1 |
+
+**Read the review, errata C1 and addendum C2 together; C1 and C2 prevail on
+the points they correct.** The three files are preserved exactly as
+received; nothing in them was edited or merged.
+
+- **Verdict:** `PASS NO ESCOPO` ("pass within scope"), maintained after C1
+  and C2. The reviewer's own formulation: no defect found within the scope and
+  the verifications described; absence of findings is not a guarantee of
+  infallibility.
+- **Reviewed SHA:** the integrated state `00600e03e36f5fdfdfda1983a17929c3efa6b44f`
+  (merge of [PR #26](https://github.com/consensusframework/yang-mills-mass-gap/pull/26)),
+  tree `d8cba4e4…`, whose `Phase3/` tree `bf2fae8c…` is that of the audited
+  52-E candidate `8b638c94…`. The review applies to that state only, not to
+  any later scientific change.
+- **Modality:** adversarial mathematical and code review by reading (all six
+  Stone 52 modules read in full, independent derivations, hygiene greps,
+  independent recount of certificates, declarations and lines; CI status read
+  from the public API). **No Lean execution or reproduction by the
+  reviewer.** Prior exposure declared (the reviewer had audited Stones 49–51);
+  the six modules and the stage audits were read only after the reviewer's
+  own analysis. This is not a blind audit.
+- **What the addenda correct:** only the review's own text — a wrong file
+  path, two line counts given without execution, two explanatory glosses on
+  the damping mechanism and on `touchCount` (the theorems in the code are
+  stated correct), an inequality written as an equality, an over-general
+  remark on where `8/(3e)` occurs, and the clarification that the described
+  proof steps were reconstructed by reading, not executed. They change no
+  conclusion and correct nothing in the scientific code.
+- **What it adds to the chain:** a reading by a different model family. The
+  clean reproduction of the 111 modules remains the one performed by the
+  stage-auditing Claude Fable 5.1 instance in the 52-E audit (`rm -rf
+  .lake/build && lake build`, 111 built, 0 replayed); no reproduction by a
+  different model family, and no human review, exists.
+
+Distinguish therefore: seven stage audits by the Fable auditing instance
+(with builds); one final adversarial review by Kimi 3 with two addenda
+(without builds); one clean reproduction of the 111 modules already
+performed in the 52-E stage audit.
 
 ## What was verified in this consolidation, and what is reported
 
@@ -141,4 +195,5 @@ docs/audits/stone52/
   SHA256SUMS.txt       SHA-256 of packages, reports and index files (relative paths)
   packages/            the seven audit packages, byte-identical to the files received
   reports/             the audit reports (and the 52-B errata), extracted byte for byte
+  kimi/                the Kimi 3 adversarial review, errata C1 and addendum C2, byte-identical
 ```

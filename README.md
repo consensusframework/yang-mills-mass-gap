@@ -185,7 +185,9 @@ with the publication steps executed through the coordinator's machine. For
 Stone 52 the same chain was kept, with two changes of process: each gate was
 audited, before publication, by a separate Claude Fable 5.1 instance on its
 own bench (seven stage audits, preserved in
-[`docs/audits/stone52/`](docs/audits/stone52/README.md)), and the publication
+[`docs/audits/stone52/`](docs/audits/stone52/README.md); after integration,
+one final adversarial review by Kimi 3, a different model family, by reading
+and without Lean execution, with two corrective addenda), and the publication
 steps (push of the audited bundle, pull request, merge after green CI) were
 executed by a Claude Fable 5.1 instance in Claude Code under written per-gate
 authorization, with repository access granted by the coordinator, who holds
@@ -214,7 +216,7 @@ cumulative.
 - **GPT Astra (AI model)** — review of the Stone 52 integration, custody checks on GitHub, architecture and review of the Stone 52 documentary consolidation.
 - **Claude Fable 5 (AI model)** — Lean 4 implementation and debugging of the Phase 3 stones through 50, CI integration, initial Stone 51 iterations.
 - **Claude Fable 5.1 (AI model)** — Lean implementation of Stones 51 and 52, publication and integration operations, hygiene audits, post-51 reorganization; for Stone 52, also the seven stage audits (a separate instance from the implementer, same model) and the publication operations in Claude Code.
-- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions).
+- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions); for Stone 52, the final adversarial mathematical and code review of the integrated state `00600e0…` with two corrective addenda (reading only, no Lean execution), preserved in `docs/audits/stone52/kimi/`.
 - **Manus AI 1.6 (AI model)** — DevOps and operations; reproducibility and release reviews of Stones 48–50; reproduction of gate 51-A.
 - **Codex v2 (AI model)** — custody, reproduction and reading audit of Stone 51, independent from the Lean implementer but not from the architect's model family; not a human peer review.
 - **Claude Opus 4.5 (AI model)**, **Claude Opus 4.6 (AI model)**, **Claude Opus 4.7 (AI model)** — formal-verification work, incomplete-proof reduction, historical-code recovery, forensic inventory, dependency mapping.
