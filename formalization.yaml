@@ -25,12 +25,16 @@ project:
     tag zenodo-v52) — finite-volume exponential stability under continuous
     remote polymer-activity damping, |gibbsExpectation f −
     activityDampedExpectation f s r θ| ≤ (1 − θ)·2·Cf·exp(8·D_s/113)·exp(−n/2)
-    for 0 ≤ θ ≤ 1, with θ = 0 recovering the Version 51 estimate; Stone 53
-    (integrated on main at commit a7ae1c0cb81aa8829c056482afc74f9629485fd6,
-    not deposited) — Lipschitz stability of the damped functional in the
-    damping parameter, |activityDampedExpectation f s r θ −
+    for 0 ≤ θ ≤ 1, with θ = 0 recovering the Version 51 estimate; Version 53
+    (commit 571b83aadb53838eb8257c015b7c02d3e57d30ad, tag zenodo-v53, GitHub
+    Release published, Zenodo record with reserved DOI 10.5281/zenodo.22750453
+    not confirmed published here) — Lipschitz stability of the damped
+    functional in the damping parameter, |activityDampedExpectation f s r θ −
     activityDampedExpectation f s r θ′| ≤ |θ − θ′|·2·Cf·exp(8·D_s/113)·exp(−n/2)
-    for θ, θ′ ∈ [0, 1], without DependsOnlyOn f s between the two functionals.
+    for θ, θ′ ∈ [0, 1], without DependsOnlyOn f s between the two functionals;
+    Stone 54 (integrated on main at commit 9c0f6fdecee5c8628a2434d032e421edc78bb722,
+    not deposited) — the same estimate with the refined prefactor
+    exp(6·D_s/113), under the same hypotheses, interval and rate.
     Every result in the verified Phase 3 library is a finite-lattice statement:
     no thermodynamic or continuum
     limit and no mass-gap theorem is claimed, and the project does not prove
@@ -82,12 +86,12 @@ sources:
       - "Grok 4.6 (AI model)"
     id: "https://doi.org/10.5281/zenodo.17397622"
     type: "formalization"
-    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51), 10.5281/zenodo.22738731 (v52, tag zenodo-v52, commit f4015c5c8e7376a924c3ec3ab3dc7c00097e6085); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean, ActivityDampingStability.lean; Stone 53 (no deposited version) in Phase3/LatticeGauge/ActivityDampingLipschitz.lean at commit a7ae1c0cb81aa8829c056482afc74f9629485fd6"
+    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51), 10.5281/zenodo.22738731 (v52, tag zenodo-v52, commit f4015c5c8e7376a924c3ec3ab3dc7c00097e6085); Version 53: tag zenodo-v53, commit 571b83aadb53838eb8257c015b7c02d3e57d30ad, GitHub Release, reserved DOI 10.5281/zenodo.22750453 (Zenodo publication not confirmed here); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean, ActivityDampingStability.lean, ActivityDampingLipschitz.lean; Stone 54 (no deposited version) in Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean at commit 9c0f6fdecee5c8628a2434d032e421edc78bb722"
     relationship: "other"
     note: >
       This entry records the project itself as the source of its Lean
       statements. The Lean declarations and the explicit constants of Versions
-      49–52 and of Stone 53 (2/113 per link, exponential rate 1/2, β ≤ 1/40000,
+      49–53 and of Stone 54 (2/113 per link, exponential rate 1/2, β ≤ 1/40000,
       walk separation in the plaquette graph, the normalized polymer functionals
       activityRestrictedExpectation and activityDampedExpectation) were
       developed within the project; they
@@ -155,7 +159,8 @@ status:
     damping with the factor (1 − θ) (Version 52); and Lipschitz stability of
     the damped functional in the damping parameter with the factor |θ − θ′|
     and the same constant, without DependsOnlyOn f s between the two
-    functionals (Stone 53, integrated on main, not deposited). Out of scope:
+    functionals (Version 53), and the same estimate with the refined prefactor
+    exp(6·D_s/113) (Stone 54, integrated on main, not deposited). Out of scope:
     thermodynamic limit, continuum limit, second Gibbs measures or boundary
     conditions, spatial-mixing theorems, monotonicity of the damped functional
     in θ or a derivative in θ, mass gap (HasLatticeMassGap is stated, not
@@ -168,6 +173,11 @@ status:
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
   main_results:
+    - declaration: "LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay_refined"
+      file: "Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean"
+      sorry_count: 0
+      axioms: ["propext", "Classical.choice", "Quot.sound"]
+      literature_dependencies: []
     - declaration: "LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay"
       file: "Phase3/LatticeGauge/ActivityDampingLipschitz.lean"
       sorry_count: 0
@@ -204,11 +214,11 @@ automation:
     - method: "agent"
       models: ["GPT Astra"]
       framework: "ChatGPT"
-      tool_setup: "Review of the Stone 52 integration, custody checks on GitHub (pull requests, merge commits, provisional merge of run 477), architecture and review of the Stone 52 documentary consolidation; scientific architecture of Stone 53 (feasibility, construction, publication and consolidation tapes) and review of its sources, Git objects and evidence; review of the Version 52 release package; direct reading of repository files, import of the delivered git bundles and verification of Git objects, without running a new Lean build."
+      tool_setup: "Review of the Stone 52 integration, custody checks on GitHub (pull requests, merge commits, provisional merge of run 477), architecture and review of the Stone 52 documentary consolidation; scientific architecture of Stones 53 and 54 (feasibility, construction, publication and consolidation tapes) and review of their sources, Git objects and evidence; review of the Version 52 and 53 release packages; direct reading of repository files, import of the delivered git bundles and verification of Git objects, without running a new Lean build."
     - method: "agent"
       models: ["Claude Fable 5", "Claude Fable 5.1"]
       framework: "Claude (Cowork / Claude Code)"
-      tool_setup: "Lean implementation of Stones 49–52 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); for Stones 49–51, publication, integration and release operations executed through the coordinator's machine; for Stone 52, stage audits of every gate by a separate Claude Fable 5.1 instance on its own bench (seven reports, docs/audits/stone52/), and publication operations (push of the audited bundle, pull request, merge after green CI) executed by a Claude Fable 5.1 instance in Claude Code under written per-gate authorization with repository access granted by the coordinator; for Stone 53, construction of both modules and, after the audit, publication (push, pull request, merge after green CI) by one Claude Fable 5.1 instance in Claude Code with an executable Lean bench (Mathlib pinned, compiled from source), reproduction by execution by a separate Claude Fable 5.1 instance on its own bench (QA1, docs/audits/stone53/), documentary consolidations, and packaging of the Version 52 release assets; repository hygiene audits."
+      tool_setup: "Lean implementation of Stones 49–52 from the written specifications; local commits delivered as verifiable git bundles; reproduction on a pinned bench (directed build, clean full Phase 3 build, #print axioms); for Stones 49–51, publication, integration and release operations executed through the coordinator's machine; for Stone 52, stage audits of every gate by a separate Claude Fable 5.1 instance on its own bench (seven reports, docs/audits/stone52/), and publication operations (push of the audited bundle, pull request, merge after green CI) executed by a Claude Fable 5.1 instance in Claude Code under written per-gate authorization with repository access granted by the coordinator; for Stones 53 and 54, construction of the modules and, after the audits, publication (push, pull request, merge after green CI) by one Claude Fable 5.1 instance in Claude Code with an executable Lean bench (Mathlib pinned, compiled from source), reproduction by execution by a separate Claude Fable 5.1 instance on its own bench (QA1, docs/audits/stone53/ and docs/audits/stone54/), documentary consolidations, and packaging of the Version 52 and 53 release assets; repository hygiene audits."
       prompting_notes: "Each gate is a written tape with hard stop points; nothing is declared verified without a build log; the coordinator holds the credentials, the branch ruleset and the release decisions."
     - method: "agent"
       models: ["Codex v2"]
@@ -216,7 +226,7 @@ automation:
       tool_setup: "Custody, reproduction (Windows) and reading audit of the Stone 51 integration, independent from the Lean implementer but not independent from the architect's model family; not a human peer review. Non-vacuity witnesses; verdict GREEN WITH CAVEATS."
     - method: "agent"
       models: ["Kimi 3"]
-      tool_setup: "External adversarial mathematical review of Stone 51 (no recompilation by the reviewer); no mathematical, logical or semantic defect found. For Stone 52: final adversarial mathematical and code review of the integrated state 00600e03e36f5fdfdfda1983a17929c3efa6b44f by reading (no Lean execution or reproduction by the reviewer), verdict PASS NO ESCOPO maintained after two corrective addenda (docs/audits/stone52/kimi/). For Stone 53: final adversarial mathematical and code review of the candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 by reading (no Lean execution, not blind), verdict PASS NO ESCOPO maintained after one errata (docs/audits/stone53/kimi/)."
+      tool_setup: "External adversarial mathematical review of Stone 51 (no recompilation by the reviewer); no mathematical, logical or semantic defect found. For Stone 52: final adversarial mathematical and code review of the integrated state 00600e03e36f5fdfdfda1983a17929c3efa6b44f by reading (no Lean execution or reproduction by the reviewer), verdict PASS NO ESCOPO maintained after two corrective addenda (docs/audits/stone52/kimi/). For Stone 53: final adversarial mathematical and code review of the candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 by reading (no Lean execution, not blind), verdict PASS NO ESCOPO maintained after one errata (docs/audits/stone53/kimi/). For Stone 54: adversarial review of the scientific merge 9c0f6fdecee5c8628a2434d032e421edc78bb722 by reading and mathematical analysis (no Lean execution, not blind), verdict PASS NO ESCOPO (docs/audits/stone54/kimi/)."
     - method: "agent"
       models: ["Manus AI 1.6"]
       tool_setup: "Experiments and reproduction of gate 51-A (D1-R, D2)."
@@ -247,10 +257,12 @@ automation:
     instance on its own bench (QA1) → publication by the constructing Claude
     Code instance (push, pull request) → GitHub Actions CI on the pull request
     → normal merge with the expected head locked → post-merge CI on main →
-    adversarial review by reading (Kimi 3). Version records are frozen at tags
-    (annotated zenodo-v49, zenodo-v50, zenodo-v51; simple zenodo-v52 → commit
-    f4015c5c…) and deposited on Zenodo; Stone 53 is integrated on main and has
-    no tag, release or deposit.
+    adversarial review by reading (Kimi 3). Stone 54 followed the same chain
+    as Stone 53. Version records are frozen at tags (annotated zenodo-v49,
+    zenodo-v50, zenodo-v51; simple zenodo-v52 → f4015c5c…, deposited on
+    Zenodo; simple zenodo-v53 → 571b83aa…, GitHub Release published, Zenodo
+    record with a reserved DOI not confirmed published here); Stone 54 is
+    integrated on main and has no tag, release or deposit.
 
 fidelity:
   divergences: >
@@ -271,15 +283,16 @@ review:
   status: "agent-reviewed"
   reviewers:
     - "GPT-5.6 \"Sol\" (AI model) — architect's review of every module"
-    - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51); final adversarial mathematical and code review of the integrated Stone 52 at 00600e03e36f5fdfdfda1983a17929c3efa6b44f, with errata C1 and addendum C2, reading only, no Lean execution by the reviewer; final adversarial review of the Stone 53 candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 with errata C1, reading only, no Lean execution, not blind"
+    - "Kimi 3 (AI model) — external adversarial mathematical review (Stone 51); final adversarial mathematical and code review of the integrated Stone 52 at 00600e03e36f5fdfdfda1983a17929c3efa6b44f, with errata C1 and addendum C2, reading only, no Lean execution by the reviewer; final adversarial review of the Stone 53 candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 with errata C1, reading only, no Lean execution, not blind; adversarial review of the Stone 54 scientific merge 9c0f6fdecee5c8628a2434d032e421edc78bb722, reading and mathematical analysis, no Lean execution, not blind"
     - "Codex v2 (AI model) — custody, reproduction and reading audit (Stone 51), independent from the Lean implementer but not independent from the architect's model family; not a human peer review"
     - "Manus AI 1.6 (AI model) — reproduction of gate 51-A"
-    - "GPT Astra (AI model) — review of the Stone 52 integration and custody checks on GitHub; architecture and review of the documentary consolidation; scientific architecture of Stone 53 and review of its sources, Git objects and evidence, without a Lean build of its own"
-    - "Claude Fable 5.1 (AI model), separate auditing instance — seven stage audits of Stone 52 (gates A0, A, A/C1, B, C, D, E) on its own pinned bench; same model as the implementer, prior exposure declared from 52-B on, explicitly not blind for 52-E; reports and evidence in docs/audits/stone52/; for Stone 53, one reproduction by execution of the candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 on its own bench (113 modules rebuilt, own certificates and tests), same model as the constructor, not blind; report and evidence in docs/audits/stone53/"
+    - "GPT Astra (AI model) — review of the Stone 52 integration and custody checks on GitHub; architecture and review of the documentary consolidation; scientific architecture of Stones 53 and 54 and review of their sources, Git objects, evidence and publication metadata, without a Lean build of its own"
+    - "Claude Fable 5.1 (AI model), separate auditing instance — seven stage audits of Stone 52 (gates A0, A, A/C1, B, C, D, E) on its own pinned bench; same model as the implementer, prior exposure declared from 52-B on, explicitly not blind for 52-E; reports and evidence in docs/audits/stone52/; for Stone 53, one reproduction by execution of the candidate abad16674ab9b713c7ef9d0344c8f5cc02b09739 on its own bench (113 modules rebuilt, own certificates and tests), same model as the constructor, not blind; report and evidence in docs/audits/stone53/; for Stone 54, one reproduction by execution of the candidate 410bde8146e8f14b698a03387da395a79f81f9eb (114 modules rebuilt, 0 replayed, own certificates and tests), same model, not blind; report and evidence in docs/audits/stone54/"
   notes: >
     Machine verification: Lean 4 kernel and GitHub Actions CI, green on main
-    for the integrated Versions 49–52 (Version 52 commit f4015c5c…, run 482)
-    and for Stone 53 (merge commit a7ae1c0c…, run 484). Human review:
+    for the integrated Versions 49–53 (Version 52 commit f4015c5c…, run 482;
+    Version 53 commit 571b83aa…, run 486) and for Stone 54 (merge commit
+    9c0f6fde…, run 488). Human review:
     coordinator's process audit. No
     peer review by human mathematicians has taken place; public discussions of
     the project in the Lean community produced comments acknowledged in
@@ -288,7 +301,12 @@ review:
 alignment:
   namespace: "LatticeGauge"
   statements:
-    - source: "Stone 53 — Lipschitz stability of the damped functional in the damping parameter (project source entry; integrated on main, not deposited)"
+    - source: "Stone 54 — refined Lipschitz stability of the damped functional, connector column at κ = 2 (project source entry; integrated on main, not deposited)"
+      lean: "LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay_refined"
+      module: "Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean"
+      status: "proved"
+      note: "|activityDampedExpectation f s r θ − activityDampedExpectation f s r θ′| ≤ |θ − θ′|·(2·Cf)·exp(6·D_s/113)·exp(−n/2) for θ, θ′ ∈ [0, 1], under exactly the hypotheses of the Stone 53 capstone; two-term form with Cf·exp(−n/2)·[exp(6·D_s/113) + exp(4·D_s/113)]; the Stone 53 estimate is a corollary; no optimality claimed."
+    - source: "Version 53 — Lipschitz stability of the damped functional in the damping parameter (project source entry; tag zenodo-v53, GitHub Release, reserved DOI)"
       lean: "LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay"
       module: "Phase3/LatticeGauge/ActivityDampingLipschitz.lean"
       status: "proved"
