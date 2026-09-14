@@ -3,15 +3,15 @@
 We are building and publishing, step by step, a formal, verifiable research
 program directed at the Yang–Mills existence and mass-gap problem. Its
 currently proved results concern finite-volume lattice gauge theory in the
-small-β (strong-coupling, Wilson convention) regime; the most recent, Stone 52,
-establishes exponential stability of a local observable functional under
-continuous remote polymer-activity damping.
+small-β (strong-coupling, Wilson convention) regime; the most recent, Stone 53,
+establishes Lipschitz stability, in the damping parameter, of the normalized
+polymer functional under continuous remote polymer-activity damping.
 
 > **Scope.** Every verified result is a finite-lattice theorem. The repository
 > is **not a proof, partial proof or claimed solution** of the Yang–Mills
 > Existence and Mass Gap Millennium Problem; see "What this is not".
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22305341.svg)](https://doi.org/10.5281/zenodo.22305341)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22738731.svg)](https://doi.org/10.5281/zenodo.22738731)
 [![Lean CI (Phase 3)](https://github.com/consensusframework/yang-mills-mass-gap/actions/workflows/lean-ci.yml/badge.svg?branch=main)](https://github.com/consensusframework/yang-mills-mass-gap/actions/workflows/lean-ci.yml)
 
 ## What this is
@@ -39,24 +39,30 @@ or partial solution of the Clay problem.
 
 | | |
 |---|---|
-| Library | `Phase3/LatticeGauge`, 111 modules, 33,381 Lean source lines; 1,636 top-level declaration lines by a textual count (`grep -cE` of lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or `class`, at commit `6231d5c…`), not an exhaustive inventory of the declarations elaborated by Lean |
+| Library | `Phase3/LatticeGauge`, 113 modules, 34,585 Lean source lines; 1,665 top-level declaration lines by a textual count (`grep -cE` of lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or `class` followed by a space, at commit `a7ae1c0…`; 1,636 at the Version 52 commit `f4015c5…`), not an exhaustive inventory of the declarations elaborated by Lean |
 | `sorry` | 0 |
 | Project-specific scientific axioms | 0 (kernel axioms only: `propext`, `Classical.choice`, `Quot.sound`) |
 | Toolchain | Lean 4.15.0, Mathlib `v4.15.0` (pinned in `Phase3/lakefile.toml`) |
-| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at `6231d5c…`; the seven certificates of the Stone 52 module are emitted during the build and visible in the CI log |
-| Integrated, not deposited | Stone 52 (Version 52 candidate) on `main` since merge commit `6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c` (PR #25); no tag, release or Zenodo record yet — see [`docs/stone52/RESULTS.md`](docs/stone52/RESULTS.md) |
-| Frozen release | tag `zenodo-v51`, Version 51 DOI [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341) |
+| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at `a7ae1c0…` (run 484); the seven certificates of the Stone 52 capstone module and the 29 certificates of the two Stone 53 modules are emitted during the build and visible in the CI log |
+| Frozen release | tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), Version 52 DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731) — the most recent deposited version; it contains Stone 52 and not Stone 53 |
+| Integrated, not deposited | Stone 53 on `main` since merge commit `a7ae1c0cb81aa8829c056482afc74f9629485fd6` (PR #28); no tag, release or Zenodo record — see [`docs/stone53/RESULTS.md`](docs/stone53/RESULTS.md) |
 
 Detailed records: [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md),
 [`RELEASE_NOTES_PEDRA51.md`](RELEASE_NOTES_PEDRA51.md),
 [`docs/stone52/RESULTS.md`](docs/stone52/RESULTS.md) (Stone 52 and its
 provenance), [`docs/audits/stone52/`](docs/audits/stone52/README.md) (the
-seven Stone 52 stage audits), [`formalization.yaml`](formalization.yaml)
-(mathlib-initiative schema v0.4).
+seven Stone 52 stage audits and the Kimi 3 review),
+[`docs/stone53/RESULTS.md`](docs/stone53/RESULTS.md) (Stone 53),
+[`docs/audits/stone53/`](docs/audits/stone53/README.md) (the Stone 53 QA1
+reproduction, the Kimi 3 review and the publication record),
+[`formalization.yaml`](formalization.yaml) (mathlib-initiative schema v0.4).
+The release notes of Version 52 are an asset of the GitHub Release
+[`zenodo-v52`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v52),
+external to the tree.
 
 ## Principal results
 
-All four hold in finite volume for `0 ≤ β ≤ 1/40000` (Wilson convention:
+All five hold in finite volume for `0 ≤ β ≤ 1/40000` (Wilson convention:
 small β is strong coupling) on a finite periodic four-dimensional lattice,
 for a probability base measure and a bounded measurable function `χ` with
 `|χ| ≤ 1`. "Distance" is walk separation in the plaquette graph, not
@@ -95,8 +101,8 @@ Euclidean distance.
    volume or on the size of `r`; the remote region affects the estimate through
    the walk-separation scale `n`.
 
-4. **Stone 52 (integrated on `main`, not yet deposited) — exponential
-   stability under continuous remote polymer-activity damping.**
+4. **Version 52 — exponential stability under continuous remote
+   polymer-activity damping.**
    `LatticeGauge.abs_gibbsExpectation_sub_activityDampedExpectation_le_local_exp_decay`
    (`Phase3/LatticeGauge/ActivityDampingStability.lean`): under the hypotheses
    of Version 51 and a damping parameter `0 ≤ θ ≤ 1`,
@@ -114,14 +120,42 @@ Euclidean distance.
    or a boundary condition. `θ = 0` recovers the Version 51 estimate with the
    same constant and rate; `θ = 1` and `r = ∅` are exact identities with the
    Gibbs expectation. `0 ≤ Cf` is derived, not assumed. The theorem bounds the
-   deviation for one `θ`; it does not assert monotonicity in `θ`, an estimate
-   between two damping parameters, or any infinite-volume statement. Details,
-   endpoints, the six gates and the CI/merge record:
-   [`docs/stone52/RESULTS.md`](docs/stone52/RESULTS.md).
+   deviation for one `θ`; it does not assert monotonicity in `θ` or any
+   infinite-volume statement. Details, endpoints, the six gates and the
+   CI/merge record: [`docs/stone52/RESULTS.md`](docs/stone52/RESULTS.md).
+
+5. **Stone 53 (integrated on `main`, not deposited) — Lipschitz stability of
+   the damped functional in the damping parameter.**
+   `LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay`
+   (`Phase3/LatticeGauge/ActivityDampingLipschitz.lean`): for
+   `F(θ) = activityDampedExpectation f s r θ` and two damping parameters
+   `θ, θ′ ∈ [0, 1]`,
+
+   ```
+   |F(θ) − F(θ′)|
+       ≤ |θ − θ′| · Cf · exp(−n/2) · [exp(8·D_s/113) + exp(4·D_s/113)]
+       ≤ |θ − θ′| · (2 · Cf) · exp(8 · D_s / 113) · exp(−n / 2),
+   ```
+
+   the same constant as Version 52, now as a Lipschitz constant uniform in
+   `θ`, `θ′` and `r`. Hypotheses: the small-β regime, `χ` bounded and
+   measurable, `f` measurable with `|f| ≤ Cf` (`0 ≤ Cf` derived), and
+   `WalkBarrierSeparated s r n`; **no `DependsOnlyOn f s`** is needed between
+   the two functionals (without it, `s` is a parameter of the functional, not
+   asserted to be a support of `f`); the exact ledger behind the estimate needs
+   neither measurability, nor a majorant, nor separation; `DependsOnlyOn f s`
+   enters only when `F(1)` is identified with the Gibbs expectation (endpoint
+   `θ′ = 1`, which recovers the Version 52 estimate). Endpoints: `θ = θ′`
+   (difference 0), `θ′ = 0` (distance to the Version 51 functional with the
+   factor `θ`), `r = ∅` (exact identity for all real `θ, θ′`). Not asserted:
+   monotonicity in `θ`, a derivative in `θ`, a second Gibbs measure, or any
+   infinite-volume statement. Details, the two modules and the CI/merge record:
+   [`docs/stone53/RESULTS.md`](docs/stone53/RESULTS.md).
 
 Kernel certificates: the three capstones of Versions 49–51 are re-checked by a
-dedicated CI step on every run; the seven declarations of the Stone 52 module
-carry in-file `#print axioms` certificates emitted during the build. All report
+dedicated CI step on every run; the seven declarations of the Stone 52 capstone
+module and the 29 declarations of the two Stone 53 modules carry in-file
+`#print axioms` certificates emitted during the build. All report
 `[propext, Classical.choice, Quot.sound]`.
 
 ## Reproduce
@@ -131,13 +165,15 @@ git clone https://github.com/consensusframework/yang-mills-mass-gap
 cd yang-mills-mass-gap/Phase3
 lake update            # resolves the pinned Mathlib (v4.15.0)
 lake exe cache get     # optional: Mathlib build cache
-lake build             # 111 modules; ~8–9 min on 2 vCPU with the cache
+lake build             # 113 modules; ~8–9 min on 2 vCPU with the cache
 ```
 
 The CI step `Kernel certificates` (`.github/workflows/lean-ci.yml`) re-checks
 the three `#print axioms` certificates of Versions 49–51 with `lake env lean`;
-the Stone 52 certificates are printed by `lake build` itself (module
-`LatticeGauge.ActivityDampingStability`).
+the Stone 52 and Stone 53 certificates are printed by `lake build` itself
+(modules `LatticeGauge.ActivityDampingStability`,
+`LatticeGauge.ActivityDampingLipschitzInfrastructure` and
+`LatticeGauge.ActivityDampingLipschitz`).
 
 ## Repository layout
 
@@ -149,7 +185,9 @@ formalization.yaml              mathlib-initiative metadata (v0.4)
 VERIFICATION_STATUS.md          verification record
 RELEASE_NOTES_PEDRA51.md        release notes of Version 51
 docs/stone52/RESULTS.md         Stone 52: statement, endpoints, gates, CI and merge record
-docs/audits/stone52/            the seven Stone 52 stage-audit packages and reports
+docs/audits/stone52/            the seven Stone 52 stage-audit packages, reports and the Kimi 3 review
+docs/stone53/RESULTS.md         Stone 53: statement, hypotheses, endpoints, modules, CI and merge record
+docs/audits/stone53/            Stone 53: QA1 reproduction package, Kimi 3 review, publication record
 LICENSE, LICENSE-DOCUMENTATION  Apache-2.0 (code) / CC BY 4.0 (documentation)
 .github/workflows/lean-ci.yml   CI (job build-phase3)
 ```
@@ -166,7 +204,14 @@ The complete historical tree is preserved, byte for byte, at the tag
 [`zenodo-v51`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v51)
 (commit `27dde3ffdfd63b052a63680ad85232512959456b`) and at the branch
 [`archive/zenodo-v51-full-tree`](https://github.com/consensusframework/yang-mills-mass-gap/tree/archive/zenodo-v51-full-tree).
-Previous versions: Version 50 — [10.5281/zenodo.22162464](https://doi.org/10.5281/zenodo.22162464)
+The most recent deposited version is Version 52 — [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731),
+tag [`zenodo-v52`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v52)
+(a simple tag pointing to commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`,
+root tree `9087e69d…`, `Phase3/` tree `bf2fae8c…`; GitHub Release with four
+assets: the snapshot ZIP, `RELEASE_NOTES_PEDRA52.md`, `MANIFEST_v52.txt` and
+`SHA256SUMS.3.txt`, published by the coordinator). Previous versions:
+Version 51 — [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341)
+(tag `zenodo-v51`); Version 50 — [10.5281/zenodo.22162464](https://doi.org/10.5281/zenodo.22162464)
 (tag `zenodo-v50`); Version 49 — [10.5281/zenodo.22050763](https://doi.org/10.5281/zenodo.22050763)
 (tag `zenodo-v49`); concept DOI (all versions) — [10.5281/zenodo.17397622](https://doi.org/10.5281/zenodo.17397622).
 
@@ -191,7 +236,14 @@ and without Lean execution, with two corrective addenda), and the publication
 steps (push of the audited bundle, pull request, merge after green CI) were
 executed by a Claude Fable 5.1 instance in Claude Code under written per-gate
 authorization, with repository access granted by the coordinator, who holds
-the credentials, the branch ruleset and the release decisions.
+the credentials, the branch ruleset and the release decisions. For Stone 53
+(scientific architecture by GPT Astra) the two modules were built and, after
+the audit, published by one Claude Fable 5.1 instance in Claude Code with an
+executable Lean bench; the candidate was reproduced by execution by a separate
+Claude Fable 5.1 instance on its own bench (QA1, same model, not blind) and
+reviewed adversarially by reading by Kimi 3, a different model family,
+without Lean execution (one review with one errata); both records are
+preserved in [`docs/audits/stone53/`](docs/audits/stone53/README.md).
 The Consensus Framework was the winner of the UN Tourism Global Artificial
 Intelligence Challenge 2025; that recognition concerns the methodology and is
 not a review or endorsement of the mathematics here, which rests solely on
@@ -213,10 +265,10 @@ cumulative.
 
 - **Jucelha Carvalho (Smart Tour Brasil)** — coordination, scope and epistemological decisions, provenance, custody, integration supervision, release authorization.
 - **GPT-5.6 "Sol" (AI model)** — theorem and stone architecture, formal specifications, scope control, mathematical review, audit methodology (including the scientific architecture of Stone 52).
-- **GPT Astra (AI model)** — review of the Stone 52 integration, custody checks on GitHub, architecture and review of the Stone 52 documentary consolidation.
+- **GPT Astra (AI model)** — review of the Stone 52 integration, custody checks on GitHub, architecture and review of the Stone 52 documentary consolidation; scientific architecture of Stone 53 (feasibility, construction, publication and consolidation tapes) and review of its sources, Git objects and evidence, without a Lean build of its own; review of the Version 52 release package.
 - **Claude Fable 5 (AI model)** — Lean 4 implementation and debugging of the Phase 3 stones through 50, CI integration, initial Stone 51 iterations.
-- **Claude Fable 5.1 (AI model)** — Lean implementation of Stones 51 and 52, publication and integration operations, hygiene audits, post-51 reorganization; for Stone 52, also the seven stage audits (a separate instance from the implementer, same model) and the publication operations in Claude Code.
-- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions); for Stone 52, the final adversarial mathematical and code review of the integrated state `00600e0…` with two corrective addenda (reading only, no Lean execution), preserved in `docs/audits/stone52/kimi/`.
+- **Claude Fable 5.1 (AI model)** — Lean implementation of Stones 51, 52 and 53, publication and integration operations, hygiene audits, post-51 reorganization; for Stone 52, also the seven stage audits (a separate instance from the implementer, same model) and the publication operations in Claude Code; for Stone 53, construction and publication in one Claude Code instance with an executable Lean bench, the QA1 reproduction by a separate instance (same model, not blind), the documentary consolidations, and the packaging of the Version 52 release assets.
+- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions); for Stone 52, the final adversarial mathematical and code review of the integrated state `00600e0…` with two corrective addenda (reading only, no Lean execution), preserved in `docs/audits/stone52/kimi/`; for Stone 53, the final adversarial review of the candidate `abad166…` with one errata (reading only, no Lean execution, not blind), preserved in `docs/audits/stone53/kimi/`.
 - **Manus AI 1.6 (AI model)** — DevOps and operations; reproducibility and release reviews of Stones 48–50; reproduction of gate 51-A.
 - **Codex v2 (AI model)** — custody, reproduction and reading audit of Stone 51, independent from the Lean implementer but not from the architect's model family; not a human peer review.
 - **Claude Opus 4.5 (AI model)**, **Claude Opus 4.6 (AI model)**, **Claude Opus 4.7 (AI model)** — formal-verification work, incomplete-proof reduction, historical-code recovery, forensic inventory, dependency mapping.
@@ -247,29 +299,32 @@ are licensed under the Apache License 2.0 — see [`LICENSE`](LICENSE).
 Documentation and textual materials (README, release notes, Markdown files)
 are licensed under Creative Commons Attribution 4.0 International — see
 [`LICENSE-DOCUMENTATION`](LICENSE-DOCUMENTATION). Comments inside `.lean`
-files follow the license of the code. Version 50 remains licensed as
-published on Zenodo (CC BY 4.0).
+files follow the license of the code. Earlier versions remain licensed as
+published on Zenodo (Version 50: CC BY 4.0).
 
 ## Citation
 
 Please cite this repository as an exploratory Lean 4 formalization project,
 not as progress establishing the Millennium Problem. The citation below is the
-**deposited** Version 51 record; Stone 52 is integrated on `main` (commit
-[`6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c`](https://github.com/consensusframework/yang-mills-mass-gap/commit/6231d5cb3f19d2f36f9719a4a78eab7a68bf8c3c))
-and has no Zenodo record yet; to refer to it, cite the commit.
+**deposited** Version 52 record (commit `f4015c5c…`); Stone 53 is integrated on
+`main` (commit
+[`a7ae1c0cb81aa8829c056482afc74f9629485fd6`](https://github.com/consensusframework/yang-mills-mass-gap/commit/a7ae1c0cb81aa8829c056482afc74f9629485fd6))
+and has no Zenodo record; to refer to it, cite the commit. The Version 51
+citation (DOI [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341))
+remains valid for that deposited record.
 
 ```text
 Carvalho, Jucelha (Smart Tour Brasil, ORCID 0009-0004-6047-2306);
-GPT-5.6 "Sol" (AI model); Claude Fable 5 (AI model);
+GPT-5.6 "Sol" (AI model); GPT Astra (AI model); Claude Fable 5 (AI model);
 Claude Fable 5.1 (AI model); Kimi 3 (AI model); Manus AI 1.6 (AI model);
 Codex v2 (AI model); Claude Opus 4.5 (AI model);
 Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model);
 Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model);
 Grok 4.5 (AI model); Grok 4.6 (AI model) (2026).
-A Lean 4 Formalization Program Around the Yang–Mills Mass Gap — Version 51:
+A Lean 4 Formalization Program Around the Yang–Mills Mass Gap — Version 52:
 Finite-Volume Exponential Stability Under Remote Polymer-Activity
-Restriction. Zenodo.
-https://doi.org/10.5281/zenodo.22305341
+Damping. Zenodo.
+https://doi.org/10.5281/zenodo.22738731
 ```
 
 ## Contact
