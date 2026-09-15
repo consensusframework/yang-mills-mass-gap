@@ -43,11 +43,11 @@ or partial solution of the Clay problem.
 | Library | `Phase3/LatticeGauge`, 114 modules, 35,108 Lean source lines; 1,678 top-level declaration lines by a textual count (`grep -cE` of lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or `class` followed by a space, at commit `9c0f6fd…`; 1,665 at the Version 53 commit `571b83a…`, 1,636 at the Version 52 commit `f4015c5…`), not an exhaustive inventory of the declarations elaborated by Lean and not a count of theorems; 179 in-file `#print axioms` commands (166 at Version 53), which certify the declarations they name, not every declaration of the library |
 | `sorry` | 0 |
 | Project-specific scientific axioms | 0 (kernel axioms only: `propext`, `Classical.choice`, `Quot.sound`) |
-| Toolchain | Lean 4.15.0, Mathlib `v4.15.0` (pinned in `Phase3/lakefile.toml`) |
-| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at `9c0f6fd…` (run 488); the seven certificates of the Stone 52 capstone module, the 29 certificates of the two Stone 53 modules and the 13 certificates of the Stone 54 module are emitted during the build and visible in the CI log |
+| Toolchain | Lean 4.15.0, Mathlib `v4.15.0` (pinned in `Phase3/lakefile.toml`); dependency manifest `Phase3/lake-manifest.json` (SHA-256 `c376bbe9…1227`, Mathlib at `9837ca9d…`, the commit of the tag `v4.15.0`) committed by the maintenance after the Version 54 snapshot — see [Reproduce](#reproduce) |
+| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at `9c0f6fd…` (run 488) and at the Version 54 commit `9358faa…` (run 490); from the maintenance commit after `9358faa…`, the job resolves dependencies from the committed manifest instead of running `lake update`, and checks the manifest byte-identical before and after the build; the seven certificates of the Stone 52 capstone module, the 29 certificates of the two Stone 53 modules and the 13 certificates of the Stone 54 module are emitted during the build and visible in the CI log |
 | Deposited | Version 52: tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731) — the most recent Zenodo deposit confirmed in this repository's records; it contains Stone 52 and not Stones 53–54 |
 | GitHub Release | Version 53: tag `zenodo-v53` (→ commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`, the Stone 53 snapshot with its documentation), GitHub Release published by the coordinator; DOI 10.5281/zenodo.22750453 reserved for the Zenodo record — its publication on Zenodo is not confirmed here |
-| Integrated, not deposited | Stone 54 on `main` since merge commit `9c0f6fdecee5c8628a2434d032e421edc78bb722` (PR #30); no tag, release or DOI — see [`docs/stone54/RESULTS.md`](docs/stone54/RESULTS.md) |
+| GitHub Release | Version 54: tag `zenodo-v54` (→ commit `9358faa27b44ce24b3b9fe035cba94a68448e034`, the Stone 54 snapshot with its documentation; Stone 54 itself integrated at `9c0f6fde…`, PR #30), GitHub Release with four assets published by the coordinator on 2026-09-15; DOI 10.5281/zenodo.22767474 reserved for the Zenodo record — its publication on Zenodo could not be verified from the maintenance session, so it is recorded here as reserved. The tagged tree does not contain `Phase3/lake-manifest.json`, added afterwards by the maintenance commit — see [`docs/stone54/RESULTS.md`](docs/stone54/RESULTS.md) |
 
 Detailed records: [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md),
 [`RELEASE_NOTES_PEDRA51.md`](RELEASE_NOTES_PEDRA51.md),
@@ -157,7 +157,7 @@ Euclidean distance.
    infinite-volume statement. Details, the two modules and the CI/merge record:
    [`docs/stone53/RESULTS.md`](docs/stone53/RESULTS.md).
 
-6. **Stone 54 (integrated on `main`, not deposited) — the same Lipschitz
+6. **Stone 54 (Version 54, GitHub Release `zenodo-v54`, Zenodo record reserved) — the same Lipschitz
    stability with the connector column at κ = 2.**
    `LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay_refined`
    (`Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean`): under exactly
@@ -192,10 +192,32 @@ during the build. All report `[propext, Classical.choice, Quot.sound]`.
 ```sh
 git clone https://github.com/consensusframework/yang-mills-mass-gap
 cd yang-mills-mass-gap/Phase3
-lake update            # resolves the pinned Mathlib (v4.15.0)
+lake env true          # materializes the dependencies at the revisions of lake-manifest.json (no `lake update`)
 lake exe cache get     # optional: Mathlib build cache
 lake build             # 114 modules; ~9 min on 2 vCPU with the cache
+sha256sum lake-manifest.json   # c376bbe9…1227 before and after: the manifest is not rewritten
 ```
+
+**Dependency manifest.** `Phase3/lake-manifest.json` (SHA-256
+`c376bbe93b56fd85fde0a790889f721c578e2a710c300de77b9de8a0c8dc1227`) pins
+Mathlib at `9837ca9d65d9de6fad1ef4381750ca688774e608` (the commit of the tag
+`v4.15.0`, `inputRev` `v4.15.0`) and its eight transitive dependencies
+(batteries `e8dc5fc1…`, aesop `2689851f…`, Qq `f0c584bc…`, proofwidgets
+`2b000e02…` at `v0.0.48`, importGraph `9a0b533c…`, LeanSearchClient
+`003ff459…`, plausible `2c57364e…`, Cli `0c8ea32a…`). It is the manifest
+resolved by `lake update` from the pins of `Phase3/lakefile.toml` on the
+constructor's bench, and the one whose SHA-256 the independent QA1
+reproductions of Stones 52, 53 and 54 recorded before and after their builds
+(`docs/audits/stone52/reports/RELATORIO_52-A0-QA1.md`,
+`docs/audits/stone53/packages/QA1_53_evidence.zip` and
+`docs/audits/stone54/packages/QA1_54_evidence.zip`, files
+`manifest_pre_build.sha256` / `manifest_post_build.sha256`). It was committed
+after the Version 54 snapshot `9358faa2…` (which does not contain it) by the
+maintenance commit that also changed the CI to resolve dependencies from it
+instead of running `lake update`; the CI checks that every dependency is
+checked out at the recorded revision and that the manifest is byte-identical
+before and after the build. Do not run `lake update`: it re-resolves the
+dependencies and rewrites the manifest.
 
 The CI step `Kernel certificates` (`.github/workflows/lean-ci.yml`) re-checks
 the three `#print axioms` certificates of Versions 49–51 with `lake env lean`;
@@ -247,7 +269,14 @@ tag [`zenodo-v52`](https://github.com/consensusframework/yang-mills-mass-gap/rel
 (a simple tag pointing to commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`,
 root tree `9087e69d…`, `Phase3/` tree `bf2fae8c…`; GitHub Release with four
 assets: the snapshot ZIP, `RELEASE_NOTES_PEDRA52.md`, `MANIFEST_v52.txt` and
-`SHA256SUMS.3.txt`, published by the coordinator). Previous versions:
+`SHA256SUMS.3.txt`, published by the coordinator). Version 54 has the GitHub
+Release [`zenodo-v54`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v54)
+(a simple tag pointing to commit `9358faa27b44ce24b3b9fe035cba94a68448e034`,
+root tree `e378c15e…`, `Phase3/` tree `7d8373f6…`; four assets — the snapshot
+ZIP, `RELEASE_NOTES_PEDRA54.md`, `MANIFEST_v54.txt` and `SHA256SUMS.txt` —
+published by the coordinator on 2026-09-15; DOI 10.5281/zenodo.22767474
+reserved for the Zenodo record, whose publication could not be verified from
+the maintenance session). Previous versions:
 Version 51 — [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341)
 (tag `zenodo-v51`); Version 50 — [10.5281/zenodo.22162464](https://doi.org/10.5281/zenodo.22162464)
 (tag `zenodo-v50`); Version 49 — [10.5281/zenodo.22050763](https://doi.org/10.5281/zenodo.22050763)
@@ -353,9 +382,11 @@ not as progress establishing the Millennium Problem. The citation below is the
 **deposited** Version 52 record (commit `f4015c5c…`). Version 53 (commit
 `571b83aa…`, GitHub Release `zenodo-v53`, reserved DOI 10.5281/zenodo.22750453)
 may be cited by its DOI once its Zenodo record is confirmed published; until
-then, cite the commit. Stone 54 is integrated on `main` (commit
-[`9c0f6fdecee5c8628a2434d032e421edc78bb722`](https://github.com/consensusframework/yang-mills-mass-gap/commit/9c0f6fdecee5c8628a2434d032e421edc78bb722))
-and has no DOI; to refer to it, cite the commit. The Version 51
+then, cite the commit. Version 54 (commit
+[`9358faa27b44ce24b3b9fe035cba94a68448e034`](https://github.com/consensusframework/yang-mills-mass-gap/commit/9358faa27b44ce24b3b9fe035cba94a68448e034),
+GitHub Release `zenodo-v54`, reserved DOI 10.5281/zenodo.22767474) may
+likewise be cited by its DOI once its Zenodo record is confirmed published;
+until then, cite the commit or the GitHub Release. The Version 51
 citation (DOI [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341))
 remains valid for that deposited record.
 
