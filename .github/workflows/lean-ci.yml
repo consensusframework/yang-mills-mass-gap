@@ -16,15 +16,37 @@ jobs:
         run: |
           curl -sSL https://elan.lean-lang.org/elan-init.sh | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
-      - name: Resolve dependencies
+      - name: Record the committed dependency manifest
         working-directory: Phase3
-        run: lake update
+        run: sha256sum lake-manifest.json | tee "$RUNNER_TEMP/manifest.sha256"
+      - name: Resolve dependencies from the committed manifest (no lake update)
+        working-directory: Phase3
+        run: |
+          set -euo pipefail
+          # Loading the workspace materializes every dependency at the revision
+          # recorded in lake-manifest.json; nothing is re-resolved and the
+          # manifest is not rewritten (`lake update` would re-resolve it).
+          lake env true
+          sha256sum -c "$RUNNER_TEMP/manifest.sha256"
+          jq -r '.packages[] | "\(.name) \(.rev)"' lake-manifest.json | while read -r name rev; do
+            head="$(git -C ".lake/packages/$name" rev-parse HEAD)"
+            if [ "$head" != "$rev" ]; then
+              echo "::error::$name is checked out at $head; the manifest records $rev"; exit 1
+            fi
+            echo "$name @ $head"
+          done
       - name: Fetch Mathlib cache
         working-directory: Phase3
         run: lake exe cache get
       - name: Build Phase 3
         working-directory: Phase3
         run: lake build
+      - name: Manifest unchanged after the build
+        working-directory: Phase3
+        run: |
+          set -euo pipefail
+          sha256sum -c "$RUNNER_TEMP/manifest.sha256"
+          git diff --exit-code -- lake-manifest.json
 
       - name: Kernel certificates (#print axioms of the v49/v50/v51 capstones)
         working-directory: Phase3

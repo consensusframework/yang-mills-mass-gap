@@ -4,12 +4,18 @@ Integrated state of `main` at commit
 [`9c0f6fdecee5c8628a2434d032e421edc78bb722`](https://github.com/consensusframework/yang-mills-mass-gap/commit/9c0f6fdecee5c8628a2434d032e421edc78bb722)
 (merge of [PR #30](https://github.com/consensusframework/yang-mills-mass-gap/pull/30);
 root tree `eaffdb1355a515bb7686831d07c767c39739f2bb`, `Phase3/` tree
-`7d8373f682a10a70e4db6f701e08fb7c1dbb6908`). Stone 54 is integrated on `main`,
-audited and CI-verified; it is **not** part of any deposited Zenodo version
-and has no DOI of its own (none was reserved at consolidation time). The most
-recent GitHub Release is `zenodo-v53` (commit `571b83aa…`, Version 53, with a
-reserved DOI); the most recent Zenodo deposit confirmed by this repository's
-records is Version 52 (DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731)).
+`7d8373f682a10a70e4db6f701e08fb7c1dbb6908`). At consolidation time
+(2026-09-14) Stone 54 was integrated on `main`, audited and CI-verified, but
+not part of any release: the most recent GitHub Release was `zenodo-v53`
+(commit `571b83aa…`, Version 53, with a reserved DOI) and the most recent
+Zenodo deposit confirmed by this repository's records was Version 52 (DOI
+[10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731)). Since
+then the consolidated state was frozen as **Version 54** at commit
+`9358faa27b44ce24b3b9fe035cba94a68448e034` (merge of PR #31), tag
+`zenodo-v54`, with a GitHub Release published by the coordinator on 2026-09-15
+and the DOI 10.5281/zenodo.22767474 reserved for its Zenodo record; see §8,
+added by the maintenance after that snapshot. The most recent Zenodo deposit
+confirmed by this repository's records remains Version 52.
 
 > **Scope.** Everything below is a theorem about a finite periodic
 > four-dimensional lattice in the small-β (strong-coupling, Wilson convention)
@@ -190,7 +196,9 @@ certificates as above.
 
 Toolchain at `9c0f6fde…`: Lean `4.15.0`, Mathlib `v4.15.0` (pinned in
 `Phase3/lakefile.toml`); the library has 114 modules and 35,108 Lean source
-lines.
+lines. The resolved dependency manifest (`lake-manifest.json`, SHA-256
+`c376bbe9…1227`, Mathlib `9837ca9d…`) was not in the tree at `9c0f6fde…` nor
+at the Version 54 snapshot; it was committed by the later maintenance (§8).
 
 ## 6. Relation to Stone 53
 
@@ -228,3 +236,15 @@ Recorded, with hashes and provenance, in
 These are audits and reviews by AI models with human coordination; no
 specialized human mathematical review of the proofs is documented at this
 stage.
+
+## 8. Version 54: consolidation, release and later maintenance
+
+Record added by the maintenance after the Version 54 snapshot; nothing in
+this section is inside the deposited Version 54 files.
+
+| Step | Record |
+|---|---|
+| Documentary consolidation | [PR #31](https://github.com/consensusframework/yang-mills-mass-gap/pull/31), head `c9f687c27f3b955ba681f54d1cc7f8f658ff1ada` over `9c0f6fde…`; `build-phase3` run [489](https://github.com/consensusframework/yang-mills-mass-gap/actions/runs/34899248490) (id 34899248490, job 104160931797; effective checkout the provisional merge `dd17f45e…`); merge commit `9358faa27b44ce24b3b9fe035cba94a68448e034` (parents `9c0f6fde…` and `c9f687c2…`; root tree `e378c15e…`, `Phase3/` tree `7d8373f6…` unchanged); run [490](https://github.com/consensusframework/yang-mills-mass-gap/actions/runs/34900254096) (id 34900254096) on `main` at `9358faa2…` itself. Both runs: success, 114 modules built, 0 replayed, 0 errors, no `sorryAx` |
+| Version 54 | tag `zenodo-v54` (simple tag → `9358faa2…`); GitHub Release [`zenodo-v54`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v54) published by the coordinator on 2026-09-15 with four assets: `yang-mills-mass-gap-zenodo-v54.zip` (1,050,139 bytes; `git archive` of `9358faa2…`, 167 tracked files), `RELEASE_NOTES_PEDRA54.md`, `MANIFEST_v54.txt`, `SHA256SUMS.txt` |
+| DOI | 10.5281/zenodo.22767474 reserved for the Zenodo record of Version 54 (concept DOI 10.5281/zenodo.17397622). Its publication on Zenodo could not be verified from the maintenance session (Zenodo and doi.org unreachable from it); it is recorded as reserved, not as published. The reserved DOI and the GitHub Release are not evidence of a published deposit |
+| Maintenance after the snapshot | `Phase3/lake-manifest.json` (SHA-256 `c376bbe93b56fd85fde0a790889f721c578e2a710c300de77b9de8a0c8dc1227`; Mathlib `9837ca9d65d9de6fad1ef4381750ca688774e608` = tag `v4.15.0`, `inputRev` `v4.15.0`, plus the eight transitive dependencies) committed from the constructor's bench; it is the manifest whose SHA-256 the QA1 reproductions of Stones 52, 53 and 54 recorded before and after their builds (`manifest_pre_build.sha256` / `manifest_post_build.sha256` in the QA1 packages; `RELATORIO_52-A0-QA1.md`). The CI step `lake update` was replaced by a resolution from the committed manifest (`lake env true`), with a check that every dependency is checked out at the recorded revision and that the manifest is byte-identical before and after the build. No `.lean` file, pin, proof or audit record was changed |

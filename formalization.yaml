@@ -1,7 +1,8 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/mathlib-initiative/formalization.yaml/main/schema/formalization.schema.json
 # formalization.yaml (v0.4) — Finite-Volume Lattice Gauge Theory in Lean 4.
 # Toolchain, dependency pins and build status are not repeated here: see
-# Phase3/lean-toolchain, Phase3/lakefile.toml and the GitHub Actions workflow.
+# Phase3/lean-toolchain, Phase3/lakefile.toml, Phase3/lake-manifest.json
+# (committed after the Version 54 snapshot) and the GitHub Actions workflow.
 
 version: "v0.4"
 
@@ -32,9 +33,13 @@ project:
     functional in the damping parameter, |activityDampedExpectation f s r θ −
     activityDampedExpectation f s r θ′| ≤ |θ − θ′|·2·Cf·exp(8·D_s/113)·exp(−n/2)
     for θ, θ′ ∈ [0, 1], without DependsOnlyOn f s between the two functionals;
-    Stone 54 (integrated on main at commit 9c0f6fdecee5c8628a2434d032e421edc78bb722,
-    not deposited) — the same estimate with the refined prefactor
-    exp(6·D_s/113), under the same hypotheses, interval and rate.
+    Version 54 (Stone 54, integrated on main at commit
+    9c0f6fdecee5c8628a2434d032e421edc78bb722; snapshot commit
+    9358faa27b44ce24b3b9fe035cba94a68448e034, tag zenodo-v54, GitHub Release
+    published, Zenodo record with reserved DOI 10.5281/zenodo.22767474 not
+    verified from the maintenance session) — the same estimate with the
+    refined prefactor exp(6·D_s/113), under the same hypotheses, interval
+    and rate.
     Every result in the verified Phase 3 library is a finite-lattice statement:
     no thermodynamic or continuum
     limit and no mass-gap theorem is claimed, and the project does not prove
@@ -86,7 +91,7 @@ sources:
       - "Grok 4.6 (AI model)"
     id: "https://doi.org/10.5281/zenodo.17397622"
     type: "formalization"
-    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51), 10.5281/zenodo.22738731 (v52, tag zenodo-v52, commit f4015c5c8e7376a924c3ec3ab3dc7c00097e6085); Version 53: tag zenodo-v53, commit 571b83aadb53838eb8257c015b7c02d3e57d30ad, GitHub Release, reserved DOI 10.5281/zenodo.22750453 (Zenodo publication not confirmed here); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean, ActivityDampingStability.lean, ActivityDampingLipschitz.lean; Stone 54 (no deposited version) in Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean at commit 9c0f6fdecee5c8628a2434d032e421edc78bb722"
+    location: "Concept DOI (all versions); version records 10.5281/zenodo.22050763 (v49), 10.5281/zenodo.22162464 (v50), 10.5281/zenodo.22305341 (v51), 10.5281/zenodo.22738731 (v52, tag zenodo-v52, commit f4015c5c8e7376a924c3ec3ab3dc7c00097e6085); Version 53: tag zenodo-v53, commit 571b83aadb53838eb8257c015b7c02d3e57d30ad, GitHub Release, reserved DOI 10.5281/zenodo.22750453 (Zenodo publication not confirmed here); Version 54: tag zenodo-v54, commit 9358faa27b44ce24b3b9fe035cba94a68448e034, GitHub Release, reserved DOI 10.5281/zenodo.22767474 (Zenodo publication not verified from the maintenance session); principal declarations in Phase3/LatticeGauge/KPLogPartition.lean, CovarianceDecay.lean, ActivityRestrictionStability.lean, ActivityDampingStability.lean, ActivityDampingLipschitz.lean, ActivityDampingLipschitzRefined.lean (Stone 54, integrated at commit 9c0f6fdecee5c8628a2434d032e421edc78bb722)"
     relationship: "other"
     note: >
       This entry records the project itself as the source of its Lean
@@ -160,7 +165,7 @@ status:
     the damped functional in the damping parameter with the factor |θ − θ′|
     and the same constant, without DependsOnlyOn f s between the two
     functionals (Version 53), and the same estimate with the refined prefactor
-    exp(6·D_s/113) (Stone 54, integrated on main, not deposited). Out of scope:
+    exp(6·D_s/113) (Version 54, tag zenodo-v54, GitHub Release, reserved DOI). Out of scope:
     thermodynamic limit, continuum limit, second Gibbs measures or boundary
     conditions, spatial-mixing theorems, monotonicity of the damped functional
     in θ or a derivative in θ, mass gap (HasLatticeMassGap is stated, not
@@ -261,8 +266,13 @@ automation:
     as Stone 53. Version records are frozen at tags (annotated zenodo-v49,
     zenodo-v50, zenodo-v51; simple zenodo-v52 → f4015c5c…, deposited on
     Zenodo; simple zenodo-v53 → 571b83aa…, GitHub Release published, Zenodo
-    record with a reserved DOI not confirmed published here); Stone 54 is
-    integrated on main and has no tag, release or deposit.
+    record with a reserved DOI not confirmed published here; simple
+    zenodo-v54 → 9358faa2…, GitHub Release published, Zenodo record with the
+    reserved DOI 10.5281/zenodo.22767474 not verified from the maintenance
+    session). The dependency manifest Phase3/lake-manifest.json (SHA-256
+    c376bbe9…1227, Mathlib 9837ca9d…; the manifest recorded by the QA1
+    reproductions of Stones 52–54) was committed after the Version 54
+    snapshot and is consumed by the CI in place of lake update.
 
 fidelity:
   divergences: >
@@ -291,8 +301,9 @@ review:
   notes: >
     Machine verification: Lean 4 kernel and GitHub Actions CI, green on main
     for the integrated Versions 49–53 (Version 52 commit f4015c5c…, run 482;
-    Version 53 commit 571b83aa…, run 486) and for Stone 54 (merge commit
-    9c0f6fde…, run 488). Human review:
+    Version 53 commit 571b83aa…, run 486), for Stone 54 (merge commit
+    9c0f6fde…, run 488) and for the Version 54 commit 9358faa2… (run 490).
+    Human review:
     coordinator's process audit. No
     peer review by human mathematicians has taken place; public discussions of
     the project in the Lean community produced comments acknowledged in
@@ -301,7 +312,7 @@ review:
 alignment:
   namespace: "LatticeGauge"
   statements:
-    - source: "Stone 54 — refined Lipschitz stability of the damped functional, connector column at κ = 2 (project source entry; integrated on main, not deposited)"
+    - source: "Stone 54 — refined Lipschitz stability of the damped functional, connector column at κ = 2 (project source entry; Version 54, tag zenodo-v54, GitHub Release, reserved DOI)"
       lean: "LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay_refined"
       module: "Phase3/LatticeGauge/ActivityDampingLipschitzRefined.lean"
       status: "proved"
