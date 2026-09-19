@@ -1,0 +1,79 @@
+#	module	kind	name	line	qa_print_axioms	checked_by	verdict
+1	A	definition	touchFactor	72	— (definition)	W1a-c	PASS
+2	A	definition	profileDampedActivity	80	— (definition)	W1c,W1d,W4b'	PASS
+3	A	definition	profileWeight	85	— (definition)	W1a,W1f,W1g	PASS
+4	A	definition	tupleProfileWeight	90	— (definition)	W1b	PASS
+5	A	theorem	profileDampedActivity_const	97	propext,Classical.choice,Quot.sound	W1d (rfl retyped)	PASS
+6	A	theorem	profileWeight_const	101	propext,Classical.choice,Quot.sound	W1f (constant-profile corollary)	PASS
+7	A	theorem	tupleProfileWeight_const	107	propext,Classical.choice,Quot.sound	read; used in W3a' via _const chain	PASS
+8	A	theorem	profileDampedActivity_one	114	propext,Classical.choice,Quot.sound	read (dampedActivity_one)	PASS
+9	A	theorem	profileDampedActivity_zero	120	propext,Classical.choice,Quot.sound	read (dampedActivity_zero)	PASS
+10	A	theorem	profileDampedActivity_empty_region	126	propext,Classical.choice,Quot.sound	W4g (via identity)	PASS
+11	A	theorem	abs_profileDampedActivity_le	135	propext,Classical.choice,Quot.sound	read (domination; needs 0≤a≤1)	PASS
+12	A	theorem	abstractKP_profileDampedActivity	148	propext,Classical.choice,Quot.sound	read (abstractKP_mono)	PASS
+13	A	theorem	prod_profileDampedActivity	158	propext,Classical.choice,Quot.sound	read (literal weight identity; used by fibering)	PASS
+14	A	theorem	prod_profileDampedActivity_tuple	169	propext,Classical.choice,Quot.sound	read (used by inclusion–exclusion)	PASS
+15	A	theorem	touchFactor_nonneg	179	propext,Classical.choice,Quot.sound	read	PASS
+16	A	theorem	touchFactor_le_one	186	propext,Classical.choice,Quot.sound	read	PASS
+17	A	theorem	profileWeight_nonneg	193	propext,Classical.choice,Quot.sound	read	PASS
+18	A	theorem	profileWeight_le_one	197	propext,Classical.choice,Quot.sound	read	PASS
+19	A	theorem	profileWeight_eq_one_of_touchCount_zero	204	propext,Classical.choice,Quot.sound	W2a (allowed column)	PASS
+20	A	theorem	profileWeight_eq_one_of_mem_activityAllowedCores	213	propext,Classical.choice,Quot.sound	W2a	PASS
+21	A	theorem	tupleProfileWeight_eq_one_of_tupleTouchCount_zero	220	propext,Classical.choice,Quot.sound	read (filter insertion, implication only)	PASS
+22	A	theorem	profileWeight_empty_region	230	propext,Classical.choice,Quot.sound	W4g	PASS
+23	A	theorem	abs_prod_sub_prod_le_sum_abs_sub	239	propext,Classical.choice,Quot.sound	W1e (own 2-factor proof; empty product; zero factor; fails outside [0,1])	PASS
+24	A	theorem	abs_pow_sub_pow_le_of_prod	276	propext,Classical.choice,Quot.sound	W1f	PASS
+25	A	theorem	abs_profileWeight_sub_le	286	propext,Classical.choice,Quot.sound	W1f (retyped)	PASS
+26	A	theorem	abs_tupleProfileWeight_sub_le	318	propext,Classical.choice,Quot.sound	W1b (positions)	PASS
+27	A	theorem	abs_tupleProfileWeight_sub_le_k	355	propext,Classical.choice,Quot.sound	read	PASS
+28	A	theorem	abs_profileWeight_sub_le_card	365	propext,Classical.choice,Quot.sound	read (bridge column)	PASS
+29	A	definition	profilePolymerGas	382	— (definition)	read	PASS
+30	A	definition	profileMarkedGas	390	— (definition)	read	PASS
+31	A	definition	profileExpectation	399	— (definition)	W2,W3,W4	PASS
+32	A	definition	profileCoreExponent	406	— (definition)	W3a	PASS
+33	A	theorem	profilePolymerGas_const	417	propext,Classical.choice,Quot.sound	read (rfl)	PASS
+34	A	theorem	profileCoreExponent_const	422	propext,Classical.choice,Quot.sound	W3a' (rfl)	PASS
+35	A	theorem	profileMarkedGas_const	430	propext,Classical.choice,Quot.sound	read (rewrite)	PASS
+36	A	theorem	profileExpectation_const	439	propext,Classical.choice,Quot.sound	W4d (rewrite)	PASS
+37	A	theorem	profileExpectation_zero	450	propext,Classical.choice,Quot.sound	W4e	PASS
+38	A	theorem	profileExpectation_one	462	propext,Classical.choice,Quot.sound	W4f (needs hf)	PASS
+39	A	theorem	profilePolymerGas_empty_region	473	propext,Classical.choice,Quot.sound	read	PASS
+40	A	theorem	profileMarkedGas_empty_region	481	propext,Classical.choice,Quot.sound	read	PASS
+41	A	theorem	profileExpectation_sub_profileExpectation_empty_region	491	propext,Classical.choice,Quot.sound	W4g (profiles outside [0,1], non-constant)	PASS
+42	A	theorem	profileExpectation_sub_self	501	propext,Classical.choice,Quot.sound	W4a (effective δ=0 instead)	PASS
+43	A	theorem	profilePolymerGas_eq_exp	510	propext,Classical.choice,Quot.sound	read (KP established then transported)	PASS
+44	A	theorem	profilePolymerGas_pos	523	propext,Classical.choice,Quot.sound	read (consequence of exp form)	PASS
+45	A	theorem	profileGas_ratio_eq_exp	533	propext,Classical.choice,Quot.sound	read (no denominator cancelled)	PASS
+46	A	theorem	abs_profileCoreExponent_le_barrier	553	propext,Classical.choice,Quot.sound	W3b (both exponents ≤ q)	PASS
+47	A	theorem	exp_profileCoreExponent_le_exp_barrier	591	propext,Classical.choice,Quot.sound	read	PASS
+48	A	theorem	profileMarkedGas_eq_sum_core_mul_profile	610	propext,Classical.choice,Quot.sound	read (product split A_T·A_R; bijection)	PASS
+49	A	theorem	profileExpectation_eq_sum_core_mul_exp	771	propext,Classical.choice,Quot.sound	W2a (used to re-derive the ledger)	PASS
+50	A	theorem	profileExpectation_sub_eq_two_column_ledger	802	propext,Classical.choice,Quot.sound	W2a (re-derived without it), W2c	PASS
+51	A	theorem	two_column_profile_ledger_self	866	propext,Classical.choice,Quot.sound	read	PASS
+52	B	definition	kpProfileConnectorUnrootedCoeff	66	— (definition)	read	PASS
+53	B	theorem	kpProfileConnectorUnrootedCoeff_const	76	propext,Classical.choice,Quot.sound	W3a'	PASS
+54	B	theorem	kpProfileConnectorUnrootedCoeff_unit	86	propext,Classical.choice,Quot.sound	read	PASS
+55	B	theorem	kpProfileConnector_inclusion_exclusion	98	propext,Classical.choice,Quot.sound	read (3 cases; filter via implication only; no hypothesis on a)	PASS
+56	B	theorem	abs_kpProfileConnectorUnrootedCoeff_sub_le	128	propext,Classical.choice,Quot.sound	read (k·δ via tuple count)	PASS
+57	B	theorem	abs_kpProfileConnectorUnrootedCoeff_le	168	propext,Classical.choice,Quot.sound	read (δ=1 against unit profile)	PASS
+58	B	definition	profileConnector	191	— (definition)	W3a	PASS
+59	B	theorem	profileConnector_const	198	propext,Classical.choice,Quot.sound	W3a'	PASS
+60	B	theorem	summable_kpProfileConnectorUnrootedCoeff	206	propext,Classical.choice,Quot.sound	read (52-A0 first moment)	PASS
+61	B	theorem	profileCoreExponent_sub_full_eq_profileConnector	228	propext,Classical.choice,Quot.sound	W3a (retyped), W3a'	PASS
+62	B	theorem	profileCoreExponent_sub_eq_profileConnector_sub	264	propext,Classical.choice,Quot.sound	W3b	PASS
+63	B	theorem	abs_profileConnector_sub_le_eroded	285	propext,Classical.choice,Quot.sound	W3b, W3e (m_T>n)	PASS
+64	B	theorem	abs_exp_profileCoreExponent_sub_le_decay_refined	389	propext,Classical.choice,Quot.sound	W3b (re-derived, κ=2)	PASS
+65	B	theorem	abs_profileConnectorColumnTerm_le	464	propext,Classical.choice,Quot.sound	read (A'_T ≤ 1; Mayer majorant)	PASS
+66	B	theorem	sum_abs_profileConnectorColumn_le	524	propext,Classical.choice,Quot.sound	W3d (budget (1/2,2))	PASS
+67	B	theorem	abs_sum_profileConnectorColumn_le	566	propext,Classical.choice,Quot.sound	W3d	PASS
+68	B	theorem	abs_typedMarkedCoreWeight_mul_exp_profile_le	592	propext,Classical.choice,Quot.sound	read (κ=1)	PASS
+69	B	theorem	nat_card_mul_abs_profileNormalizedTerm_le_bridge	621	propext,Classical.choice,Quot.sound	read (n ≤ m_T; 1/2+3/8)	PASS
+70	B	theorem	abs_profileBridgeColumnTerm_le	690	propext,Classical.choice,Quot.sound	read (card·δ)	PASS
+71	B	theorem	sum_abs_profileBridgeColumn_le	734	propext,Classical.choice,Quot.sound	W3d (budget (7/8,1))	PASS
+72	B	theorem	abs_sum_profileBridgeColumn_le	787	propext,Classical.choice,Quot.sound	W3d	PASS
+73	B	theorem	abs_profileExpectation_sub_profileExpectation_le_two_terms	814	propext,Classical.choice,Quot.sound	W3d (re-derived without it), W0 #check	PASS
+74	B	theorem	abs_profileExpectation_sub_profileExpectation_le_local_exp_decay	846	propext,Classical.choice,Quot.sound	W3d (re-derived), W0 #check, W4a-f, W5x	PASS
+75	B	theorem	profile_bound_self	893	propext,Classical.choice,Quot.sound	W4a (RHS algebra only; effective application separately)	PASS
+76	B	theorem	abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay_of_profile	904	propext,Classical.choice,Quot.sound	W4d (own specialization; 54 capstone retyped alongside)	PASS
+77	B	theorem	abs_profileExpectation_sub_gibbsExpectation_le	925	propext,Classical.choice,Quot.sound	W4f (own)	PASS
+78	B	theorem	abs_profileExpectation_sub_activityRestrictedExpectation_le	951	propext,Classical.choice,Quot.sound	W4e (own)	PASS
