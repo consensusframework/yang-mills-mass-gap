@@ -46,7 +46,7 @@ Lean execution is attributed to GPT Astra or to Kimi 3.
 | 4 | QA1 test matrix (extracted) | [`reports/55_QA1_TEST_MATRIX.tsv`](reports/55_QA1_TEST_MATRIX.tsv) | `22572da8bcdb7b642b1e3451553aa81b2ecaf36e600942e2617a2bca52c26ffc` | Fable 5.1, QA instance | `0c50b6d5…` | W0–W4 positive; W5x expected application failure | 2026-09-17 |
 | 5 | Adversarial review | [`kimi/RELATORIO_55-K-ADV.md`](kimi/RELATORIO_55-K-ADV.md) | `fe396514aa285dd340167b35013ed31210e2fdc4bd01af0dbd9de8aa0a4ebb77` | Luan / Kimi 3 | `0c50b6d5…` (sources) and `d6ce3d72…` (scientific merge) | `PASS NO ESCOPO` | 2026-09-19 |
 | 6 | Errata C1 to the adversarial review | [`kimi/ERRATA_55-K-ADV-C1.md`](kimi/ERRATA_55-K-ADV-C1.md) | `65f6c004ae318693da74ef2b8fffeba1a9e4cb718e4079a909f722bdea8285f9` | Luan / Kimi 3 | (corrects the attribution of the tests in document 5) | verdict unchanged: `PASS NO ESCOPO` | 2026-09-19 |
-| 7 | Publication report (FITA 55-P) | [`publication/RELATORIO_55-P.md`](publication/RELATORIO_55-P.md) | `9eb79e92147372e1ab9e1451654203f34c95dca5d66d2c8979c8c6c9c0b62597` (observed at consolidation; no prior reference hash) | Fable 5.1, constructing/publishing instance | `0c50b6d5…` → `d6ce3d72…` | n/a (record) | 2026-09-17 |
+| 7 | Publication report (FITA 55-P) | [`publication/RELATORIO_55-P.md`](publication/RELATORIO_55-P.md) | `9eb79e92147372e1ab9e1451654203f34c95dca5d66d2c8979c8c6c9c0b62597` (already recorded in the 55-DOC-P tape; matched at consolidation and reconfirmed during the metadata maintenance) | Fable 5.1, constructing/publishing instance | `0c50b6d5…` → `d6ce3d72…` | n/a (record) | 2026-09-17 |
 
 SHA-256 of every file of this directory except the manifest itself:
 [`SHA256SUMS.txt`](SHA256SUMS.txt) (relative paths; covers this README,
@@ -167,9 +167,11 @@ consolidation; docstrings and headers are left as committed):
 ## What was verified in this consolidation, and what is reported
 
 Verified in this repository at consolidation time (documentary, read-only):
-the SHA-256 of the package, of the standalone QA1 report, of the review and
-of the errata against the hashes supplied by the coordinator, and the hash of
-the publication report observed and checked against the Git objects and the
+the SHA-256 of the package, of the standalone QA1 report, of the review, of
+the errata and of the publication report against the hashes supplied by the
+coordinator (the SHA-256 of `RELATORIO_55-P.md` was already recorded in the
+55-DOC-P tape and was reconfirmed during the metadata maintenance), and the
+content of the publication report checked against the Git objects and the
 PR/CI records; the internal manifest of the package (28 entries, all
 verified; no absolute paths, path traversal or links in the archive; 31
 entries under `out/`); the byte-identity of the standalone QA1 report with
