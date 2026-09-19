@@ -48,9 +48,9 @@ or partial solution of the Clay problem.
 | Toolchain | Lean 4.15.0, Mathlib `v4.15.0` (pinned in `Phase3/lakefile.toml`); dependency manifest `Phase3/lake-manifest.json` (SHA-256 `c376bbe9…1227`, Mathlib at `9837ca9d…`, the commit of the tag `v4.15.0`) committed by the maintenance after the Version 54 snapshot — see [Reproduce](#reproduce) |
 | CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at the Stone 55 merge `d6ce3d7…` (run 494; previously at the Version 54 commit `9358faa…`, run 490); from the maintenance commit after `9358faa…`, the job resolves dependencies from the committed manifest instead of running `lake update`, and checks the manifest byte-identical before and after the build; the seven certificates of the Stone 52 capstone module, the 29 certificates of the two Stone 53 modules, the 13 certificates of the Stone 54 module and the 68 certificates of the two Stone 55 modules are emitted during the build and visible in the CI log |
 | Deposited | Version 54: tag `zenodo-v54` (→ commit `9358faa27b44ce24b3b9fe035cba94a68448e034`, the Stone 54 snapshot with its documentation; Stone 54 itself integrated at `9c0f6fde…`, PR #30), GitHub Release with four assets published by the coordinator on 2026-09-15, and Zenodo record DOI [10.5281/zenodo.22767474](https://doi.org/10.5281/zenodo.22767474) published on Zenodo on 2026-09-15 (confirmed by the coordinator and by a capture of the record page; the consolidating session could not reach Zenodo itself) — the most recent Zenodo deposit; it contains Stones 52–54 and not `Phase3/lake-manifest.json`, added afterwards by the maintenance commit, nor Stone 55 — see [`docs/stone54/RESULTS.md`](docs/stone54/RESULTS.md) |
-| Deposited | Version 52: tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731); it contains Stone 52 and not Stones 53–55 |
-| GitHub Release | Version 53: tag `zenodo-v53` (→ commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`, the Stone 53 snapshot with its documentation), GitHub Release published by the coordinator; DOI 10.5281/zenodo.22750453 reserved for the Zenodo record — its publication on Zenodo is not confirmed here |
-| Integrated, not deposited | Stone 55: integrated on `main` at `d6ce3d7232f08b5f975dfa8c6f43ec5031937e10` (PR #33, 2026-09-17), audited (QA1 reproduction; Kimi 3 review with one errata) and CI-verified (run 494); no tag, Release, deposit or DOI of its own — cite the commit. The documentary consolidation of Stone 55 is the candidate snapshot of a future Version 55 — see [`docs/stone55/RESULTS.md`](docs/stone55/RESULTS.md) |
+| Deposited | Version 52: tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731), Zenodo record dated 2026-09-13 (the date displayed by Zenodo, per the captures received by the coordinator; earlier repository records gave 2026-09-14 as the date on which the deposit was confirmed here); it contains Stone 52 and not Stones 53–55 |
+| Deposited | Version 53: tag `zenodo-v53` (→ commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`, the Stone 53 snapshot with its documentation), GitHub Release published by the coordinator; Zenodo record DOI [10.5281/zenodo.22750453](https://doi.org/10.5281/zenodo.22750453) published on 2026-09-14 (confirmed by the coordinator and by a capture of the record page; earlier repository records listed this DOI as reserved because its publication could not be verified from those sessions); it contains Stones 52–53 and not Stone 54 |
+| Integrated, not deposited | Stone 55: integrated on `main` at `d6ce3d7232f08b5f975dfa8c6f43ec5031937e10` (PR #33, 2026-09-17), audited (QA1 reproduction; Kimi 3 review with one errata) and CI-verified (run 494); no tag, Release or deposit of its own — cite the commit. DOI 10.5281/zenodo.22850085 is **reserved** for the future Version 55 record (a Zenodo draft, not a published deposit; a reserved DOI is not a deposit and does not resolve). The documentary consolidation of Stone 55 is the candidate snapshot of that version — see [`docs/stone55/RESULTS.md`](docs/stone55/RESULTS.md) |
 
 Detailed records: [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md),
 [`RELEASE_NOTES_PEDRA51.md`](RELEASE_NOTES_PEDRA51.md),
@@ -135,7 +135,7 @@ Euclidean distance.
    infinite-volume statement. Details, endpoints, the six gates and the
    CI/merge record: [`docs/stone52/RESULTS.md`](docs/stone52/RESULTS.md).
 
-5. **Stone 53 (integrated on `main`, not deposited) — Lipschitz stability of
+5. **Stone 53 (Version 53, GitHub Release `zenodo-v53`, Zenodo DOI 10.5281/zenodo.22750453) — Lipschitz stability of
    the damped functional in the damping parameter.**
    `LatticeGauge.abs_activityDampedExpectation_sub_activityDampedExpectation_le_local_exp_decay`
    (`Phase3/LatticeGauge/ActivityDampingLipschitz.lean`): for
@@ -307,10 +307,12 @@ The complete historical tree is preserved, byte for byte, at the tag
 Version 53 has the GitHub Release
 [`zenodo-v53`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v53)
 (a simple tag pointing to commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`,
-root tree `98bed2c3…`, `Phase3/` tree `99758dfc…`; four assets prepared for
-the Zenodo record with the reserved DOI 10.5281/zenodo.22750453, whose
-publication is not confirmed in this repository). The most recent Zenodo
-deposit confirmed here is Version 52 — [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731),
+root tree `98bed2c3…`, `Phase3/` tree `99758dfc…`; four assets) and the
+Zenodo record [10.5281/zenodo.22750453](https://doi.org/10.5281/zenodo.22750453),
+published on 2026-09-14 (confirmed by the coordinator and by a capture of
+the record page). Version 52 is the Zenodo record
+[10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731), dated
+2026-09-13 by Zenodo,
 tag [`zenodo-v52`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v52)
 (a simple tag pointing to commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`,
 root tree `9087e69d…`, `Phase3/` tree `bf2fae8c…`; GitHub Release with four
@@ -324,7 +326,9 @@ published by the coordinator on 2026-09-15; Zenodo record DOI
 [10.5281/zenodo.22767474](https://doi.org/10.5281/zenodo.22767474), published
 on 2026-09-15 as confirmed by the coordinator and by a capture of the record
 page — the current deposited version). Stone 55, integrated later at
-`d6ce3d72…`, has no release or deposit of its own. Previous versions:
+`d6ce3d72…`, has no release or deposit of its own; the DOI
+10.5281/zenodo.22850085 is reserved for the future Version 55 record (a
+draft, not published). Previous versions:
 Version 51 — [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341)
 (tag `zenodo-v51`); Version 50 — [10.5281/zenodo.22162464](https://doi.org/10.5281/zenodo.22162464)
 (tag `zenodo-v50`); Version 49 — [10.5281/zenodo.22050763](https://doi.org/10.5281/zenodo.22050763)
@@ -438,12 +442,13 @@ not as progress establishing the Millennium Problem. The citation below is the
 [`9358faa27b44ce24b3b9fe035cba94a68448e034`](https://github.com/consensusframework/yang-mills-mass-gap/commit/9358faa27b44ce24b3b9fe035cba94a68448e034),
 GitHub Release `zenodo-v54`, Zenodo DOI 10.5281/zenodo.22767474, published on
 2026-09-15; concept DOI 10.5281/zenodo.17397622 for all versions). Stone 55
-(integrated at commit `d6ce3d72…`) has no deposit of its own: cite the commit.
-Version 53 (commit `571b83aa…`, GitHub Release `zenodo-v53`, reserved DOI
-10.5281/zenodo.22750453) may be cited by its DOI once its Zenodo record is
-confirmed published; until then, cite the commit. The Version 52 citation
-(DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731)) and
-the Version 51 citation
+(integrated at commit `d6ce3d72…`) has no deposit of its own: cite the commit;
+the DOI 10.5281/zenodo.22850085 reserved for the future Version 55 record is
+not yet published and must not be cited as a deposit. The Version 53
+citation (DOI [10.5281/zenodo.22750453](https://doi.org/10.5281/zenodo.22750453),
+published 2026-09-14), the Version 52 citation
+(DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731),
+dated 2026-09-13 by Zenodo) and the Version 51 citation
 (DOI [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341))
 remain valid for those deposited records.
 
