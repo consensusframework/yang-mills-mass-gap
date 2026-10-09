@@ -1,0 +1,93 @@
+zip_path=/home/ubuntu/task57_manus_exec/MANUS_57_EXEC_evidence.zip
+zip_bytes=127364
+zip_entries=46
+zip_files=37
+zip_directories=9
+internal_manifest_check:
+./INDEX_57_MANUS_EXEC.md: OK
+./controller/run_manus_57.sh: OK
+./inputs/FITA_57-MANUS-EXEC.md: OK
+./inputs/QA1_57_evidence.zip: OK
+./inputs/RELATORIO_57-K-ADV.md: OK
+./raw_logs/01_toolchain_install.log: OK
+./raw_logs/02_checkout_custody.log: OK
+./raw_logs/03_qa1_evidence_custody.log: OK
+./raw_logs/03_qa1_zip_entries.txt: OK
+./raw_logs/04_execution_status.tsv: OK
+./raw_logs/04_local_instruction_inventory.log: OK
+./raw_logs/05_preflight.log: OK
+./raw_logs/06_lake_env_true.log: OK
+./raw_logs/07_dependencies_and_pins.log: OK
+./raw_logs/08_mathlib_cache_get.log: OK
+./raw_logs/09_prebuild_project_artifacts.log: OK
+./raw_logs/10_directed_build.log: OK
+./raw_logs/11_q0_certificates.log: OK
+./raw_logs/12_q3_overlap.log: OK
+./raw_logs/13_q4_background.log: OK
+./raw_logs/14_q5_own_closure.log: OK
+./raw_logs/15_q8x_missing_cover_expected_fail.log: OK
+./raw_logs/16_capstone_signature_checks.log: OK
+./raw_logs/17_final_integrity.log: OK
+./raw_logs/18_execution_metrics.json: OK
+./raw_logs/18_execution_metrics.tsv: OK
+./runtime_checks/check_capstone_signatures.lean: OK
+./source/Phase3/LatticeGauge/ActivityProfileDampingMultiRegion.lean: OK
+./source/Phase3/lake-manifest.json: OK
+./source/Phase3/lakefile.toml: OK
+./source/Phase3/lean-toolchain: OK
+./tests/q0_certificates.lean: OK
+./tests/q3_overlap.lean: OK
+./tests/q4_background.lean: OK
+./tests/q5_own_closure.lean: OK
+./tests/q8x_missing_cover_EXPECT_FAIL.lean: OK
+zip_integrity_check:
+Archive:  /home/ubuntu/task57_manus_exec/MANUS_57_EXEC_evidence.zip
+    testing: MANUS_57_EXEC_evidence/   OK
+    testing: MANUS_57_EXEC_evidence/inputs/   OK
+    testing: MANUS_57_EXEC_evidence/inputs/FITA_57-MANUS-EXEC.md   OK
+    testing: MANUS_57_EXEC_evidence/inputs/RELATORIO_57-K-ADV.md   OK
+    testing: MANUS_57_EXEC_evidence/inputs/QA1_57_evidence.zip   OK
+    testing: MANUS_57_EXEC_evidence/source/   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/LatticeGauge/   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/LatticeGauge/ActivityProfileDampingMultiRegion.lean   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/lake-manifest.json   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/lakefile.toml   OK
+    testing: MANUS_57_EXEC_evidence/source/Phase3/lean-toolchain   OK
+    testing: MANUS_57_EXEC_evidence/tests/   OK
+    testing: MANUS_57_EXEC_evidence/tests/q0_certificates.lean   OK
+    testing: MANUS_57_EXEC_evidence/tests/q3_overlap.lean   OK
+    testing: MANUS_57_EXEC_evidence/tests/q4_background.lean   OK
+    testing: MANUS_57_EXEC_evidence/tests/q5_own_closure.lean   OK
+    testing: MANUS_57_EXEC_evidence/tests/q8x_missing_cover_EXPECT_FAIL.lean   OK
+    testing: MANUS_57_EXEC_evidence/runtime_checks/   OK
+    testing: MANUS_57_EXEC_evidence/runtime_checks/check_capstone_signatures.lean   OK
+    testing: MANUS_57_EXEC_evidence/controller/   OK
+    testing: MANUS_57_EXEC_evidence/controller/run_manus_57.sh   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/01_toolchain_install.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/02_checkout_custody.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/03_qa1_evidence_custody.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/03_qa1_zip_entries.txt   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/04_execution_status.tsv   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/04_local_instruction_inventory.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/05_preflight.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/06_lake_env_true.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/07_dependencies_and_pins.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/08_mathlib_cache_get.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/09_prebuild_project_artifacts.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/10_directed_build.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/11_q0_certificates.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/12_q3_overlap.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/13_q4_background.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/14_q5_own_closure.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/15_q8x_missing_cover_expected_fail.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/16_capstone_signature_checks.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/17_final_integrity.log   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/18_execution_metrics.json   OK
+    testing: MANUS_57_EXEC_evidence/raw_logs/18_execution_metrics.tsv   OK
+    testing: MANUS_57_EXEC_evidence/INDEX_57_MANUS_EXEC.md   OK
+    testing: MANUS_57_EXEC_evidence/SHA256SUMS_57-MANUS-EXEC.txt   OK
+No errors detected in compressed data of /home/ubuntu/task57_manus_exec/MANUS_57_EXEC_evidence.zip.
+zip_sha256:
+b1cca824e77a2050b78d4ffe340f4b57080d5700cd2b156eaa87cef796e268e3  /home/ubuntu/task57_manus_exec/MANUS_57_EXEC_evidence.zip

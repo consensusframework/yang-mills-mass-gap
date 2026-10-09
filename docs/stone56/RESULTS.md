@@ -18,6 +18,20 @@ that deposit. The DOI 10.5281/zenodo.22949184 is **reserved** for the future
 Version 56 record, which is not published at this stage; the snapshot of that
 version will be the final documentary merge, not the scientific merge above.
 
+> **Update (2026-10-09).** The state described above is the one observed at
+> the consolidation of 2026-09-29 and is kept as written. Since then the
+> consolidated state was frozen as **Version 56** at commit
+> `95091fdd07398a7b42901829ad61e4e2c26d5aaa` (merge of PR #38, the
+> documentary consolidation of this stone), tag `zenodo-v56`, with a GitHub
+> Release published by the coordinator on 2026-10-01 and the Zenodo record
+> DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184)
+> published (confirmed by the coordinator; the exact Zenodo date was not
+> established by the later documentary session); see §8. Stone 57, integrated
+> later at `b66c255c…`, is documented in
+> [`docs/stone57/RESULTS.md`](../stone57/RESULTS.md). The mathematics, the
+> audits and the counts of this document (117 modules) refer to Stone 56 and
+> are unchanged.
+
 > **Scope.** Everything below is a theorem about a finite periodic
 > four-dimensional lattice in the small-β (strong-coupling, Wilson convention)
 > regime `0 ≤ β ≤ 1/40000`. "Distance" is walk separation in the plaquette
@@ -346,5 +360,6 @@ stage.
 
 | Step | Record |
 |---|---|
-| Version 55 (the current version) | commit `445cc76b02550291e6524bb1bf631aac4cc86c61` (merge of PR #36), tag `zenodo-v55` (simple tag), GitHub Release [`zenodo-v55`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v55) published on 2026-09-20 with four assets (`yang-mills-mass-gap-zenodo-v55.zip`, `RELEASE_NOTES_PEDRA55.md`, `MANIFEST_v55.txt` and the checksum file, named `SHA256SUMS.6.txt` on the Release); Zenodo record DOI [10.5281/zenodo.22850085](https://doi.org/10.5281/zenodo.22850085) (concept DOI 10.5281/zenodo.17397622), **published on Zenodo on 2026-09-19**, as confirmed by the coordinator and by a capture of the record page; the consolidating session could not reach Zenodo itself, so the confirmation is attributed to the coordination and the capture, not to a direct consultation. The deposit contains Stones 52–55 and the committed dependency manifest, and not Stone 56 |
-| Stone 56 | integrated on `main` at `ead48145…` (2026-09-25, PR #37), audited (QA1 2026-09-24 with errata C1 2026-09-24; Kimi 3 review 2026-09-25) and CI-verified; **no tag, no Release and no deposit of its own**. It is cited by its commit. The DOI 10.5281/zenodo.22949184 is **reserved** for the future Version 56 record (a Zenodo draft, not a published deposit, per the coordinator's capture; a reserved DOI is not a deposit and must not be cited as one); the snapshot of that version will be the final documentary merge, not created here |
+| Version 55 | commit `445cc76b02550291e6524bb1bf631aac4cc86c61` (merge of PR #36), tag `zenodo-v55` (simple tag), GitHub Release [`zenodo-v55`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v55) published on 2026-09-20 with four assets (`yang-mills-mass-gap-zenodo-v55.zip`, `RELEASE_NOTES_PEDRA55.md`, `MANIFEST_v55.txt` and the checksum file, named `SHA256SUMS.6.txt` on the Release); Zenodo record DOI [10.5281/zenodo.22850085](https://doi.org/10.5281/zenodo.22850085) (concept DOI 10.5281/zenodo.17397622), **published on Zenodo on 2026-09-19**, as confirmed by the coordinator and by a capture of the record page; the consolidating session could not reach Zenodo itself, so the confirmation is attributed to the coordination and the capture, not to a direct consultation. The deposit contains Stones 52–55 and the committed dependency manifest, and not Stone 56 |
+| Stone 56 (state at the consolidation of 2026-09-29, kept as written) | integrated on `main` at `ead48145…` (2026-09-25, PR #37), audited (QA1 2026-09-24 with errata C1 2026-09-24; Kimi 3 review 2026-09-25) and CI-verified; **no tag, no Release and no deposit of its own**. It is cited by its commit. The DOI 10.5281/zenodo.22949184 is **reserved** for the future Version 56 record (a Zenodo draft, not a published deposit, per the coordinator's capture; a reserved DOI is not a deposit and must not be cited as one); the snapshot of that version will be the final documentary merge, not created here |
+| Version 56 (record added on 2026-10-09) | commit `95091fdd07398a7b42901829ad61e4e2c26d5aaa` (merge of PR #38, the documentary consolidation of this stone; root tree `8b723878…`, `Phase3/` tree `f387f26d…`, identical to the tree above), tag `zenodo-v56` (simple tag), GitHub Release [`zenodo-v56`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v56) published by the coordinator on 2026-10-01 with four assets (`yang-mills-mass-gap-zenodo-v56.zip`, `RELEASE_NOTES_PEDRA56.md` as revised by the coordinator before the upload, `MANIFEST_v56.txt` and the checksum file, named `SHA256SUMS.8.txt` on the Release); Zenodo record DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184) (concept DOI 10.5281/zenodo.17397622), **published**, as confirmed by the coordinator — the exact Zenodo publication date was not established by the documentary session of 2026-10-09, which did not consult Zenodo. The deposit contains Stones 52–56 and the committed dependency manifest, and not Stone 57 |
