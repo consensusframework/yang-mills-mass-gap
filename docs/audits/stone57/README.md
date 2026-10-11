@@ -262,23 +262,25 @@ by the platform; the PDF, the controller, the logs and the package are
 preserved as received). `raw_logs/09_prebuild_project_artifacts.log` and the
 controller inspect `.lake/build/lib/lean/LatticeGauge` and
 `.lake/build/lib/lean`. In the pinned Lean/Lake version the default build
-directory is `.lake/build/lib` and the project's directory is
-`.lake/build/lib/LatticeGauge` (Lake `Defaults.lean` at v4.15.0,
-`defaultBuildDir` and `defaultLeanLibDir`); the lakefile does not redefine
-them. That isolated inventory therefore does not prove the global absence of
+directory is `.lake/build` and the default Lean library output directory is
+`.lake/build/lib`, so the project's `.olean` files live in
+`.lake/build/lib/LatticeGauge`, without the extra `lean` segment (Lake
+`Defaults.lean` at v4.15.0, `defaultBuildDir` and `defaultLeanLibDir`); the
+lakefile does not redefine them. That isolated inventory therefore does not prove the global absence of
 prior `.olean` files. The positive evidence available stands: a fresh clone
 recorded in the custody log, and the build log with the 104 modules of the
 chain marked **Built**, none **Replayed**, exit 0, with fixed sources and
 the subsequent tests. The inventory at the wrong path is not to be presented
 as a certificate of cleanliness; no recompilation is needed for this
-documentary consolidation. Two further occurrences admitted by the execution
-itself are recorded as such: the preflight first tried to read
+documentary consolidation. Two further occurrences are recorded. The first
+was acknowledged by the executor itself: the preflight first tried to read
 `checkout/lean-toolchain` (`No such file or directory`, in
 `raw_logs/05_preflight.log`) and then read `Phase3/lean-toolchain`, with Lean
-4.15.0 confirmed in the execution — a path error, not a change of pin; and
-the controller does not use `set -e` in its blocks, so a final exit code of
-zero does not by itself mean that every intermediate command succeeded —
-conformity is attributed to the checks and contents actually examined.
+4.15.0 confirmed in the execution — a path error, not a change of pin. The
+second is an observation of the coordination's conference: the controller
+does not use `set -e` in its blocks, so a final exit code of zero does not by
+itself mean that every intermediate command succeeded — conformity is
+attributed to the checks and contents actually examined.
 
 ## Records for the consolidation
 
@@ -288,6 +290,14 @@ conformity is attributed to the checks and contents actually examined.
   incorporated in the docstrings of the integrated module before the audit.
 - **D1–D3 and Q4d** — recorded above; the originals are not edited.
 - **M1** — recorded above.
+- **Editorial correction of `docs/stone57/RESULTS.md` §4** (release
+  preparation, 2026-10-11): the paragraph on the scalar cost comparison had
+  attributed to W6 and Q6 together the numbers of the constructor's W6
+  (amplitudes `1/4, 1`, cost `1/4 + exp(−2)`); the auditor's Q6(c) uses
+  amplitudes `1/2, 1/2` and cost `1/2 + exp(−2)/2`, with Q6(c′) and Q6(c″) as
+  described above. The two examples are now stated separately with their
+  authors. A correction of the consolidation's own text, not an errata of the
+  auditor; no test or result changed.
 - **CI count 294/292.** The runs 505 and 506 emit 294 axiom lists (291 of
   the build + 3 of the workflow step), all standard, for 292 distinct
   names: two workflow outputs repeat names of the build and the third,
@@ -300,9 +310,15 @@ conformity is attributed to the checks and contents actually examined.
   modules in the clean builds of the constructor and of QA1 and in the CI;
   the constructor's log records the dependencies as 0 built / 1,332 replayed
   from its cache, the QA1 log records 0 / 0 with no dependency diagnostics,
-  and the CI runner records 9 built / 0 replayed; the Manus directed build
-  records 104 / 0 for the chain of the module. None of these is a
-  recompilation of the dependencies from source.
+  and the Manus directed build records 104 / 0 for the chain of the module.
+  On the CI runner (runs 505–508) the nine `Built` targets outside
+  `LatticeGauge` are the Mathlib cache tool — four Lean modules (`Cache.IO`,
+  `Cache.Hashing`, `Cache.Requests`, `Cache.Main`), their four C objects and
+  the executable `cache` — not nine rebuilt packages; the nine package
+  revisions are verified against the manifest in a separate step, and the
+  remaining dependency artifacts are obtained from the cache. None of these
+  logs shows a rebuild of Mathlib and the dependencies from source; the
+  claim made is the 118 project modules built without replay.
 - **Commit identity.** The candidate `c936d461…` carries the identity
   configured in the publishing environment (`Claude <noreply@anthropic.com>`,
   SSH signature header present, trailers `Co-Authored-By: Claude Fable 5.1`
