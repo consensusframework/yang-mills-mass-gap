@@ -232,9 +232,14 @@ scientific count is 19 theorems and 3 definitions.
 | expected failure | W8x (constructor), Q8x (auditor) | an owner that leaves an effective change at `none`: the last-step obligation is open (goal `1 = 1/2`, resp. `False`) — an application failure by the missing cover, not a counterexample |
 
 The sum can improve a coarse comparison when costs and separations are
-favorable (W6, Q6: amplitudes `1/4, 1` at scales `0, 4` give
-`B = 1/4 + exp(−2) < 1`, an exact scalar comparison, strict for the full
-bounds only under `Cf > 0`); there is no universal gain for an arbitrary
+favorable. The constructor's W6 uses amplitudes `1/4` and `1` at scales `0`
+and `4`, giving `B = 1/4 + exp(−2) < 1`; its W6′ compares the complete bounds
+under `Cf > 0` and positivity of the remaining factor. The auditor's Q6(c)
+uses amplitudes `1/2` and `1/2` at the same scales, giving
+`B = 1/2 + exp(−2)/2 < 1`. Q6(c′) compares the complete bounds under
+`Cf > 0`, and Q6(c″) records equality when `Cf = 0`. These are distinct exact
+scalar examples; neither constructs a concrete lattice geometry. There is no
+universal gain for an arbitrary
 cover (W7, Q7: two equal regions give two equal terms, and a duplicated
 family costs twice), and neither the chosen owner nor the sum is claimed
 optimal. The geometric tests are parameterized by `typedTouchesSupport`
@@ -286,8 +291,13 @@ effective checkout; the attribution is to the log reading. Both runs: `Build
 completed successfully`; the dependency manifest `c376bbe9…1227` recorded and
 verified after the resolution and after the build, the nine dependencies
 checked out at the recorded revisions, no `lake update`; **118 `LatticeGauge`
-modules built, 0 replayed** (dependencies: 9 built, 0 replayed on the runner
-— a cache of the CI, not a recompilation of the dependencies); 0 errors; 114
+modules built, 0 replayed** — no replay of the project; the nine `Built`
+targets outside `LatticeGauge` are the Mathlib cache tool (four Lean modules
+`Cache.IO`, `Cache.Hashing`, `Cache.Requests`, `Cache.Main`, their four C
+objects and the executable `cache`), not nine rebuilt packages; the nine
+package revisions are verified against the manifest in a separate step, and
+the remaining dependency artifacts come from the cache, so the log does not
+show a rebuild of Mathlib and the dependencies from source; 0 errors; 114
 warnings, all in `LatticeGauge/`, none in the new module, none from
 dependencies, the full warning blocks identical as a multiset to the QA1
 baseline; 294 axiom outputs, all standard, the 22 of the new module included;
