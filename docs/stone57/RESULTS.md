@@ -22,6 +22,18 @@ the Version 56 snapshot and is not in that deposit; it is cited by its
 commit. No DOI is reserved or recorded for a future Version 57 in this
 document.
 
+> **Update (2026-10-17, documentary consolidation of Stone 58).** The
+> paragraph above records the state at the consolidation of Stone 57
+> (2026-10-09) and is preserved as written. Afterwards, the final documentary
+> preparation of Stone 57 was merged as `18c6ff084020e52c8932ecfd20e4b19f47efdf02`
+> (PR #41, 2026-10-11) and became the **Version 57** snapshot: tag
+> `zenodo-v57`, GitHub Release published on 2026-10-11 with four assets, and
+> Zenodo record DOI [10.5281/zenodo.23305142](https://doi.org/10.5281/zenodo.23305142),
+> published as confirmed by the coordinator (the exact Zenodo publication
+> date was not established by the documentary sessions; see §8). Stone 58,
+> integrated later at `69706b9a…` (PR #42), is not in that deposit — see
+> [`docs/stone58/RESULTS.md`](../stone58/RESULTS.md).
+
 > **Scope.** Everything below is a theorem about a finite periodic
 > four-dimensional lattice in the small-β (strong-coupling, Wilson convention)
 > regime `0 ≤ β ≤ 1/40000`. "Distance" is walk separation in the plaquette
@@ -397,3 +409,4 @@ with distinct scopes; none is specialized human mathematical review.
 |---|---|
 | Version 56 (the current version) | commit `95091fdd07398a7b42901829ad61e4e2c26d5aaa` (merge of PR #38, the documentary consolidation of Stone 56), tag `zenodo-v56` (simple tag), GitHub Release [`zenodo-v56`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v56) published on 2026-10-01 (`draft = false`, 2026-10-01T22:47:39Z, read through the GitHub API by the consolidating session) with four assets (`yang-mills-mass-gap-zenodo-v56.zip`, 1,308,511 bytes; `RELEASE_NOTES_PEDRA56.md`, 34,578 bytes, the notes revised by the coordinator before the upload; `MANIFEST_v56.txt`; the checksum file, named `SHA256SUMS.8.txt` on the Release); Zenodo record DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184) (concept DOI 10.5281/zenodo.17397622), **published**, as confirmed by the coordinator — the exact Zenodo publication date was not established by the materials of this consolidation and is not inferred from the Release date; the consolidating session did not consult Zenodo. The deposit contains Stones 52–56 and the committed dependency manifest, and not Stone 57 |
 | Stone 57 | integrated on `main` at `b66c255c…` (2026-10-09, PR #39), audited (QA1 2026-10-09), reviewed (Kimi K3, received 2026-10-09), re-executed (Manus Sandbox, 2026-10-09) and CI-verified (runs 505 and 506); **no tag, no Release, no deposit and no reserved DOI of its own recorded here**. It is cited by its commit. The future Version 57, if deposited, will be packaged from the definitive documentary merge in a step of its own |
+| Version 57 (update of 2026-10-17; the row above is the historical record of 2026-10-09) | documentary consolidation `c09fa0635003ec747c05022c852cbb7bab23cacd` (PR #40), final documentary preparation `18c6ff084020e52c8932ecfd20e4b19f47efdf02` (PR #41, 2026-10-11; `Phase3/` tree `cc1bfb26…`, identical to the scientific merge `b66c255c…`), tag `zenodo-v57` (simple tag → `18c6ff08…`), GitHub Release [`zenodo-v57`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v57) published on 2026-10-11 (`draft = false`, 2026-10-11T22:20:54Z, read through the GitHub API by the Stone 58 consolidating session) with four assets (`yang-mills-mass-gap-zenodo-v57.zip`, 1,758,764 bytes; `RELEASE_NOTES_PEDRA57.md`, 35,160 bytes, as updated by the coordinator with the DOI after the original packaging; `MANIFEST_v57.txt`, 39,136 bytes; `SHA256SUMS.txt`, 275 bytes, updated with the notes); Zenodo record DOI [10.5281/zenodo.23305142](https://doi.org/10.5281/zenodo.23305142) (concept DOI 10.5281/zenodo.17397622), **published**, as confirmed by the coordinator — the exact Zenodo publication date was not established by the documentary sessions and is not inferred from the Release date; Zenodo was not reached from the consolidating session. The deposit contains Stones 52–57 and not Stone 58 |
