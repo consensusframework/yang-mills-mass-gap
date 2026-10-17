@@ -4,7 +4,7 @@ We are building and publishing, step by step, a formal, verifiable research
 program directed at the Yang–Mills existence and mass-gap problem. Its
 currently proved results concern finite-volume lattice gauge theory in the
 small-β (strong-coupling, Wilson convention) regime; the most recent, Stones
-53 to 57, establish Lipschitz stability, in the damping parameter, of the
+53 to 58, establish Lipschitz stability, in the damping parameter, of the
 normalized polymer functional under continuous remote polymer-activity
 damping, with the constant refined in Stone 54, the scalar damping parameter
 replaced in Stone 55 by a profile of factors, one per polymer, with the same
@@ -12,13 +12,15 @@ constant, in Stone 56 the separation localized on the region where the
 profile changes, with a common damping background preserved elsewhere, and,
 in Stone 57, that localized estimate composed over a finite family of change
 regions, each with its own separation and intensity, the single cost
-replaced by the sum of the individual costs.
+replaced by the sum of the individual costs, and, in Stone 58, the cover
+hypothesis of that composition widened so that the regions a polymer touches
+may share the cost of its change, with the same constant, rate and regime.
 
 > **Scope.** Every verified result is a finite-lattice theorem. The repository
 > is **not a proof, partial proof or claimed solution** of the Yang–Mills
 > Existence and Mass Gap Millennium Problem; see "What this is not".
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22738731.svg)](https://doi.org/10.5281/zenodo.22738731)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23305142.svg)](https://doi.org/10.5281/zenodo.23305142)
 [![Lean CI (Phase 3)](https://github.com/consensusframework/yang-mills-mass-gap/actions/workflows/lean-ci.yml/badge.svg?branch=main)](https://github.com/consensusframework/yang-mills-mass-gap/actions/workflows/lean-ci.yml)
 
 ## What this is
@@ -46,17 +48,18 @@ or partial solution of the Clay problem.
 
 | | |
 |---|---|
-| Library | `Phase3/LatticeGauge`, 118 modules, 38,521 Lean source lines; 1,802 top-level declaration lines by a textual count (`grep -cE` of lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or `class` followed by a space, at commit `b66c255…`; 1,780 at the Version 56 commit `95091fd…` and at `ead4814…`, 1,756 at the Version 55 commit `445cc76…` and at `d6ce3d7…`, 1,678 at the Version 54 commit `9358faa…`, 1,665 at the Version 53 commit `571b83a…`, 1,636 at the Version 52 commit `f4015c5…`), not an exhaustive inventory of the declarations elaborated by Lean and not a count of theorems; 291 in-file `#print axioms` commands (269 at Version 56, 247 at Version 55, 179 at Version 54, 166 at Version 53), which certify the declarations they name, not every declaration of the library |
+| Library | `Phase3/LatticeGauge`, 119 modules, 39,181 Lean source lines; 1,834 top-level declaration lines by a textual count (`grep -cE` of lines beginning with `theorem`, `lemma`, `def`, `abbrev`, `structure`, `noncomputable def`, `instance`, `inductive` or `class` followed by a space, at commit `69706b9…`; 1,802 at the Version 57 commit `18c6ff0…` and at `b66c255…`, 1,780 at the Version 56 commit `95091fd…` and at `ead4814…`, 1,756 at the Version 55 commit `445cc76…` and at `d6ce3d7…`, 1,678 at the Version 54 commit `9358faa…`, 1,665 at the Version 53 commit `571b83a…`, 1,636 at the Version 52 commit `f4015c5…`), not an exhaustive inventory of the declarations elaborated by Lean and not a count of theorems; 317 in-file `#print axioms` commands (291 at Version 57, 269 at Version 56, 247 at Version 55, 179 at Version 54, 166 at Version 53), which certify the declarations they name, not every declaration of the library |
 | `sorry` | 0 |
 | Project-specific scientific axioms | 0 (kernel axioms only: `propext`, `Classical.choice`, `Quot.sound`) |
 | Toolchain | Lean 4.15.0, Mathlib `v4.15.0` (pinned in `Phase3/lakefile.toml`); dependency manifest `Phase3/lake-manifest.json` (SHA-256 `c376bbe9…1227`, Mathlib at `9837ca9d…`, the commit of the tag `v4.15.0`) committed by the maintenance after the Version 54 snapshot — see [Reproduce](#reproduce) |
-| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at the Stone 57 merge `b66c255…` (run 506; previously at the Version 56 commit `95091fd…`, run 504, at the Stone 56 merge `ead4814…`, run 502, and at the Version 55 commit `445cc76…`, run 500); from the maintenance commit after `9358faa…`, the job resolves dependencies from the committed manifest instead of running `lake update`, and checks the manifest byte-identical before and after the build; the seven certificates of the Stone 52 capstone module, the 29 certificates of the two Stone 53 modules, the 13 certificates of the Stone 54 module, the 68 certificates of the two Stone 55 modules, the 22 certificates of the Stone 56 module and the 22 certificates of the Stone 57 module (19 theorems and 3 definitions) are emitted during the build and visible in the CI log (294 axiom outputs per run = 291 in-file commands + the 3 of the workflow step, for 292 distinct names) |
-| Deposited | Version 56: tag `zenodo-v56` (→ commit `95091fdd07398a7b42901829ad61e4e2c26d5aaa`, the documentary consolidation of Stone 56 with the Stone 56 module; Stone 56 itself integrated at `ead48145…`, PR #37), GitHub Release with four assets published by the coordinator on 2026-10-01 (`yang-mills-mass-gap-zenodo-v56.zip`, `RELEASE_NOTES_PEDRA56.md` as revised by the coordinator before the upload, `MANIFEST_v56.txt` and the checksum file, named `SHA256SUMS.8.txt` on the Release), and Zenodo record DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184) published (confirmed by the coordinator; the exact Zenodo publication date was not established by the consolidating session, which did not consult Zenodo) — the most recent Zenodo deposit; it contains Stones 52–56 and not Stone 57 — see [`docs/stone56/RESULTS.md`](docs/stone56/RESULTS.md) |
-| Deposited | Version 55: tag `zenodo-v55` (→ commit `445cc76b02550291e6524bb1bf631aac4cc86c61`, the Stone 55 snapshot with its documentation and the committed dependency manifest; Stone 55 itself integrated at `d6ce3d72…`, PR #33), GitHub Release with four assets published by the coordinator on 2026-09-20 (the checksum asset is named `SHA256SUMS.6.txt` on the Release), and Zenodo record DOI [10.5281/zenodo.22850085](https://doi.org/10.5281/zenodo.22850085) published on Zenodo on 2026-09-19 (confirmed by the coordinator and by a capture of the record page; the consolidating session could not reach Zenodo itself); it contains Stones 52–55 and not Stones 56–57 — see [`docs/stone55/RESULTS.md`](docs/stone55/RESULTS.md) |
-| Deposited | Version 54: tag `zenodo-v54` (→ commit `9358faa27b44ce24b3b9fe035cba94a68448e034`, the Stone 54 snapshot with its documentation; Stone 54 itself integrated at `9c0f6fde…`, PR #30), GitHub Release with four assets published by the coordinator on 2026-09-15, and Zenodo record DOI [10.5281/zenodo.22767474](https://doi.org/10.5281/zenodo.22767474) published on Zenodo on 2026-09-15 (confirmed by the coordinator and by a capture of the record page); it contains Stones 52–54 and not `Phase3/lake-manifest.json`, added afterwards by the maintenance commit, nor Stones 55–57 — see [`docs/stone54/RESULTS.md`](docs/stone54/RESULTS.md) |
-| Deposited | Version 52: tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731), Zenodo record dated 2026-09-13 (the date displayed by Zenodo, per the captures received by the coordinator; earlier repository records gave 2026-09-14 as the date on which the deposit was confirmed here); it contains Stone 52 and not Stones 53–57 |
-| Deposited | Version 53: tag `zenodo-v53` (→ commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`, the Stone 53 snapshot with its documentation), GitHub Release published by the coordinator; Zenodo record DOI [10.5281/zenodo.22750453](https://doi.org/10.5281/zenodo.22750453) published on 2026-09-14 (confirmed by the coordinator and by a capture of the record page; earlier repository records listed this DOI as reserved because its publication could not be verified from those sessions); it contains Stones 52–53 and not Stones 54–57 |
-| Integrated, not deposited | Stone 57: integrated on `main` at `b66c255c83bba02dc8d53158279296bbf7ea005c` (PR #39, 2026-10-09), audited (QA1 reproduction; Kimi K3 review; complementary execution on the Manus Sandbox platform) and CI-verified (run 506); no tag, Release, deposit or reserved DOI of its own recorded — cite the commit. The snapshot of a future Version 57 will be the final documentary merge, not the scientific merge — see [`docs/stone57/RESULTS.md`](docs/stone57/RESULTS.md) |
+| CI | single job `build-phase3`: clean build of `Phase3/` + a dedicated `#print axioms` check of the three capstones of Versions 49–51, green on `main` at the Stone 58 merge `69706b9…` (run 512; previously at the Version 57 commit `18c6ff0…`, run 510, at the Stone 57 merge `b66c255…`, run 506, at the Version 56 commit `95091fd…`, run 504, at the Stone 56 merge `ead4814…`, run 502, and at the Version 55 commit `445cc76…`, run 500); from the maintenance commit after `9358faa…`, the job resolves dependencies from the committed manifest instead of running `lake update`, and checks the manifest byte-identical before and after the build; the seven certificates of the Stone 52 capstone module, the 29 certificates of the two Stone 53 modules, the 13 certificates of the Stone 54 module, the 68 certificates of the two Stone 55 modules, the 22 certificates of the Stone 56 module, the 22 certificates of the Stone 57 module (19 theorems and 3 definitions) and the 26 certificates of the Stone 58 module (22 of its 28 theorems and its 4 definitions) are emitted during the build and visible in the CI log (320 axiom outputs per run = 317 in-file commands + the 3 of the workflow step, for 318 distinct names) |
+| Deposited | Version 57: tag `zenodo-v57` (→ commit `18c6ff084020e52c8932ecfd20e4b19f47efdf02`, the final documentary preparation of Stone 57; Stone 57 itself integrated at `b66c255c…`, PR #39, and consolidated at `c09fa063…`, PR #40), GitHub Release with four assets published by the coordinator on 2026-10-11 (`yang-mills-mass-gap-zenodo-v57.zip`, `RELEASE_NOTES_PEDRA57.md` as updated by the coordinator with the DOI after the original packaging, `MANIFEST_v57.txt` and `SHA256SUMS.txt`, the checksum file updated with the notes), and Zenodo record DOI [10.5281/zenodo.23305142](https://doi.org/10.5281/zenodo.23305142) published (confirmed by the coordinator; the exact Zenodo publication date was not established by the consolidating session, which could not reach Zenodo) — the most recent Zenodo deposit; it contains Stones 52–57 and not Stone 58 — see [`docs/stone57/RESULTS.md`](docs/stone57/RESULTS.md) |
+| Deposited | Version 56: tag `zenodo-v56` (→ commit `95091fdd07398a7b42901829ad61e4e2c26d5aaa`, the documentary consolidation of Stone 56 with the Stone 56 module; Stone 56 itself integrated at `ead48145…`, PR #37), GitHub Release with four assets published by the coordinator on 2026-10-01 (`yang-mills-mass-gap-zenodo-v56.zip`, `RELEASE_NOTES_PEDRA56.md` as revised by the coordinator before the upload, `MANIFEST_v56.txt` and the checksum file, named `SHA256SUMS.8.txt` on the Release), and Zenodo record DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184) published (confirmed by the coordinator; the exact Zenodo publication date was not established by the consolidating session, which did not consult Zenodo); it contains Stones 52–56 and not Stones 57–58 — see [`docs/stone56/RESULTS.md`](docs/stone56/RESULTS.md) |
+| Deposited | Version 55: tag `zenodo-v55` (→ commit `445cc76b02550291e6524bb1bf631aac4cc86c61`, the Stone 55 snapshot with its documentation and the committed dependency manifest; Stone 55 itself integrated at `d6ce3d72…`, PR #33), GitHub Release with four assets published by the coordinator on 2026-09-20 (the checksum asset is named `SHA256SUMS.6.txt` on the Release), and Zenodo record DOI [10.5281/zenodo.22850085](https://doi.org/10.5281/zenodo.22850085) published on Zenodo on 2026-09-19 (confirmed by the coordinator and by a capture of the record page; the consolidating session could not reach Zenodo itself); it contains Stones 52–55 and not Stones 56–58 — see [`docs/stone55/RESULTS.md`](docs/stone55/RESULTS.md) |
+| Deposited | Version 54: tag `zenodo-v54` (→ commit `9358faa27b44ce24b3b9fe035cba94a68448e034`, the Stone 54 snapshot with its documentation; Stone 54 itself integrated at `9c0f6fde…`, PR #30), GitHub Release with four assets published by the coordinator on 2026-09-15, and Zenodo record DOI [10.5281/zenodo.22767474](https://doi.org/10.5281/zenodo.22767474) published on Zenodo on 2026-09-15 (confirmed by the coordinator and by a capture of the record page); it contains Stones 52–54 and not `Phase3/lake-manifest.json`, added afterwards by the maintenance commit, nor Stones 55–58 — see [`docs/stone54/RESULTS.md`](docs/stone54/RESULTS.md) |
+| Deposited | Version 52: tag `zenodo-v52` (→ commit `f4015c5c8e7376a924c3ec3ab3dc7c00097e6085`), DOI [10.5281/zenodo.22738731](https://doi.org/10.5281/zenodo.22738731), Zenodo record dated 2026-09-13 (the date displayed by Zenodo, per the captures received by the coordinator; earlier repository records gave 2026-09-14 as the date on which the deposit was confirmed here); it contains Stone 52 and not Stones 53–58 |
+| Deposited | Version 53: tag `zenodo-v53` (→ commit `571b83aadb53838eb8257c015b7c02d3e57d30ad`, the Stone 53 snapshot with its documentation), GitHub Release published by the coordinator; Zenodo record DOI [10.5281/zenodo.22750453](https://doi.org/10.5281/zenodo.22750453) published on 2026-09-14 (confirmed by the coordinator and by a capture of the record page; earlier repository records listed this DOI as reserved because its publication could not be verified from those sessions); it contains Stones 52–53 and not Stones 54–58 |
+| Integrated, not deposited | Stone 58: integrated on `main` at `69706b9a13a23b0f132418f2390d4030e1fcc78b` (PR #42, 2026-10-15), audited (QA1 reproduction; Kimi review with its errata C1) and CI-verified (run 512); no tag, Release, deposit or reserved DOI of its own recorded — cite the commit. The snapshot of a future Version 58 will be the final documentary merge, not the scientific merge — see [`docs/stone58/RESULTS.md`](docs/stone58/RESULTS.md) |
 
 Detailed records: [`VERIFICATION_STATUS.md`](VERIFICATION_STATUS.md),
 [`RELEASE_NOTES_PEDRA51.md`](RELEASE_NOTES_PEDRA51.md),
@@ -79,6 +82,9 @@ reproduction with its errata, the Kimi 3 review and the publication record),
 [`docs/audits/stone57/`](docs/audits/stone57/README.md) (the Stone 57 QA1
 reproduction, the Kimi K3 review, the Manus complementary execution and the
 publication record),
+[`docs/stone58/RESULTS.md`](docs/stone58/RESULTS.md) (Stone 58),
+[`docs/audits/stone58/`](docs/audits/stone58/README.md) (the Stone 58 QA1
+reproduction, the Kimi review with its errata and the publication record),
 [`formalization.yaml`](formalization.yaml) (mathlib-initiative schema v0.4).
 The release notes of Version 52 are an asset of the GitHub Release
 [`zenodo-v52`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v52),
@@ -86,7 +92,7 @@ external to the tree.
 
 ## Principal results
 
-All nine hold in finite volume for `0 ≤ β ≤ 1/40000` (Wilson convention:
+All ten hold in finite volume for `0 ≤ β ≤ 1/40000` (Wilson convention:
 small β is strong coupling) on a finite periodic four-dimensional lattice,
 for a probability base measure and a bounded measurable function `χ` with
 `|χ| ≤ 1`. "Distance" is walk separation in the plaquette graph, not
@@ -279,7 +285,7 @@ Euclidean distance.
    statement. Details, the module, the audit records and the CI/merge record:
    [`docs/stone56/RESULTS.md`](docs/stone56/RESULTS.md).
 
-9. **Stone 57 (integrated on `main` at `b66c255c…`, not deposited) — the
+9. **Stone 57 (Version 57, GitHub Release `zenodo-v57`, Zenodo DOI 10.5281/zenodo.23305142) — the
    localized estimate of Stone 56 composed over a finite family of change
    regions, each with its own separation and intensity majorant.**
    `LatticeGauge.abs_profileExpectation_sub_profileExpectation_le_multiregion`
@@ -321,13 +327,62 @@ Euclidean distance.
    execution records and the CI/merge record:
    [`docs/stone57/RESULTS.md`](docs/stone57/RESULTS.md).
 
+10. **Stone 58 (integrated on `main` at `69706b9a…`, not deposited) — the
+    composition of Stone 57 under an additive cover of the effective changes:
+    the regions a polymer touches share the cost of its change.**
+    `LatticeGauge.abs_profileExpectation_sub_profileExpectation_le_additive_cover`
+    (`Phase3/LatticeGauge/ActivityProfileDampingAdditiveCover.lean`): with the
+    same objects, family, profiles in `[0, 1]`, `δ i ≥ 0`,
+    `WalkBarrierSeparated s (r i) (n i)` and analytic hypotheses as Stone 57,
+    the cover `hcover` is replaced by the **additive cover**
+
+    ```
+    ∀ η, |touchFactor R a η − touchFactor R a′ η|
+        ≤ ∑ i : Fin m, if typedTouchesSupport η (r i) then δ i else 0,
+    ```
+
+    under which, with `B = ∑ i, δ i · exp(−(n i)/2)`,
+
+    ```
+    |F_R(a) − F_R(a′)|
+        ≤ Cf · [exp(6·D_s/113) + exp(4·D_s/113)] · B
+        ≤ (2 · Cf) · exp(6 · D_s / 113) · B,
+    ```
+
+    exactly the constant, rate and regime of Stone 57. The change of each
+    polymer no longer has to be paid by a single region: the Stone 57 cover
+    implies the additive one (so both Stone 57 estimates are recovered by
+    specialization), and the converse fails on a parametric witness (budgets
+    `1/4, 1/4`, a change `1/2` on a polymer touching both regions). Not
+    required: an owner or an amplitude decomposition supplied by the user,
+    `m > 0`, disjointness, `r i ⊆ R`, a separation of `s` from `R`, a unit
+    background, `δ i ≤ 1`, `DependsOnlyOn f s`; nothing is divided by any
+    budget, accumulated capacity or difference of profiles (only by the fixed
+    constants 2, 113 and 40000 of the exponents and the regime); `0 ≤ Cf` is
+    derived; no factor of `m` or of the volume enters outside the sum. The
+    route: a truncated scalar move towards the target profile with the prefix
+    capacities of the regions as intermediate profiles (a polymer may move at
+    several steps), the published Stone 56 two-term estimate at every step,
+    the finite telescoping of Stone 57, saturation at the last profile
+    (equality of effective factors, not of raw profiles) and the Stone 57
+    reduction to the compact form; the Stone 57 capstone is not used. One
+    region recovers the Stone 56 bound; the empty family and zero budgets
+    give exact equality with no analytic hypothesis. The gain is on the
+    hypothesis, with the same right-hand side `B`: no universal numerical
+    improvement, optimal sum or order of the steps, new exponent, optimality
+    or priority, monotonicity of the functional, or any infinite-volume
+    statement is asserted. Details, the module, the audit and review records
+    and the CI/merge record: [`docs/stone58/RESULTS.md`](docs/stone58/RESULTS.md).
+
 Kernel certificates: the three capstones of Versions 49–51 are re-checked by a
 dedicated CI step on every run; the seven declarations of the Stone 52 capstone
 module, the 29 declarations of the two Stone 53 modules, the 13 declarations
 of the Stone 54 module, the 68 theorems of the two Stone 55 modules, the
-22 theorems of the Stone 56 module and the 19 theorems and 3 definitions of
-the Stone 57 module carry in-file `#print axioms` certificates emitted during
-the build. All report `[propext, Classical.choice, Quot.sound]`.
+22 theorems of the Stone 56 module, the 19 theorems and 3 definitions of
+the Stone 57 module and 22 of the 28 theorems and the 4 definitions of the
+Stone 58 module (26 commands; its six remaining auxiliaries were certified by
+the auditor's own test) carry in-file `#print axioms` certificates emitted
+during the build. All report `[propext, Classical.choice, Quot.sound]`.
 
 ## Reproduce
 
@@ -336,7 +391,7 @@ git clone https://github.com/consensusframework/yang-mills-mass-gap
 cd yang-mills-mass-gap/Phase3
 lake env true          # materializes the dependencies at the revisions of lake-manifest.json (no `lake update`)
 lake exe cache get     # optional: Mathlib build cache
-lake build             # 118 modules; ~10 min on 2 vCPU with the cache
+lake build             # 119 modules; ~10 min on 2 vCPU with the cache
 sha256sum lake-manifest.json   # c376bbe9…1227 before and after: the manifest is not rewritten
 ```
 
@@ -363,14 +418,16 @@ dependencies and rewrites the manifest.
 
 The CI step `Kernel certificates` (`.github/workflows/lean-ci.yml`) re-checks
 the three `#print axioms` certificates of Versions 49–51 with `lake env lean`;
-the Stone 52, 53, 54, 55 and 56 certificates are printed by `lake build` itself
-(modules `LatticeGauge.ActivityDampingStability`,
+the Stone 52, 53, 54, 55, 56, 57 and 58 certificates are printed by `lake
+build` itself (modules `LatticeGauge.ActivityDampingStability`,
 `LatticeGauge.ActivityDampingLipschitzInfrastructure`,
 `LatticeGauge.ActivityDampingLipschitz`,
 `LatticeGauge.ActivityDampingLipschitzRefined`,
 `LatticeGauge.ActivityProfileDamping`,
-`LatticeGauge.ActivityProfileDampingStability` and
-`LatticeGauge.ActivityProfileDampingLocality`).
+`LatticeGauge.ActivityProfileDampingStability`,
+`LatticeGauge.ActivityProfileDampingLocality`,
+`LatticeGauge.ActivityProfileDampingMultiRegion` and
+`LatticeGauge.ActivityProfileDampingAdditiveCover`).
 
 ## Repository layout
 
@@ -393,6 +450,8 @@ docs/stone56/RESULTS.md         Stone 56: localized profile damping, statement, 
 docs/audits/stone56/            Stone 56: QA1 reproduction package with its errata, Kimi 3 review, publication record
 docs/stone57/RESULTS.md         Stone 57: multi-region composition, statement, route, interfaces, audit/review/execution records, CI and merge record
 docs/audits/stone57/            Stone 57: QA1 reproduction package, Kimi K3 review, Manus complementary execution package and report, publication record
+docs/stone58/RESULTS.md         Stone 58: additive multiregion cover, statement, route, interfaces, audit and review records, CI and merge record
+docs/audits/stone58/            Stone 58: QA1 reproduction package, Kimi review with its errata, publication record
 LICENSE, LICENSE-DOCUMENTATION  Apache-2.0 (code) / CC BY 4.0 (documentation)
 .github/workflows/lean-ci.yml   CI (job build-phase3)
 ```
@@ -448,8 +507,19 @@ upload, `MANIFEST_v56.txt` and the checksum file, named `SHA256SUMS.8.txt` on
 the Release — published by the coordinator on 2026-10-01; Zenodo record DOI
 [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184), published
 as confirmed by the coordinator, the exact Zenodo date not established by the
-consolidating session — the current deposited version). Stone 57, integrated
-later at `b66c255c…`, has no release, deposit or reserved DOI of its own.
+consolidating session). Version 57 has the GitHub Release
+[`zenodo-v57`](https://github.com/consensusframework/yang-mills-mass-gap/releases/tag/zenodo-v57)
+(a simple tag pointing to commit `18c6ff084020e52c8932ecfd20e4b19f47efdf02`,
+root tree `0f48b8e6…`, `Phase3/` tree `cc1bfb26…`; four assets — the snapshot
+ZIP, `RELEASE_NOTES_PEDRA57.md` as updated by the coordinator with the DOI
+after the original packaging, `MANIFEST_v57.txt` and `SHA256SUMS.txt`, the
+checksum file updated with the notes — published by the coordinator on
+2026-10-11; Zenodo record DOI
+[10.5281/zenodo.23305142](https://doi.org/10.5281/zenodo.23305142), published
+as confirmed by the coordinator, the exact Zenodo date not established by the
+consolidating session, which could not reach Zenodo — the current deposited
+version). Stone 58, integrated later at `69706b9a…`, has no release, deposit
+or reserved DOI of its own.
 Previous versions:
 Version 51 — [10.5281/zenodo.22305341](https://doi.org/10.5281/zenodo.22305341)
 (tag `zenodo-v51`); Version 50 — [10.5281/zenodo.22162464](https://doi.org/10.5281/zenodo.22162464)
@@ -515,7 +585,16 @@ review by reading by Kimi K3 (no Lean execution, not blind) — with one
 addition: a complementary re-execution of the auditor's tests on a third
 bench, the Manus Sandbox platform (the model identifier not exposed; a
 re-execution, not an additional audit), all preserved in
-[`docs/audits/stone57/`](docs/audits/stone57/README.md).
+[`docs/audits/stone57/`](docs/audits/stone57/README.md). Stone 58
+(scientific architecture and review by GPT Astra / Can: a single tape for
+feasibility and construction, then integration and consolidation tapes)
+followed the chain of Stone 53: a feasibility study with disposable Lean
+tests, construction and publication by the same Claude Fable 5.1 instance,
+one QA1 reproduction by execution by a separate instance (same model, not
+blind), one adversarial review by reading by Kimi (no Lean execution, not
+blind) with one errata by the reviewer to its own report, all preserved in
+[`docs/audits/stone58/`](docs/audits/stone58/README.md); no third-bench
+execution was received for this stone.
 The Consensus Framework was the winner of the UN Tourism Global Artificial
 Intelligence Challenge 2025; that recognition concerns the methodology and is
 not a review or endorsement of the mathematics here, which rests solely on
@@ -537,10 +616,10 @@ cumulative.
 
 - **Jucelha Carvalho (Smart Tour Brasil)** — coordination, scope and epistemological decisions, provenance, custody, integration supervision, release authorization.
 - **GPT-5.6 "Sol" (AI model)** — theorem and stone architecture, formal specifications, scope control, mathematical review, audit methodology (including the scientific architecture of Stone 52).
-- **GPT Astra (AI model)** — review of the Stone 52 integration, custody checks on GitHub, architecture and review of the Stone 52 documentary consolidation; scientific architecture of Stones 53 to 57 (feasibility, construction, publication and consolidation tapes; for Stone 57 under the name Can) and review of their sources, Git objects, evidence, packages and logs, without a Lean build of its own; review of the Version 52 to 56 release packages.
+- **GPT Astra (AI model)** — review of the Stone 52 integration, custody checks on GitHub, architecture and review of the Stone 52 documentary consolidation; scientific architecture of Stones 53 to 58 (feasibility, construction, publication and consolidation tapes; for Stones 57 and 58 under the name Can) and review of their sources, Git objects, evidence, packages and logs, without a Lean build of its own; review of the Version 52 to 57 release packages.
 - **Claude Fable 5 (AI model)** — Lean 4 implementation and debugging of the Phase 3 stones through 50, CI integration, initial Stone 51 iterations.
-- **Claude Fable 5.1 (AI model)** — Lean implementation of Stones 51, 52 and 53, publication and integration operations, hygiene audits, post-51 reorganization; for Stone 52, also the seven stage audits (a separate instance from the implementer, same model) and the publication operations in Claude Code; for Stones 53 to 57, construction and publication in one Claude Code instance with an executable Lean bench, the QA1 reproductions by a separate instance (same model, not blind; for Stone 56 with an errata by that instance to its own record), the documentary consolidations, the maintenance after the Version 54 snapshot, and the packaging of the Version 52 to 56 release assets.
-- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions); for Stone 52, the final adversarial mathematical and code review of the integrated state `00600e0…` with two corrective addenda (reading only, no Lean execution), preserved in `docs/audits/stone52/kimi/`; for Stone 53, the final adversarial review of the candidate `abad166…` with one errata (reading only, no Lean execution, not blind), preserved in `docs/audits/stone53/kimi/`; for Stone 54, the adversarial review of the scientific merge `9c0f6fd…` (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone54/kimi/`; for Stone 55, the adversarial review of the candidate `0c50b6d…` and the scientific merge `d6ce3d7…` with one errata on the attribution of the tests (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone55/kimi/`; for Stone 56, the adversarial review of the candidate `a2fcf8e…` and the scientific merge `ead4814…` (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone56/kimi/`; for Stone 57, the adversarial review of the candidate `c936d46…` and the scientific merge `b66c255…` (reading and mathematical analysis with own custody checks, no Lean execution, not blind), preserved in `docs/audits/stone57/kimi/`, where the review identifies itself as "Kimi K3".
+- **Claude Fable 5.1 (AI model)** — Lean implementation of Stones 51, 52 and 53, publication and integration operations, hygiene audits, post-51 reorganization; for Stone 52, also the seven stage audits (a separate instance from the implementer, same model) and the publication operations in Claude Code; for Stones 53 to 58, construction and publication in one Claude Code instance with an executable Lean bench, the QA1 reproductions by a separate instance (same model, not blind; for Stone 56 with an errata by that instance to its own record), the documentary consolidations, the maintenance after the Version 54 snapshot, and the packaging of the Version 52 to 57 release assets.
+- **Kimi 3 (AI model)** — external adversarial mathematical review of Stones 47–51 (audits, not build reproductions); for Stone 52, the final adversarial mathematical and code review of the integrated state `00600e0…` with two corrective addenda (reading only, no Lean execution), preserved in `docs/audits/stone52/kimi/`; for Stone 53, the final adversarial review of the candidate `abad166…` with one errata (reading only, no Lean execution, not blind), preserved in `docs/audits/stone53/kimi/`; for Stone 54, the adversarial review of the scientific merge `9c0f6fd…` (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone54/kimi/`; for Stone 55, the adversarial review of the candidate `0c50b6d…` and the scientific merge `d6ce3d7…` with one errata on the attribution of the tests (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone55/kimi/`; for Stone 56, the adversarial review of the candidate `a2fcf8e…` and the scientific merge `ead4814…` (reading and mathematical analysis, no Lean execution, not blind), preserved in `docs/audits/stone56/kimi/`; for Stone 57, the adversarial review of the candidate `c936d46…` and the scientific merge `b66c255…` (reading and mathematical analysis with own custody checks, no Lean execution, not blind), preserved in `docs/audits/stone57/kimi/`, where the review identifies itself as "Kimi K3"; for Stone 58, the adversarial review of the integrated merge `69706b9…` and the candidate `d942edd…` with one errata C1 by the reviewer to its own report (reading and mathematical analysis with own custody checks, no Lean execution, not blind), preserved in `docs/audits/stone58/kimi/`, where the documents identify the reviewer as "Kimi (Moonshot AI)".
 - **Manus AI 1.6 (AI model)** — DevOps and operations; reproducibility and release reviews of Stones 48–50; reproduction of gate 51-A. (The Stone 57 complementary execution was performed on the "Manus Sandbox" platform, whose model identifier was not exposed; it is recorded as a re-execution of the auditor's tests in `docs/audits/stone57/`, not attributed to this or any model by inference.)
 - **Codex v2 (AI model)** — custody, reproduction and reading audit of Stone 51, independent from the Lean implementer but not from the architect's model family; not a human peer review.
 - **Claude Opus 4.5 (AI model)**, **Claude Opus 4.6 (AI model)**, **Claude Opus 4.7 (AI model)** — formal-verification work, incomplete-proof reduction, historical-code recovery, forensic inventory, dependency mapping.
@@ -578,12 +657,14 @@ published on Zenodo (Version 50: CC BY 4.0).
 
 Please cite this repository as an exploratory Lean 4 formalization project,
 not as progress establishing the Millennium Problem. The citation below is the
-**published** Version 56 record (commit
-[`95091fdd07398a7b42901829ad61e4e2c26d5aaa`](https://github.com/consensusframework/yang-mills-mass-gap/commit/95091fdd07398a7b42901829ad61e4e2c26d5aaa),
-GitHub Release `zenodo-v56` of 2026-10-01, Zenodo DOI 10.5281/zenodo.22949184,
+**published** Version 57 record (commit
+[`18c6ff084020e52c8932ecfd20e4b19f47efdf02`](https://github.com/consensusframework/yang-mills-mass-gap/commit/18c6ff084020e52c8932ecfd20e4b19f47efdf02),
+GitHub Release `zenodo-v57` of 2026-10-11, Zenodo DOI 10.5281/zenodo.23305142,
 published as confirmed by the coordinator; concept DOI 10.5281/zenodo.17397622
-for all versions). Stone 57 (integrated at commit `b66c255c…`) has no deposit
-of its own: cite the commit. The Version 55 citation
+for all versions). Stone 58 (integrated at commit `69706b9a…`) has no deposit
+of its own: cite the commit. The Version 56 citation
+(DOI [10.5281/zenodo.22949184](https://doi.org/10.5281/zenodo.22949184),
+published as confirmed by the coordinator), the Version 55 citation
 (DOI [10.5281/zenodo.22850085](https://doi.org/10.5281/zenodo.22850085),
 published 2026-09-19), the Version 54 citation
 (DOI [10.5281/zenodo.22767474](https://doi.org/10.5281/zenodo.22767474),
@@ -603,10 +684,10 @@ Codex v2 (AI model); Claude Opus 4.5 (AI model);
 Claude Opus 4.6 (AI model); Claude Opus 4.7 (AI model);
 Claude Opus 5 (AI model); GPT-5.2 (AI model); Gemini 3 Pro (AI model);
 Grok 4.5 (AI model); Grok 4.6 (AI model) (2026).
-A Lean 4 Formalization Program Around the Yang–Mills Mass Gap — Version 56:
-Finite-Volume Lipschitz Stability Under Localized Changes of
-Polymer-Activity Profiles. Zenodo.
-https://doi.org/10.5281/zenodo.22949184
+A Lean 4 Formalization Program Around the Yang–Mills Mass Gap — Version 57:
+Finite-Volume Multi-Region Lipschitz Stability for Polymer-Activity
+Profiles. Zenodo.
+https://doi.org/10.5281/zenodo.23305142
 ```
 
 ## Contact
