@@ -1,0 +1,51 @@
+#	line	kind	name (LatticeGauge.ActivityProfileOptimalGeometry.…)	gate	notes (effective content / hypotheses)	auditor tests	certificate — own clean rebuild	certificate — QA1 Q0	builder matrix (name, kind, line)	line verified in source
+1	130	theorem	reaches_iff_untouched_eq	G0	arbitrary real profiles; no global cover	Q1_char (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+2	145	theorem	reaches_refl	G0	—	Q1_equiv (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+3	149	theorem	reaches_symm	G0	—	Q1_equiv (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+4	153	theorem	reaches_trans	G0	via the characterization	Q1_equiv (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+5	160	theorem	reaches_equivalence	G0	Equivalence (Reaches R r)	Q1_equiv (own), Q1f	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+6	167	theorem	additiveCover_symm	G1	abs_sub_comm	Q2_adm_symm (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+7	174	theorem	admissible_symm	G1	—	Q2_adm_symm (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+8	180	theorem	admissible_zero_self	G1	any real profile	Q2_return (diagonal)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+9	186	theorem	coverSum_add	G1	index by index; multiplicities kept	Q2_adm_add (own inline)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+10	198	theorem	admissible_add	G1	no profile bound; coordinates may exceed 1	Q2_adm_add (own); Q2_return	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+11	210	theorem	budget_add	G1	additivity of the cost	Q2_budget_add (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+12	222	theorem	minCost_proof_irrel	G2	rfl — proof irrelevance of hypotheses, not uniqueness of the vector	Q3_ref (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+13	232	theorem	minCost_comm	G2	value symmetric; vectors not identified	Q2_symm (own, without it)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+14	244	theorem	minCost_self	G2	diagonal 0	Q2_return	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+15	252	theorem	minCost_triangle	G2	sum of two minimizers admissible; compare with ALL admissible	Q2_triangle (own, without it); Q4 equality/strict	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+16	274	structure	ProfileComponent	G3	structure: prof in [0,1], reach from aref; aref unbounded; n in the type	Q1c–e (members, empty component), Q7 (no member)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+17	285	theorem	ProfileComponent.reaches	G3	symmetry + transitivity	Q3a	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+18	291	noncomputable def	optimalDist	G3	= minCost (definitional)	Q3a, Q4	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+19	294	theorem	optimalDist_eq_minCost	G3	rfl	Q3a	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+20	299	theorem	optimalDist_nonneg	G3	—	Q5	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+21	302	theorem	optimalDist_self	G3	—	Q5c	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+22	305	theorem	optimalDist_comm	G3	—	Q5_three (used)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+23	309	theorem	optimalDist_triangle	G3	—	Q5_three, Q5_chain	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+24	315	theorem	optimalDist_eq_zero_iff	G3	equal EFFECTIVE factors, not raw profiles	Q3_dist_zero, Q4_fin_zero, Q4_empty_R	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+25	321	theorem	optimalDist_ref_indep	G3	reference organizes the domain only	Q3_ref (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+26	336	noncomputable instance	instPseudoMetricSpace	G4	Mathlib PseudoMetricSpace; dist := optimalDist; NOT matched by the README regex	Q5a (inferInstance = it, rfl)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+27	343	theorem	dist_eq_optimalDist	G4	rfl	Q5a	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+28	345	theorem	dist_eq_minCost	G4	rfl	Q3a	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+29	351	theorem	abs_optimalDist_sub_le	G5	Mathlib abs_dist_sub_le	Q5b, Q5_three (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+30	357	theorem	abs_optimalDist_sub_optimalDist_le	G5	Mathlib dist_dist_dist_le	Q5b	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+31	363	theorem	optimalDist_chain_le	G5	induction; k = 0 included	Q5c (k = 0,1,2), Q5_chain (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+32	391	noncomputable def	functional	G6	x ↦ profileExpectation … R x.prof	Q6 (defeq to my map)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+33	398	noncomputable def	twoTermConst	G6	ℝ≥0; 0 ≤ Cf derived	Q6d (coercion rfl; = my constant)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+34	406	noncomputable def	compactConst	G6	ℝ≥0; 0 ≤ Cf derived	Q6d	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+35	412	theorem	coe_twoTermConst	G6	rfl	Q6d	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+36	419	theorem	coe_compactConst	G6	rfl	Q6d	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+37	426	theorem	abs_functional_sub_functional_le_two_terms	G6	Stone 59 two-term capstone transported	Q6_lip₂ (own, without it)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+38	440	theorem	abs_functional_sub_functional_le	G6	Stone 59 capstone transported	Q6_lip (own, without it); Q6e (Cf = 0)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+39	452	theorem	lipschitzWith_functional_two_terms	G6	LipschitzWith K₂	Q6_lip₂ (own); Q6f	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+40	464	theorem	lipschitzWith_functional	G6	LipschitzWith K	Q6_lip (own); Q6f	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+41	476	theorem	uniformContinuous_functional	G6	for this pseudometric only	Q6c (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+42	484	theorem	continuous_functional	G6	for this pseudometric only	Q6c (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+43	493	theorem	abs_functional_chain_le_two_terms	G6	chain, K₂	Q5d (k = 0)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+44	512	theorem	abs_functional_chain_le	G6	chain, K	Q5d (k = 2)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+45	530	theorem	functional_eq_of_dist_eq_zero	G6	algebraic; no small-β; measure instances omitted	Q3_functional_eq, Q6_zero (own)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+46	538	def	ofReach	G7	first profile as member of its own component	Q6g	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+47	543	def	ofReach'	G7	second profile, reached	Q6g	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+48	549	theorem	dist_ofReach	G7	rfl: dist = raw minCost	Q6g	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+49	557	theorem	recover_optimal_cover	G7	type of the Stone 59 capstone	Q6g (types defeq both directions)	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes
+50	574	theorem	recover_optimal_cover_two_terms	G7	type of the Stone 59 two-term capstone	Q6g	[propext, Classical.choice, Quot.sound]	[propext, Classical.choice, Quot.sound]	match	yes

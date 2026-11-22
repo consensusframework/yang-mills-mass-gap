@@ -1,0 +1,25 @@
+id	source file	tape item	claim actually tested	expected	observed (rc, warnings)	hypotheses / geometric limits	origin
+Q0	tests/q0_certificates.lean	§2	#print axioms próprio das 50 declarações; #check de 40 assinaturas (G0–G7 + interfaces 59/56)	50 listas padrão	rc 0; 50/50 [propext, Classical.choice, Quot.sound]; 0 avisos	—	QA1 (distinto dos 15 certificados de teste do construtor)
+Q1a/b	tests/q1_reach_components.lean	§3.1	Reaches ⟺ igualdade dos fatores nos polímeros não alcançados (própria); relação de equivalência (própria); sem cobertura global	compila; certidões padrão	rc 0	—	QA1
+Q1c	tests/q1_reach_components.lean	§3.1	R = ∅, referência constante 2 (fora de [0,1]): membros constantes 0 e 1 válidos; nenhum membro tem o perfil da referência	compila	rc 0	um polímero dado para avaliar	QA1
+Q1d	tests/q1_reach_components.lean	§3.1	componente VAZIA: m = 0, η₀ toca R, referência = 2 em η₀ ⇒ IsEmpty — nenhum membro é pressuposto	compila; certidão padrão	rc 0	incidência η₀ toca R por hipótese	QA1
+Q1e/f	tests/q1_reach_components.lean	§3.1	referência 2 fora de R e 1/2 em R com membro limitado 1/2; enunciados do candidato retipados	compila	rc 0	—	QA1
+Q2a	tests/q2_symmetry_triangle.lean	§3.2	simetria do VALOR rederivada (transporte próprio + minCost_le_budget nas duas direções), sem minCost_comm	compila; certidão padrão	rc 0	—	QA1
+Q2b	tests/q2_symmetry_triangle.lean	§3.2	triângulo rederivado via soma de orçamentos (própria) e minCost_le_budget, sem minCost_triangle/admissible_add/budget_add; minimizadores não identificados	compila; certidão padrão	rc 0	—	QA1
+Q2c	tests/q2_symmetry_triangle.lean	§3.2	retorno a→b→a: orçamento somado com coordenada 2 admissível para (a,a); custo ótimo do extremo = 0	compila; certidão padrão	rc 0	—	QA1
+Q3a/b	tests/q3_component_reference.lean	§3.3	dist = minCost por rfl; troca de referência preserva o valor (própria)	compila; certidão padrão	rc 0	—	QA1
+Q3c	tests/q3_component_reference.lean	§3.3	fatores efetivos iguais, perfis brutos distintos: d = 0; funcional igual (rota algébrica); perfis diferentes em todo polímero fora de R	compila; certidões padrão	rc 0 (1 aviso meu)	existência de polímero fora de R não afirmada	QA1
+Q4 exact	tests/q4_exact_distance.lean	§3.4	distância exata |c − c′|·e^{−n₀/2}: cobertura GLOBAL do orçamento |c − c′| + cota inferior no polímero testemunha	compila; certidão padrão	rc 0	η₀ toca R e r 0 por hipótese; nenhuma rede construída	QA1
+Q4 tri	tests/q4_exact_distance.lean	§3.4	triângulo com IGUALDADE (1/4, 1/2, 3/4) e ESTRITO (retorno) enunciados sobre `dist`	compila; certidões padrão	rc 0	idem	QA1
+Q4 deg	tests/q4_exact_distance.lean	§3.4	m = 0 ⇒ d = 0 (sem regiões) e R = ∅ ⇒ d = 0 (fatores 1): dois teoremas separados	compila; certidões padrão	rc 0	—	QA1
+Q5a/b	tests/q5_variation_chains.lean	§3.5	instância inferida = a do candidato (rfl); três e quatro pontos direto da Mathlib; três pontos rederivado do triângulo	compila; certidão padrão	rc 0	—	QA1
+Q5c/d	tests/q5_variation_chains.lean	§3.5	cadeias k = 0, 1, 2 pelo lema do candidato; poligonal própria por indução; cadeia do funcional com 0 e 2 passos	compila; certidão padrão	rc 0 (2 avisos meus)	hipóteses analíticas da 59 assumidas em (d)	QA1
+Q6a–c	tests/q6_lipschitz.lean	§3.6	duas cotas Lipschitz reobtidas das capstones da 59 + dist = minCost, com constantes próprias; continuidade uniforme e continuidade	compila; certidões padrão	rc 0	sem usar as capstones 60	QA1
+Q6d/e	tests/q6_lipschitz.lean	§3.6	coerções das duas constantes (rfl), iguais às minhas; Cf = 0 ⇒ constantes 0 e funcional constante	compila	rc 0	—	QA1
+Q6f/g	tests/q6_lipschitz.lean	§3.6	teoremas Lipschitz do candidato aplicados; recuperações com os TIPOS das capstones da 59 (defeq nas duas direções)	compila	rc 0 (29 avisos: binders não usados)	igualdade de tipos, não de derivações	QA1
+Q6h	tests/q6_lipschitz.lean	§3.6	rota algébrica d = 0 ⇒ funcional igual, sem small-β (própria)	compila; certidão padrão	rc 0	—	QA1
+Q7 (+)	tests/q7_negative_positive.lean	§3.7	contra a estrutura REAL: ¬Reaches, ¬∃ admissível, nenhum membro com o perfil alterado — provados	compila; certidões padrão	rc 0	η₀ toca R e nenhum r i por hipótese	QA1
+Q7x	tests/q7x_no_reach_EXPECT_FAIL.lean	§3.7	construir membro com mudança efetiva sem contato: única obrigação impossível no campo `reach`	falha	rc 1; 1 erro (21:4 unsolved goals) ⊢ ∃ i, typedTouchesSupport η (r i); sem erro de import/timeout	idem	QA1 — falha de aplicação, não evidência sobre F_R
+— construtor —							
+T1–T10	builder tests/T60L_api_tests.lean	construtor	API promovida: alcance, referências, retorno, valores exatos, d = 0, degenerações, #check ×13, Cf = 0, cadeia, negativo positivo	compila	construtor rc 0; reexecutado: rc 0, 0 erros, 0 avisos, 15 certificados de teste padrão	incidências por hipótese	CONSTRUTOR (reexecutado); t3_triangle_eq_and_return_strict é aritmética sobre os valores (a igualdade/estrita sobre `dist` está na minha Q4)
+T9x	builder tests/T60L_T9x_EXPECT_FAIL.lean	construtor	negativo contra o ProfileComponent real	falha	construtor rc 1; reexecutado: rc 1, 1 erro em 56:13, ⊢ ∃ i, typedTouchesSupport η (r i)	idem	CONSTRUTOR (reexecutado)
